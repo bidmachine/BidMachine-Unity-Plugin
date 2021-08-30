@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Dummy
 {
     public class DummyBidMachine : IBidMachine, ITargetingParams, IPriceFloorParams, IInterstitialRequestBuilder, IInterstitialAd, IInterstitialRequest,
-        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner
+        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner, IPublisher
     {
        
         public void build(InterstitialRequestBuilder interstitialRequestBuilder)
@@ -37,6 +37,11 @@ namespace BidMachineAds.Unity.Dummy
         }
 
         public void setUSPrivacyString(string usPrivacyString)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setPublisher(Publisher publisher)
         {
             throw new System.NotImplementedException();
         }
@@ -319,6 +324,31 @@ namespace BidMachineAds.Unity.Dummy
         {
             Debug.Log("Not supported on this platform");
             return null;
+        }
+
+        public void setId(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setName(string name)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setDomain(string domain)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void addCategory(string category)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void addCategories(string[] categories)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
