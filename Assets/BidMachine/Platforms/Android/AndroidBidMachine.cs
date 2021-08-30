@@ -85,6 +85,12 @@ namespace BidMachineAds.Unity.Android
             getBidMachineClass().CallStatic("setUSPrivacyString", Helper.getJavaObject(usPrivacyString));
         }
 
+        public void setPublisher(Publisher publisher)
+        {
+            var androidPublisher = (AndroidPublisher)publisher.GetNativePublisher();
+            getBidMachineClass().CallStatic("setPublisher", androidPublisher);
+        }
+
         public bool checkAndroidPermissions(string permission)
         {
             var flag = false;
@@ -125,6 +131,52 @@ namespace BidMachineAds.Unity.Android
         {
             Permission.RequestUserPermission(Permission.CoarseLocation);
             Permission.RequestUserPermission(Permission.FineLocation);
+        }
+    }
+
+    public class AndroidPublisher : IPublisher
+    {
+        private readonly AndroidJavaObject javaPublisher;
+
+
+        public AndroidPublisher()
+        {
+            javaPublisher = new AndroidJavaObject("io.bidmachine.Publisher");
+        }
+        
+        public void setId(string id)
+        {
+            javaPublisher.Call<AndroidJavaObject>("setId", Helper.getJavaObject(id));
+        }
+
+        public void setName(string name)
+        {
+            javaPublisher.Call<AndroidJavaObject>("setName", Helper.getJavaObject(name));
+        }
+
+        public void setDomain(string domain)
+        {
+            javaPublisher.Call<AndroidJavaObject>("setDomain", Helper.getJavaObject(domain));
+        }
+
+        public void addCategory(string category)
+        {
+            javaPublisher.Call<AndroidJavaObject>("addCategory", Helper.getJavaObject(category));
+        }
+
+        public void addCategories(string[] categories)
+        {
+            var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
+            var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
+                new AndroidJavaClass("java.lang.String"), categories.Length);
+            for (var i = 0; i < categories.Length; i++)
+            {
+                arrayClass.CallStatic("set", arrayObject, i,
+                    new AndroidJavaObject("java.lang.String", categories[i]));
+            }
+            
+            javaPublisher.Call<AndroidJavaObject>("addCategories", arrayObject);
+
         }
     }
 
@@ -228,9 +280,10 @@ namespace BidMachineAds.Unity.Android
                 new AndroidJavaClass("java.lang.String"), storeSubCategories.Length);
             for (var i = 0; i < storeSubCategories.Length; i++)
             {
-                arrayClass.CallStatic("set", arrayObject, i, new AndroidJavaObject("java.lang.String", storeSubCategories[i]));
+                arrayClass.CallStatic("set", arrayObject, i,
+                    new AndroidJavaObject("java.lang.String", storeSubCategories[i]));
             }
-            
+
             JavaTargetingParametrs.Call<AndroidJavaObject>("setStoreSubCategories", arrayObject);
         }
 
@@ -246,9 +299,12 @@ namespace BidMachineAds.Unity.Android
 
         public void setDeviceLocation(string providerName, double latitude, double longitude)
         {
-            var locationJavaObject = new AndroidJavaObject("android.location.Location", Helper.getJavaObject(providerName));
-            locationJavaObject.Call("setLatitude", Helper.getJavaObject(latitude));
-            locationJavaObject.Call("setLongitude", Helper.getJavaObject(longitude));
+            var locationJavaObject =
+                new AndroidJavaObject("android.location.Location", Helper.getJavaObject(providerName));
+
+            locationJavaObject.Call("setLatitude", latitude);
+            locationJavaObject.Call("setLongitude", longitude);
+
             JavaTargetingParametrs.Call<AndroidJavaObject>("setDeviceLocation", locationJavaObject);
         }
 
@@ -258,46 +314,35 @@ namespace BidMachineAds.Unity.Android
 
             foreach (var externalUserId in externalUserIds)
             {
-                arrayList.Call<bool>("add", new AndroidJavaObject("io.bidmachine.ExternalUserId", 
+                arrayList.Call<bool>("add", new AndroidJavaObject("io.bidmachine.ExternalUserId",
                     Helper.getJavaObject(externalUserId.SourceId), Helper.getJavaObject(externalUserId.Value)));
             }
-            
+
             JavaTargetingParametrs.Call<AndroidJavaObject>("setExternalUserIds", arrayList);
         }
 
         public void addBlockedApplication(string bundleOrPackage)
         {
-            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedApplication", Helper.getJavaObject(bundleOrPackage));
+            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedApplication",
+                Helper.getJavaObject(bundleOrPackage));
         }
 
         public void addBlockedAdvertiserIABCategory(string category)
         {
-            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedAdvertiserIABCategory", Helper.getJavaObject(category));
+            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedAdvertiserIABCategory",
+                Helper.getJavaObject(category));
         }
 
         public void addBlockedAdvertiserDomain(string domain)
         {
             JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedAdvertiserDomain", Helper.getJavaObject(domain));
         }
-        
-        private static AndroidJavaObject javaArrayFromCS(IReadOnlyList<AndroidJavaObject> values, string classType)
-        {
-            var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
-            var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
-                new AndroidJavaClass(classType),
-                values.Count);
-            for (var i = 0; i < values.Count; ++i)
-            {
-                arrayClass.CallStatic("set", arrayObject, i, values[i]);
-            }
-
-            return arrayObject;
-        }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidPriceFloorParams : IPriceFloorParams
     {
-        AndroidJavaObject JavaPriceFloorParams;
+        private readonly AndroidJavaObject JavaPriceFloorParams;
 
         public AndroidPriceFloorParams()
         {
@@ -316,7 +361,7 @@ namespace BidMachineAds.Unity.Android
 
         public void setPriceFloor(string uniqueFloorId, double priceFloor)
         {
-            AndroidJavaObject androidJavaObjectUniqueFloorId = new AndroidJavaObject("java.lang.String", uniqueFloorId);
+            var androidJavaObjectUniqueFloorId = new AndroidJavaObject("java.lang.String", uniqueFloorId);
             JavaPriceFloorParams.Call<AndroidJavaObject>("addPriceFloor", androidJavaObjectUniqueFloorId, priceFloor);
         }
     }
