@@ -1,7 +1,10 @@
-﻿using BidMachineAds.Unity.Common;
+﻿using System.Diagnostics.CodeAnalysis;
+using BidMachineAds.Unity.Common;
 
 namespace BidMachineAds.Unity.Api
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class BidMachine
     {
         public static int BANNER_HORIZONTAL_SMART = -1;
@@ -15,11 +18,7 @@ namespace BidMachineAds.Unity.Api
         private static IBidMachine client;
         private static IBidMachine getInstance()
         {
-            if (client == null)
-            {
-                client = BidMachineClientFactory.GetBidMachine();
-            }
-            return client;
+            return client ?? (client = BidMachineClientFactory.GetBidMachine());
         }
 
         public static void initialize(string id)
