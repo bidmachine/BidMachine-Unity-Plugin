@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Dummy
 {
     public class DummyBidMachine : IBidMachine, ITargetingParams, IPriceFloorParams, IInterstitialRequestBuilder, IInterstitialAd, IInterstitialRequest,
-        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner, IExternalUserId
+        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner
     {
        
         public void build(InterstitialRequestBuilder interstitialRequestBuilder)
@@ -118,6 +118,11 @@ namespace BidMachineAds.Unity.Dummy
             throw new System.NotImplementedException();
         }
 
+        public void setDeviceLocation(string providerName, float latitude, float longitude)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void setExternalUserIds(ExternalUserId[] externalUserIdList)
         {
             throw new System.NotImplementedException();
@@ -211,6 +216,11 @@ namespace BidMachineAds.Unity.Dummy
         public void setLoggingEnabled(bool logging)
         {
             Debug.Log("Not supported on this platform");
+        }
+
+        public void setStoreSubCategories(string[] storeSubCategories)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void setFramework(string framework)
