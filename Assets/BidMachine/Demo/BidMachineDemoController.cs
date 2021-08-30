@@ -1,15 +1,16 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
+using UnityEngine.Android;
 using UnityEngine.UI;
 
 public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, IRewardedAdListener, IBannerListener
 {
-    
     [SerializeField] public Toggle tgTesting;
     [SerializeField] public Toggle tgLogging;
-    
+
     TargetingParams targetingParams;
     PriceFloorParams priceFloorParams;
 
@@ -34,76 +35,61 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void BidMachineInitialize()
     {
-        // targetingParams = new TargetingParams();
-        // priceFloorParams = new PriceFloorParams();
-        //
-        // /* Vendor-specific ID for the user. */
-        // targetingParams.setUserId("1");
-        //
-        // /* Gender, one of following: Female, Male, Omitted. */
-        // targetingParams.setGender(TargetingParams.Gender.Male);
-        //
-        // /* Year of birth as a 4-digit integer (e.g - 1990). */
-        // targetingParams.setBirthdayYear(1990);
-        //
-        // /* List of keywords, interests, or intents (separated by comma if you use .xml). */
-        // targetingParams.setKeyWords(new[] { "games", "sport" });
-        //
-        // /* Location of the device. It might not be the location that was sent to the server,
-        //  * as it is compared with the current device location at the time, when it was received. */
-        // targetingParams.setDeviceLocation(12.8888, 12.222);
-        //
-        // /* Country of the user's home base (i.e., not necessarily their current location). */
-        // targetingParams.setCountry("USA");
-        //
-        // /*City of the user's home base (i.e., not necessarily their current location).*/
-        // targetingParams.setCity("New-York");
-        //
-        // /* Zip of the user's home base (i.e., not necessarily their current location). */
-        // targetingParams.setZip("10001");
-        //
-        // /* App store URL for an installed app; for IQG 2.1 compliance. */
-        // targetingParams.setStoreUrl("https://test.com");
-        //
-        // /* Determines, if it is a free or paid version of the app. */
-        // targetingParams.setPaid(true);
-        //
-        // /* Block list of content categories using IDs. */
-        // targetingParams.setBlockedAdvertiserIABCategories("IAB26,AB25");
-        //
-        // /* Block list of advertisers by their domains (e.g., “example.com”). */
-        // targetingParams.setBlockedAdvertiserDomain("example.com");
-        //
-        // /* Block list of apps where ads are disallowed. These should be bundle or package names
-        //  * (e.g., “com.foo.mygame”) and should NOT be app store IDs (e.g., not iTunes store IDs). */
-        // targetingParams.setBlockedApplication("com.foo.mygame");
-        //
-        // priceFloorParams = new PriceFloorParams();
-        // priceFloorParams.setPriceFloor("sample", 2.15);
 
-        /* Enable logs */
+        targetingParams = new TargetingParams();
+        targetingParams.setUserId("1");
+        targetingParams.setGender(TargetingParams.Gender.Female);
+        targetingParams.setBirthdayYear(1991);
+        targetingParams.setKeyWords(new[] { "games, sport" });
+        targetingParams.setCountry("Belarus");
+        targetingParams.setCity("Minsk");
+        targetingParams.setZip("220059");
+        targetingParams.setStoreUrl("https://store.url");
+        targetingParams.setStoreCategory("cards");
+        targetingParams.setStoreSubCategories("subcards");
+        targetingParams.setStoreSubCategories("subcards");
+        targetingParams.setFramework("unity");
+        targetingParams.setFramework("unity");
+        targetingParams.setPaid(true);
+        // targetingParams.setDeviceLocation("", 53.9063708, 27.5572263);
+        // targetingParams.setExternalUserIds(new ExternalUserId[]
+        // {
+        //     new ExternalUserId("sourceId_1", "1"), 
+        //     new ExternalUserId("sourceId_2", "2")
+        // });
+        targetingParams.addBlockedApplication("com.appodeal.test");
+        targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
+        targetingParams.addBlockedAdvertiserDomain("ua");
+        
+        
         BidMachine.setLoggingEnabled(tgLogging.isOn);
-
-        /* Enable test mode */
         BidMachine.setTestMode(tgTesting.isOn);
-
-        /* Initialize BidMachine */
+        BidMachine.setEndpoint("https://test.com");
+        BidMachine.setTargetingParams(targetingParams);
         BidMachine.initialize("1");
+        BidMachine.setConsentConfig(true, "test consent string");
+        BidMachine.setSubjectToGDPR(true);
+        BidMachine.setCoppa(true);
+        BidMachine.setUSPrivacyString("test_string");
+        BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
 
-        // /* Set default Targeting params */
-        // BidMachine.setTargetingParams(targetingParams);
-        //
-        // /* Set consent config. GDPR consent string( if applicable), indicating the compliance to the IAB standard Consent String Format
-        //  * of the Transparency and Consent Framework technical specifications. */
-        // BidMachine.setConsentConfig(true, "Something");
-        //
-        // /* Set Subject to GDPR. Flag indicating if GDPR regulations can be applied.
-        //  * The General Data Protection Regulation (GDPR) is a regulation of the European Union.*/
-        // BidMachine.setSubjectToGDPR(true);
-        //
-        // /* Set Coppa. Flag indicating if COPPA regulations can be applied.
-        //  * The Children's Online Privacy Protection Act (COPPA) was established by the U.S. Federal Trade Commission. */
-        // BidMachine.setCoppa(true);
+
+    }
+
+    public void IsInitialized()
+    {
+        Debug.Log($"isInitialized - {BidMachine.isInitialized()}");
+    }
+
+    public void CheckPermissions()
+    {
+        Debug.Log($"Permission.CoarseLocation - {BidMachine.checkAndroidPermissions(Permission.CoarseLocation)}");
+        Debug.Log($"Permission.FineLocation - {BidMachine.checkAndroidPermissions(Permission.FineLocation)}");
+    }
+
+    public void RequestPermissions()
+    {
+        BidMachine.requestAndroidPermissions();
     }
 
     public void LoadInterstitialAd()
