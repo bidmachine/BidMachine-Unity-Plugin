@@ -151,11 +151,23 @@ namespace BidMachineAds.Unity.Api
 
     public class ExternalUserId
     {
-        public IExternalUserId nativeExternalUserId;
+        private  string sourceId;
+        private  string value;
 
         public ExternalUserId(string sourceId, string value)
         {
-            nativeExternalUserId = BidMachineClientFactory.GetExternalUserId(sourceId, value);
+            this.sourceId = sourceId;
+            this.value = value;
+        }
+
+        public string SourceId
+        {
+            get => sourceId;
+        }
+
+        public string Value
+        {
+            get => value;
         }
     }
 
@@ -235,7 +247,7 @@ namespace BidMachineAds.Unity.Api
             return this;
         }
         
-        public TargetingParams setStoreSubCategories(string storeSubCategories)
+        public TargetingParams setStoreSubCategories(string[] storeSubCategories)
         {
             nativeTargetingParams.setStoreSubCategories(storeSubCategories);
             return this;
