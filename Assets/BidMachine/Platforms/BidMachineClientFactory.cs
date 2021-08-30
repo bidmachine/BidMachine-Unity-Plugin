@@ -29,17 +29,6 @@ namespace BidMachineAds.Unity
 #endif
         }
 
-        internal static IExternalUserId GetExternalUserId(string sourceId, string value)
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidExternalUserId(sourceId, value);
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSTargetingParams();  
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
         internal static IPriceFloorParams GetPriceFloorParametrs()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
