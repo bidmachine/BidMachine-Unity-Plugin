@@ -1,6 +1,7 @@
-﻿using UnityEditor;
+﻿#if UNITY_IPHONE
+using UnityEditor;
+
 using UnityEditor.Callbacks;
-using BidMachineAds.Unity.Editor.iOS;
 
 public class BidMachinePostProcess
 {
@@ -13,3 +14,4 @@ public class BidMachinePostProcess
         }
     }
 }
+#endif
