@@ -20,14 +20,24 @@ namespace BidMachineAds.Unity.Common
         void setSubjectToGDPR(bool subjectToGDPR);
         void setCoppa(bool coppa);
         void setUSPrivacyString(string usPrivacyString);
-
-        //void setPublisher(Publisher publisher);
+        void setPublisher(Publisher publisher);
         // void registerNetworks(@ NetworkConfig... networkConfigs);
         // void registerNetworks(Context context, @NonNull String jsonData);
         // void registerAdRequestListener(@NonNull AdRequest.AdRequestListener adRequestListener);
         // void unregisterAdRequestListener(@NonNull AdRequest.AdRequestListener adRequestListener);
         bool checkAndroidPermissions(string permission);
         void requestAndroidPermissions();
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public interface IPublisher
+    {
+        void setId(string id);
+        void setName(string name);
+        void setDomain(string domain);
+        void addCategory(string category);
+        void addCategories(string[] categories);
+
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
