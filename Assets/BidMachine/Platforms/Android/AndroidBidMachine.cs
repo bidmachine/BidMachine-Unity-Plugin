@@ -1,56 +1,51 @@
-﻿using UnityEngine;
+﻿#if PLATFORM_ANDROID
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using UnityEngine;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
-using BidMachineAds.Unity.Android;
 using UnityEngine.Android;
 
 
 namespace BidMachineAds.Unity.Android
 {
-
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidBidMachine : IBidMachine
     {
-        bool isShow;
-        AndroidJavaClass JavaBidMachineClass;
-        AndroidJavaClass JavaAppCompatClass;
-        AndroidJavaObject userSettings;
-        AndroidJavaObject activity;
-        AndroidJavaObject popupWindow, resources, displayMetrics, window, decorView, attributes, rootView;
+        private AndroidJavaClass JavaBidMachineClass;
+        private AndroidJavaClass JavaAppCompatClass;
+        private AndroidJavaObject userSettings;
+        private AndroidJavaObject activity;
+        private AndroidJavaObject popupWindow, resources, displayMetrics, window, decorView, attributes, rootView;
 
-        public AndroidJavaClass getBidMachineClass()
+        private AndroidJavaClass getBidMachineClass()
         {
-            if (JavaBidMachineClass == null)
-            {
-                JavaBidMachineClass = new AndroidJavaClass("io.bidmachine.BidMachine");
-            }
-            return JavaBidMachineClass;
+            return JavaBidMachineClass ?? (JavaBidMachineClass = new AndroidJavaClass("io.bidmachine.BidMachine"));
         }
 
-        public AndroidJavaObject getActivity()
+        private AndroidJavaObject getActivity()
         {
-            if (activity == null)
-            {
-                AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-            }
+            if (activity != null) return activity;
+            var playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
             return activity;
-        }
-
-        public AndroidJavaClass getAppCompatClass()
-        {
-            if (JavaAppCompatClass == null)
-            {
-                JavaAppCompatClass = new AndroidJavaClass("android.support.v4.app");
-            }
-            return JavaAppCompatClass;
         }
 
         public void initialize(string sellerId)
         {
-            AndroidJavaObject androidJavaObjectSellerId = new AndroidJavaObject("java.lang.String", sellerId);
-            getBidMachineClass().CallStatic("initialize", getActivity(), androidJavaObjectSellerId);
+            getBidMachineClass().CallStatic("initialize", getActivity(), Helper.getJavaObject(sellerId));
+        }
 
-            Debug.Log("AppodealUnity. SDK Version: " + getBidMachineClass().GetStatic<int>("VERSION_CODE"));
+        public bool isInitialized()
+        {
+            return getBidMachineClass().CallStatic<bool>("isInitialized");
+        }
+
+        public void setEndpoint(string url)
+        {
+            getBidMachineClass().CallStatic("setEndpoint", Helper.getJavaObject(url));
         }
 
         public void setLoggingEnabled(bool logging)
@@ -65,32 +60,36 @@ namespace BidMachineAds.Unity.Android
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            AndroidTargetingParams p = (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-            getBidMachineClass().CallStatic("setTargetingParams", p.getJavaObject());
+            var androidTargetingParams = (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
+            getBidMachineClass().CallStatic("setTargetingParams", androidTargetingParams.getJavaObject());
         }
 
         public void setConsentConfig(bool consent, string consentConfig)
         {
-            AndroidJavaObject androidJavaObjectConsentConsentConfig = new AndroidJavaObject("java.lang.String", consentConfig);
-            getBidMachineClass().CallStatic("setConsentConfig", consent, androidJavaObjectConsentConsentConfig);
+            getBidMachineClass().CallStatic("setConsentConfig", consent,
+                Helper.getJavaObject(consentConfig));
         }
 
         public void setSubjectToGDPR(bool subjectToGDPR)
         {
-            AndroidJavaObject androidJavaObjectSubjectToGDPR = new AndroidJavaObject("java.lang.Boolean", subjectToGDPR);
-            getBidMachineClass().CallStatic("setSubjectToGDPR", androidJavaObjectSubjectToGDPR);
+            getBidMachineClass().CallStatic("setSubjectToGDPR", Helper.getJavaObject(subjectToGDPR));
         }
 
         public void setCoppa(bool coppa)
         {
-            AndroidJavaObject androidJavaObjectCoppa = new AndroidJavaObject("java.lang.Boolean", coppa);
-            getBidMachineClass().CallStatic("setCoppa", androidJavaObjectCoppa);
+            getBidMachineClass().CallStatic("setCoppa", Helper.getJavaObject(coppa));
+        }
+
+        public void setUSPrivacyString(string usPrivacyString)
+        {
+            getBidMachineClass().CallStatic("setUSPrivacyString", Helper.getJavaObject(usPrivacyString));
         }
 
         public bool checkAndroidPermissions(string permission)
         {
-            bool flag = false;
-            switch (permission){
+            var flag = false;
+            switch (permission)
+            {
                 case Permission.CoarseLocation:
                     if (!Permission.HasUserAuthorizedPermission(permission))
                     {
@@ -102,6 +101,7 @@ namespace BidMachineAds.Unity.Android
                         Debug.Log(permission + " - was granded");
                         flag = true;
                     }
+
                     break;
                 case Permission.FineLocation:
                     if (!Permission.HasUserAuthorizedPermission(permission))
@@ -114,26 +114,41 @@ namespace BidMachineAds.Unity.Android
                         Debug.Log(permission + " - was granded");
                         flag = true;
                     }
-                    break;
-                
-            }
-            return flag;
-    }
 
+                    break;
+            }
+
+            return flag;
+        }
 
         public void requestAndroidPermissions()
         {
-            #if PLATFORM_ANDROID
             Permission.RequestUserPermission(Permission.CoarseLocation);
             Permission.RequestUserPermission(Permission.FineLocation);
-            #endif
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class AndroidExternalUserId : IExternalUserId
+    {
+        private readonly AndroidJavaObject JavaExternalUserId;
+        
+        public AndroidExternalUserId(string sourceId, string value)
+        {
+            JavaExternalUserId = new AndroidJavaObject("io.bidmachine.ExternalUserId ", Helper.getJavaObject(sourceId),
+                Helper.getJavaObject(value));
+        }
+        private AndroidJavaObject getJavaExternalUserId()
+        {
+            return JavaExternalUserId;
+        }
+    }
+
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidTargetingParams : ITargetingParams
     {
-
-        AndroidJavaObject JavaTargetingParametrs;
+        private readonly AndroidJavaObject JavaTargetingParametrs;
 
         public AndroidTargetingParams()
         {
@@ -147,8 +162,7 @@ namespace BidMachineAds.Unity.Android
 
         public void setUserId(string id)
         {
-            AndroidJavaObject androidJavaObjectId = new AndroidJavaObject("java.lang.String", id);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("setUserId", androidJavaObjectId);
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setUserId", Helper.getJavaObject(id));
         }
 
         public void setGender(TargetingParams.Gender gender)
@@ -156,92 +170,140 @@ namespace BidMachineAds.Unity.Android
             switch (gender)
             {
                 case TargetingParams.Gender.Omitted:
-                    {
-                        JavaTargetingParametrs.Call<AndroidJavaObject>("setGender", new AndroidJavaClass("io.bidmachine.utils.Gender").GetStatic<AndroidJavaObject>("Omitted"));
-                        break;
-                    }
+                {
+                    JavaTargetingParametrs.Call<AndroidJavaObject>("setGender",
+                        new AndroidJavaClass("io.bidmachine.utils.Gender").GetStatic<AndroidJavaObject>("Omitted"));
+                    break;
+                }
                 case TargetingParams.Gender.Male:
-                    {
-                        JavaTargetingParametrs.Call<AndroidJavaObject>("setGender", new AndroidJavaClass("io.bidmachine.utils.Gender").GetStatic<AndroidJavaObject>("Male"));
-                        break;
-                    }
+                {
+                    JavaTargetingParametrs.Call<AndroidJavaObject>("setGender",
+                        new AndroidJavaClass("io.bidmachine.utils.Gender").GetStatic<AndroidJavaObject>("Male"));
+                    break;
+                }
                 case TargetingParams.Gender.Female:
-                    {
-                        JavaTargetingParametrs.Call<AndroidJavaObject>("setGender", new AndroidJavaClass("io.bidmachine.utils.Gender").GetStatic<AndroidJavaObject>("Female"));
-                        break;
-                    }
+                {
+                    JavaTargetingParametrs.Call<AndroidJavaObject>("setGender",
+                        new AndroidJavaClass("io.bidmachine.utils.Gender").GetStatic<AndroidJavaObject>("Female"));
+                    break;
+                }
+                default:
+                    JavaTargetingParametrs.Call<AndroidJavaObject>("setGender",
+                        new AndroidJavaClass("io.bidmachine.utils.Gender").GetStatic<AndroidJavaObject>("Omitted"));
+                    break;
             }
         }
 
         public void setBirthdayYear(int year)
         {
-            AndroidJavaObject androidJavaObjectBirthdayYear = new AndroidJavaObject("java.lang.Integer", year);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("setBirthdayYear", androidJavaObjectBirthdayYear);
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setBirthdayYear", Helper.getJavaObject(year));
         }
 
         public void setKeyWords(string[] keyWords)
         {
-            AndroidJavaClass arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
-            AndroidJavaObject arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance", new AndroidJavaClass("java.lang.String"), keyWords.Length);
-            for (int i = 0; i < keyWords.Length; i++)
+            var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
+            var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
+                new AndroidJavaClass("java.lang.String"), keyWords.Length);
+            for (var i = 0; i < keyWords.Length; i++)
             {
                 arrayClass.CallStatic("set", arrayObject, i, new AndroidJavaObject("java.lang.String", keyWords[i]));
             }
+
             JavaTargetingParametrs.Call<AndroidJavaObject>("setKeywords", arrayObject);
-        }
-
-        
-        public void setDeviceLocation(double latitude, double longitude)
-        {
-
         }
 
         public void setCountry(string country)
         {
-            AndroidJavaObject androidJavaObjectCountry = new AndroidJavaObject("java.lang.String", country);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("setCountry", androidJavaObjectCountry);
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setCountry", Helper.getJavaObject(country));
         }
 
         public void setCity(string city)
         {
-            AndroidJavaObject androidJavaObjectCity = new AndroidJavaObject("java.lang.String", city);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("setCity", androidJavaObjectCity);
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setCity", Helper.getJavaObject(city));
         }
 
         public void setZip(string zip)
         {
-            AndroidJavaObject androidJavaObjectZip = new AndroidJavaObject("java.lang.String", zip);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("setZip", androidJavaObjectZip);
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setZip", Helper.getJavaObject(zip));
         }
 
         public void setStoreUrl(string storeUrl)
         {
-            AndroidJavaObject androidJavaObjectStoreUrl = new AndroidJavaObject("java.lang.String", storeUrl);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("setStoreUrl", androidJavaObjectStoreUrl);
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setStoreUrl", Helper.getJavaObject(storeUrl));
+        }
+
+        public void setStoreCategory(string storeCategory)
+        {
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setStoreCategory", Helper.getJavaObject(storeCategory));
+        }
+
+        public void setStoreSubCategories(string storeSubCategories)
+        {
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setStoreSubCategories", Helper.getJavaObject(storeSubCategories));
+        }
+
+        public void setFramework(string framework)
+        {
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setFramework", Helper.getJavaObject(framework));
         }
 
         public void setPaid(bool paid)
         {
-            AndroidJavaObject androidJavaObjectPaid = new AndroidJavaObject("java.lang.Boolean", paid);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("setPaid", androidJavaObjectPaid);
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setPaid", paid);
         }
 
-        public void setBlockedAdvertiserIABCategories(string categories)
+        public void setDeviceLocation(string providerName, double latitude, double longitude)
         {
-            AndroidJavaObject aCategories = new AndroidJavaObject("java.lang.String", categories);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedAdvertiserIABCategory", aCategories);
+            var locationJavaObject = new AndroidJavaObject("android.location", Helper.getJavaObject(providerName));
+            locationJavaObject.Call<AndroidJavaObject>("setLatitude", Helper.getJavaObject(latitude));
+            locationJavaObject.Call<AndroidJavaObject>("setLongitude", Helper.getJavaObject(longitude));
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setDeviceLocation", locationJavaObject);
         }
 
-        public void setBlockedAdvertiserDomain(string domains)
+        public void setExternalUserIds(ExternalUserId[] externalUserIds)
         {
-            AndroidJavaObject aDomains = new AndroidJavaObject("java.lang.String", domains);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedAdvertiserDomain", aDomains);
+            // var androidTargetingParams = (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
+            //
+            // var androidJavaObjects =
+            //     externalUserIds.Select(e => e.()).ToArray();
+            //     
+            // var args = AndroidJNIHelper.CreateJNIArgArray(new object[]
+            // {
+            //     javaArrayFromCS(externalUserIds,
+            //         "io.bidmachine.ExternalUserId")
+            // });
+            //
+            //
+            // throw new NotImplementedException();
         }
 
-        public void setBlockedApplication(string applications)
+        public void addBlockedApplication(string bundleOrPackage)
         {
-            AndroidJavaObject aApplication = new AndroidJavaObject("java.lang.String", applications);
-            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedApplication", aApplication);
+            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedApplication", Helper.getJavaObject(bundleOrPackage));
+        }
+
+        public void addBlockedAdvertiserIABCategory(string category)
+        {
+            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedAdvertiserIABCategory", Helper.getJavaObject(category));
+        }
+
+        public void addBlockedAdvertiserDomain(string domain)
+        {
+            JavaTargetingParametrs.Call<AndroidJavaObject>("addBlockedAdvertiserDomain", Helper.getJavaObject(domain));
+        }
+        
+        private static AndroidJavaObject javaArrayFromCS(IReadOnlyList<AndroidJavaObject> values, string classType)
+        {
+            var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
+            var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
+                new AndroidJavaClass(classType),
+                values.Count);
+            for (var i = 0; i < values.Count; ++i)
+            {
+                arrayClass.CallStatic("set", arrayObject, i, values[i]);
+            }
+
+            return arrayObject;
         }
     }
 
@@ -250,8 +312,8 @@ namespace BidMachineAds.Unity.Android
         AndroidJavaObject JavaPriceFloorParams;
 
         public AndroidPriceFloorParams()
-        { 
-            JavaPriceFloorParams = new AndroidJavaObject("io.bidmachine.PriceFloorParams"); 
+        {
+            JavaPriceFloorParams = new AndroidJavaObject("io.bidmachine.PriceFloorParams");
         }
 
         public AndroidJavaObject getJavaObject()
@@ -282,6 +344,7 @@ namespace BidMachineAds.Unity.Android
             {
                 bannerRequestBuilder = new AndroidJavaObject("io.bidmachine.banner.BannerRequest$Builder");
             }
+
             return bannerRequestBuilder;
         }
 
@@ -295,26 +358,33 @@ namespace BidMachineAds.Unity.Android
             switch (size)
             {
                 case BannerRequestBuilder.Size.Size_320_50:
-                    {
-                        getBannerRequestBuilder().Call<AndroidJavaObject>("setSize", new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>("Size_320_50"));
-                        break;
-                    }
+                {
+                    getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
+                        new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
+                            "Size_320_50"));
+                    break;
+                }
                 case BannerRequestBuilder.Size.Size_300_250:
-                    {
-                        getBannerRequestBuilder().Call<AndroidJavaObject>("setSize", new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>("Size_300_250"));
-                        break;
-                    }
+                {
+                    getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
+                        new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
+                            "Size_300_250"));
+                    break;
+                }
                 case BannerRequestBuilder.Size.Size_728_90:
-                    {
-                        getBannerRequestBuilder().Call<AndroidJavaObject>("setSize", new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>("Size_728_90"));
-                        break;
-                    }
+                {
+                    getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
+                        new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
+                            "Size_728_90"));
+                    break;
+                }
             }
         }
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            AndroidTargetingParams androidTargeting = (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
+            AndroidTargetingParams androidTargeting =
+                (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
             getBannerRequestBuilder().Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
         }
 
@@ -339,10 +409,12 @@ namespace BidMachineAds.Unity.Android
 
         public AndroidJavaObject getInterstitialBuilder()
         {
-            if(interstitialRequestBuilder == null)
+            if (interstitialRequestBuilder == null)
             {
-                interstitialRequestBuilder = new AndroidJavaObject("io.bidmachine.interstitial.InterstitialRequest$Builder");
+                interstitialRequestBuilder =
+                    new AndroidJavaObject("io.bidmachine.interstitial.InterstitialRequest$Builder");
             }
+
             return interstitialRequestBuilder;
         }
 
@@ -356,20 +428,23 @@ namespace BidMachineAds.Unity.Android
             switch (contentType)
             {
                 case InterstitialRequestBuilder.ContentType.All:
-                    {
-                        getInterstitialBuilder().Call<AndroidJavaObject>("setAdContentType", new AndroidJavaClass("io.bidmachine.AdContentType").GetStatic<AndroidJavaObject>("All"));
-                        break;
-                    }
+                {
+                    getInterstitialBuilder().Call<AndroidJavaObject>("setAdContentType",
+                        new AndroidJavaClass("io.bidmachine.AdContentType").GetStatic<AndroidJavaObject>("All"));
+                    break;
+                }
                 case InterstitialRequestBuilder.ContentType.Video:
-                    {
-                        getInterstitialBuilder().Call<AndroidJavaObject>("setAdContentType", new AndroidJavaClass("io.bidmachine.AdContentType").GetStatic<AndroidJavaObject>("Video"));
-                        break;
-                    }
+                {
+                    getInterstitialBuilder().Call<AndroidJavaObject>("setAdContentType",
+                        new AndroidJavaClass("io.bidmachine.AdContentType").GetStatic<AndroidJavaObject>("Video"));
+                    break;
+                }
                 case InterstitialRequestBuilder.ContentType.Static:
-                    {
-                        getInterstitialBuilder().Call<AndroidJavaObject>("setAdContentType", new AndroidJavaClass("io.bidmachine.AdContentType").GetStatic<AndroidJavaObject>("Static"));
-                        break;
-                    }
+                {
+                    getInterstitialBuilder().Call<AndroidJavaObject>("setAdContentType",
+                        new AndroidJavaClass("io.bidmachine.AdContentType").GetStatic<AndroidJavaObject>("Static"));
+                    break;
+                }
             }
         }
 
@@ -381,11 +456,13 @@ namespace BidMachineAds.Unity.Android
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            AndroidTargetingParams androidTargeting = (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
+            AndroidTargetingParams androidTargeting =
+                (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
             getInterstitialBuilder().Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
         }
 
-        public IInterstitialRequest build() {
+        public IInterstitialRequest build()
+        {
             interstitialRequest = new AndroidJavaObject("io.bidmachine.interstitial.InterstitialRequest");
             interstitialRequest = getInterstitialBuilder().Call<AndroidJavaObject>("build");
             return new AndroidInterstitialRequest(interstitialRequest);
@@ -403,6 +480,7 @@ namespace BidMachineAds.Unity.Android
             {
                 rewardedRequestBuilder = new AndroidJavaObject("io.bidmachine.rewarded.RewardedRequest$Builder");
             }
+
             return rewardedRequestBuilder;
         }
 
@@ -419,7 +497,8 @@ namespace BidMachineAds.Unity.Android
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            AndroidTargetingParams androidTargeting = (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
+            AndroidTargetingParams androidTargeting =
+                (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
             getRewardedRequestBuilder().Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
         }
 
@@ -434,6 +513,7 @@ namespace BidMachineAds.Unity.Android
     public class AndroidBannerRequest : IBannerRequest
     {
         AndroidJavaObject bannerRequest;
+
         public AndroidBannerRequest(AndroidJavaObject bannerRequest)
         {
             this.bannerRequest = bannerRequest;
@@ -448,6 +528,7 @@ namespace BidMachineAds.Unity.Android
     public class AndroidInterstitialRequest : IInterstitialRequest
     {
         AndroidJavaObject interstitialRequest;
+
         public AndroidInterstitialRequest(AndroidJavaObject interstitialRequest)
         {
             this.interstitialRequest = interstitialRequest;
@@ -462,6 +543,7 @@ namespace BidMachineAds.Unity.Android
     public class AndroidRewardedRequest : IRewardedRequest
     {
         AndroidJavaObject rewardedRequest;
+
         public AndroidRewardedRequest(AndroidJavaObject rewardedRequest)
         {
             this.rewardedRequest = rewardedRequest;
@@ -474,7 +556,7 @@ namespace BidMachineAds.Unity.Android
     }
 
     public class AndroidBanner : IBanner
-    { 
+    {
         private AndroidJavaClass bidMachineBannerClass;
         private AndroidJavaObject bidMachineBannerInstatnce;
         private AndroidJavaObject javaBannerView;
@@ -487,6 +569,7 @@ namespace BidMachineAds.Unity.Android
                 AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
                 activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
             }
+
             return activity;
         }
 
@@ -494,10 +577,11 @@ namespace BidMachineAds.Unity.Android
         {
             if (bidMachineBannerInstatnce == null)
             {
-                bidMachineBannerClass = new AndroidJavaClass("com.bidmachine.bidmachineunity.BidMachineUnityBannerView");
+                bidMachineBannerClass =
+                    new AndroidJavaClass("com.bidmachine.bidmachineunity.BidMachineUnityBannerView");
                 bidMachineBannerInstatnce = bidMachineBannerClass.CallStatic<AndroidJavaObject>("getInstance");
             }
-           
+
             return bidMachineBannerInstatnce;
         }
 
@@ -524,7 +608,7 @@ namespace BidMachineAds.Unity.Android
     public class AndroidBannerView : IBannerView
     {
         private AndroidJavaObject javaBannerView;
-        
+
         public AndroidBannerView(AndroidJavaObject bannerView)
         {
             javaBannerView = bannerView;
@@ -554,8 +638,6 @@ namespace BidMachineAds.Unity.Android
                 javaBannerView.Call<AndroidJavaObject>("setListener", new AndroidBannerListener(bannerListener));
             }
         }
-
-
     }
 
     public class AndroidInterstitialAd : IInterstitialAd
@@ -580,6 +662,7 @@ namespace BidMachineAds.Unity.Android
                 AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
                 activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
             }
+
             return activity;
         }
 
@@ -605,16 +688,18 @@ namespace BidMachineAds.Unity.Android
 
         public void load(InterstitialRequest interstitialRequest)
         {
-            AndroidInterstitialRequest aInterstitialRequest =(AndroidInterstitialRequest) interstitialRequest.GetInterstitialRequest();
+            AndroidInterstitialRequest aInterstitialRequest =
+                (AndroidInterstitialRequest)interstitialRequest.GetInterstitialRequest();
             AndroidJavaObject jInterstitialRequest = aInterstitialRequest.getJavaObject();
-            javaInrestitialAd.Call<AndroidJavaObject>("load", jInterstitialRequest); 
+            javaInrestitialAd.Call<AndroidJavaObject>("load", jInterstitialRequest);
         }
 
         public void setListener(IInterstitialAdListener interstitialAdListener)
         {
             if (interstitialAdListener != null)
             {
-                javaInrestitialAd.Call<AndroidJavaObject>("setListener", new AndroidInterstitialAdListener(interstitialAdListener));
+                javaInrestitialAd.Call<AndroidJavaObject>("setListener",
+                    new AndroidInterstitialAdListener(interstitialAdListener));
             }
         }
     }
@@ -641,6 +726,7 @@ namespace BidMachineAds.Unity.Android
                 AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
                 activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
             }
+
             return activity;
         }
 
@@ -675,8 +761,54 @@ namespace BidMachineAds.Unity.Android
         {
             if (rewardedAdListener != null)
             {
-                javaRewardedAd.Call<AndroidJavaObject>("setListener", new AndroidRewardedAdListener(rewardedAdListener));
+                javaRewardedAd.Call<AndroidJavaObject>("setListener",
+                    new AndroidRewardedAdListener(rewardedAdListener));
             }
         }
     }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public static class Helper
+    {
+        public static object getJavaObject(object value)
+        {
+            if (value is string)
+            {
+                return value;
+            }
+
+            if (value is char)
+            {
+                return new AndroidJavaObject("java.lang.Character", value);
+            }
+
+            if ((value is bool))
+            {
+                return new AndroidJavaObject("java.lang.Boolean", value);
+            }
+
+            if (value is int)
+            {
+                return new AndroidJavaObject("java.lang.Integer", value);
+            }
+
+            if (value is long)
+            {
+                return new AndroidJavaObject("java.lang.Long", value);
+            }
+
+            if (value is float)
+            {
+                return new AndroidJavaObject("java.lang.Float", value);
+            }
+
+            if (value is double)
+            {
+                return new AndroidJavaObject("java.lang.Float", value);
+            }
+
+            return value ?? null;
+        }
+    }
 }
+#endif
