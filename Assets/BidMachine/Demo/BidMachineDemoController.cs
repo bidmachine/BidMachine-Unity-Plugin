@@ -35,7 +35,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void BidMachineInitialize()
     {
-
+        double lat = 22.0;
+        double lon = 23.0;
+            
         targetingParams = new TargetingParams();
         targetingParams.setUserId("1");
         targetingParams.setGender(TargetingParams.Gender.Female);
@@ -46,17 +48,16 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         targetingParams.setZip("220059");
         targetingParams.setStoreUrl("https://store.url");
         targetingParams.setStoreCategory("cards");
-        targetingParams.setStoreSubCategories("subcards");
-        targetingParams.setStoreSubCategories("subcards");
+        targetingParams.setStoreSubCategories(new string[]{"games", "cards"});
         targetingParams.setFramework("unity");
         targetingParams.setFramework("unity");
         targetingParams.setPaid(true);
-        // targetingParams.setDeviceLocation("", 53.9063708, 27.5572263);
-        // targetingParams.setExternalUserIds(new ExternalUserId[]
-        // {
-        //     new ExternalUserId("sourceId_1", "1"), 
-        //     new ExternalUserId("sourceId_2", "2")
-        // });
+        //targetingParams.setDeviceLocation("", (double)lat, (double)lon);
+        targetingParams.setExternalUserIds(new ExternalUserId[]
+        {
+            new ExternalUserId("sourceId_1", "1"), 
+            new ExternalUserId("sourceId_2", "2")
+        });
         targetingParams.addBlockedApplication("com.appodeal.test");
         targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
         targetingParams.addBlockedAdvertiserDomain("ua");
