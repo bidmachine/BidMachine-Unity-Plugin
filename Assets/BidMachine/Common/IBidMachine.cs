@@ -42,7 +42,7 @@ namespace BidMachineAds.Unity.Common
         void setZip(string zip);
         void setStoreUrl(string storeUrl);
         void setStoreCategory(string storeCategory);
-        void setStoreSubCategories(string storeSubCategories);
+        void setStoreSubCategories(string[] storeSubCategories);
         void setFramework(string framework);
         void setPaid(bool paid); 
         void setDeviceLocation(string providerName, double latitude, double longitude);
@@ -50,11 +50,6 @@ namespace BidMachineAds.Unity.Common
         void addBlockedApplication(string bundleOrPackage);
         void addBlockedAdvertiserIABCategory(string category);
         void addBlockedAdvertiserDomain(string domain);
-    }
-
-    public interface IExternalUserId
-    {
-        
     }
 
     public interface IPriceFloorParams
