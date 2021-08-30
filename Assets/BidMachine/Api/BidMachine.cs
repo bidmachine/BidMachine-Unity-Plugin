@@ -147,34 +147,82 @@ namespace BidMachineAds.Unity.Api
             getInstance().requestAndroidPermissions();
         }
         
+        /// <summary>
+        /// Sets publisher information.
+        /// See <see cref="BidMachine.setPublisher"/> for resulting triggered event.
+        /// <param name="publisher">Publisher object which contains all information about publisher.</param>
+        /// </summary> 
+        public static void setPublisher(Publisher publisher)
+        {
+            getInstance().setPublisher(publisher);
+        }
     }
 
     public class ExternalUserId
     {
-        private  string sourceId;
-        private  string value;
-
         public ExternalUserId(string sourceId, string value)
         {
-            this.sourceId = sourceId;
-            this.value = value;
+            this.SourceId = sourceId;
+            this.Value = value;
         }
 
-        public string SourceId
+        public string SourceId { get; }
+
+        public string Value { get; }
+    }
+
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class Publisher
+    {
+        private readonly IPublisher nativePublisher;
+
+        public Publisher()
         {
-            get => sourceId;
+            nativePublisher = BidMachineClientFactory.GetPublisher();
         }
 
-        public string Value
+        public IPublisher GetNativePublisher()
         {
-            get => value;
+            return nativePublisher;
         }
+        
+        public Publisher setId(string id)
+        {
+            nativePublisher.setId(id);
+            return this;
+        }
+        
+        public Publisher setName(string name)
+        {
+            nativePublisher.setName(name);
+            return this;
+        }
+        
+        public Publisher setDomain(string domain)
+        {
+            nativePublisher.setDomain(domain);
+            return this;
+        }
+        
+        public Publisher addCategory(string category)
+        {
+            nativePublisher.addCategory(category);
+            return this;
+        }
+        
+        public Publisher addCategories(string[] categories)
+        {
+            nativePublisher.addCategories(categories);
+            return this;
+        }
+        
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class TargetingParams
     {
-        public ITargetingParams nativeTargetingParams;
+        private readonly ITargetingParams nativeTargetingParams;
 
         public TargetingParams()
         {
@@ -296,9 +344,10 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class PriceFloorParams
     {
-        public IPriceFloorParams nativePriceFloorParams;
+        private readonly IPriceFloorParams nativePriceFloorParams;
 
         public PriceFloorParams()
         {
@@ -323,6 +372,7 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BMError
     {
         public int code;
@@ -332,7 +382,7 @@ namespace BidMachineAds.Unity.Api
 
     public class BannerRequestBuilder
     {
-        public IBannerRequestBuilder nativeBannerRequestBuilder;
+        private readonly IBannerRequestBuilder nativeBannerRequestBuilder;
 
         public BannerRequestBuilder()
         {
@@ -375,9 +425,10 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class InterstitialRequestBuilder
     {
-        public IInterstitialRequestBuilder nativeInterstitialRequestBuilder;
+        private readonly IInterstitialRequestBuilder nativeInterstitialRequestBuilder;
 
         public InterstitialRequestBuilder()
         {
@@ -420,9 +471,10 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class RewardedRequestBuilder
     {
-        public IRewardedRequestBuilder nativeRewardedRequestBuilder;
+        private readonly IRewardedRequestBuilder nativeRewardedRequestBuilder;
 
         public RewardedRequestBuilder()
         {
@@ -454,7 +506,7 @@ namespace BidMachineAds.Unity.Api
 
     public class BannerRequest
     {
-        public IBannerRequest nativeBannerRequest;
+        private readonly IBannerRequest nativeBannerRequest;
 
         public BannerRequest(IBannerRequest bannerRequest)
         {
@@ -469,7 +521,7 @@ namespace BidMachineAds.Unity.Api
 
     public class InterstitialRequest
     {
-        public IInterstitialRequest nativeInterstitialRequest;
+        private readonly IInterstitialRequest nativeInterstitialRequest;
 
         public InterstitialRequest(IInterstitialRequest interstitialRequest)
         {
@@ -484,7 +536,7 @@ namespace BidMachineAds.Unity.Api
 
     public class RewardedRequest
     {
-        public IRewardedRequest nativeRewardedRequest;
+        private readonly IRewardedRequest nativeRewardedRequest;
 
         public RewardedRequest(IRewardedRequest rewardedRequest)
         {
@@ -497,9 +549,10 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class Banner
     {
-        public IBanner nativeBanner;
+        private readonly IBanner nativeBanner;
 
         public Banner()
         {
@@ -532,9 +585,10 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BannerView
     {
-        public IBannerView nativeBannerView;
+        private readonly IBannerView nativeBannerView;
 
         public BannerView()
         {
@@ -567,9 +621,10 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class InterstitialAd
     {
-        public IInterstitialAd nativeInterstitialAd;
+        private readonly IInterstitialAd nativeInterstitialAd;
 
         public InterstitialAd()
         {
@@ -612,9 +667,10 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class RewardedAd
     {
-        public IRewardedAd nativeRewardedAd;
+        private readonly IRewardedAd nativeRewardedAd;
 
         public RewardedAd()
         {
