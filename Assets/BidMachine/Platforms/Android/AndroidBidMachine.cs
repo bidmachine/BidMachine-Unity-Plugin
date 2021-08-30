@@ -128,22 +128,6 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class AndroidExternalUserId : IExternalUserId
-    {
-        private readonly AndroidJavaObject JavaExternalUserId;
-        
-        public AndroidExternalUserId(string sourceId, string value)
-        {
-            JavaExternalUserId = new AndroidJavaObject("io.bidmachine.ExternalUserId ", Helper.getJavaObject(sourceId),
-                Helper.getJavaObject(value));
-        }
-        private AndroidJavaObject getJavaExternalUserId()
-        {
-            return JavaExternalUserId;
-        }
-    }
-
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidTargetingParams : ITargetingParams
@@ -237,9 +221,17 @@ namespace BidMachineAds.Unity.Android
             JavaTargetingParametrs.Call<AndroidJavaObject>("setStoreCategory", Helper.getJavaObject(storeCategory));
         }
 
-        public void setStoreSubCategories(string storeSubCategories)
+        public void setStoreSubCategories(string[] storeSubCategories)
         {
-            JavaTargetingParametrs.Call<AndroidJavaObject>("setStoreSubCategories", Helper.getJavaObject(storeSubCategories));
+            var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
+            var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
+                new AndroidJavaClass("java.lang.String"), storeSubCategories.Length);
+            for (var i = 0; i < storeSubCategories.Length; i++)
+            {
+                arrayClass.CallStatic("set", arrayObject, i, new AndroidJavaObject("java.lang.String", storeSubCategories[i]));
+            }
+            
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setStoreSubCategories", arrayObject);
         }
 
         public void setFramework(string framework)
@@ -249,32 +241,28 @@ namespace BidMachineAds.Unity.Android
 
         public void setPaid(bool paid)
         {
-            JavaTargetingParametrs.Call<AndroidJavaObject>("setPaid", paid);
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setPaid", Helper.getJavaObject(paid));
         }
 
         public void setDeviceLocation(string providerName, double latitude, double longitude)
         {
-            var locationJavaObject = new AndroidJavaObject("android.location", Helper.getJavaObject(providerName));
-            locationJavaObject.Call<AndroidJavaObject>("setLatitude", Helper.getJavaObject(latitude));
-            locationJavaObject.Call<AndroidJavaObject>("setLongitude", Helper.getJavaObject(longitude));
+            var locationJavaObject = new AndroidJavaObject("android.location.Location", Helper.getJavaObject(providerName));
+            locationJavaObject.Call("setLatitude", Helper.getJavaObject(latitude));
+            locationJavaObject.Call("setLongitude", Helper.getJavaObject(longitude));
             JavaTargetingParametrs.Call<AndroidJavaObject>("setDeviceLocation", locationJavaObject);
         }
 
         public void setExternalUserIds(ExternalUserId[] externalUserIds)
         {
-            // var androidTargetingParams = (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-            //
-            // var androidJavaObjects =
-            //     externalUserIds.Select(e => e.()).ToArray();
-            //     
-            // var args = AndroidJNIHelper.CreateJNIArgArray(new object[]
-            // {
-            //     javaArrayFromCS(externalUserIds,
-            //         "io.bidmachine.ExternalUserId")
-            // });
-            //
-            //
-            // throw new NotImplementedException();
+            var arrayList = new AndroidJavaObject("java.util.ArrayList");
+
+            foreach (var externalUserId in externalUserIds)
+            {
+                arrayList.Call<AndroidJavaObject>("add", new AndroidJavaObject("io.bidmachine.ExternalUserId", 
+                    Helper.getJavaObject(externalUserId.SourceId), Helper.getJavaObject(externalUserId.Value)));
+            }
+            
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setExternalUserIds", arrayList);
         }
 
         public void addBlockedApplication(string bundleOrPackage)
@@ -333,6 +321,7 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidBannerRequestBuilder : IBannerRequestBuilder
     {
         AndroidJavaObject bannerRequest;
@@ -383,14 +372,14 @@ namespace BidMachineAds.Unity.Android
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            AndroidTargetingParams androidTargeting =
+            var androidTargeting =
                 (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
             getBannerRequestBuilder().Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
         }
 
         public void setPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            AndroidPriceFloorParams p = (AndroidPriceFloorParams)priceFloorParams.GetNativePriceFloorParams();
+            var p = (AndroidPriceFloorParams)priceFloorParams.GetNativePriceFloorParams();
             getBannerRequestBuilder().Call<AndroidJavaObject>("setPriceFloorParams", p.getJavaObject());
         }
 
@@ -804,7 +793,7 @@ namespace BidMachineAds.Unity.Android
 
             if (value is double)
             {
-                return new AndroidJavaObject("java.lang.Float", value);
+                return new AndroidJavaObject("java.lang.Double", value);
             }
 
             return value ?? null;
