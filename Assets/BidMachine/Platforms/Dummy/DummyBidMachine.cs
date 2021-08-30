@@ -1,4 +1,5 @@
-﻿using BidMachineAds.Unity.Android;
+﻿using System.Collections.Generic;
+using BidMachineAds.Unity.Android;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Dummy
 {
     public class DummyBidMachine : IBidMachine, ITargetingParams, IPriceFloorParams, IInterstitialRequestBuilder, IInterstitialAd, IInterstitialRequest,
-        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner
+        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner, IExternalUserId
     {
        
         public void build(InterstitialRequestBuilder interstitialRequestBuilder)
@@ -35,6 +36,11 @@ namespace BidMachineAds.Unity.Dummy
             return false;
         }
 
+        public void setUSPrivacyString(string usPrivacyString)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public bool checkAndroidPermissions(string permission)
         {
             Debug.Log("Not supported on this platform");
@@ -60,6 +66,16 @@ namespace BidMachineAds.Unity.Dummy
         public void initialize(string sallerId)
         {
             Debug.Log("Not supported on this platform");
+        }
+
+        public bool isInitialized()
+        {
+            return false;
+        }
+
+        public void setEndpoint(string url)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void load(InterstitialRequest interstitialRequest)
@@ -95,6 +111,36 @@ namespace BidMachineAds.Unity.Dummy
         public void setBlockedAdvertiserDomain(string domains)
         {
             Debug.Log("Not supported on this platform");
+        }
+
+        public void setDeviceLocation(string providerName, double latitude, double longitude)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setExternalUserIds(ExternalUserId[] externalUserIdList)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setExternalUserIds(List<ExternalUserId> externalUserIdList)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void addBlockedApplication(string bundleOrPackage)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void addBlockedAdvertiserIABCategory(string category)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void addBlockedAdvertiserDomain(string domain)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void setBlockedAdvertiserIABCategories(string categories)
@@ -167,6 +213,11 @@ namespace BidMachineAds.Unity.Dummy
             Debug.Log("Not supported on this platform");
         }
 
+        public void setFramework(string framework)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void setPaid(bool paid)
         {
             Debug.Log("Not supported on this platform");
@@ -195,6 +246,16 @@ namespace BidMachineAds.Unity.Dummy
         public void setStoreUrl(string storeUrl)
         {
             Debug.Log("Not supported on this platform");
+        }
+
+        public void setStoreCategory(string storeCategory)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setStoreSubCategories(string storeSubCategories)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void setSubjectToGDPR(bool subjectToGDPR)
