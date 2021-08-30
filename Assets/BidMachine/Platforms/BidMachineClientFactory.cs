@@ -1,4 +1,3 @@
-
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Dummy;
@@ -12,7 +11,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidBidMachine();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return BidMachineAds.Unity.iOS.iOSBidMachine.Instance;  
+          return BidMachineAds.Unity.iOS.iOSBidMachine.Instance;
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -23,7 +22,18 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidTargetingParams();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSTargetingParams();  
+          return new BidMachineAds.Unity.iOS.iOSTargetingParams();
+#else
+            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
+#endif
+        }
+
+        internal static IPublisher GetPublisher()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+          return new BidMachineAds.Unity.Android.AndroidPublisher();
+#elif UNITY_IPHONE && !UNITY_EDITOR
+          return new BidMachineAds.Unity.iOS.iOSPriceFloorParams();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -34,7 +44,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidPriceFloorParams();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSPriceFloorParams();  
+          return new BidMachineAds.Unity.iOS.iOSPriceFloorParams();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -45,7 +55,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidInterstitialRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder();  
+          return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -56,7 +66,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
            return new BidMachineAds.Unity.Android.AndroidInterstitialRequestBuilder().build();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder().build();  
+          return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder().build();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -67,7 +77,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidInterstitialAd();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSInterstitialAd();  
+          return new BidMachineAds.Unity.iOS.iOSInterstitialAd();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -78,7 +88,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidRewardedRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSRewardedRequestBuilder();  
+          return new BidMachineAds.Unity.iOS.iOSRewardedRequestBuilder();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -89,7 +99,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
            return new BidMachineAds.Unity.Android.AndroidRewardedRequestBuilder().build();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSRewardedRequestBuilder().build();  
+          return new BidMachineAds.Unity.iOS.iOSRewardedRequestBuilder().build();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -100,7 +110,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidRewardedAd();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSRewardedAd();  
+          return new BidMachineAds.Unity.iOS.iOSRewardedAd();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -111,7 +121,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidBannerRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-        return new BidMachineAds.Unity.iOS.iOSBannerViewRequestBuilder();  
+        return new BidMachineAds.Unity.iOS.iOSBannerViewRequestBuilder();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -133,7 +143,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidBanner().getBannerView();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSBannerView();  
+          return new BidMachineAds.Unity.iOS.iOSBannerView();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -144,12 +154,10 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidBanner();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSBanner();  
+          return new BidMachineAds.Unity.iOS.iOSBanner();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
         }
     }
 }
-
-
