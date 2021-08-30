@@ -1,10 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Common;
 
 namespace BidMachineAds.Unity.Api
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    [SuppressMessage("ReSharper", "InvalidXmlDocComment")]
     public class BidMachine
     {
         public static int BANNER_HORIZONTAL_SMART = -1;
@@ -16,61 +18,152 @@ namespace BidMachineAds.Unity.Api
         public static int BANNER_BOTTOM = 2;
 
         private static IBidMachine client;
+
         private static IBidMachine getInstance()
         {
             return client ?? (client = BidMachineClientFactory.GetBidMachine());
         }
-
+        
+        /// <summary>
+        /// Initializes BidMachine SDK.
+        /// See <see cref="BidMachine.initialize"/> for resulting triggered event.
+        /// <param name="sellerId">Your Seller Id.</param>
+        /// </summary>
         public static void initialize(string id)
         {
             getInstance().initialize(id);
         }
-
-        public static void setLoggingEnabled(bool logging)
+        
+        /// <summary>
+        /// Checks if BidMachine SDK was initialized.
+        /// See <see cref="BidMachine.isInitialized"/> for resulting triggered event.
+        /// @return {@code true} if BidMachine SDK was already initialized.
+        /// </summary>
+        public static bool isInitialized()
         {
-            getInstance().setLoggingEnabled(logging);
+            return getInstance().isInitialized();
         }
 
+        /// <summary>
+        /// Sets BidMachine SDK endpoint.
+        /// See <see cref="BidMachine.setEndpoint"/> for resulting triggered event.
+        /// <param name="url">BidMachine endpoint URL.</param>
+        /// </summary>
+        public static void setEndpoint(string url)
+        {
+            getInstance().setEndpoint(url);
+        }
+
+        /// <summary>
+        /// Sets BidMachine SDK logs enabled.
+        /// See <see cref="BidMachine.setLoggingEnabled"/> for resulting triggered event.
+        /// @param enabled If {@code true} SDK will print all information about ad requests.
+        /// </summary>      
+        public static void setLoggingEnabled(bool enabled)
+        {
+            getInstance().setLoggingEnabled(enabled);
+        }
+        
+        /// <summary>
+        /// Initializes BidMachine SDK.
+        /// See <see cref="BidMachine.setTestMode"/> for resulting triggered event.
+        /// @param testMode If {@code true} SDK will run in test mode.
+        /// </summary> 
         public static void setTestMode(bool testMode)
         {
             getInstance().setTestMode(testMode);
         }
-
-        public static bool checkAndroidPermissions(string permission)
-        {
-            return getInstance().checkAndroidPermissions(permission);
-        }
-
-        public static void setConsentConfig(bool consent, string consentConfig)
-        {
-            getInstance().setConsentConfig(consent, consentConfig);
-        }
-
-        public static void setSubjectToGDPR(bool subjectToGDPR)
-        {
-            getInstance().setSubjectToGDPR(subjectToGDPR);
-        }
-
-        public static void setCoppa(bool coppa)
-        {
-            getInstance().setCoppa(coppa);
-        }
-
+        
+        /// <summary>
+        /// Sets default {@link TargetingParams} for all ad requests.
+        /// See <see cref="BidMachine.setSubjectToGDPR"/> for resulting triggered event.
+        /// <param name="targetingParams">TargetingParams object.</param>
+        /// </summary>
         public static void setTargetingParams(TargetingParams targetingParams)
         {
             getInstance().setTargetingParams(targetingParams);
         }
 
+        /// <summary>
+        /// Sets consent config.
+        /// See <see cref="BidMachine.setConsentConfig"/> for resulting triggered event.
+        /// <param name="hasConsent">User has given consent to the processing of personal data relating to him or her. https://www.eugdpr.org/.</param>
+        /// <param name="consentString">GDPR consent string if applicable, complying with the comply with the IAB standard
+        //                      <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Consent%20string%20and%20vendor%20list%20formats%20v1.1%20Final.md">Consent String Format</a>
+        //                      in the <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework">Transparency and Consent Framework</a> technical specifications.</param>
+        /// </summary>
+        public static void setConsentConfig(bool consent, string consentString)
+        {
+            getInstance().setConsentConfig(consent, consentString);
+        }
+        
+        /// <summary>
+        /// Sets subject to GDPR.
+        /// See <see cref="BidMachine.setSubjectToGDPR"/> for resulting triggered event.
+        /// <param name="subject">Flag indicating if GDPR regulations should be applied. <a href="https://wikipedia.org/wiki/General_Data_Protection_Regulation">The General Data Protection Regulation (GDPR)</a> is a regulation of the European Union.</param>
+        /// </summary>
+        public static void setSubjectToGDPR(bool subject)
+        {
+            getInstance().setSubjectToGDPR(subject);
+        }
+
+        /// <summary>
+        /// Sets subject to GDPR.
+        /// See <see cref="BidMachine.setCoppa"/> for resulting triggered event.
+        /// <param name="coppa">Flag indicating if COPPA regulations should be applied. <a href="https://wikipedia.org/wiki/Children%27s_Online_Privacy_Protection_Act">The Children's Online Privacy Protection Act (COPPA)</a> was established by the U.S. Federal Trade Commission..</param>
+        /// </summary>
+        public static void setCoppa(bool coppa)
+        {
+            getInstance().setCoppa(coppa);
+        }
+
+        /// <summary>
+        /// Sets US Privacy string.
+        /// See <see cref="BidMachine.setUSPrivacyString"/> for resulting triggered event.
+        /// <param name="usPrivacyString">usPrivacyString CCPA string if applicable, complying with the comply with the IAB standard
+        //                        <a href="https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md">CCPA String Format</a>.
+        /// </summary>
+        public static void setUSPrivacyString(string usPrivacyString)
+        {
+            getInstance().setUSPrivacyString(usPrivacyString);
+        }
+        
+        /// <summary>
+        /// Check CoarseLocation and FineLocation permission.
+        /// See <see cref="BidMachine.checkAndroidPermissions"/> for resulting triggered event.
+        /// <param name="permission">Permission.CoarseLocation or Permission.CoarseLocation</param>
+        /// </summary> 
+        public static bool checkAndroidPermissions(string permission)
+        {
+            return getInstance().checkAndroidPermissions(permission);
+        }
+        
+        /// <summary>
+        /// Request CoarseLocation and FineLocation permissions.
+        /// See <see cref="BidMachine.requestAndroidPermissions"/> for resulting triggered event.
+        /// </summary> 
         public static void requestAndroidPermissions()
         {
             getInstance().requestAndroidPermissions();
         }
+        
     }
 
+    public class ExternalUserId
+    {
+        public IExternalUserId nativeExternalUserId;
+
+        public ExternalUserId(string sourceId, string value)
+        {
+            nativeExternalUserId = BidMachineClientFactory.GetExternalUserId(sourceId, value);
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class TargetingParams
     {
-
         public ITargetingParams nativeTargetingParams;
+
         public TargetingParams()
         {
             nativeTargetingParams = BidMachineClientFactory.GetTargetingParams();
@@ -83,7 +176,9 @@ namespace BidMachineAds.Unity.Api
 
         public enum Gender
         {
-            Female, Male, Omitted,
+            Female,
+            Male,
+            Omitted,
         }
 
         public TargetingParams setUserId(string id)
@@ -107,12 +202,6 @@ namespace BidMachineAds.Unity.Api
         public TargetingParams setKeyWords(string[] keyWords)
         {
             nativeTargetingParams.setKeyWords(keyWords);
-            return this;
-        }
-
-        public TargetingParams setDeviceLocation(double latitude, double longitude)
-        {
-            nativeTargetingParams.setDeviceLocation(latitude,longitude);
             return this;
         }
 
@@ -140,27 +229,57 @@ namespace BidMachineAds.Unity.Api
             return this;
         }
 
+        public TargetingParams setStoreCategory(string storeCategory)
+        {
+            nativeTargetingParams.setStoreCategory(storeCategory);
+            return this;
+        }
+        
+        public TargetingParams setStoreSubCategories(string storeSubCategories)
+        {
+            nativeTargetingParams.setStoreSubCategories(storeSubCategories);
+            return this;
+        }
+        
+        public TargetingParams setFramework(string framework)
+        {
+            nativeTargetingParams.setFramework(framework);
+            return this;
+        }
+        
         public TargetingParams setPaid(bool paid)
         {
             nativeTargetingParams.setPaid(paid);
             return this;
         }
 
-        public TargetingParams setBlockedAdvertiserIABCategories(string categories)
+        public TargetingParams setDeviceLocation(string providerName, double latitude, double longitude)
         {
-            nativeTargetingParams.setBlockedAdvertiserIABCategories(categories);
+            nativeTargetingParams.setDeviceLocation(providerName,latitude,longitude);
             return this;
         }
 
-        public TargetingParams setBlockedAdvertiserDomain(string domains)
+        public TargetingParams setExternalUserIds(ExternalUserId[] externalUserIdList)
         {
-            nativeTargetingParams.setBlockedAdvertiserDomain(domains);
+            nativeTargetingParams.setExternalUserIds(externalUserIdList);
             return this;
         }
 
-        public TargetingParams setBlockedApplication(string applications)
+        public TargetingParams addBlockedApplication(string bundleOrPackage)
         {
-            nativeTargetingParams.setBlockedApplication(applications);
+            nativeTargetingParams.addBlockedApplication(bundleOrPackage);
+            return this;
+        }
+
+        public TargetingParams addBlockedAdvertiserIABCategory(string category)
+        {
+            nativeTargetingParams.addBlockedAdvertiserIABCategory(category);
+            return this;
+        }
+
+        public TargetingParams addBlockedAdvertiserDomain(string domain)
+        {
+            nativeTargetingParams.addBlockedAdvertiserDomain(domain);
             return this;
         }
     }
@@ -168,6 +287,7 @@ namespace BidMachineAds.Unity.Api
     public class PriceFloorParams
     {
         public IPriceFloorParams nativePriceFloorParams;
+
         public PriceFloorParams()
         {
             nativePriceFloorParams = BidMachineClientFactory.GetPriceFloorParametrs();
@@ -201,6 +321,7 @@ namespace BidMachineAds.Unity.Api
     public class BannerRequestBuilder
     {
         public IBannerRequestBuilder nativeBannerRequestBuilder;
+
         public BannerRequestBuilder()
         {
             nativeBannerRequestBuilder = BidMachineClientFactory.GetBannerRequestBuilder();
@@ -208,7 +329,9 @@ namespace BidMachineAds.Unity.Api
 
         public enum Size
         {
-            Size_320_50, Size_300_250, Size_728_90,
+            Size_320_50,
+            Size_300_250,
+            Size_728_90,
         }
 
         public IBannerRequestBuilder GetBannerRequestBuilder()
@@ -243,6 +366,7 @@ namespace BidMachineAds.Unity.Api
     public class InterstitialRequestBuilder
     {
         public IInterstitialRequestBuilder nativeInterstitialRequestBuilder;
+
         public InterstitialRequestBuilder()
         {
             nativeInterstitialRequestBuilder = BidMachineClientFactory.GetIntertitialRequestBuilder();
@@ -250,7 +374,9 @@ namespace BidMachineAds.Unity.Api
 
         public enum ContentType
         {
-            All, Video, Static,
+            All,
+            Video,
+            Static,
         }
 
         public IInterstitialRequestBuilder GetInterstitialRequestBuilder()
@@ -285,6 +411,7 @@ namespace BidMachineAds.Unity.Api
     public class RewardedRequestBuilder
     {
         public IRewardedRequestBuilder nativeRewardedRequestBuilder;
+
         public RewardedRequestBuilder()
         {
             nativeRewardedRequestBuilder = BidMachineClientFactory.GetRewardedRequestBuilder();
@@ -316,6 +443,7 @@ namespace BidMachineAds.Unity.Api
     public class BannerRequest
     {
         public IBannerRequest nativeBannerRequest;
+
         public BannerRequest(IBannerRequest bannerRequest)
         {
             nativeBannerRequest = bannerRequest;
@@ -330,6 +458,7 @@ namespace BidMachineAds.Unity.Api
     public class InterstitialRequest
     {
         public IInterstitialRequest nativeInterstitialRequest;
+
         public InterstitialRequest(IInterstitialRequest interstitialRequest)
         {
             nativeInterstitialRequest = interstitialRequest;
@@ -344,6 +473,7 @@ namespace BidMachineAds.Unity.Api
     public class RewardedRequest
     {
         public IRewardedRequest nativeRewardedRequest;
+
         public RewardedRequest(IRewardedRequest rewardedRequest)
         {
             nativeRewardedRequest = rewardedRequest;
@@ -358,6 +488,7 @@ namespace BidMachineAds.Unity.Api
     public class Banner
     {
         public IBanner nativeBanner;
+
         public Banner()
         {
             nativeBanner = BidMachineClientFactory.GetAndroidBanner();
@@ -392,6 +523,7 @@ namespace BidMachineAds.Unity.Api
     public class BannerView
     {
         public IBannerView nativeBannerView;
+
         public BannerView()
         {
             nativeBannerView = BidMachineClientFactory.GetAndroidBannerView();
@@ -426,6 +558,7 @@ namespace BidMachineAds.Unity.Api
     public class InterstitialAd
     {
         public IInterstitialAd nativeInterstitialAd;
+
         public InterstitialAd()
         {
             nativeInterstitialAd = BidMachineClientFactory.GetInterstitialAd();
@@ -449,13 +582,11 @@ namespace BidMachineAds.Unity.Api
         public void destroy()
         {
             nativeInterstitialAd.destroy();
-
         }
 
         public void show()
         {
             nativeInterstitialAd.show();
-
         }
 
         public void load(InterstitialRequest interstitialRequest)
@@ -472,6 +603,7 @@ namespace BidMachineAds.Unity.Api
     public class RewardedAd
     {
         public IRewardedAd nativeRewardedAd;
+
         public RewardedAd()
         {
             nativeRewardedAd = BidMachineClientFactory.GetRewardedAd();
