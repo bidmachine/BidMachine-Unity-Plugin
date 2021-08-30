@@ -35,9 +35,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void BidMachineInitialize()
     {
-        double lat = 22.0;
-        double lon = 23.0;
-            
         targetingParams = new TargetingParams();
         targetingParams.setUserId("1");
         targetingParams.setGender(TargetingParams.Gender.Female);
@@ -52,7 +49,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         targetingParams.setFramework("unity");
         targetingParams.setFramework("unity");
         targetingParams.setPaid(true);
-        //targetingParams.setDeviceLocation("", (double)lat, (double)lon);
+        targetingParams.setDeviceLocation("", 22.0d, 22.0d);
         targetingParams.setExternalUserIds(new ExternalUserId[]
         {
             new ExternalUserId("sourceId_1", "1"), 
@@ -61,8 +58,16 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         targetingParams.addBlockedApplication("com.appodeal.test");
         targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
         targetingParams.addBlockedAdvertiserDomain("ua");
+
+
+        Publisher publisher = new Publisher();
+        publisher.setId("1");
+        publisher.setName("Gena");
+        publisher.setDomain("ua");
+        publisher.addCategory("sport");
+        publisher.addCategories(new[] { "games, cards" });
         
-        
+        BidMachine.setPublisher(publisher);
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
         BidMachine.setEndpoint("https://test.com");
@@ -73,8 +78,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         BidMachine.setCoppa(true);
         BidMachine.setUSPrivacyString("test_string");
         BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
-
-
+        
     }
 
     public void IsInitialized()
