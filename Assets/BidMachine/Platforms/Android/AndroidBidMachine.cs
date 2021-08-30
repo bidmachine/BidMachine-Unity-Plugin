@@ -258,7 +258,7 @@ namespace BidMachineAds.Unity.Android
 
             foreach (var externalUserId in externalUserIds)
             {
-                arrayList.Call<AndroidJavaObject>("add", new AndroidJavaObject("io.bidmachine.ExternalUserId", 
+                arrayList.Call<bool>("add", new AndroidJavaObject("io.bidmachine.ExternalUserId", 
                     Helper.getJavaObject(externalUserId.SourceId), Helper.getJavaObject(externalUserId.Value)));
             }
             
