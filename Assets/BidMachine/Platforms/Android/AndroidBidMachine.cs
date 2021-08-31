@@ -309,6 +309,7 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class AndroidPriceFloorParams : IPriceFloorParams
     {
         private readonly AndroidJavaObject JavaPriceFloorParams;
@@ -330,8 +331,7 @@ namespace BidMachineAds.Unity.Android
 
         public void setPriceFloor(string uniqueFloorId, double priceFloor)
         {
-            var androidJavaObjectUniqueFloorId = new AndroidJavaObject("java.lang.String", uniqueFloorId);
-            JavaPriceFloorParams.Call<AndroidJavaObject>("addPriceFloor", androidJavaObjectUniqueFloorId, priceFloor);
+            JavaPriceFloorParams.Call<AndroidJavaObject>("addPriceFloor", Helper.getJavaObject(uniqueFloorId), priceFloor);
         }
     }
 
