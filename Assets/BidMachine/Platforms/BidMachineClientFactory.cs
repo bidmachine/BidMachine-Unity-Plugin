@@ -1,9 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Dummy;
 
 namespace BidMachineAds.Unity
 {
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    [SuppressMessage("ReSharper", "RedundantNameQualifier")]
     internal class BidMachineClientFactory
     {
         internal static IBidMachine GetBidMachine()
@@ -23,17 +26,6 @@ namespace BidMachineAds.Unity
           return new BidMachineAds.Unity.Android.AndroidTargetingParams();
 #elif UNITY_IPHONE && !UNITY_EDITOR
           return new BidMachineAds.Unity.iOS.iOSTargetingParams();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
-        internal static IPublisher GetPublisher()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidPublisher();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSPriceFloorParams();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
