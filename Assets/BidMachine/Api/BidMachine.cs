@@ -171,7 +171,6 @@ namespace BidMachineAds.Unity.Api
         public string Value { get; }
     }
 
-
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class Publisher
     {
@@ -339,6 +338,7 @@ namespace BidMachineAds.Unity.Api
     }
 
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class PriceFloorParams
     {
         private readonly IPriceFloorParams nativePriceFloorParams;
@@ -353,15 +353,15 @@ namespace BidMachineAds.Unity.Api
             return nativePriceFloorParams;
         }
 
-        public PriceFloorParams setPriceFloor(double priceFloor)
+        public PriceFloorParams addPriceFloor(double priceFloor)
         {
-            nativePriceFloorParams.setPriceFloor(priceFloor);
+            nativePriceFloorParams.addPriceFloor(priceFloor);
             return this;
         }
 
-        public PriceFloorParams setPriceFloor(string uniqueFloorId, double priceFloor)
+        public PriceFloorParams addPriceFloor(string uniqueFloorId, double priceFloor)
         {
-            nativePriceFloorParams.setPriceFloor(uniqueFloorId, priceFloor);
+            nativePriceFloorParams.addPriceFloor(uniqueFloorId, priceFloor);
             return this;
         }
     }
