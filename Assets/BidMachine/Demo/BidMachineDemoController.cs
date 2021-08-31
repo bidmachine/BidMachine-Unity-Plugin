@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
@@ -63,7 +64,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         Publisher publisher = new Publisher("1", "Gena", "ua", new[] { "games, cards" });
 
         PriceFloorParams priceFloorParams = new PriceFloorParams();
-        priceFloorParams.setPriceFloor("123", 1.2d);
+        priceFloorParams.addPriceFloor("123", 1.2d);
       
         
         BidMachine.setPublisher(publisher);
