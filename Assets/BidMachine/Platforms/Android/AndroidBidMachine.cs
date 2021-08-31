@@ -87,7 +87,22 @@ namespace BidMachineAds.Unity.Android
 
         public void setPublisher(Publisher publisher)
         {
-            var androidPublisher = (AndroidPublisher)publisher.GetNativePublisher();
+            var publisherBuilder = new AndroidJavaObject("io.bidmachine.Publisher$Builder");
+            
+            publisherBuilder.Call<AndroidJavaObject>("setId", Helper.getJavaObject(publisher.ID));
+            publisherBuilder.Call<AndroidJavaObject>("setName", Helper.getJavaObject(publisher.Name));
+            publisherBuilder.Call<AndroidJavaObject>("setDomain", Helper.getJavaObject(publisher.Domain));
+            
+            var list = new AndroidJavaObject("java.util.ArrayList");
+            foreach (var obj in publisher.Categories)
+            {
+                list.Call<bool>("add", Helper.getJavaObject(obj));
+            }
+            
+            publisherBuilder.Call<AndroidJavaObject>("addCategories", list);
+            
+            var androidPublisher = publisherBuilder.Call<AndroidJavaObject>("build");
+
             getBidMachineClass().CallStatic("setPublisher", androidPublisher);
         }
 
@@ -134,51 +149,7 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
-    public class AndroidPublisher : IPublisher
-    {
-        private readonly AndroidJavaObject javaPublisher;
-
-
-        public AndroidPublisher()
-        {
-            javaPublisher = new AndroidJavaObject("io.bidmachine.Publisher");
-        }
-        
-        public void setId(string id)
-        {
-            javaPublisher.Call<AndroidJavaObject>("setId", Helper.getJavaObject(id));
-        }
-
-        public void setName(string name)
-        {
-            javaPublisher.Call<AndroidJavaObject>("setName", Helper.getJavaObject(name));
-        }
-
-        public void setDomain(string domain)
-        {
-            javaPublisher.Call<AndroidJavaObject>("setDomain", Helper.getJavaObject(domain));
-        }
-
-        public void addCategory(string category)
-        {
-            javaPublisher.Call<AndroidJavaObject>("addCategory", Helper.getJavaObject(category));
-        }
-
-        public void addCategories(string[] categories)
-        {
-            var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
-            var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
-                new AndroidJavaClass("java.lang.String"), categories.Length);
-            for (var i = 0; i < categories.Length; i++)
-            {
-                arrayClass.CallStatic("set", arrayObject, i,
-                    new AndroidJavaObject("java.lang.String", categories[i]));
-            }
-            
-            javaPublisher.Call<AndroidJavaObject>("addCategories", arrayObject);
-
-        }
-    }
+    
 
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
