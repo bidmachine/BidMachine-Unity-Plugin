@@ -25,6 +25,26 @@ namespace BidMachineAds.Unity.Dummy
             Debug.Log("Not supported on this platform");
         }
 
+        public void setListener(IBannerRequestListener bannerRequestListener)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setSessionAdParams(SessionAdParams sessionAdParams)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setLoadingTimeOut(int value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setPlacementId(string placementId)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void build()
         {
             Debug.Log("Not supported on this platform");
