@@ -190,7 +190,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SHOW BANNER RIGHT
+  m_Text: LOAD BANNER
 --- !u!222 &20824709
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -967,12 +967,12 @@ GameObject:
   - component: {fileID: 527091654}
   - component: {fileID: 527091653}
   m_Layer: 5
-  m_Name: Show Banner Right
+  m_Name: LoadBanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &527091652
 RectTransform:
   m_ObjectHideFlags: 0
@@ -988,9 +988,9 @@ RectTransform:
   m_Father: {fileID: 663080055}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -925}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 980, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &527091653
@@ -1036,8 +1036,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1572186908}
-        m_MethodName: ShowBannerRight
+      - m_Target: {fileID: 107517182}
+        m_MethodName: LoadBanner
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1874,12 +1874,12 @@ GameObject:
   - component: {fileID: 1029359886}
   - component: {fileID: 1029359885}
   m_Layer: 5
-  m_Name: Show Banner Left
+  m_Name: ShowBanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1029359884
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1895,9 +1895,9 @@ RectTransform:
   m_Father: {fileID: 663080055}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -1040}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 980, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1029359885
@@ -1943,8 +1943,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1572186908}
-        m_MethodName: ShowBannerLeft
+      - m_Target: {fileID: 107517182}
+        m_MethodName: ShowBannerView
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2504,7 +2504,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SHOW BANNER LEFT
+  m_Text: SHOW BANNER
 --- !u!222 &1120145949
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3603,7 +3603,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: HIDE BANNER
+  m_Text: DESTROY BANNER
 --- !u!222 &2016348340
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3710,12 +3710,12 @@ GameObject:
   - component: {fileID: 2059382385}
   - component: {fileID: 2059382384}
   m_Layer: 5
-  m_Name: Hide Banner Button
+  m_Name: DestroyBanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2059382383
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3731,9 +3731,9 @@ RectTransform:
   m_Father: {fileID: 663080055}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -1155}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 980, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2059382384
@@ -3779,8 +3779,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1572186908}
-        m_MethodName: HideBanner
+      - m_Target: {fileID: 107517182}
+        m_MethodName: DestroyBanner
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
