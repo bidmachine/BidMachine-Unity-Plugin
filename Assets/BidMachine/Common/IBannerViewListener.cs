@@ -8,31 +8,31 @@ namespace BidMachineAds.Unity.Common
         /**
         * Called when Ad was loaded and ready to be shown
         */
-        void onAdLoaded(BannerView ad);
+        void onBannerAdLoaded(BannerView ad);
 
         /**
         * Called when Ad load failed
         */
-        void onAdLoadFailed(BannerView ad, BMError error);
+        void onBannerAdLoadFailed(BannerView ad, BMError error);
 
         /**
         * Called when Ad shown
         */
-        void onAdShown(BannerView ad);
+        void onBannerAdShown(BannerView ad);
 
         /**
         * Called when Ad Impression was tracked
         */
-        void onAdImpression(BannerView ad);
+        void onBannerAdImpression(BannerView ad);
 
         /**
         * Called when Ad was clicked
         */
-        void onAdClicked(BannerView ad);
+        void onBannerAdClicked(BannerView ad);
 
         /**
         * Called when Ad expired
         */
-        void onAdExpired(BannerView ad);
+        void onBannerAdExpired(BannerView ad);
     }
 }
