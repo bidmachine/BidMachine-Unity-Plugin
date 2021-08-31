@@ -75,11 +75,12 @@ namespace BidMachineAds.Unity.Common
     {
         void setTargetingParams(TargetingParams targetingParams);
         void setPriceFloorParams(PriceFloorParams priceFloorParameters);
-        void setSize(BannerRequestBuilder.Size size);
+        void setSize(BannerSize size);
         void setListener(IBannerRequestListener bannerRequestListener);
         void setSessionAdParams(SessionAdParams sessionAdParams);
         void setLoadingTimeOut(int value);
         void setPlacementId(string placementId);
+        
         IBannerRequest build();
     }
 
