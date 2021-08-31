@@ -211,6 +211,14 @@ namespace BidMachineAds.Unity.Api
             set => categories = value;
         }
     }
+    
+    public enum CreativeFormat {
+
+        Banner, Video, Native
+
+    }
+
+    
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class TargetingParams
@@ -419,8 +427,117 @@ namespace BidMachineAds.Unity.Api
         public int code;
         public string brief;
         public string message;
+
+        public int Code
+        {
+            get => code;
+            set => code = value;
+        }
+
+        public string Brief
+        {
+            get => brief;
+            set => brief = value;
+        }
+
+        public string Message
+        {
+            get => message;
+            set => message = value;
+        }
+    }
+    
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class AuctionResult
+    {
+        public string id;
+        public string demandSource;
+        public double price;
+        public string deal;
+        public string seat;
+        public string creativeId;
+        public string cid;
+        public string[] adDomains;
+        public string networkKey;
+        public Dictionary<string, string> networkParams;
+        public CreativeFormat creativeFormat;
+        public Dictionary<string, string> customParams;
+
+
+        public string ID
+        {
+            get => id;
+            set => id = value;
+        }
+
+        public string DemandSource
+        {
+            get => demandSource;
+            set => demandSource = value;
+        }
+
+        public double Price
+        {
+            get => price;
+            set => price = value;
+        }
+
+        public string Deal
+        {
+            get => deal;
+            set => deal = value;
+        }
+
+        public string Seat
+        {
+            get => seat;
+            set => seat = value;
+        }
+
+        public string CreativeId
+        {
+            get => creativeId;
+            set => creativeId = value;
+        }
+
+        public string Cid
+        {
+            get => cid;
+            set => cid = value;
+        }
+
+        public string[] ADDomains
+        {
+            get => adDomains;
+            set => adDomains = value;
+        }
+
+        public string NetworkKey
+        {
+            get => networkKey;
+            set => networkKey = value;
+        }
+
+        public Dictionary<string, string> NetworkParams
+        {
+            get => networkParams;
+            set => networkParams = value;
+        }
+
+        public CreativeFormat CreativeFormat
+        {
+            get => creativeFormat;
+            set => creativeFormat = value;
+        }
+
+        public Dictionary<string, string> CustomParams
+        {
+            get => customParams;
+            set => customParams = value;
+        }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BannerRequestBuilder
     {
         private readonly IBannerRequestBuilder nativeBannerRequestBuilder;
@@ -457,6 +574,30 @@ namespace BidMachineAds.Unity.Api
         public BannerRequestBuilder setPriceFloorParams(PriceFloorParams priceFloorParams)
         {
             nativeBannerRequestBuilder.setPriceFloorParams(priceFloorParams);
+            return this;
+        }
+
+        public BannerRequestBuilder setListener(IBannerRequestListener listener)
+        {
+            nativeBannerRequestBuilder.setListener(listener);
+            return this;
+        }
+
+        public BannerRequestBuilder setSessionAdParams(SessionAdParams sessionAdParams)
+        {
+            nativeBannerRequestBuilder.setSessionAdParams(sessionAdParams);
+            return this;
+        }
+        
+        public BannerRequestBuilder setLoadingTimeOut(int value)
+        {
+            nativeBannerRequestBuilder.setLoadingTimeOut(value);
+            return this;
+        }
+        
+        public BannerRequestBuilder setPlacementId(string placementId)
+        {
+            nativeBannerRequestBuilder.setPlacementId(placementId);
             return this;
         }
 
