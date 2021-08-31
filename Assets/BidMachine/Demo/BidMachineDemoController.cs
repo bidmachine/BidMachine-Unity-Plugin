@@ -12,8 +12,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     [SerializeField] public Toggle tgTesting;
     [SerializeField] public Toggle tgLogging;
 
-    TargetingParams targetingParams;
-    PriceFloorParams priceFloorParams;
+    private TargetingParams targetingParams;
+    private PriceFloorParams priceFloorParams;
+    private SessionAdParams sessionAdParams;
 
     InterstitialRequest interstitialRequest;
     InterstitialRequestBuilder interstitialRequestBuilder;
@@ -60,13 +61,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
         targetingParams.addBlockedAdvertiserDomain("ua");
 
-
-        Publisher publisher = new Publisher("1", "Gena", "ua", new[] { "games, cards" });
-
-        PriceFloorParams priceFloorParams = new PriceFloorParams();
+        priceFloorParams = new PriceFloorParams();
         priceFloorParams.addPriceFloor("123", 1.2d);
-
-        SessionAdParams sessionAdParams = new SessionAdParams()
+        sessionAdParams = new SessionAdParams()
             .setSessionDuration(123)
             .setImpressionCount(123)
             .setClickRate(1.2f)
@@ -74,7 +71,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             .setCompletionRate(1.3f);
 
 
-        BidMachine.setPublisher(publisher);
+        BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
         BidMachine.setEndpoint("https://test.com");
@@ -194,8 +191,8 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     {
         bannerRequest = new BannerRequestBuilder()
             .setSize(BannerRequestBuilder.Size.Size_320_50)
-            //.setTargetingParams(targetingParams)
-            //.setPriceFloorParams(priceFloorParams)
+            .setTargetingParams(targetingParams)
+            .setPriceFloorParams(priceFloorParams)
             .build();
 
         banner = new Banner();
