@@ -175,48 +175,42 @@ namespace BidMachineAds.Unity.Api
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class Publisher
     {
-        private readonly IPublisher nativePublisher;
+        private  string id;
+        private  string name;
+        private  string domain;
+        private  string[] categories;
 
-        public Publisher()
+        public Publisher(string id, string name, string domain, string[] categories)
         {
-            nativePublisher = BidMachineClientFactory.GetPublisher();
+            this.id = id;
+            this.name = name;
+            this.domain = domain;
+            this.categories = categories;
         }
 
-        public IPublisher GetNativePublisher()
+        public string ID
         {
-            return nativePublisher;
+            get => id;
+            set => id = value;
         }
-        
-        public Publisher setId(string id)
+
+        public string Name
         {
-            nativePublisher.setId(id);
-            return this;
+            get => name;
+            set => name = value;
         }
-        
-        public Publisher setName(string name)
+
+        public string Domain
         {
-            nativePublisher.setName(name);
-            return this;
+            get => domain;
+            set => domain = value;
         }
-        
-        public Publisher setDomain(string domain)
+
+        public string[] Categories
         {
-            nativePublisher.setDomain(domain);
-            return this;
+            get => categories;
+            set => categories = value;
         }
-        
-        public Publisher addCategory(string category)
-        {
-            nativePublisher.addCategory(category);
-            return this;
-        }
-        
-        public Publisher addCategories(string[] categories)
-        {
-            nativePublisher.addCategories(categories);
-            return this;
-        }
-        
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
