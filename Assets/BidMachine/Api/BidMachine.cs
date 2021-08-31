@@ -367,6 +367,53 @@ namespace BidMachineAds.Unity.Api
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class SessionAdParams
+    {
+        private readonly ISessionAdParams nativeSessionAdParams;
+
+        public SessionAdParams()
+        {
+            nativeSessionAdParams = BidMachineClientFactory.GetSessionAdParams();
+        }
+        
+        public ISessionAdParams GetNativeSessionAdParams()
+        {
+            return nativeSessionAdParams;
+        }
+
+        public SessionAdParams setSessionDuration(int value)
+        {
+            nativeSessionAdParams.setSessionDuration(value);
+            return this;
+        }
+        
+        public SessionAdParams setImpressionCount(int value)
+        {
+            nativeSessionAdParams.setImpressionCount(value);
+            return this;
+        }
+        
+        public SessionAdParams setClickRate(float value)
+        {
+            nativeSessionAdParams.setClickRate(value);
+            return this;
+        }
+        
+        public SessionAdParams setIsUserClickedOnLastAd(bool value)
+        {
+            nativeSessionAdParams.setIsUserClickedOnLastAd(value);
+            return this;
+        }
+     
+        public SessionAdParams setCompletionRate(float value)
+        {
+            nativeSessionAdParams.setCompletionRate(value);
+            return this;
+        }
+       
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BMError
     {
         public int code;
