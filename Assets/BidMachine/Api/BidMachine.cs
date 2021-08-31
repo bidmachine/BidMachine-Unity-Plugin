@@ -536,6 +536,14 @@ namespace BidMachineAds.Unity.Api
             set => customParams = value;
         }
     }
+    
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public enum BannerSize
+    {
+        Size_320х50,
+        Size_300х250,
+        Size_728х90,
+    }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BannerRequestBuilder
@@ -545,13 +553,6 @@ namespace BidMachineAds.Unity.Api
         public BannerRequestBuilder()
         {
             nativeBannerRequestBuilder = BidMachineClientFactory.GetBannerRequestBuilder();
-        }
-
-        public enum Size
-        {
-            Size_320_50,
-            Size_300_250,
-            Size_728_90,
         }
 
         public IBannerRequestBuilder GetBannerRequestBuilder()
@@ -565,7 +566,7 @@ namespace BidMachineAds.Unity.Api
             return this;
         }
 
-        public BannerRequestBuilder setSize(Size size)
+        public BannerRequestBuilder setSize(BannerSize size)
         {
             nativeBannerRequestBuilder.setSize(size);
             return this;
