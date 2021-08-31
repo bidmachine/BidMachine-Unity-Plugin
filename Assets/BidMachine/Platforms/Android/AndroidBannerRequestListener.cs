@@ -19,27 +19,13 @@ namespace BidMachineAds.Unity.Android
             this.listener = listener;
         }
 
-        void onRequestSuccess(AndroidJavaObject androidBannerRequest,
-            AndroidJavaObject androidAuctionResult)
+        void onRequestSuccess(AndroidJavaObject androidBannerRequest, AndroidJavaObject androidAuctionResult)
         {
-            var bannerRequest = new BannerRequest(new AndroidBannerRequest(androidBannerRequest));
-            var auctionResult = new AuctionResult
-            {
-                id = androidAuctionResult.Call<string>("getId"),
-                demandSource = androidAuctionResult.Call<string>("getDemandSource"),
-                price = androidAuctionResult.Call<double>("getPrice"),
-                deal = androidAuctionResult.Call<string>("getDeal"),
-                seat = androidAuctionResult.Call<string>("getSeat"),
-                creativeId = androidAuctionResult.Call<string>("getCreativeId"),
-                cid = androidAuctionResult.Call<string>("getCid"),
-                adDomains = androidAuctionResult.Call<string[]>("getAdDomains"),
-                networkKey = androidAuctionResult.Call<string>("getNetworkKey"),
-                networkParams = androidAuctionResult.Call<Dictionary<string, string>>("getNetworkParams"),
-                creativeFormat = androidAuctionResult.Call<CreativeFormat>("getCreativeFormat"),
-                customParams = androidAuctionResult.Call<Dictionary<string, string>>("getCustomParams"),
-            };
-
-            listener.onBannerRequestSuccess(bannerRequest, auctionResult);
+            AndroidJavaObject androidJavaObject = androidBannerRequest.Call<AndroidJavaObject>("getSize");
+            string bannerSize = androidJavaObject.Call<string>("toString");
+            Debug.Log($"onRequestSuccess -bannerSize -  {bannerSize}");
+            
+            //listener.onBannerRequestSuccess(bannerRequest, auctionResult);
         }
 
         void onRequestFailed(AndroidJavaObject androidBannerRequest, AndroidJavaObject bmError)
