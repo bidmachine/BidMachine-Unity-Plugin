@@ -46,14 +46,14 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         targetingParams.setZip("220059");
         targetingParams.setStoreUrl("https://store.url");
         targetingParams.setStoreCategory("cards");
-        targetingParams.setStoreSubCategories(new string[]{"games", "cards"});
+        targetingParams.setStoreSubCategories(new string[] { "games", "cards" });
         targetingParams.setFramework("unity");
         targetingParams.setFramework("unity");
         targetingParams.setPaid(true);
         targetingParams.setDeviceLocation("", 22.0d, 22.0d);
         targetingParams.setExternalUserIds(new ExternalUserId[]
         {
-            new ExternalUserId("sourceId_1", "1"), 
+            new ExternalUserId("sourceId_1", "1"),
             new ExternalUserId("sourceId_2", "2")
         });
         targetingParams.addBlockedApplication("com.appodeal.test");
@@ -65,8 +65,15 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
         PriceFloorParams priceFloorParams = new PriceFloorParams();
         priceFloorParams.addPriceFloor("123", 1.2d);
-      
-        
+
+        SessionAdParams sessionAdParams = new SessionAdParams()
+            .setSessionDuration(123)
+            .setImpressionCount(123)
+            .setClickRate(1.2f)
+            .setIsUserClickedOnLastAd(true)
+            .setCompletionRate(1.3f);
+
+
         BidMachine.setPublisher(publisher);
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
@@ -78,7 +85,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         BidMachine.setCoppa(true);
         BidMachine.setUSPrivacyString("test_string");
         BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
-        
     }
 
     public void IsInitialized()
@@ -116,7 +122,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         interstitialAd.setListener(this);
         interstitialAd.load(interstitialRequest);
     }
-    
+
     public void ShowInterstitialAd()
     {
         if (interstitialAd.canShow())
@@ -128,7 +134,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             Debug.Log("canShow - InterstitialAd - false");
         }
     }
-    
+
     public void DestroyInterstitial()
     {
         if (interstitialAd != null)
@@ -161,6 +167,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         rewardedAd.setListener(this);
         rewardedAd.load(rewardedRequest);
     }
+
     public void ShowRewardedAd()
     {
         if (rewardedAd.canShow())
@@ -172,6 +179,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             Debug.Log("canShow - RewardedAd - false");
         }
     }
+
     public void DestroyRewardedVideo()
     {
         if (rewardedAd == null) return;
@@ -179,7 +187,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         rewardedAd = null;
         rewardedRequest = null;
     }
-    
+
     #endregion
 
     public void LoadBanner()
@@ -202,10 +210,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         bannerView.destroy();
         banner.hideBannerView();
     }
-
-
-
-
 
 
     #region InterstitialAd Callbacks
