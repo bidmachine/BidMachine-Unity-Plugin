@@ -29,16 +29,6 @@ namespace BidMachineAds.Unity.Common
         void requestAndroidPermissions();
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public interface IPublisher
-    {
-        void setId(string id);
-        void setName(string name);
-        void setDomain(string domain);
-        void addCategory(string category);
-        void addCategories(string[] categories);
-
-    }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface ITargetingParams
