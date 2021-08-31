@@ -20,7 +20,9 @@ namespace BidMachineAds.Unity.Common
         void setSubjectToGDPR(bool subjectToGDPR);
         void setCoppa(bool coppa);
         void setUSPrivacyString(string usPrivacyString);
+
         void setPublisher(Publisher publisher);
+
         // void registerNetworks(@ NetworkConfig... networkConfigs);
         // void registerNetworks(Context context, @NonNull String jsonData);
         // void registerAdRequestListener(@NonNull AdRequest.AdRequestListener adRequestListener);
@@ -28,7 +30,7 @@ namespace BidMachineAds.Unity.Common
         bool checkAndroidPermissions(string permission);
         void requestAndroidPermissions();
     }
-    
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface ITargetingParams
     {
@@ -43,7 +45,7 @@ namespace BidMachineAds.Unity.Common
         void setStoreCategory(string storeCategory);
         void setStoreSubCategories(string[] storeSubCategories);
         void setFramework(string framework);
-        void setPaid(bool paid); 
+        void setPaid(bool paid);
         void setDeviceLocation(string providerName, double latitude, double longitude);
         void setExternalUserIds(ExternalUserId[] externalUserIdList);
         void addBlockedApplication(string bundleOrPackage);
@@ -68,11 +70,16 @@ namespace BidMachineAds.Unity.Common
         void setCompletionRate(float value);
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IBannerRequestBuilder
     {
         void setTargetingParams(TargetingParams targetingParams);
         void setPriceFloorParams(PriceFloorParams priceFloorParameters);
         void setSize(BannerRequestBuilder.Size size);
+        void setListener(IBannerRequestListener bannerRequestListener);
+        void setSessionAdParams(SessionAdParams sessionAdParams);
+        void setLoadingTimeOut(int value);
+        void setPlacementId(string placementId);
         IBannerRequest build();
     }
 
