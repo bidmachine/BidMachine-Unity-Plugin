@@ -148,9 +148,7 @@ namespace BidMachineAds.Unity.Android
             Permission.RequestUserPermission(Permission.FineLocation);
         }
     }
-
     
-
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidTargetingParams : ITargetingParams
