@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Dummy
 {
     public class DummyBidMachine : IBidMachine, ITargetingParams, IPriceFloorParams, IInterstitialRequestBuilder, IInterstitialAd, IInterstitialRequest,
-        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner
+        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner, ISessionAdParams
     {
        
         public void build(InterstitialRequestBuilder interstitialRequestBuilder)
@@ -357,6 +357,31 @@ namespace BidMachineAds.Unity.Dummy
         }
 
         public void addPriceFloor(string uniqueFloorId, double priceFloor)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setSessionDuration(int value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setImpressionCount(int value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setClickRate(float value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setIsUserClickedOnLastAd(bool value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setCompletionRate(float value)
         {
             throw new System.NotImplementedException();
         }
