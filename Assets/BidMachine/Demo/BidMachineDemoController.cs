@@ -61,6 +61,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
 
         Publisher publisher = new Publisher("1", "Gena", "ua", new[] { "games, cards" });
+
+        PriceFloorParams priceFloorParams = new PriceFloorParams();
+        priceFloorParams.setPriceFloor("123", 1.2d);
       
         
         BidMachine.setPublisher(publisher);
