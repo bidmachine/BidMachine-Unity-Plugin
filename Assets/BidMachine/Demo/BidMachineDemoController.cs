@@ -93,6 +93,8 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         BidMachine.requestAndroidPermissions();
     }
 
+    #region Interstitial Ad
+
     public void LoadInterstitialAd()
     {
         if (interstitialAd == null)
@@ -104,14 +106,38 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         {
             interstitialRequest = new InterstitialRequestBuilder()
                 .setAdContentType(InterstitialRequestBuilder.ContentType.All)
-                //.setTargetingParams(targetingParams)
-                //.setPriceFloorParams(priceFloorParams)
                 .build();
         }
 
         interstitialAd.setListener(this);
         interstitialAd.load(interstitialRequest);
     }
+    
+    public void ShowInterstitialAd()
+    {
+        if (interstitialAd.canShow())
+        {
+            interstitialAd.show();
+        }
+        else
+        {
+            Debug.Log("canShow - InterstitialAd - false");
+        }
+    }
+    
+    public void DestroyInterstitial()
+    {
+        if (interstitialAd != null)
+        {
+            interstitialAd.destroy();
+            interstitialAd = null;
+            interstitialRequest = null;
+        }
+    }
+
+    #endregion
+
+    #region Rewarded Video Ad
 
     public void LoadRewardedAd()
     {
@@ -131,6 +157,26 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         rewardedAd.setListener(this);
         rewardedAd.load(rewardedRequest);
     }
+    public void ShowRewardedAd()
+    {
+        if (rewardedAd.canShow())
+        {
+            rewardedAd.show();
+        }
+        else
+        {
+            Debug.Log("canShow - RewardedAd - false");
+        }
+    }
+    public void DestroyRewardedVideo()
+    {
+        if (rewardedAd == null) return;
+        rewardedAd.destroy();
+        rewardedAd = null;
+        rewardedRequest = null;
+    }
+    
+    #endregion
 
     public void LoadBanner()
     {
@@ -153,47 +199,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         banner.hideBannerView();
     }
 
-    public void DestroyRewardedVideo()
-    {
-        if (rewardedAd == null) return;
-        rewardedAd.destroy();
-        rewardedAd = null;
-        rewardedRequest = null;
-    }
 
-    public void DestroyInterstitial()
-    {
-        if (interstitialAd != null)
-        {
-            interstitialAd.destroy();
-            interstitialAd = null;
-            interstitialRequest = null;
-        }
-    }
 
-    public void ShowInterstitialAd()
-    {
-        if (interstitialAd.canShow())
-        {
-            interstitialAd.show();
-        }
-        else
-        {
-            Debug.Log("canShow - InterstitialAd - false");
-        }
-    }
 
-    public void ShowRewardedAd()
-    {
-        if (rewardedAd.canShow())
-        {
-            rewardedAd.show();
-        }
-        else
-        {
-            Debug.Log("canShow - RewardedAd - false");
-        }
-    }
 
 
     #region InterstitialAd Callbacks
