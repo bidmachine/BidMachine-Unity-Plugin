@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using BidMachineAds.Unity.Api;
@@ -7,7 +5,9 @@ using BidMachineAds.Unity.Common;
 using UnityEngine.Android;
 using UnityEngine.UI;
 
-public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, IRewardedAdListener, IBannerListener
+[SuppressMessage("ReSharper", "InconsistentNaming")]
+public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, IRewardedAdListener, IBannerListener,
+    IBannerRequestListener
 {
     [SerializeField] public Toggle tgTesting;
     [SerializeField] public Toggle tgLogging;
@@ -16,18 +16,18 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     private PriceFloorParams priceFloorParams;
     private SessionAdParams sessionAdParams;
 
-    InterstitialRequest interstitialRequest;
-    InterstitialRequestBuilder interstitialRequestBuilder;
-    InterstitialAd interstitialAd;
+    private InterstitialRequest interstitialRequest;
+    private InterstitialRequestBuilder interstitialRequestBuilder;
+    private InterstitialAd interstitialAd;
 
-    RewardedRequest rewardedRequest;
-    RewardedRequestBuilder rewardedRequestBuilder;
-    RewardedAd rewardedAd;
+    private RewardedRequest rewardedRequest;
+    private RewardedRequestBuilder rewardedRequestBuilder;
+    private RewardedAd rewardedAd;
 
-    BannerRequest bannerRequest;
-    BannerRequestBuilder bannerRequestBuilder;
-    BannerView bannerView;
-    Banner banner;
+    private BannerRequest bannerRequest;
+    private BannerRequestBuilder bannerRequestBuilder;
+    private BannerView bannerView;
+    private Banner banner;
 
     private void Start()
     {
@@ -47,12 +47,12 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         targetingParams.setZip("220059");
         targetingParams.setStoreUrl("https://store.url");
         targetingParams.setStoreCategory("cards");
-        targetingParams.setStoreSubCategories(new string[] { "games", "cards" });
+        targetingParams.setStoreSubCategories(new[] { "games", "cards" });
         targetingParams.setFramework("unity");
         targetingParams.setFramework("unity");
         targetingParams.setPaid(true);
         targetingParams.setDeviceLocation("", 22.0d, 22.0d);
-        targetingParams.setExternalUserIds(new ExternalUserId[]
+        targetingParams.setExternalUserIds(new[]
         {
             new ExternalUserId("sourceId_1", "1"),
             new ExternalUserId("sourceId_2", "2")
@@ -187,12 +187,18 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     #endregion
 
+    #region Banner Ad
+
     public void LoadBanner()
     {
         bannerRequest = new BannerRequestBuilder()
             .setSize(BannerRequestBuilder.Size.Size_320_50)
             .setTargetingParams(targetingParams)
             .setPriceFloorParams(priceFloorParams)
+            .setSessionAdParams(sessionAdParams)
+            .setPlacementId("placement1")
+            .setLoadingTimeOut(123)
+            .setListener(this)
             .build();
 
         banner = new Banner();
@@ -202,12 +208,18 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         bannerView.load(bannerRequest);
     }
 
+    public void ShowBannerView()
+    {
+        banner.showBannerView(BidMachine.BANNER_BOTTOM, BidMachine.BANNER_HORIZONTAL_CENTER, bannerView);
+    }
+
     public void DestroyBanner()
     {
         bannerView.destroy();
         banner.hideBannerView();
     }
 
+    #endregion
 
     #region InterstitialAd Callbacks
 
@@ -344,6 +356,25 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     public void onAdExpired(BannerView ad)
     {
         Debug.Log("BidMachineUnity: BannerView - onAdExpired");
+    }
+
+    #endregion
+
+    #region BannerRequestListener
+
+    public void onBannerRequestSuccess(BannerRequest request, AuctionResult auctionResult)
+    {
+        Debug.Log("BannerRequestListener - onBannerRequestSuccess");
+    }
+
+    public void onBannerRequestFailed(BannerRequest request, BMError error)
+    {
+        Debug.Log("BannerRequestListener - onBannerRequestFailed");
+    }
+
+    public void onBannerRequestExpired(BannerRequest request)
+    {
+        Debug.Log("BannerRequestListener - onBannerRequestExpired");
     }
 
     #endregion
