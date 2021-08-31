@@ -88,19 +88,19 @@ namespace BidMachineAds.Unity.Android
         public void setPublisher(Publisher publisher)
         {
             var publisherBuilder = new AndroidJavaObject("io.bidmachine.Publisher$Builder");
-            
+
             publisherBuilder.Call<AndroidJavaObject>("setId", Helper.getJavaObject(publisher.ID));
             publisherBuilder.Call<AndroidJavaObject>("setName", Helper.getJavaObject(publisher.Name));
             publisherBuilder.Call<AndroidJavaObject>("setDomain", Helper.getJavaObject(publisher.Domain));
-            
+
             var list = new AndroidJavaObject("java.util.ArrayList");
             foreach (var obj in publisher.Categories)
             {
                 list.Call<bool>("add", Helper.getJavaObject(obj));
             }
-            
+
             publisherBuilder.Call<AndroidJavaObject>("addCategories", list);
-            
+
             var androidPublisher = publisherBuilder.Call<AndroidJavaObject>("build");
 
             getBidMachineClass().CallStatic("setPublisher", androidPublisher);
@@ -148,7 +148,7 @@ namespace BidMachineAds.Unity.Android
             Permission.RequestUserPermission(Permission.FineLocation);
         }
     }
-    
+
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidTargetingParams : ITargetingParams
@@ -331,13 +331,13 @@ namespace BidMachineAds.Unity.Android
 
         public void addPriceFloor(string uniqueFloorId, double priceFloor)
         {
-            JavaPriceFloorParams.Call<AndroidJavaObject>("addPriceFloor", Helper.getJavaObject(uniqueFloorId), priceFloor);
+            JavaPriceFloorParams.Call<AndroidJavaObject>("addPriceFloor", Helper.getJavaObject(uniqueFloorId),
+                priceFloor);
         }
     }
 
     public class AndroidSessionAdParams : ISessionAdParams
     {
-        
         private readonly AndroidJavaObject JavaSessionAdParams;
 
         public AndroidSessionAdParams()
@@ -349,14 +349,13 @@ namespace BidMachineAds.Unity.Android
         {
             JavaSessionAdParams = sessionAdParams;
         }
-        
-        
+
 
         public AndroidJavaObject GetAndroidSessionAdParams()
         {
             return JavaSessionAdParams;
         }
-        
+
         public void setSessionDuration(int value)
         {
             JavaSessionAdParams.Call<AndroidJavaObject>("setSessionDuration", Helper.getJavaObject(value));
@@ -404,25 +403,25 @@ namespace BidMachineAds.Unity.Android
             return bannerRequestBuilder;
         }
 
-        public void setSize(BannerRequestBuilder.Size size)
+        public void setSize(BannerSize size)
         {
             switch (size)
             {
-                case BannerRequestBuilder.Size.Size_320_50:
+                case BannerSize.Size_320х50:
                 {
                     getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                             "Size_320x50"));
                     break;
                 }
-                case BannerRequestBuilder.Size.Size_300_250:
+                case BannerSize.Size_300х250:
                 {
                     getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                             "Size_300x250"));
                     break;
                 }
-                case BannerRequestBuilder.Size.Size_728_90:
+                case BannerSize.Size_728х90:
                 {
                     getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
@@ -434,13 +433,14 @@ namespace BidMachineAds.Unity.Android
 
         public void setListener(IBannerRequestListener bannerRequestListener)
         {
-            getBannerRequestBuilder().Call<AndroidJavaObject>("setListener", new AndroidBannerRequestListener(bannerRequestListener));
+            getBannerRequestBuilder()
+                .Call<AndroidJavaObject>("setListener", new AndroidBannerRequestListener(bannerRequestListener));
         }
 
         public void setSessionAdParams(SessionAdParams sessionAdParams)
         {
             var androidSessionAdParams = (AndroidSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
-            getBannerRequestBuilder().Call<AndroidJavaObject>("setSessionAdParams", 
+            getBannerRequestBuilder().Call<AndroidJavaObject>("setSessionAdParams",
                 androidSessionAdParams.GetAndroidSessionAdParams());
         }
 
@@ -466,8 +466,6 @@ namespace BidMachineAds.Unity.Android
             var p = (AndroidPriceFloorParams)priceFloorParams.GetNativePriceFloorParams();
             getBannerRequestBuilder().Call<AndroidJavaObject>("setPriceFloorParams", p.getJavaObject());
         }
-        
-        
 
         public IBannerRequest build()
         {
@@ -637,6 +635,10 @@ namespace BidMachineAds.Unity.Android
         private AndroidJavaObject javaBannerView;
         private AndroidJavaObject activity;
 
+        private BannerView internalBannerView;
+        private int internalYAxis;
+        private int internalXAxis;
+
         public AndroidJavaObject getActivity()
         {
             if (activity == null)
@@ -662,9 +664,17 @@ namespace BidMachineAds.Unity.Android
 
         public void showBannerView(int YAxis, int XAxis, BannerView bannerView)
         {
-            AndroidBannerView aBannerView = (AndroidBannerView)bannerView.GetBannerView();
+            internalBannerView = bannerView;
+            internalXAxis = XAxis;
+            internalYAxis = XAxis;
+            getActivity().Call("runOnUiThread", new AndroidJavaRunnable(runOnUiThread));
+        }
+
+        void runOnUiThread()
+        {
+            AndroidBannerView aBannerView = (AndroidBannerView)internalBannerView.GetBannerView();
             AndroidJavaObject jBannerView = aBannerView.getJavaObject();
-            getBidMachineBannerInstance().Call("showAdView", getActivity(), YAxis, XAxis, jBannerView);
+            getBidMachineBannerInstance().Call("showAdView", getActivity(), internalXAxis, internalYAxis, jBannerView);
         }
 
         public void hideBannerView()
