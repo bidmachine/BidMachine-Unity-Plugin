@@ -335,6 +335,47 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    public class AndroidSessionAdParams : ISessionAdParams
+    {
+        
+        private readonly AndroidJavaObject JavaSessionAdParams;
+
+        public AndroidSessionAdParams()
+        {
+            JavaSessionAdParams = new AndroidJavaObject("io.bidmachine.SessionAdParams");
+        }
+
+        public AndroidJavaObject GetAndroidSessionAdParams()
+        {
+            return JavaSessionAdParams;
+        }
+        
+        public void setSessionDuration(int value)
+        {
+            JavaSessionAdParams.Call<AndroidJavaObject>("setSessionDuration", Helper.getJavaObject(value));
+        }
+
+        public void setImpressionCount(int value)
+        {
+            JavaSessionAdParams.Call<AndroidJavaObject>("setImpressionCount", Helper.getJavaObject(value));
+        }
+
+        public void setClickRate(float value)
+        {
+            JavaSessionAdParams.Call<AndroidJavaObject>("setClickRate", Helper.getJavaObject(value));
+        }
+
+        public void setIsUserClickedOnLastAd(bool value)
+        {
+            JavaSessionAdParams.Call<AndroidJavaObject>("setIsUserClickedOnLastAd", Helper.getJavaObject(value));
+        }
+
+        public void setCompletionRate(float value)
+        {
+            JavaSessionAdParams.Call<AndroidJavaObject>("setCompletionRate", Helper.getJavaObject(value));
+        }
+    }
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidBannerRequestBuilder : IBannerRequestBuilder
     {
