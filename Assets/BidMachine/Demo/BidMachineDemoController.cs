@@ -60,12 +60,8 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         targetingParams.addBlockedAdvertiserDomain("ua");
 
 
-        Publisher publisher = new Publisher();
-        publisher.setId("1");
-        publisher.setName("Gena");
-        publisher.setDomain("ua");
-        publisher.addCategory("sport");
-        publisher.addCategories(new[] { "games, cards" });
+        Publisher publisher = new Publisher("1", "Gena", "ua", new[] { "games, cards" });
+      
         
         BidMachine.setPublisher(publisher);
         BidMachine.setLoggingEnabled(tgLogging.isOn);
