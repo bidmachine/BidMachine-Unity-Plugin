@@ -324,12 +324,12 @@ namespace BidMachineAds.Unity.Android
             return JavaPriceFloorParams;
         }
 
-        public void setPriceFloor(double priceFloor)
+        public void addPriceFloor(double priceFloor)
         {
             JavaPriceFloorParams.Call<AndroidJavaObject>("addPriceFloor", priceFloor);
         }
 
-        public void setPriceFloor(string uniqueFloorId, double priceFloor)
+        public void addPriceFloor(string uniqueFloorId, double priceFloor)
         {
             JavaPriceFloorParams.Call<AndroidJavaObject>("addPriceFloor", Helper.getJavaObject(uniqueFloorId), priceFloor);
         }
