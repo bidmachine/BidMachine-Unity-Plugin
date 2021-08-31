@@ -24,7 +24,7 @@ dependencies {
 // Android Resolver Dependencies Start
     implementation 'io.bidmachine:ads:1.7.6' // Assets/BidMachine/Editor/BidMachineDependencies.xml:7
     implementation 'com.google.android.gms:play-services-ads-identifier:15.0.0'
-    implementation "com.google.android.gms:play-services-basement:15.0.0"
+    implementation 'com.google.android.gms:play-services-basement:15.0.0'
 // Android Resolver Dependencies End
 **DEPS**}
 
