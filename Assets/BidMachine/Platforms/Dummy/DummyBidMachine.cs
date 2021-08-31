@@ -25,6 +25,11 @@ namespace BidMachineAds.Unity.Dummy
             Debug.Log("Not supported on this platform");
         }
 
+        public void setSize(BannerSize size)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void setListener(IBannerRequestListener bannerRequestListener)
         {
             throw new System.NotImplementedException();
@@ -273,10 +278,6 @@ namespace BidMachineAds.Unity.Dummy
             Debug.Log("Not supported on this platform");
         }
 
-        public void setSize(BannerRequestBuilder.Size size)
-        {
-            Debug.Log("Not supported on this platform");
-        }
 
         public void setStoreUrl(string storeUrl)
         {
