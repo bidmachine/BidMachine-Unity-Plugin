@@ -28,8 +28,7 @@ namespace BidMachineAds.Unity.Common
         bool checkAndroidPermissions(string permission);
         void requestAndroidPermissions();
     }
-
-
+    
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface ITargetingParams
     {
@@ -52,10 +51,11 @@ namespace BidMachineAds.Unity.Common
         void addBlockedAdvertiserDomain(string domain);
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IPriceFloorParams
     {
-        void setPriceFloor(double priceFloor);
-        void setPriceFloor(string uniqueFloorId, double priceFloor);
+        void addPriceFloor(double priceFloor);
+        void addPriceFloor(string uniqueFloorId, double priceFloor);
     }
 
     public interface IBannerRequestBuilder
