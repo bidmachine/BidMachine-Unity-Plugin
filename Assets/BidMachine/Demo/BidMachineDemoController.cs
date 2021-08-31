@@ -37,51 +37,51 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void BidMachineInitialize()
     {
-        targetingParams = new TargetingParams();
-        targetingParams.setUserId("1");
-        targetingParams.setGender(TargetingParams.Gender.Female);
-        targetingParams.setBirthdayYear(1991);
-        targetingParams.setKeyWords(new[] { "games, sport" });
-        targetingParams.setCountry("Belarus");
-        targetingParams.setCity("Minsk");
-        targetingParams.setZip("220059");
-        targetingParams.setStoreUrl("https://store.url");
-        targetingParams.setStoreCategory("cards");
-        targetingParams.setStoreSubCategories(new[] { "games", "cards" });
-        targetingParams.setFramework("unity");
-        targetingParams.setFramework("unity");
-        targetingParams.setPaid(true);
-        targetingParams.setDeviceLocation("", 22.0d, 22.0d);
-        targetingParams.setExternalUserIds(new[]
-        {
-            new ExternalUserId("sourceId_1", "1"),
-            new ExternalUserId("sourceId_2", "2")
-        });
-        targetingParams.addBlockedApplication("com.appodeal.test");
-        targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
-        targetingParams.addBlockedAdvertiserDomain("ua");
+        // targetingParams = new TargetingParams();
+        // targetingParams.setUserId("1");
+        // targetingParams.setGender(TargetingParams.Gender.Female);
+        // targetingParams.setBirthdayYear(1991);
+        // targetingParams.setKeyWords(new[] { "games, sport" });
+        // targetingParams.setCountry("Belarus");
+        // targetingParams.setCity("Minsk");
+        // targetingParams.setZip("220059");
+        // targetingParams.setStoreUrl("https://store.url");
+        // targetingParams.setStoreCategory("cards");
+        // targetingParams.setStoreSubCategories(new[] { "games", "cards" });
+        // targetingParams.setFramework("unity");
+        // targetingParams.setFramework("unity");
+        // targetingParams.setPaid(true);
+        // targetingParams.setDeviceLocation("", 22.0d, 22.0d);
+        // targetingParams.setExternalUserIds(new[]
+        // {
+        //     new ExternalUserId("sourceId_1", "1"),
+        //     new ExternalUserId("sourceId_2", "2")
+        // });
+        // targetingParams.addBlockedApplication("com.appodeal.test");
+        // targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
+        // targetingParams.addBlockedAdvertiserDomain("ua");
+        //
+        // priceFloorParams = new PriceFloorParams();
+        // priceFloorParams.addPriceFloor("123", 1.2d);
+        // sessionAdParams = new SessionAdParams()
+        //     .setSessionDuration(123)
+        //     .setImpressionCount(123)
+        //     .setClickRate(1.2f)
+        //     .setIsUserClickedOnLastAd(true)
+        //     .setCompletionRate(1.3f);
 
-        priceFloorParams = new PriceFloorParams();
-        priceFloorParams.addPriceFloor("123", 1.2d);
-        sessionAdParams = new SessionAdParams()
-            .setSessionDuration(123)
-            .setImpressionCount(123)
-            .setClickRate(1.2f)
-            .setIsUserClickedOnLastAd(true)
-            .setCompletionRate(1.3f);
 
-
-        BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
+        //  BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
-        BidMachine.setEndpoint("https://test.com");
-        BidMachine.setTargetingParams(targetingParams);
+        //  BidMachine.setEndpoint("https://test.com");
+        //BidMachine.setTargetingParams(targetingParams);
         BidMachine.initialize("1");
-        BidMachine.setConsentConfig(true, "test consent string");
-        BidMachine.setSubjectToGDPR(true);
-        BidMachine.setCoppa(true);
-        BidMachine.setUSPrivacyString("test_string");
-        BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
+        // BidMachine.setConsentConfig(true, "test consent string");
+        // BidMachine.setSubjectToGDPR(true);
+        // BidMachine.setCoppa(true);
+        // BidMachine.setUSPrivacyString("test_string");
+        // BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
     }
 
     public void IsInitialized()
@@ -192,12 +192,12 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     public void LoadBanner()
     {
         bannerRequest = new BannerRequestBuilder()
-            .setSize(BannerRequestBuilder.Size.Size_320_50)
-            .setTargetingParams(targetingParams)
-            .setPriceFloorParams(priceFloorParams)
-            .setSessionAdParams(sessionAdParams)
-            .setPlacementId("placement1")
-            .setLoadingTimeOut(123)
+            .setSize(BannerSize.Size_320х50)
+            // .setTargetingParams(targetingParams)
+            // .setPriceFloorParams(priceFloorParams)
+            // .setSessionAdParams(sessionAdParams)
+            // .setPlacementId("placement1")
+            // .setLoadingTimeOut(123)
             .setListener(this)
             .build();
 
@@ -327,33 +327,33 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     #region BannerView Callbacks
 
-    public void onAdLoaded(BannerView ad)
+    public void onBannerAdLoaded(BannerView ad)
     {
         Debug.Log("BidMachineUnity: BannerView - onAdLoaded");
         banner.showBannerView(BidMachine.BANNER_TOP, BidMachine.BANNER_HORIZONTAL_CENTER, bannerView);
     }
 
-    public void onAdLoadFailed(BannerView ad, BMError error)
+    public void onBannerAdLoadFailed(BannerView ad, BMError error)
     {
         Debug.Log("BidMachineUnity: BannerView - onAdLoadFailed");
     }
 
-    public void onAdShown(BannerView ad)
+    public void onBannerAdShown(BannerView ad)
     {
         Debug.Log("BidMachineUnity: BannerView - onAdShown");
     }
 
-    public void onAdImpression(BannerView ad)
+    public void onBannerAdImpression(BannerView ad)
     {
         Debug.Log("BidMachineUnity: BannerView - onAdImpression");
     }
 
-    public void onAdClicked(BannerView ad)
+    public void onBannerAdClicked(BannerView ad)
     {
         Debug.Log("BidMachineUnity: BannerView - onAdClicked");
     }
 
-    public void onAdExpired(BannerView ad)
+    public void onBannerAdExpired(BannerView ad)
     {
         Debug.Log("BidMachineUnity: BannerView - onAdExpired");
     }
