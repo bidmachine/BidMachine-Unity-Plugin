@@ -58,6 +58,16 @@ namespace BidMachineAds.Unity.Common
         void addPriceFloor(string uniqueFloorId, double priceFloor);
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public interface ISessionAdParams
+    {
+        void setSessionDuration(int value);
+        void setImpressionCount(int value);
+        void setClickRate(float value);
+        void setIsUserClickedOnLastAd(bool value);
+        void setCompletionRate(float value);
+    }
+
     public interface IBannerRequestBuilder
     {
         void setTargetingParams(TargetingParams targetingParams);
