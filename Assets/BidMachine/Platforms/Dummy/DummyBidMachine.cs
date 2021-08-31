@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Dummy
 {
     public class DummyBidMachine : IBidMachine, ITargetingParams, IPriceFloorParams, IInterstitialRequestBuilder, IInterstitialAd, IInterstitialRequest,
-        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner, IPublisher
+        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner
     {
        
         public void build(InterstitialRequestBuilder interstitialRequestBuilder)
