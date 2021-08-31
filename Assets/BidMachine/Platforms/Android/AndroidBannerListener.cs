@@ -23,7 +23,7 @@ namespace BidMachineAds.Unity.Android
 
         void onAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            BannerView bannerView = new BannerView(new AndroidBannerView(ad));
+            var bannerView = new BannerView(new AndroidBannerView(ad));
             BMError bmError = new BMError();
             bmError.code = error.Call<int>("getCode");
             bmError.brief = error.Call<string>("getBrief");
