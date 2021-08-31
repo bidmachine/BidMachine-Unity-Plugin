@@ -350,5 +350,15 @@ namespace BidMachineAds.Unity.Dummy
         {
             throw new System.NotImplementedException();
         }
+
+        public void addPriceFloor(double priceFloor)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void addPriceFloor(string uniqueFloorId, double priceFloor)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
