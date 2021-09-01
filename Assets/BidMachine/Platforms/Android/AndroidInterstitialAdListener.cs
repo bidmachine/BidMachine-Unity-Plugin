@@ -20,12 +20,12 @@ namespace BidMachineAds.Unity.Android
 
         void onAdLoaded(AndroidJavaObject ad)
         {
-            listener.onAdLoaded(new InterstitialAd(new AndroidInterstitialAd(ad)));
+            listener.onInterstitialAdLoaded(new InterstitialAd(new AndroidInterstitialAd(ad)));
         }
 
         void onAdClosed(AndroidJavaObject ad, bool finished)
         {
-            listener.onAdClosed((new InterstitialAd(new AndroidInterstitialAd(ad))), finished);
+            listener.onInterstitialAdClosed((new InterstitialAd(new AndroidInterstitialAd(ad))), finished);
         }
 
         void onAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
@@ -35,12 +35,12 @@ namespace BidMachineAds.Unity.Android
                 code = error.Call<int>("getCode"),
                 message = error.Call<string>("getMessage")
             };
-            listener.onAdLoadFailed((new InterstitialAd(new AndroidInterstitialAd(ad))), bmError);
+            listener.onInterstitialAdLoadFailed((new InterstitialAd(new AndroidInterstitialAd(ad))), bmError);
         }
 
         void onAdShown(AndroidJavaObject ad)
         {
-            listener.onAdShown((new InterstitialAd(new AndroidInterstitialAd(ad))));
+            listener.onInterstitialAdShown((new InterstitialAd(new AndroidInterstitialAd(ad))));
         }
 
         void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
@@ -50,22 +50,22 @@ namespace BidMachineAds.Unity.Android
                 code = error.Call<int>("getCode"),
                 message = error.Call<string>("getMessage")
             };
-            listener.onAdShowFailed((new InterstitialAd(new AndroidInterstitialAd(ad))), bmError);
+            listener.onInterstitialAdShowFailed((new InterstitialAd(new AndroidInterstitialAd(ad))), bmError);
         }
 
         void onAdImpression(AndroidJavaObject ad)
         {
-            listener.onAdImpression((new InterstitialAd(new AndroidInterstitialAd(ad))));
+            listener.onInterstitialAdImpression((new InterstitialAd(new AndroidInterstitialAd(ad))));
         }
 
         void onAdClicked(AndroidJavaObject ad)
         {
-            listener.onAdClicked((new InterstitialAd(new AndroidInterstitialAd(ad))));
+            listener.onInterstitialAdClicked((new InterstitialAd(new AndroidInterstitialAd(ad))));
         }
 
         void onAdExpired(AndroidJavaObject ad)
         {
-            listener.onAdExpired((new InterstitialAd(new AndroidInterstitialAd(ad))));
+            listener.onInterstitialAdExpired((new InterstitialAd(new AndroidInterstitialAd(ad))));
         }
     }
 #else
