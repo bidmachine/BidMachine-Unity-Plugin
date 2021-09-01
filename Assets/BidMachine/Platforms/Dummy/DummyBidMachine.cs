@@ -50,6 +50,16 @@ namespace BidMachineAds.Unity.Dummy
             throw new System.NotImplementedException();
         }
 
+        public void setBidPayload(string bidPayLoad)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setNetworks(string networks)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void build()
         {
             Debug.Log("Not supported on this platform");
