@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
@@ -7,6 +6,8 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Android
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ArrangeTypeMemberModifiers")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public class AndroidBannerRequestListener
 #if UNITY_ANDROID
         : AndroidJavaProxy
@@ -21,13 +22,14 @@ namespace BidMachineAds.Unity.Android
 
         void onRequestSuccess(AndroidJavaObject androidBannerRequest, AndroidJavaObject androidAuctionResult)
         {
-            var bannerRequest = new BannerRequest(new AndroidBannerRequest(androidBannerRequest));
-            //listener.onBannerRequestSuccess(bannerRequest, auctionResult);
+            var auctionResult = !string.IsNullOrEmpty(androidAuctionResult.Call<string>("toString"))
+                ? androidAuctionResult.Call<string>("toString")
+                : "null";
+            listener.onBannerRequestSuccess(getBannerRequest(androidBannerRequest), auctionResult);
         }
 
         void onRequestFailed(AndroidJavaObject androidBannerRequest, AndroidJavaObject bmError)
         {
-            var bannerRequest = new BannerRequest(new AndroidBannerRequest(androidBannerRequest));
             var error = new BMError
             {
                 code = bmError.Call<int>("getCode"),
@@ -35,13 +37,17 @@ namespace BidMachineAds.Unity.Android
                 message = bmError.Call<string>("getMessage")
             };
 
-            listener.onBannerRequestFailed(bannerRequest, error);
+            listener.onBannerRequestFailed(getBannerRequest(androidBannerRequest), error);
         }
 
         void onRequestExpired(AndroidJavaObject androidBannerRequest)
         {
-            var bannerRequest = new BannerRequest(new AndroidBannerRequest(androidBannerRequest));
-            listener.onBannerRequestExpired(bannerRequest);
+            listener.onBannerRequestExpired(getBannerRequest(androidBannerRequest));
+        }
+
+        private static BannerRequest getBannerRequest(AndroidJavaObject androidJavaObject)
+        {
+            return new BannerRequest(new AndroidBannerRequest(androidJavaObject));
         }
     }
 #else
