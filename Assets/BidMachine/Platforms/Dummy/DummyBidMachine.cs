@@ -35,6 +35,11 @@ namespace BidMachineAds.Unity.Dummy
             throw new System.NotImplementedException();
         }
 
+        public void setListener(IInterstitialRequestListener bannerRequestListener)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void setSessionAdParams(SessionAdParams sessionAdParams)
         {
             throw new System.NotImplementedException();
@@ -134,11 +139,6 @@ namespace BidMachineAds.Unity.Dummy
         }
 
         public void requestAndroidPermissions()
-        {
-            Debug.Log("Not supported on this platform");
-        }
-
-        public void setAdContentType(InterstitialRequestBuilder.ContentType contentType)
         {
             Debug.Log("Not supported on this platform");
         }
@@ -306,6 +306,11 @@ namespace BidMachineAds.Unity.Dummy
         public void setSubjectToGDPR(bool subjectToGDPR)
         {
             Debug.Log("Not supported on this platform");
+        }
+
+        public void setAdContentType(AdContentType contentType)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void setTargetingParams(TargetingParams targetingParams)
