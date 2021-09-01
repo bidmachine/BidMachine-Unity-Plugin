@@ -277,8 +277,7 @@ namespace BidMachineAds.Unity.Dummy
         {
             Debug.Log("Not supported on this platform");
         }
-
-
+        
         public void setStoreUrl(string storeUrl)
         {
             Debug.Log("Not supported on this platform");
@@ -403,6 +402,11 @@ namespace BidMachineAds.Unity.Dummy
         }
 
         public void setCompletionRate(float value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public BannerSize getSize()
         {
             throw new System.NotImplementedException();
         }
