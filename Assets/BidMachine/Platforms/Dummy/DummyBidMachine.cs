@@ -40,6 +40,11 @@ namespace BidMachineAds.Unity.Dummy
             throw new System.NotImplementedException();
         }
 
+        public void setListener(IRewardedRequestListener rewardedRequestListener)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void setSessionAdParams(SessionAdParams sessionAdParams)
         {
             throw new System.NotImplementedException();
