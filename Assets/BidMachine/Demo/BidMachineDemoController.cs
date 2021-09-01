@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, IRewardedAdListener, IBannerListener,
-    IBannerRequestListener
+    IBannerRequestListener, IInterstitialRequestListener
 {
     [SerializeField] public Toggle tgTesting;
     [SerializeField] public Toggle tgLogging;
@@ -37,51 +37,53 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void BidMachineInitialize()
     {
-        targetingParams = new TargetingParams();
-        targetingParams.setUserId("1");
-        targetingParams.setGender(TargetingParams.Gender.Female);
-        targetingParams.setBirthdayYear(1991);
-        targetingParams.setKeyWords(new[] { "games, sport" });
-        targetingParams.setCountry("Belarus");
-        targetingParams.setCity("Minsk");
-        targetingParams.setZip("220059");
-        targetingParams.setStoreUrl("https://store.url");
-        targetingParams.setStoreCategory("cards");
-        targetingParams.setStoreSubCategories(new[] { "games", "cards" });
-        targetingParams.setFramework("unity");
-        targetingParams.setFramework("unity");
-        targetingParams.setPaid(true);
-        targetingParams.setDeviceLocation("", 22.0d, 22.0d);
-        targetingParams.setExternalUserIds(new[]
-        {
-            new ExternalUserId("sourceId_1", "1"),
-            new ExternalUserId("sourceId_2", "2")
-        });
-        targetingParams.addBlockedApplication("com.appodeal.test");
-        targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
-        targetingParams.addBlockedAdvertiserDomain("ua");
-
-        priceFloorParams = new PriceFloorParams();
-        priceFloorParams.addPriceFloor("123", 1.2d);
-        sessionAdParams = new SessionAdParams()
-            .setSessionDuration(123)
-            .setImpressionCount(123)
-            .setClickRate(1.2f)
-            .setIsUserClickedOnLastAd(true)
-            .setCompletionRate(1.3f);
-
-
-        BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
+        // targetingParams = new TargetingParams();
+        // targetingParams.setUserId("1");
+        // targetingParams.setGender(TargetingParams.Gender.Female);
+        // targetingParams.setBirthdayYear(1991);
+        // targetingParams.setKeyWords(new[] { "games, sport" });
+        // targetingParams.setCountry("Belarus");
+        // targetingParams.setCity("Minsk");
+        // targetingParams.setZip("220059");
+        // targetingParams.setStoreUrl("https://store.url");
+        // targetingParams.setStoreCategory("cards");
+        // targetingParams.setStoreSubCategories(new[] { "games", "cards" });
+        // targetingParams.setFramework("unity");
+        // targetingParams.setFramework("unity");
+        // targetingParams.setPaid(true);
+        // targetingParams.setDeviceLocation("", 22.0d, 22.0d);
+        // targetingParams.setExternalUserIds(new[]
+        // {
+        //     new ExternalUserId("sourceId_1", "1"),
+        //     new ExternalUserId("sourceId_2", "2")
+        // });
+        // targetingParams.addBlockedApplication("com.appodeal.test");
+        // targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
+        // targetingParams.addBlockedAdvertiserDomain("ua");
+        //
+        // priceFloorParams = new PriceFloorParams();
+        // priceFloorParams.addPriceFloor("123", 1.2d);
+        // sessionAdParams = new SessionAdParams()
+        //     .setSessionDuration(123)
+        //     .setImpressionCount(123)
+        //     .setClickRate(1.2f)
+        //     .setIsUserClickedOnLastAd(true)
+        //     .setCompletionRate(1.3f);
+        //
+        //
+        // BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
+        // BidMachine.setEndpoint("https://test.com");
+        // BidMachine.setTargetingParams(targetingParams);
+        // BidMachine.setConsentConfig(true, "test consent string");
+        // BidMachine.setSubjectToGDPR(true);
+        // BidMachine.setCoppa(true);
+        // BidMachine.setUSPrivacyString("test_string");
+        // BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
+        
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
-        BidMachine.setEndpoint("https://test.com");
-        BidMachine.setTargetingParams(targetingParams);
         BidMachine.initialize("1");
-        BidMachine.setConsentConfig(true, "test consent string");
-        BidMachine.setSubjectToGDPR(true);
-        BidMachine.setCoppa(true);
-        BidMachine.setUSPrivacyString("test_string");
-        BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
+
     }
 
     public void IsInitialized()
@@ -112,7 +114,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         if (interstitialRequest == null)
         {
             interstitialRequest = new InterstitialRequestBuilder()
-                .setAdContentType(InterstitialRequestBuilder.ContentType.All)
+                .setAdContentType(AdContentType.All)
+                // .setSessionAdParams(sessionAdParams)
+                // .setPlacementId("placement1")
+                // .setLoadingTimeOut(123)
+                // .setBidPayload("123")
+                // .setNetworks("admob")
+                .setListener(this)
                 .build();
         }
 
@@ -134,12 +142,10 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void DestroyInterstitial()
     {
-        if (interstitialAd != null)
-        {
-            interstitialAd.destroy();
-            interstitialAd = null;
-            interstitialRequest = null;
-        }
+        if (interstitialAd == null) return;
+        interstitialAd.destroy();
+        interstitialAd = null;
+        interstitialRequest = null;
     }
 
     #endregion
@@ -373,7 +379,8 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onBannerRequestFailed(BannerRequest request, BMError error)
     {
-        Debug.Log("BannerRequestListener - onBannerRequestFailed");
+        Debug.Log("BannerRequestListener - onBannerRequestFailed" + 
+                  $"BMError - {error.code} - {error.message}");
     }
 
     public void onBannerRequestExpired(BannerRequest request)
@@ -382,4 +389,26 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     }
 
     #endregion
+
+    #region InterstitialRequestListener
+
+    public void onInterstitialRequestSuccess(InterstitialRequest request, string auctionResult)
+    {
+        Debug.Log($"InterstitialRequestListener - onInterstitialRequestSuccess" +
+                  $"auctionResult - {auctionResult}");
+    }
+
+    public void onInterstitialRequestFailed(InterstitialRequest request, BMError error)
+    {
+        Debug.Log($"InterstitialRequestListener - onInterstitialRequestFailed" +
+                  $"BMError - {error.code} - {error.message}");
+    }
+
+    public void onInterstitialRequestExpired(InterstitialRequest request)
+    {
+        Debug.Log($"InterstitialRequestListener - onInterstitialRequestExpired");
+    }
+
+    #endregion
+   
 }
