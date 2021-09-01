@@ -385,17 +385,13 @@ namespace BidMachineAds.Unity.Android
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidBannerRequestBuilder : IBannerRequestBuilder
     {
-        AndroidJavaObject bannerRequest;
-        AndroidJavaObject bannerRequestBuilder;
+        private AndroidJavaObject bannerRequest;
+        private AndroidJavaObject bannerRequestBuilder;
 
-        public AndroidJavaObject getBannerRequestBuilder()
+        private AndroidJavaObject getBannerRequestBuilder()
         {
-            if (bannerRequestBuilder == null)
-            {
-                bannerRequestBuilder = new AndroidJavaObject("io.bidmachine.banner.BannerRequest$Builder");
-            }
-
-            return bannerRequestBuilder;
+            return bannerRequestBuilder ??
+                   (bannerRequestBuilder = new AndroidJavaObject("io.bidmachine.banner.BannerRequest$Builder"));
         }
 
         public AndroidJavaObject getJavaObject()
@@ -428,6 +424,11 @@ namespace BidMachineAds.Unity.Android
                             "Size_728x90"));
                     break;
                 }
+                default:
+                    getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
+                        new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
+                            "Size_320x50"));
+                    break;
             }
         }
 
@@ -439,6 +440,7 @@ namespace BidMachineAds.Unity.Android
 
         public void setSessionAdParams(SessionAdParams sessionAdParams)
         {
+            if (sessionAdParams == null) return;
             var androidSessionAdParams = (AndroidSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
             getBannerRequestBuilder().Call<AndroidJavaObject>("setSessionAdParams",
                 androidSessionAdParams.GetAndroidSessionAdParams());
@@ -451,20 +453,45 @@ namespace BidMachineAds.Unity.Android
 
         public void setPlacementId(string placementId)
         {
-            getBannerRequestBuilder().Call<AndroidJavaObject>("setPlacementId", Helper.getJavaObject(placementId));
+            if (!string.IsNullOrEmpty(placementId))
+            {
+                getBannerRequestBuilder()
+                    .Call<AndroidJavaObject>("setPlacementId", Helper.getJavaObject(placementId));
+            }
+        }
+
+        public void setBidPayload(string bidPayLoad)
+        {
+            if (!string.IsNullOrEmpty(bidPayLoad))
+            {
+                getBannerRequestBuilder()
+                    .Call<AndroidJavaObject>("setBidPayload", Helper.getJavaObject(bidPayLoad));
+            }
+        }
+
+        public void setNetworks(string networks)
+        {
+            if (!string.IsNullOrEmpty(networks))
+            {
+                getBannerRequestBuilder().Call<AndroidJavaObject>("setNetworks", Helper.getJavaObject(networks));
+            }
         }
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
+            if (targetingParams == null) return;
             var androidTargeting =
                 (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-            getBannerRequestBuilder().Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
+            getBannerRequestBuilder()
+                .Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
         }
 
         public void setPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            var p = (AndroidPriceFloorParams)priceFloorParams.GetNativePriceFloorParams();
-            getBannerRequestBuilder().Call<AndroidJavaObject>("setPriceFloorParams", p.getJavaObject());
+            if (priceFloorParams == null) return;
+            var androidPriceFloorParams = (AndroidPriceFloorParams)priceFloorParams.GetNativePriceFloorParams();
+            getBannerRequestBuilder()
+                .Call<AndroidJavaObject>("setPriceFloorParams", androidPriceFloorParams.getJavaObject());
         }
 
         public IBannerRequest build()
@@ -531,7 +558,8 @@ namespace BidMachineAds.Unity.Android
         {
             AndroidTargetingParams androidTargeting =
                 (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-            getInterstitialBuilder().Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
+            getInterstitialBuilder()
+                .Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
         }
 
         public IInterstitialRequest build()
@@ -572,7 +600,8 @@ namespace BidMachineAds.Unity.Android
         {
             AndroidTargetingParams androidTargeting =
                 (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-            getRewardedRequestBuilder().Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
+            getRewardedRequestBuilder()
+                .Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
         }
 
         public IRewardedRequest build()
@@ -694,7 +723,8 @@ namespace BidMachineAds.Unity.Android
         {
             AndroidBannerView aBannerView = (AndroidBannerView)internalBannerView.GetBannerView();
             AndroidJavaObject jBannerView = aBannerView.getJavaObject();
-            getBidMachineBannerInstance().Call("showAdView", getActivity(), internalXAxis, internalYAxis, jBannerView);
+            getBidMachineBannerInstance()
+                .Call("showAdView", getActivity(), internalXAxis, internalYAxis, jBannerView);
         }
 
         public void hideBannerView()
