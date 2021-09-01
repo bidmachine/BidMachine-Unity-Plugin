@@ -483,8 +483,11 @@ namespace BidMachineAds.Unity.Android
 
         public void setListener(IBannerRequestListener bannerRequestListener)
         {
-            getBannerRequestBuilder()
-                .Call<AndroidJavaObject>("setListener", new AndroidBannerRequestListener(bannerRequestListener));
+            if (bannerRequestListener != null)
+            {
+                getBannerRequestBuilder()
+                    .Call<AndroidJavaObject>("setListener", new AndroidBannerRequestListener(bannerRequestListener));
+            }
         }
 
         public void setSessionAdParams(SessionAdParams sessionAdParams)
@@ -607,9 +610,12 @@ namespace BidMachineAds.Unity.Android
 
         public void setListener(IInterstitialRequestListener interstitialRequestListener)
         {
-            getInterstitialBuilder()
-                .Call<AndroidJavaObject>("setListener",
-                    new AndroidInterstitialRequestListener(interstitialRequestListener));
+            if (interstitialRequestListener != null)
+            {
+                getInterstitialBuilder()
+                    .Call<AndroidJavaObject>("setListener",
+                        new AndroidInterstitialRequestListener(interstitialRequestListener));
+            }
         }
 
         public void setSessionAdParams(SessionAdParams sessionAdParams)
@@ -669,12 +675,13 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidRewardedRequestBuilder : IRewardedRequestBuilder
     {
-        AndroidJavaObject rewardedRequest;
-        AndroidJavaObject rewardedRequestBuilder;
+        private AndroidJavaObject rewardedRequest;
+        private AndroidJavaObject rewardedRequestBuilder;
 
-        public AndroidJavaObject getRewardedRequestBuilder()
+        private AndroidJavaObject getRewardedRequestBuilder()
         {
             if (rewardedRequestBuilder == null)
             {
@@ -691,16 +698,68 @@ namespace BidMachineAds.Unity.Android
 
         public void setPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            AndroidPriceFloorParams p = (AndroidPriceFloorParams)priceFloorParams.GetNativePriceFloorParams();
+            if (priceFloorParams == null) return;
+            var p = (AndroidPriceFloorParams)priceFloorParams.GetNativePriceFloorParams();
             getRewardedRequestBuilder().Call<AndroidJavaObject>("setPriceFloorParams", p.getJavaObject());
         }
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            AndroidTargetingParams androidTargeting =
+            if (targetingParams == null) return;
+            var androidTargeting =
                 (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
             getRewardedRequestBuilder()
                 .Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
+        }
+
+        public void setListener(IRewardedRequestListener rewardedRequestListener)
+        {
+            if (rewardedRequestListener != null)
+            {
+                getRewardedRequestBuilder()
+                    .Call<AndroidJavaObject>("setListener",
+                        new AndroidRewardedRequestListener(rewardedRequestListener));
+            }
+        }
+
+        public void setSessionAdParams(SessionAdParams sessionAdParams)
+        {
+            if (sessionAdParams == null) return;
+            var androidSessionAdParams = (AndroidSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
+            getRewardedRequestBuilder().Call<AndroidJavaObject>("setSessionAdParams",
+                androidSessionAdParams.GetAndroidSessionAdParams());
+        }
+
+        public void setLoadingTimeOut(int value)
+        {
+            getRewardedRequestBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", value);
+        }
+
+        public void setPlacementId(string placementId)
+        {
+            if (!string.IsNullOrEmpty(placementId))
+            {
+                getRewardedRequestBuilder()
+                    .Call<AndroidJavaObject>("setPlacementId", Helper.getJavaObject(placementId));
+            }
+        }
+
+        public void setBidPayload(string bidPayLoad)
+        {
+            if (!string.IsNullOrEmpty(bidPayLoad))
+            {
+                getRewardedRequestBuilder()
+                    .Call<AndroidJavaObject>("setBidPayload", Helper.getJavaObject(bidPayLoad));
+            }
+        }
+
+        public void setNetworks(string networks)
+        {
+            if (!string.IsNullOrEmpty(networks))
+            {
+                getRewardedRequestBuilder()
+                    .Call<AndroidJavaObject>("setNetworks", Helper.getJavaObject(networks));
+            }
         }
 
         public IRewardedRequest build()
@@ -711,9 +770,10 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidBannerRequest : IBannerRequest
     {
-        AndroidJavaObject bannerRequest;
+        private readonly AndroidJavaObject bannerRequest;
 
         public AndroidBannerRequest(AndroidJavaObject bannerRequest)
         {
@@ -746,9 +806,10 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidInterstitialRequest : IInterstitialRequest
     {
-        AndroidJavaObject interstitialRequest;
+        private readonly AndroidJavaObject interstitialRequest;
 
         public AndroidInterstitialRequest(AndroidJavaObject interstitialRequest)
         {
@@ -761,9 +822,10 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidRewardedRequest : IRewardedRequest
     {
-        AndroidJavaObject rewardedRequest;
+        private readonly AndroidJavaObject rewardedRequest;
 
         public AndroidRewardedRequest(AndroidJavaObject rewardedRequest)
         {
@@ -776,38 +838,35 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidBanner : IBanner
     {
         private AndroidJavaClass bidMachineBannerClass;
-        private AndroidJavaObject bidMachineBannerInstatnce;
+        private AndroidJavaObject bidMachineBannerInstance;
         private AndroidJavaObject javaBannerView;
         private AndroidJavaObject activity;
-
         private BannerView internalBannerView;
+
         private int internalYAxis;
         private int internalXAxis;
 
-        public AndroidJavaObject getActivity()
+        private AndroidJavaObject getActivity()
         {
-            if (activity == null)
-            {
-                AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-            }
+            if (activity != null) return activity;
+            var playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
 
             return activity;
         }
 
-        public AndroidJavaObject getBidMachineBannerInstance()
+        private AndroidJavaObject getBidMachineBannerInstance()
         {
-            if (bidMachineBannerInstatnce == null)
-            {
-                bidMachineBannerClass =
-                    new AndroidJavaClass("com.bidmachine.bidmachineunity.BidMachineUnityBannerView");
-                bidMachineBannerInstatnce = bidMachineBannerClass.CallStatic<AndroidJavaObject>("getInstance");
-            }
+            if (bidMachineBannerInstance != null) return bidMachineBannerInstance;
+            bidMachineBannerClass =
+                new AndroidJavaClass("com.bidmachine.bidmachineunity.BidMachineUnityBannerView");
+            bidMachineBannerInstance = bidMachineBannerClass.CallStatic<AndroidJavaObject>("getInstance");
 
-            return bidMachineBannerInstatnce;
+            return bidMachineBannerInstance;
         }
 
         public void showBannerView(int YAxis, int XAxis, BannerView bannerView)
@@ -818,7 +877,7 @@ namespace BidMachineAds.Unity.Android
             getActivity().Call("runOnUiThread", new AndroidJavaRunnable(runOnUiThread));
         }
 
-        void runOnUiThread()
+        private void runOnUiThread()
         {
             AndroidBannerView aBannerView = (AndroidBannerView)internalBannerView.GetBannerView();
             AndroidJavaObject jBannerView = aBannerView.getJavaObject();
@@ -839,9 +898,10 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidBannerView : IBannerView
     {
-        private AndroidJavaObject javaBannerView;
+        private readonly AndroidJavaObject javaBannerView;
 
         public AndroidBannerView(AndroidJavaObject bannerView)
         {
@@ -860,8 +920,8 @@ namespace BidMachineAds.Unity.Android
 
         public void load(BannerRequest bannerRequest)
         {
-            AndroidBannerRequest aBannerRequest = (AndroidBannerRequest)bannerRequest.GetBannerRequest();
-            AndroidJavaObject jBannerRequest = aBannerRequest.getJavaObject();
+            var aBannerRequest = (AndroidBannerRequest)bannerRequest.GetBannerRequest();
+            var jBannerRequest = aBannerRequest.getJavaObject();
             javaBannerView.Call<AndroidJavaObject>("load", jBannerRequest);
         }
 
@@ -874,9 +934,10 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidInterstitialAd : IInterstitialAd
     {
-        private AndroidJavaObject javaInrestitialAd;
+        private readonly AndroidJavaObject javaInrestitialAd;
         private AndroidJavaObject activity;
 
         public AndroidInterstitialAd()
@@ -889,14 +950,11 @@ namespace BidMachineAds.Unity.Android
             javaInrestitialAd = interstitialAd;
         }
 
-        public AndroidJavaObject getActivity()
+        private AndroidJavaObject getActivity()
         {
-            if (activity == null)
-            {
-                AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-            }
-
+            if (activity != null) return activity;
+            var playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
             return activity;
         }
 
@@ -922,9 +980,9 @@ namespace BidMachineAds.Unity.Android
 
         public void load(InterstitialRequest interstitialRequest)
         {
-            AndroidInterstitialRequest aInterstitialRequest =
+            var aInterstitialRequest =
                 (AndroidInterstitialRequest)interstitialRequest.GetInterstitialRequest();
-            AndroidJavaObject jInterstitialRequest = aInterstitialRequest.getJavaObject();
+            var jInterstitialRequest = aInterstitialRequest.getJavaObject();
             javaInrestitialAd.Call<AndroidJavaObject>("load", jInterstitialRequest);
         }
 
@@ -938,9 +996,10 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidRewardedAd : IRewardedAd
     {
-        private AndroidJavaObject javaRewardedAd;
+        private readonly AndroidJavaObject javaRewardedAd;
         private AndroidJavaObject activity;
 
         public AndroidRewardedAd()
@@ -953,7 +1012,7 @@ namespace BidMachineAds.Unity.Android
             javaRewardedAd = rewardedAd;
         }
 
-        public AndroidJavaObject getActivity()
+        private AndroidJavaObject getActivity()
         {
             if (activity == null)
             {
@@ -986,8 +1045,9 @@ namespace BidMachineAds.Unity.Android
 
         public void load(RewardedRequest rewardedRequest)
         {
-            AndroidRewardedRequest aRewardedRequest = (AndroidRewardedRequest)rewardedRequest.GetRewardedRequest();
-            AndroidJavaObject jRewardedRequest = aRewardedRequest.getJavaObject();
+            if (rewardedRequest == null) return;
+            var aRewardedRequest = (AndroidRewardedRequest)rewardedRequest.GetRewardedRequest();
+            var jRewardedRequest = aRewardedRequest.getJavaObject();
             javaRewardedAd.Call<AndroidJavaObject>("load", jRewardedRequest);
         }
 
