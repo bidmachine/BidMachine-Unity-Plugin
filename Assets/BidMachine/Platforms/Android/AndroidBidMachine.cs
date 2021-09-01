@@ -596,6 +596,26 @@ namespace BidMachineAds.Unity.Android
         {
             return bannerRequest;
         }
+
+        public BannerSize getSize()
+        {
+            var bannerSize = BannerSize.Size_320х50;
+            var banner = bannerRequest.Call<AndroidJavaObject>("getSize").Call<string>("toString");
+            switch (banner)
+            {
+                case "Size_320x50":
+                    bannerSize = BannerSize.Size_320х50;
+                    break;
+                case "Size_300x250":
+                    bannerSize = BannerSize.Size_300х250;
+                    break;
+                case "Size_728x90":
+                    bannerSize = BannerSize.Size_728х90;
+                    break;
+            }
+
+            return bannerSize;
+        }
     }
 
     public class AndroidInterstitialRequest : IInterstitialRequest
