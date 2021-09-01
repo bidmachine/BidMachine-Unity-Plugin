@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Common;
 
 namespace BidMachineAds.Unity.Api
@@ -597,7 +596,6 @@ namespace BidMachineAds.Unity.Api
             return this;
         }
         
-
         public InterstitialRequest build()
         {
             return new InterstitialRequest(nativeInterstitialRequestBuilder.build());
@@ -628,6 +626,42 @@ namespace BidMachineAds.Unity.Api
         public RewardedRequestBuilder setPriceFloorParams(PriceFloorParams priceFloorParams)
         {
             nativeRewardedRequestBuilder.setPriceFloorParams(priceFloorParams);
+            return this;
+        }
+
+        public RewardedRequestBuilder setSessionAdParams(SessionAdParams sessionAdParams)
+        {
+            nativeRewardedRequestBuilder.setSessionAdParams(sessionAdParams);
+            return this;
+        }
+        
+        public RewardedRequestBuilder setPlacementId(string placementId)
+        {
+            nativeRewardedRequestBuilder.setPlacementId(placementId);
+            return this;
+        }
+        
+        public RewardedRequestBuilder setLoadingTimeOut(int timeOut)
+        {
+            nativeRewardedRequestBuilder.setLoadingTimeOut(timeOut);
+            return this;
+        }
+        
+        public RewardedRequestBuilder setBidPayload(string bidPayLoad)
+        {
+            nativeRewardedRequestBuilder.setBidPayload(bidPayLoad);
+            return this;
+        }
+        
+        public RewardedRequestBuilder setNetworks(string networks)
+        {
+            nativeRewardedRequestBuilder.setNetworks(networks);
+            return this;
+        }
+        
+        public RewardedRequestBuilder setListener(IRewardedRequestListener listener)
+        {
+            nativeRewardedRequestBuilder.setListener(listener);
             return this;
         }
 
