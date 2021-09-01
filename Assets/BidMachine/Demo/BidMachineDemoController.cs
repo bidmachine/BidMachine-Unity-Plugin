@@ -362,9 +362,11 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     #region BannerRequestListener
 
-    public void onBannerRequestSuccess(BannerRequest request, AuctionResult auctionResult)
+    public void onBannerRequestSuccess(BannerRequest request, string auctionResult)
     {
-        Debug.Log("BannerRequestListener - onBannerRequestSuccess");
+        Debug.Log($"BannerRequestListener - onBannerRequestSuccess " +
+                  $"AdSize - {request.getSize()}" +
+                  $"auctionResult - {auctionResult}");
     }
 
     public void onBannerRequestFailed(BannerRequest request, BMError error)
