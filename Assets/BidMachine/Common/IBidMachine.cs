@@ -102,10 +102,17 @@ namespace BidMachineAds.Unity.Common
         IInterstitialRequest build();
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IRewardedRequestBuilder
     {
         void setTargetingParams(TargetingParams targetingParams);
         void setPriceFloorParams(PriceFloorParams priceFloorParameters);
+        void setListener(IRewardedRequestListener rewardedRequestListener);
+        void setSessionAdParams(SessionAdParams sessionAdParams);
+        void setLoadingTimeOut(int value);
+        void setPlacementId(string placementId);
+        void setBidPayload(string bidPayLoad);
+        void setNetworks(string networks);
         IRewardedRequest build();
     }
 
