@@ -1,79 +1,78 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics.CodeAnalysis;
+using UnityEngine;
 using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Api;
 
 namespace BidMachineAds.Unity.Android
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
+    [SuppressMessage("ReSharper", "ArrangeTypeMemberModifiers")]
     public class AndroidRewardedAdListener
 #if UNITY_ANDROID
         : AndroidJavaProxy
     {
-        IRewardedAdListener listener;
-        internal AndroidRewardedAdListener(IRewardedAdListener listener) : base("io.bidmachine.rewarded.RewardedListener")
+        readonly IRewardedAdListener listener;
+
+        internal AndroidRewardedAdListener(IRewardedAdListener listener) : base(
+            "io.bidmachine.rewarded.RewardedListener")
         {
             this.listener = listener;
         }
 
         void onAdLoaded(AndroidJavaObject ad)
         {
-            RewardedAd rewardedAd = new RewardedAd(new AndroidRewardedAd(ad));
-            listener.onAdLoaded(rewardedAd);
+            listener.onAdLoaded(new RewardedAd(new AndroidRewardedAd(ad)));
         }
 
         void onAdClosed(AndroidJavaObject ad, bool finished)
         {
-            RewardedAd rewardedAd = new RewardedAd(new AndroidRewardedAd(ad));
-            listener.onAdClosed(rewardedAd, finished);
+            listener.onAdClosed(new RewardedAd(new AndroidRewardedAd(ad)), finished);
         }
 
         void onAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            RewardedAd rewardedAd = new RewardedAd(new AndroidRewardedAd(ad));
-            BMError bmError = new BMError();
-            bmError.code = error.Call<int>("getCode");
-            bmError.brief = error.Call<string>("getBrief");
-            bmError.message = error.Call<string>("getMessage");
-            listener.onAdLoadFailed(rewardedAd, bmError);
+            var bmError = new BMError
+            {
+                code = error.Call<int>("getCode"),
+                message = error.Call<string>("getMessage")
+            };
+            listener.onAdLoadFailed((new RewardedAd(new AndroidRewardedAd(ad))), bmError);
         }
 
         void onAdShown(AndroidJavaObject ad)
         {
-            RewardedAd rewardedAd = new RewardedAd(new AndroidRewardedAd(ad));
-            listener.onAdShown(rewardedAd);
+            listener.onAdShown((new RewardedAd(new AndroidRewardedAd(ad))));
         }
 
         void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            RewardedAd rewardedAd = new RewardedAd(new AndroidRewardedAd(ad));
-            BMError bmError = new BMError();
-            bmError.code = error.Call<int>("getCode");
-            bmError.brief = error.Call<string>("getBrief");
-            bmError.message = error.Call<string>("getMessage");
-            listener.onAdShowFailed(rewardedAd, bmError);
+            var bmError = new BMError
+            {
+                code = error.Call<int>("getCode"),
+                message = error.Call<string>("getMessage")
+            };
+            listener.onAdShowFailed((new RewardedAd(new AndroidRewardedAd(ad))), bmError);
         }
 
         void onAdImpression(AndroidJavaObject ad)
         {
-            RewardedAd rewardedAd = new RewardedAd(new AndroidRewardedAd(ad));
-            listener.onAdImpression(rewardedAd);
+            listener.onAdImpression((new RewardedAd(new AndroidRewardedAd(ad))));
         }
 
         void onAdClicked(AndroidJavaObject ad)
         {
-            RewardedAd rewardedAd = new RewardedAd(new AndroidRewardedAd(ad));
-            listener.onAdClicked(rewardedAd);
+            listener.onAdClicked((new RewardedAd(new AndroidRewardedAd(ad))));
         }
 
         void onAdExpired(AndroidJavaObject ad)
         {
-            RewardedAd rewardedAd = new RewardedAd(new AndroidRewardedAd(ad));
-            listener.onAdExpired(rewardedAd);
+            listener.onAdExpired((new RewardedAd(new AndroidRewardedAd(ad))));
         }
 
         void onAdRewarded(AndroidJavaObject ad)
         {
-            RewardedAd rewardedAd = new RewardedAd(new AndroidRewardedAd(ad));
-            listener.onAdRewarded(rewardedAd);
+            listener.onAdRewarded((new RewardedAd(new AndroidRewardedAd(ad))));
         }
     }
 #else
