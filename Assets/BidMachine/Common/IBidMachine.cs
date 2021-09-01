@@ -80,15 +80,19 @@ namespace BidMachineAds.Unity.Common
         void setSessionAdParams(SessionAdParams sessionAdParams);
         void setLoadingTimeOut(int value);
         void setPlacementId(string placementId);
+        void setBidPayload(string bidPayLoad);
+        void setNetworks(string networks);
         
         IBannerRequest build();
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IInterstitialRequestBuilder
     {
+        void setAdContentType(InterstitialRequestBuilder.ContentType contentType);
         void setTargetingParams(TargetingParams targetingParams);
         void setPriceFloorParams(PriceFloorParams priceFloorParameters);
-        void setAdContentType(InterstitialRequestBuilder.ContentType contentType);
+        
         IInterstitialRequest build();
     }
 
