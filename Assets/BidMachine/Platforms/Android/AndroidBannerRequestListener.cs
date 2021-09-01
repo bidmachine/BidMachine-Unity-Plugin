@@ -33,7 +33,6 @@ namespace BidMachineAds.Unity.Android
             var error = new BMError
             {
                 code = bmError.Call<int>("getCode"),
-                brief = bmError.Call<string>("getBrief"),
                 message = bmError.Call<string>("getMessage")
             };
 
