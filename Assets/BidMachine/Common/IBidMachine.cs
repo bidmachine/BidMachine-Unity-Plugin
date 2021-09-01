@@ -101,6 +101,7 @@ namespace BidMachineAds.Unity.Common
 
     public interface IBannerRequest
     {
+        BannerSize getSize();
     }
 
     public interface IInterstitialRequest
