@@ -215,11 +215,8 @@ namespace BidMachineAds.Unity.Api
     public enum CreativeFormat {
 
         Banner, Video, Native
-
     }
-
     
-
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class TargetingParams
     {
@@ -446,97 +443,7 @@ namespace BidMachineAds.Unity.Api
             set => message = value;
         }
     }
-    
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class AuctionResult
-    {
-        public string id;
-        public string demandSource;
-        public double price;
-        public string deal;
-        public string seat;
-        public string creativeId;
-        public string cid;
-        public string[] adDomains;
-        public string networkKey;
-        public Dictionary<string, string> networkParams;
-        public CreativeFormat creativeFormat;
-        public Dictionary<string, string> customParams;
 
-
-        public string ID
-        {
-            get => id;
-            set => id = value;
-        }
-
-        public string DemandSource
-        {
-            get => demandSource;
-            set => demandSource = value;
-        }
-
-        public double Price
-        {
-            get => price;
-            set => price = value;
-        }
-
-        public string Deal
-        {
-            get => deal;
-            set => deal = value;
-        }
-
-        public string Seat
-        {
-            get => seat;
-            set => seat = value;
-        }
-
-        public string CreativeId
-        {
-            get => creativeId;
-            set => creativeId = value;
-        }
-
-        public string Cid
-        {
-            get => cid;
-            set => cid = value;
-        }
-
-        public string[] ADDomains
-        {
-            get => adDomains;
-            set => adDomains = value;
-        }
-
-        public string NetworkKey
-        {
-            get => networkKey;
-            set => networkKey = value;
-        }
-
-        public Dictionary<string, string> NetworkParams
-        {
-            get => networkParams;
-            set => networkParams = value;
-        }
-
-        public CreativeFormat CreativeFormat
-        {
-            get => creativeFormat;
-            set => creativeFormat = value;
-        }
-
-        public Dictionary<string, string> CustomParams
-        {
-            get => customParams;
-            set => customParams = value;
-        }
-    }
-    
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public enum BannerSize
     {
