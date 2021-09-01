@@ -520,6 +520,13 @@ namespace BidMachineAds.Unity.Api
             return new BannerRequest(nativeBannerRequestBuilder.build());
         }
     }
+    
+    public enum AdContentType
+    {
+        All,
+        Video,
+        Static,
+    }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class InterstitialRequestBuilder
@@ -530,14 +537,7 @@ namespace BidMachineAds.Unity.Api
         {
             nativeInterstitialRequestBuilder = BidMachineClientFactory.GetIntertitialRequestBuilder();
         }
-
-        public enum ContentType
-        {
-            All,
-            Video,
-            Static,
-        }
-
+        
         public IInterstitialRequestBuilder GetInterstitialRequestBuilder()
         {
             return nativeInterstitialRequestBuilder;
@@ -555,11 +555,48 @@ namespace BidMachineAds.Unity.Api
             return this;
         }
 
-        public InterstitialRequestBuilder setAdContentType(ContentType contentType)
+        public InterstitialRequestBuilder setAdContentType(AdContentType contentType)
         {
             nativeInterstitialRequestBuilder.setAdContentType(contentType);
             return this;
         }
+        
+        public InterstitialRequestBuilder setSessionAdParams(SessionAdParams sessionAdParams)
+        {
+            nativeInterstitialRequestBuilder.setSessionAdParams(sessionAdParams);
+            return this;
+        }
+        
+        public InterstitialRequestBuilder setPlacementId(string placementId)
+        {
+            nativeInterstitialRequestBuilder.setPlacementId(placementId);
+            return this;
+        }
+        
+        public InterstitialRequestBuilder setLoadingTimeOut(int timeOut)
+        {
+            nativeInterstitialRequestBuilder.setLoadingTimeOut(timeOut);
+            return this;
+        }
+        
+        public InterstitialRequestBuilder setBidPayload(string bidPayLoad)
+        {
+            nativeInterstitialRequestBuilder.setBidPayload(bidPayLoad);
+            return this;
+        }
+        
+        public InterstitialRequestBuilder setNetworks(string networks)
+        {
+            nativeInterstitialRequestBuilder.setNetworks(networks);
+            return this;
+        }
+        
+        public InterstitialRequestBuilder setListener(IInterstitialRequestListener listener)
+        {
+            nativeInterstitialRequestBuilder.setListener(listener);
+            return this;
+        }
+        
 
         public InterstitialRequest build()
         {
