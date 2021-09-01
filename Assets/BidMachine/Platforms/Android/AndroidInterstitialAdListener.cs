@@ -1,14 +1,18 @@
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Api;
 
 namespace BidMachineAds.Unity.Android
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ArrangeTypeMemberModifiers")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public class AndroidInterstitialAdListener
 #if UNITY_ANDROID
         : AndroidJavaProxy
     {
-        IInterstitialAdListener listener;
+        readonly IInterstitialAdListener listener;
         internal AndroidInterstitialAdListener(IInterstitialAdListener listener) : base("io.bidmachine.interstitial.InterstitialListener")
         {
             this.listener = listener;
@@ -16,58 +20,52 @@ namespace BidMachineAds.Unity.Android
 
         void onAdLoaded(AndroidJavaObject ad)
         {
-            InterstitialAd interstitialAd = new InterstitialAd(new AndroidInterstitialAd(ad));
-            listener.onAdLoaded(interstitialAd);
+            listener.onAdLoaded(new InterstitialAd(new AndroidInterstitialAd(ad)));
         }
 
         void onAdClosed(AndroidJavaObject ad, bool finished)
         {
-            InterstitialAd interstitialAd = new InterstitialAd(new AndroidInterstitialAd(ad));
-            listener.onAdClosed(interstitialAd, finished);
+            listener.onAdClosed((new InterstitialAd(new AndroidInterstitialAd(ad))), finished);
         }
 
         void onAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            InterstitialAd interstitialAd = new InterstitialAd(new AndroidInterstitialAd(ad));
-            BMError bmError = new BMError();
-            bmError.code = error.Call<int>("getCode");
-            bmError.brief = error.Call<string>("getBrief");
-            bmError.message = error.Call<string>("getMessage");
-            listener.onAdLoadFailed(interstitialAd, bmError);
+            var bmError = new BMError
+            {
+                code = error.Call<int>("getCode"),
+                message = error.Call<string>("getMessage")
+            };
+            listener.onAdLoadFailed((new InterstitialAd(new AndroidInterstitialAd(ad))), bmError);
         }
 
         void onAdShown(AndroidJavaObject ad)
         {
-            InterstitialAd interstitialAd = new InterstitialAd(new AndroidInterstitialAd(ad));
-            listener.onAdShown(interstitialAd);
+            listener.onAdShown((new InterstitialAd(new AndroidInterstitialAd(ad))));
         }
 
         void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            InterstitialAd interstitialAd = new InterstitialAd(new AndroidInterstitialAd(ad));
-            BMError bmError = new BMError();
-            bmError.code = error.Call<int>("getCode");
-            bmError.brief = error.Call<string>("getBrief");
-            bmError.message = error.Call<string>("getMessage");
-            listener.onAdShowFailed(interstitialAd, bmError);
+            var bmError = new BMError
+            {
+                code = error.Call<int>("getCode"),
+                message = error.Call<string>("getMessage")
+            };
+            listener.onAdShowFailed((new InterstitialAd(new AndroidInterstitialAd(ad))), bmError);
         }
 
         void onAdImpression(AndroidJavaObject ad)
         {
-            InterstitialAd interstitialAd = new InterstitialAd(new AndroidInterstitialAd(ad));
-            listener.onAdImpression(interstitialAd);
+            listener.onAdImpression((new InterstitialAd(new AndroidInterstitialAd(ad))));
         }
 
         void onAdClicked(AndroidJavaObject ad)
         {
-            InterstitialAd interstitialAd = new InterstitialAd(new AndroidInterstitialAd(ad));
-            listener.onAdClicked(interstitialAd);
+            listener.onAdClicked((new InterstitialAd(new AndroidInterstitialAd(ad))));
         }
 
         void onAdExpired(AndroidJavaObject ad)
         {
-            InterstitialAd interstitialAd = new InterstitialAd(new AndroidInterstitialAd(ad));
-            listener.onAdExpired(interstitialAd);
+            listener.onAdExpired((new InterstitialAd(new AndroidInterstitialAd(ad))));
         }
     }
 #else
