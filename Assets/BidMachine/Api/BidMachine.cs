@@ -372,6 +372,7 @@ namespace BidMachineAds.Unity.Api
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class SessionAdParams
     {
         private readonly ISessionAdParams nativeSessionAdParams;
@@ -422,19 +423,12 @@ namespace BidMachineAds.Unity.Api
     public class BMError
     {
         public int code;
-        public string brief;
         public string message;
 
         public int Code
         {
             get => code;
             set => code = value;
-        }
-
-        public string Brief
-        {
-            get => brief;
-            set => brief = value;
         }
 
         public string Message
@@ -503,9 +497,21 @@ namespace BidMachineAds.Unity.Api
             return this;
         }
         
+        public BannerRequestBuilder setBidPayload(string value)
+        {
+            nativeBannerRequestBuilder.setBidPayload(value);
+            return this;
+        }
+        
         public BannerRequestBuilder setPlacementId(string placementId)
         {
             nativeBannerRequestBuilder.setPlacementId(placementId);
+            return this;
+        }
+        
+        public BannerRequestBuilder setNetworks(string networks)
+        {
+            nativeBannerRequestBuilder.setNetworks(networks);
             return this;
         }
 
