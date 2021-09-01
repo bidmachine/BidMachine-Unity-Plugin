@@ -21,17 +21,13 @@ namespace BidMachineAds.Unity.Android
 
         void onRequestSuccess(AndroidJavaObject androidBannerRequest, AndroidJavaObject androidAuctionResult)
         {
-            AndroidJavaObject androidJavaObject = androidBannerRequest.Call<AndroidJavaObject>("getSize");
-            string bannerSize = androidJavaObject.Call<string>("toString");
-            Debug.Log($"onRequestSuccess -bannerSize -  {bannerSize}");
-            
+            var bannerRequest = new BannerRequest(new AndroidBannerRequest(androidBannerRequest));
             //listener.onBannerRequestSuccess(bannerRequest, auctionResult);
         }
 
         void onRequestFailed(AndroidJavaObject androidBannerRequest, AndroidJavaObject bmError)
         {
             var bannerRequest = new BannerRequest(new AndroidBannerRequest(androidBannerRequest));
-
             var error = new BMError
             {
                 code = bmError.Call<int>("getCode"),
