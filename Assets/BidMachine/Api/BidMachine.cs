@@ -687,6 +687,7 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BannerRequest
     {
         private readonly IBannerRequest nativeBannerRequest;
@@ -699,6 +700,11 @@ namespace BidMachineAds.Unity.Api
         public IBannerRequest GetBannerRequest()
         {
             return nativeBannerRequest;
+        }
+        
+        public BannerSize getSize()
+        {
+            return  nativeBannerRequest.getSize();
         }
     }
 
