@@ -7,11 +7,13 @@ namespace BidMachineAds.Unity.Android
 {
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ArrangeTypeMemberModifiers")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public class AndroidBannerListener
 #if UNITY_ANDROID
         : AndroidJavaProxy
     {
-        IBannerListener listener;
+        readonly IBannerListener listener;
         internal AndroidBannerListener(IBannerListener listener) : base("io.bidmachine.banner.BannerListener")
         {
             this.listener = listener;
@@ -25,36 +27,32 @@ namespace BidMachineAds.Unity.Android
 
         void onAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            var bannerView = new BannerView(new AndroidBannerView(ad));
-            BMError bmError = new BMError();
-            bmError.code = error.Call<int>("getCode");
-            bmError.brief = error.Call<string>("getBrief");
-            bmError.message = error.Call<string>("getMessage");
-            listener.onBannerAdLoadFailed(bannerView, bmError);
+            var bmError = new BMError
+            {
+                code = error.Call<int>("getCode"),
+                message = error.Call<string>("getMessage")
+            };
+            listener.onBannerAdLoadFailed(new BannerView(new AndroidBannerView(ad)), bmError);
         }
 
         void onAdShown(AndroidJavaObject ad)
         {
-            BannerView bannerView = new BannerView(new AndroidBannerView(ad));
-            listener.onBannerAdShown(bannerView);
+            listener.onBannerAdShown(new BannerView(new AndroidBannerView(ad)));
         }
 
         void onAdImpression(AndroidJavaObject ad)
         {
-            BannerView bannerView = new BannerView(new AndroidBannerView(ad));
-            listener.onBannerAdImpression(bannerView);
+            listener.onBannerAdImpression(new BannerView(new AndroidBannerView(ad)));
         }
 
         void onAdClicked(AndroidJavaObject ad)
         {
-            BannerView bannerView = new BannerView(new AndroidBannerView(ad));
-            listener.onBannerAdClicked(bannerView);
+            listener.onBannerAdClicked(new BannerView(new AndroidBannerView(ad)));
         }
 
         void onAdExpired(AndroidJavaObject ad)
         {
-            BannerView bannerView = new BannerView(new AndroidBannerView(ad));
-            listener.onBannerAdClicked(bannerView);
+            listener.onBannerAdClicked(new BannerView(new AndroidBannerView(ad)));
         }
     }
 #else
