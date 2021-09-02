@@ -157,6 +157,7 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class ExternalUserId
     {
         public ExternalUserId(string sourceId, string value)
@@ -165,9 +166,9 @@ namespace BidMachineAds.Unity.Api
             this.Value = value;
         }
 
-        public string SourceId { get; }
+        private string SourceId { get; }
 
-        public string Value { get; }
+        private string Value { get; }
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
