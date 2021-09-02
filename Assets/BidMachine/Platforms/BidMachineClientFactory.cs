@@ -47,13 +47,13 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidSessionAdParams();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSPriceFloorParams();
+          return new BidMachineAds.Unity.iOS.iOSSessionAdParams();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
         }
 
-        internal static IInterstitialRequestBuilder GetIntertitialRequestBuilder()
+        internal static IInterstitialRequestBuilder GetInterstitialRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
           return new BidMachineAds.Unity.Android.AndroidInterstitialRequestBuilder();
