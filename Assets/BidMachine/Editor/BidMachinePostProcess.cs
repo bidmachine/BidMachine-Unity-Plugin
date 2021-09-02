@@ -1,4 +1,5 @@
 ﻿#if UNITY_IPHONE
+using BidMachineAds.Unity.Editor.iOS;
 using UnityEditor;
 
 using UnityEditor.Callbacks;
