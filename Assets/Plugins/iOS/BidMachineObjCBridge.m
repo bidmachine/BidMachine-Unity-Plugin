@@ -37,8 +37,23 @@ static UIViewController* RootViewController() {
 }
 
 void BidMachineInitialize(const char *sellerId) {
-    BDMSdk.sharedSdk.restrictions = restrictions;
-    [BDMSdk.sharedSdk startSessionWithSellerID:[NSString stringWithUTF8String:sellerId] configuration:configuration completion:nil];
+    //BDMSdk.sharedSdk.restrictions = restrictions;
+    [BDMSdk.sharedSdk
+     startSessionWithSellerID:[NSString stringWithUTF8String:sellerId]
+     configuration:configuration
+     completion:nil];
+}
+
+bool BidMachineIsInitialized(){
+    return BDMSdk.sharedSdk.initialized;
+}
+
+void BidMachineSetEndpoint(const char *url){
+    if (configuration == NULL) {
+        configuration =[BDMSdkConfiguration new];
+    }
+    NSString *urlEndPoint =[NSString stringWithUTF8String:url];
+    configuration.baseURL = [NSURL URLWithString:urlEndPoint];
 }
 
 void BidMachineSetLogging(BOOL logging){
@@ -57,6 +72,21 @@ void BidMachineSetCoppa (BOOL coppa){
         restrictions = [BDMUserRestrictions new];
     }
     restrictions.coppa = coppa;
+}
+
+void BidMachineSetUSPrivacyString(const char *USPrivacyString){
+    if (!restrictions) {
+        restrictions = [BDMUserRestrictions new];
+    }
+    restrictions.USPrivacyString =[NSString stringWithUTF8String:USPrivacyString];
+}
+
+void BidMachineSetPublisher(const char *id, const char *name, const char *domain, const char *categories){
+    BDMSdk.sharedSdk.publisherInfo.publisherId = [NSString stringWithUTF8String:id];
+    BDMSdk.sharedSdk.publisherInfo.publisherName =[NSString stringWithUTF8String:name];
+    BDMSdk.sharedSdk.publisherInfo.publisherDomain =[NSString stringWithUTF8String:domain];
+    NSString *nsCategories =[NSString stringWithUTF8String:categories];
+    BDMSdk.sharedSdk.publisherInfo.publisherCategories = [nsCategories componentsSeparatedByString:@","];
 }
 
 void BidMachineSetGdprRequired(BOOL subjectToGDPR){
@@ -242,7 +272,7 @@ void InterstitialRequestSetTargeting(BDMTargeting *bdmTargeting){
     if (!interstitialRequest) {
         interstitialRequest = [BDMInterstitialRequest new];
     }
-    interstitialRequest.targeting = bdmTargeting;
+    //interstitialRequest.targeting = bdmTargeting;
 }
 
 void InterstitialRequestSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
@@ -345,6 +375,8 @@ void RewardedSetTargeting(BDMTargeting *bdmTargeting){
     if (!rewardedRequest) {
         rewardedRequest = [BDMRewardedRequest new];
     }
+    
+    
     rewardedRequest.targeting = bdmTargeting;
 }
 
@@ -429,7 +461,7 @@ void BannerViewRequestSetTargeting(BDMTargeting *bdmTargeting){
     if (!bannerRequest) {
         bannerRequest = [BDMBannerRequest new];
     }
-    bannerRequest.targeting = bdmTargeting;
+    //bannerRequest.targeting = bdmTargeting;
 }
 
 void BannerViewRequestSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
