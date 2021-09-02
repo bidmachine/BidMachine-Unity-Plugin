@@ -69,6 +69,26 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void BidMachineSetPublisher(IntPtr publisher);
     }
 
+    internal class SessionAdParamsObjcBridge
+    {
+        private readonly IntPtr nativeObject;
+
+        public SessionAdParamsObjcBridge()
+        {
+            nativeObject = GetSessionAdParams();
+        }
+
+        public IntPtr getNativeObject()
+        {
+            return nativeObject;
+        }
+        
+        [DllImport("__Internal")]
+        internal static extern IntPtr GetSessionAdParams();
+        
+        
+    }
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     internal class TargetingObjcBridge
