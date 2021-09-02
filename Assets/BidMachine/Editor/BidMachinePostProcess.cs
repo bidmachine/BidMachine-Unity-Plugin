@@ -1,9 +1,11 @@
 ﻿#if UNITY_IPHONE
+using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Editor.iOS;
 using UnityEditor;
 
 using UnityEditor.Callbacks;
 
+[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
 public class BidMachinePostProcess
 {
     [PostProcessBuild(100)]
