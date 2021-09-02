@@ -113,6 +113,42 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class iOSSessionAdParams : ISessionAdParams
+    {
+        private readonly SessionAdParamsObjcBridge bridge;
+
+        public iOSSessionAdParams()
+        {
+            bridge = new SessionAdParamsObjcBridge();
+        }
+
+        public void setSessionDuration(int value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setImpressionCount(int value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setClickRate(float value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setIsUserClickedOnLastAd(bool value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void setCompletionRate(float value)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class iOSTargetingParams : ITargetingParams
     {
