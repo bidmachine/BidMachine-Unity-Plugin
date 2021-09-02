@@ -74,8 +74,13 @@ namespace BidMachineAds.Unity.iOS
         {
             if (publisher != null)
             {
-                //TODO implement
-                //BidMachineObjCBridge.BidMachineSetPublisher((IntPtr)(publisher));
+                BidMachineObjCBridge.BidMachineSetPublisher(
+                    !string.IsNullOrEmpty(publisher.ID) ? publisher.ID : "null",
+                    !string.IsNullOrEmpty(publisher.Name) ? publisher.Name : "null",
+                    !string.IsNullOrEmpty(publisher.Domain) ? publisher.Domain : "null",
+                    publisher.Categories.Length > 0
+                        ? string.Join(",", publisher.Categories)
+                        : string.Join(",", new string[] { "null" }));
             }
         }
 
