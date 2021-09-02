@@ -51,9 +51,6 @@ namespace BidMachineAds.Unity.iOS
         internal static extern int BidMachineGetErrorCode(IntPtr error);
 
         [DllImport("__Internal")]
-        internal static extern string BidMachineGetErrorBrief(IntPtr error);
-
-        [DllImport("__Internal")]
         internal static extern string BidMachineGetErrorMessage(IntPtr error);
 
         [DllImport("__Internal")]
@@ -66,7 +63,7 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void BidMachineSetUSPrivacyString(string usPrivacyString);
 
         [DllImport("__Internal")]
-        internal static extern void BidMachineSetPublisher(IntPtr publisher);
+        internal static extern void BidMachineSetPublisher(string id, string name, string domain, string categories);
     }
 
     internal class SessionAdParamsObjcBridge
