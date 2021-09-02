@@ -535,7 +535,7 @@ namespace BidMachineAds.Unity.Api
 
         public InterstitialRequestBuilder()
         {
-            nativeInterstitialRequestBuilder = BidMachineClientFactory.GetIntertitialRequestBuilder();
+            nativeInterstitialRequestBuilder = BidMachineClientFactory.GetInterstitialRequestBuilder();
         }
         
         public IInterstitialRequestBuilder GetInterstitialRequestBuilder()
