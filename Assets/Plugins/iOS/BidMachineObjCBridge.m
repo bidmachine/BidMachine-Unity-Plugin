@@ -161,6 +161,37 @@ void TargetingSetKeyWords(const char *keywords){
     targeting.keywords =  [NSString stringWithUTF8String:keywords];
 }
 
+void TargetingSetCountry(const char *country){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    targeting.country = [NSString stringWithUTF8String:country];
+}
+
+void TargetingSetCity(const char *city){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    targeting.city = [NSString stringWithUTF8String:city];
+}
+
+void TargetingSetZip(const char *zip){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    targeting.zip = [NSString stringWithUTF8String:zip];
+}
+
+void TargetingSetStoreUrl(const char *url){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    targeting.storeURL = [[NSURL alloc] initWithString:[NSString stringWithUTF8String:url]];
+}
+
+
+
+
 void TargetingSetBlockedCategories(const char *blockedCategories){
     NSString *list = [NSString stringWithUTF8String:blockedCategories];
     NSArray *blockedCategoriesArray = [list componentsSeparatedByString:@","];
@@ -195,39 +226,27 @@ void TargetingSetDeviceLocation(double latitude, double longitude){
     targeting.deviceLocation =  [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
 }
 
-void TargetingSetCountry(const char *country){
+void TargetingSetStoreCategory(const char *storeCategory){
     if (!targeting){
         targeting = [BDMTargeting new];
     }
-    targeting.country = [NSString stringWithUTF8String:country];
+    targeting.storeCategory = [NSString stringWithUTF8String:storeCategory];
 }
 
-void TargetingSetCity(const char *city){
+void TargetingSetStoreSubCategories(const char *storeSubCategories){
     if (!targeting){
         targeting = [BDMTargeting new];
     }
-    targeting.city = [NSString stringWithUTF8String:city];
+    NSString *list = [NSString stringWithUTF8String:storeSubCategories];
+    NSArray *blockedAppsArray = [list componentsSeparatedByString:@","];
+    targeting.storeSubcategory = blockedAppsArray;
 }
 
-void TargetingSetZip(const char *zip){
+void TargetingSetFramework(const char *framework){
     if (!targeting){
         targeting = [BDMTargeting new];
     }
-    targeting.zip = [NSString stringWithUTF8String:zip];
-}
-
-void TargetingSetStoreUrl(const char *url){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.storeURL = [[NSURL alloc] initWithString:[NSString stringWithUTF8String:url]];
-}
-
-void TargetginSetStoreId(const char *storeId){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.storeId = [NSString stringWithUTF8String:storeId];
+    targeting.frameworkName = [NSString stringWithUTF8String:framework];
 }
 
 void TargetingSetPaid(BOOL paid){
@@ -236,6 +255,26 @@ void TargetingSetPaid(BOOL paid){
     }
     targeting.paid = paid;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+void TargetginSetStoreId(const char *storeId){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    targeting.storeId = [NSString stringWithUTF8String:storeId];
+}
+
+
 
 int BidMachineGetErrorCode(NSError * error){
     return (int) error.code;
