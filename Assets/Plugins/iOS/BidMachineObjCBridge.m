@@ -11,7 +11,7 @@
 #import "BidMachineBannerViewDelegate.h"
 
 static BDMSdkConfiguration *configuration;
-static BDMUserRestrictions *restrictions;
+static BDMUserRestrictions *internalRestrictions;
 BDMTargeting *targeting;
 BDMPriceFloor *priceFloor;
 BDMUserGender *userGender;
@@ -28,6 +28,8 @@ NSMutableSet *rewardedRequests;
 NSMutableSet *interstitialRequests;
 NSMutableSet *bannerViewRequests;
 
+
+
 static BidMachineInterstitialDelegate *BidMachineInterstitialDelegateInstance;
 static BidMachineRewardedDelegate *BidMachineRewardedDelegateInstance;
 static BidMachineBannerViewDelegate *BidMachineBannerViewDelegateInstance;
@@ -37,7 +39,12 @@ static UIViewController* RootViewController() {
 }
 
 void BidMachineInitialize(const char *sellerId) {
-    //BDMSdk.sharedSdk.restrictions = restrictions;
+    BDMUserRestrictions * restrictions = [BDMSdk sharedSdk].restrictions;
+    restrictions.coppa = internalRestrictions.coppa;
+    restrictions.subjectToGDPR = internalRestrictions.subjectToGDPR;
+    restrictions.hasConsent = internalRestrictions.hasConsent;
+    restrictions.consentString = internalRestrictions.consentString;
+    restrictions.USPrivacyString = internalRestrictions.USPrivacyString;
     [BDMSdk.sharedSdk
      startSessionWithSellerID:[NSString stringWithUTF8String:sellerId]
      configuration:configuration
@@ -68,17 +75,17 @@ void BidMachineSetTestMode(BOOL testing){
 }
 
 void BidMachineSetCoppa (BOOL coppa){
-    if (!restrictions) {
-        restrictions = [BDMUserRestrictions new];
+    if (!internalRestrictions) {
+        internalRestrictions = [BDMUserRestrictions new];
     }
-    restrictions.coppa = coppa;
+    internalRestrictions.coppa = coppa;
 }
 
 void BidMachineSetUSPrivacyString(const char *USPrivacyString){
-    if (!restrictions) {
-        restrictions = [BDMUserRestrictions new];
+    if (!internalRestrictions) {
+        internalRestrictions = [BDMUserRestrictions new];
     }
-    restrictions.USPrivacyString =[NSString stringWithUTF8String:USPrivacyString];
+    internalRestrictions.USPrivacyString =[NSString stringWithUTF8String:USPrivacyString];
 }
 
 void BidMachineSetPublisher(const char *id, const char *name, const char *domain, const char *categories){
@@ -90,18 +97,18 @@ void BidMachineSetPublisher(const char *id, const char *name, const char *domain
 }
 
 void BidMachineSetGdprRequired(BOOL subjectToGDPR){
-    if (!restrictions) {
-        restrictions = [BDMUserRestrictions new];
+    if (!internalRestrictions) {
+        internalRestrictions = [BDMUserRestrictions new];
     }
-    restrictions.subjectToGDPR = subjectToGDPR;
+    internalRestrictions.subjectToGDPR = subjectToGDPR;
 }
 
 void BidMachineSetConsentString(BOOL consent, const char *consentString){
-    if (!restrictions) {
-        restrictions = [BDMUserRestrictions new];
+    if (!internalRestrictions) {
+        internalRestrictions = [BDMUserRestrictions new];
     }
-    restrictions.hasConsent = consent;
-    restrictions.consentString = [NSString stringWithUTF8String:consentString];
+    internalRestrictions.hasConsent = consent;
+    internalRestrictions.consentString = [NSString stringWithUTF8String:consentString];
 }
 
 void BidMachineSetTargeting (){
@@ -111,6 +118,7 @@ void BidMachineSetTargeting (){
     configuration.targeting = targeting;
 }
 
+
 void TargetingSetUserId(const char *userId){
     if (!targeting){
         targeting = [BDMTargeting new];
@@ -118,7 +126,7 @@ void TargetingSetUserId(const char *userId){
     targeting.userId = [NSString stringWithUTF8String:userId];
 }
 
-void TargetingSetGender(int *gender){
+void TargetingSetGender(int gender){
     if (!targeting){
         targeting = [BDMTargeting new];
     }
@@ -377,7 +385,7 @@ void RewardedSetTargeting(BDMTargeting *bdmTargeting){
     }
     
     
-    rewardedRequest.targeting = bdmTargeting;
+    //rewardedRequest.targeting = bdmTargeting;
 }
 
 void RewardedSetPriceFlooor(BDMPriceFloor *bdmPriceFloor){
@@ -463,6 +471,8 @@ void BannerViewRequestSetTargeting(BDMTargeting *bdmTargeting){
     }
     //bannerRequest.targeting = bdmTargeting;
 }
+
+
 
 void BannerViewRequestSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
     if (!bannerRequest) {
