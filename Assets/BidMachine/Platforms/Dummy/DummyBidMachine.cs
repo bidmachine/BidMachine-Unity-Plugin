@@ -268,6 +268,12 @@ namespace BidMachineAds.Unity.Dummy
             throw new System.NotImplementedException();
         }
 
+        public void setStoreId(string storeId)
+        {
+            
+            
+        }
+
         public void setFramework(string framework)
         {
             throw new System.NotImplementedException();
