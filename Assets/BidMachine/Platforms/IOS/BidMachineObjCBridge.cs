@@ -72,7 +72,7 @@ namespace BidMachineAds.Unity.iOS
 
         public SessionAdParamsObjcBridge()
         {
-            nativeObject = GetSessionAdParams();
+            // nativeObject = GetSessionAdParams();
         }
 
         public IntPtr getNativeObject()
@@ -80,8 +80,8 @@ namespace BidMachineAds.Unity.iOS
             return nativeObject;
         }
         
-        [DllImport("__Internal")]
-        internal static extern IntPtr GetSessionAdParams();
+        // [DllImport("__Internal")]
+        // internal static extern IntPtr GetSessionAdParams();
         
         
     }
@@ -169,12 +169,12 @@ namespace BidMachineAds.Unity.iOS
 
         public static void setFramework(string framework)
         {
-            SetFramework(framework);
+           // SetFramework(framework);
         }
 
         public static void setDeviceLocation(string providerName, double latitude, double longitude)
         {
-            SetDeviceLocation(latitude, longitude);
+            //SetDeviceLocation(latitude, longitude);
         }
 
         [DllImport("__Internal")]
@@ -219,11 +219,11 @@ namespace BidMachineAds.Unity.iOS
         [DllImport("__Internal")]
         internal static extern void TargetingSetZip(string zip);
 
-        [DllImport("__Internal")]
-        internal static extern void SetFramework(string framework);
+        // [DllImport("__Internal")]
+        // internal static extern void SetFramework(string framework);
 
-        [DllImport("__Internal")]
-        internal static extern void SetDeviceLocation(double latitude, double longitude);
+        // [DllImport("__Internal")]
+        // internal static extern void SetDeviceLocation(double latitude, double longitude);
     }
 
     internal class PriceFloorObjcBridge
@@ -252,11 +252,11 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void PriceFloorAddPrifeFloor(string id, double value);
     }
 
-    internal class IntertitialRequestObjCBridge
+    internal class InterstitialRequestObjCBridge
     {
         public IntPtr nativeObject = IntPtr.Zero;
 
-        public IntertitialRequestObjCBridge(IntPtr interstitialRequest)
+        public InterstitialRequestObjCBridge(IntPtr interstitialRequest)
         {
             nativeObject = interstitialRequest;
         }
