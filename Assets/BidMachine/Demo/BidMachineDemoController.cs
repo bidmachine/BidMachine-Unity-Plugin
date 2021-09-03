@@ -37,29 +37,32 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void BidMachineInitialize()
     {
-        // targetingParams = new TargetingParams();
-        // targetingParams.setUserId("1");
-        // targetingParams.setGender(TargetingParams.Gender.Female);
-        // targetingParams.setBirthdayYear(1991);
-        // targetingParams.setKeyWords(new[] { "games, sport" });
-        // targetingParams.setCountry("Belarus");
-        // targetingParams.setCity("Minsk");
-        // targetingParams.setZip("220059");
-        // targetingParams.setStoreUrl("https://store.url");
-        // targetingParams.setStoreCategory("cards");
-        // targetingParams.setStoreSubCategories(new[] { "games", "cards" });
-        // targetingParams.setFramework("unity");
-        // targetingParams.setFramework("unity");
-        // targetingParams.setPaid(true);
-        // targetingParams.setDeviceLocation("", 22.0d, 22.0d);
-        targetingParams.setExternalUserIds(new[]
-        {
-            new ExternalUserId("sourceId_1", "1"),
-            new ExternalUserId("sourceId_2", "2")
-        });
-        // targetingParams.addBlockedApplication("com.appodeal.test");
-        // targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
-        // targetingParams.addBlockedAdvertiserDomain("ua");
+         targetingParams = new TargetingParams();
+         targetingParams.setExternalUserIds(new[]
+         {
+             new ExternalUserId("sourceId_1", "1"),
+             new ExternalUserId("sourceId_2", "2")
+         });
+         
+        targetingParams.setUserId("1");
+        targetingParams.setGender(TargetingParams.Gender.Female);
+        targetingParams.setBirthdayYear(1991);
+        targetingParams.setKeyWords(new[] { "games, sport" });
+        targetingParams.setCountry("Belarus");
+        targetingParams.setCity("Minsk");
+        targetingParams.setZip("220059");
+        targetingParams.setStoreUrl("https://store.url");
+        targetingParams.setStoreCategory("cards");
+        targetingParams.setStoreSubCategories(new[] { "games", "cards" });
+        targetingParams.setFramework("unity");
+        targetingParams.setFramework("unity");
+        targetingParams.setPaid(true);
+        targetingParams.setDeviceLocation("", 22.0d, 22.0d);
+        targetingParams.addBlockedApplication("com.appodeal.test");
+        targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
+        targetingParams.addBlockedAdvertiserDomain("ua");
+        
+        
         //
         // priceFloorParams = new PriceFloorParams();
         // priceFloorParams.addPriceFloor("123", 1.2d);
