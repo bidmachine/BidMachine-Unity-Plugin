@@ -2,17 +2,16 @@
 using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Api;
 using UnityEngine;
-using System.Runtime.InteropServices;
 using System;
-using BidMachineAds.Unity.iOS;
-using UnityEngine.iOS;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using AOT;
 
 namespace BidMachineAds.Unity.iOS
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
     public class iOSBidMachine : IBidMachine
     {
         private const int GENDER_MALE = 1;
@@ -142,17 +141,17 @@ namespace BidMachineAds.Unity.iOS
         {
             switch (gender)
             {
-                case Api.TargetingParams.Gender.Omitted:
+                case TargetingParams.Gender.Omitted:
                 {
                     TargetingObjcBridge.setGender(3);
                     break;
                 }
-                case Api.TargetingParams.Gender.Male:
+                case TargetingParams.Gender.Male:
                 {
                     TargetingObjcBridge.setGender(1);
                     break;
                 }
-                case Api.TargetingParams.Gender.Female:
+                case TargetingParams.Gender.Female:
                 {
                     TargetingObjcBridge.setGender(2);
                     break;
@@ -207,6 +206,11 @@ namespace BidMachineAds.Unity.iOS
                 : new[] { "empty" });
         }
 
+        public void setStoreId(string storeId)
+        {
+            TargetingObjcBridge.setStoreId(storeId);
+        }
+
         public void setFramework(string framework)
         {
             TargetingObjcBridge.setFramework(!string.IsNullOrEmpty(framework) ? framework : "empty");
@@ -224,22 +228,22 @@ namespace BidMachineAds.Unity.iOS
 
         public void setExternalUserIds(ExternalUserId[] externalUserIdList)
         {
-            throw new NotImplementedException();
+            TargetingObjcBridge.setExternalUserIds(externalUserIdList.ToList());
         }
 
         public void addBlockedApplication(string bundleOrPackage)
         {
-            throw new NotImplementedException();
+            TargetingObjcBridge.addBlockedApplication(bundleOrPackage);
         }
 
         public void addBlockedAdvertiserIABCategory(string category)
         {
-            throw new NotImplementedException();
+            TargetingObjcBridge.addBlockedAdvertiserIABCategory(category);
         }
 
         public void addBlockedAdvertiserDomain(string domain)
         {
-            throw new NotImplementedException();
+            TargetingObjcBridge.addBlockedAdvertiserDomain(domain);
         }
     }
 
@@ -280,6 +284,7 @@ namespace BidMachineAds.Unity.iOS
     }
 
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class iOSPriceFloorParams : IPriceFloorParams
     {
         private PriceFloorObjcBridge bridge;
@@ -315,6 +320,7 @@ namespace BidMachineAds.Unity.iOS
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class iOSInterstitialRequest : IInterstitialRequest
     {
         private InterstitialRequestObjCBridge bridge;
