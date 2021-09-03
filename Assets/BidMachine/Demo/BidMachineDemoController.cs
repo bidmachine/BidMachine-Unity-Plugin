@@ -52,11 +52,11 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         // targetingParams.setFramework("unity");
         // targetingParams.setPaid(true);
         // targetingParams.setDeviceLocation("", 22.0d, 22.0d);
-        // targetingParams.setExternalUserIds(new[]
-        // {
-        //     new ExternalUserId("sourceId_1", "1"),
-        //     new ExternalUserId("sourceId_2", "2")
-        // });
+        targetingParams.setExternalUserIds(new[]
+        {
+            new ExternalUserId("sourceId_1", "1"),
+            new ExternalUserId("sourceId_2", "2")
+        });
         // targetingParams.addBlockedApplication("com.appodeal.test");
         // targetingParams.addBlockedAdvertiserIABCategory("IAB-71");
         // targetingParams.addBlockedAdvertiserDomain("ua");
@@ -85,7 +85,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
          BidMachine.setUSPrivacyString("test_string");
          BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
         
-        // BidMachine.setTargetingParams(targetingParams);
+         BidMachine.setTargetingParams(targetingParams);
         
     }
 
