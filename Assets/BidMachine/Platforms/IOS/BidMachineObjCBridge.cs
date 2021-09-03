@@ -4,12 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Api;
 using UnityEngine;
-using BidMachineAds.Unity.iOS;
-using Unity.Plastic.Newtonsoft.Json;
-using UnityEngine.iOS;
 
 
 namespace BidMachineAds.Unity.iOS
@@ -69,6 +65,7 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void BidMachineSetPublisher(string id, string name, string domain, string categories);
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class SessionAdParamsObjcBridge
     {
         private readonly IntPtr nativeObject;
@@ -170,7 +167,7 @@ namespace BidMachineAds.Unity.iOS
 
         public static void setExternalUserIds(IEnumerable<ExternalUserId> externalUserIdList)
         {
-            TargetingSetExternalUserIds(JsonConvert.SerializeObject(externalUserIdList.ToList()));
+            TargetingSetExternalUserIds(JsonUtility.ToJson(externalUserIdList.ToList()));
         }
 
         public static void addBlockedApplication(string bundleOrPackage)
