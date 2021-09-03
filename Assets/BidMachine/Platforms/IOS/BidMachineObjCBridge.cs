@@ -1,11 +1,14 @@
 #if UNITY_IPHONE
 using System.Runtime.InteropServices;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Api;
 using UnityEngine;
 using BidMachineAds.Unity.iOS;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine.iOS;
 
 
@@ -130,11 +133,6 @@ namespace BidMachineAds.Unity.iOS
             TargetingSetCountry(country);
         }
 
-        public static void setDeviceLocation(double longitude, double latitude)
-        {
-            TargetingSetDeviceLocation(longitude, latitude);
-        }
-
         public static void setPaid(bool paid)
         {
             TargetingSetPaid(paid);
@@ -167,7 +165,32 @@ namespace BidMachineAds.Unity.iOS
 
         public static void setDeviceLocation(string providerName, double latitude, double longitude)
         {
-            //SetDeviceLocation(latitude, longitude);
+            TargetingSetDeviceLocation(latitude, longitude);
+        }
+
+        public static void setExternalUserIds(IEnumerable<ExternalUserId> externalUserIdList)
+        {
+            TargetingSetExternalUserIds(JsonConvert.SerializeObject(externalUserIdList.ToList()));
+        }
+
+        public static void addBlockedApplication(string bundleOrPackage)
+        {
+            TargetingSetBlockedApps(bundleOrPackage);
+        }
+
+        public static void addBlockedAdvertiserIABCategory(string category)
+        {
+            TargetingSetBlockedCategories(category);
+        }
+
+        public static void addBlockedAdvertiserDomain(string advertise)
+        {
+            TargetingSetBlockedAdvertisers(advertise);
+        }
+
+        public static void setStoreId(string storeId)
+        {
+            TargetingSetStoreId(storeId);
         }
 
         [DllImport("__Internal")]
@@ -184,15 +207,6 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         internal static extern void TargetingSetKeyWords(string keywords);
-
-        [DllImport("__Internal")]
-        internal static extern void TargetingSetBlockedCategories(string blockedCategories);
-
-        [DllImport("__Internal")]
-        internal static extern void TargetingSetBlockedAdvertisers(string blockedAdvertisers);
-
-        [DllImport("__Internal")]
-        internal static extern void TargetingSetBlockedApps(string blockedAdvertisers);
 
         [DllImport("__Internal")]
         internal static extern void TargetingSetCity(string city);
@@ -217,12 +231,26 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         internal static extern void TargetingSetStoreSubCategories(string storeSubCategories);
-        
+
         [DllImport("__Internal")]
         internal static extern void TargetingSetFramework(string framework);
 
-        // [DllImport("__Internal")]
-        // internal static extern void SetDeviceLocation(double latitude, double longitude);
+
+        [DllImport("__Internal")]
+        internal static extern void TargetingSetExternalUserIds(string users);
+
+        [DllImport("__Internal")]
+        internal static extern void TargetingSetBlockedApps(string blockedAdvertisers);
+
+        [DllImport("__Internal")]
+        internal static extern void TargetingSetBlockedAdvertisers(string advertiser);
+
+
+        [DllImport("__Internal")]
+        internal static extern void TargetingSetBlockedCategories(string categories);
+
+        [DllImport("__Internal")]
+        internal static extern void TargetingSetStoreId(string storeId);
     }
 
     internal class PriceFloorObjcBridge
