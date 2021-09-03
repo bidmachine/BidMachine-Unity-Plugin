@@ -71,18 +71,22 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         //     .setCompletionRate(1.3f);
         //
         //
-        // BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
-        // BidMachine.setEndpoint("https://test.com");
-        // BidMachine.setTargetingParams(targetingParams);
-        // BidMachine.setConsentConfig(true, "test consent string");
-        // BidMachine.setSubjectToGDPR(true);
-        // BidMachine.setCoppa(true);
-        // BidMachine.setUSPrivacyString("test_string");
-        // BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
-
+        
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
         BidMachine.initialize("1");
+        
+         BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
+         BidMachine.setEndpoint("https://test.com");
+         BidMachine.setSubjectToGDPR(true);
+         BidMachine.setCoppa(true);
+         BidMachine.setConsentConfig(true, "test consent string");
+         BidMachine.setConsentConfig(true, "test consent string");
+         BidMachine.setUSPrivacyString("test_string");
+         BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
+        
+        // BidMachine.setTargetingParams(targetingParams);
+        
     }
 
     public void IsInitialized()
