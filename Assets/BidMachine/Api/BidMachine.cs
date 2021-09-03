@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Common;
 
 namespace BidMachineAds.Unity.Api
@@ -22,7 +23,7 @@ namespace BidMachineAds.Unity.Api
         {
             return client ?? (client = BidMachineClientFactory.GetBidMachine());
         }
-        
+
         /// <summary>
         /// Initializes BidMachine SDK.
         /// See <see cref="BidMachine.initialize"/> for resulting triggered event.
@@ -32,7 +33,7 @@ namespace BidMachineAds.Unity.Api
         {
             getInstance().initialize(id);
         }
-        
+
         /// <summary>
         /// Checks if BidMachine SDK was initialized.
         /// See <see cref="BidMachine.isInitialized"/> for resulting triggered event.
@@ -62,7 +63,7 @@ namespace BidMachineAds.Unity.Api
         {
             getInstance().setLoggingEnabled(enabled);
         }
-        
+
         /// <summary>
         /// Initializes BidMachine SDK.
         /// See <see cref="BidMachine.setTestMode"/> for resulting triggered event.
@@ -72,7 +73,7 @@ namespace BidMachineAds.Unity.Api
         {
             getInstance().setTestMode(testMode);
         }
-        
+
         /// <summary>
         /// Sets default {@link TargetingParams} for all ad requests.
         /// See <see cref="BidMachine.setSubjectToGDPR"/> for resulting triggered event.
@@ -95,7 +96,7 @@ namespace BidMachineAds.Unity.Api
         {
             getInstance().setConsentConfig(consent, consentString);
         }
-        
+
         /// <summary>
         /// Sets subject to GDPR.
         /// See <see cref="BidMachine.setSubjectToGDPR"/> for resulting triggered event.
@@ -126,7 +127,7 @@ namespace BidMachineAds.Unity.Api
         {
             getInstance().setUSPrivacyString(usPrivacyString);
         }
-        
+
         /// <summary>
         /// Check CoarseLocation and FineLocation permission.
         /// See <see cref="BidMachine.checkAndroidPermissions"/> for resulting triggered event.
@@ -136,7 +137,7 @@ namespace BidMachineAds.Unity.Api
         {
             return getInstance().checkAndroidPermissions(permission);
         }
-        
+
         /// <summary>
         /// Request CoarseLocation and FineLocation permissions.
         /// See <see cref="BidMachine.requestAndroidPermissions"/> for resulting triggered event.
@@ -145,7 +146,7 @@ namespace BidMachineAds.Unity.Api
         {
             getInstance().requestAndroidPermissions();
         }
-        
+
         /// <summary>
         /// Sets publisher information.
         /// See <see cref="BidMachine.setPublisher"/> for resulting triggered event.
@@ -158,26 +159,39 @@ namespace BidMachineAds.Unity.Api
     }
 
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    public class ExternalUserId
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [Serializable]
+    public class ExternalUserId 
     {
+        public string sourceId;
+        public string value;
+
         public ExternalUserId(string sourceId, string value)
         {
-            this.SourceId = sourceId;
-            this.Value = value;
+            this.sourceId = sourceId;
+            this.value = value;
         }
 
-        private string SourceId { get; }
+        public string SourceId
+        {
+            get => sourceId;
+            set => sourceId = value;
+        }
 
-        private string Value { get; }
+        public string Value
+        {
+            get => value;
+            set => this.value = value;
+        }
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class Publisher
     {
-        private  string id;
-        private  string name;
-        private  string domain;
-        private  string[] categories;
+        private string id;
+        private string name;
+        private string domain;
+        private string[] categories;
 
         public Publisher(string id, string name, string domain, string[] categories)
         {
@@ -211,12 +225,14 @@ namespace BidMachineAds.Unity.Api
             set => categories = value;
         }
     }
-    
-    public enum CreativeFormat {
 
-        Banner, Video, Native
+    public enum CreativeFormat
+    {
+        Banner,
+        Video,
+        Native
     }
-    
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class TargetingParams
     {
@@ -292,19 +308,19 @@ namespace BidMachineAds.Unity.Api
             nativeTargetingParams.setStoreCategory(storeCategory);
             return this;
         }
-        
+
         public TargetingParams setStoreSubCategories(string[] storeSubCategories)
         {
             nativeTargetingParams.setStoreSubCategories(storeSubCategories);
             return this;
         }
-        
+
         public TargetingParams setFramework(string framework)
         {
             nativeTargetingParams.setFramework(framework);
             return this;
         }
-        
+
         public TargetingParams setPaid(bool paid)
         {
             nativeTargetingParams.setPaid(paid);
@@ -313,7 +329,7 @@ namespace BidMachineAds.Unity.Api
 
         public TargetingParams setDeviceLocation(string providerName, double latitude, double longitude)
         {
-            nativeTargetingParams.setDeviceLocation(providerName,latitude,longitude);
+            nativeTargetingParams.setDeviceLocation(providerName, latitude, longitude);
             return this;
         }
 
@@ -381,7 +397,7 @@ namespace BidMachineAds.Unity.Api
         {
             nativeSessionAdParams = BidMachineClientFactory.GetSessionAdParams();
         }
-        
+
         public ISessionAdParams GetNativeSessionAdParams()
         {
             return nativeSessionAdParams;
@@ -392,31 +408,30 @@ namespace BidMachineAds.Unity.Api
             nativeSessionAdParams.setSessionDuration(value);
             return this;
         }
-        
+
         public SessionAdParams setImpressionCount(int value)
         {
             nativeSessionAdParams.setImpressionCount(value);
             return this;
         }
-        
+
         public SessionAdParams setClickRate(float value)
         {
             nativeSessionAdParams.setClickRate(value);
             return this;
         }
-        
+
         public SessionAdParams setIsUserClickedOnLastAd(bool value)
         {
             nativeSessionAdParams.setIsUserClickedOnLastAd(value);
             return this;
         }
-     
+
         public SessionAdParams setCompletionRate(float value)
         {
             nativeSessionAdParams.setCompletionRate(value);
             return this;
         }
-       
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -490,25 +505,25 @@ namespace BidMachineAds.Unity.Api
             nativeBannerRequestBuilder.setSessionAdParams(sessionAdParams);
             return this;
         }
-        
+
         public BannerRequestBuilder setLoadingTimeOut(int value)
         {
             nativeBannerRequestBuilder.setLoadingTimeOut(value);
             return this;
         }
-        
+
         public BannerRequestBuilder setBidPayload(string value)
         {
             nativeBannerRequestBuilder.setBidPayload(value);
             return this;
         }
-        
+
         public BannerRequestBuilder setPlacementId(string placementId)
         {
             nativeBannerRequestBuilder.setPlacementId(placementId);
             return this;
         }
-        
+
         public BannerRequestBuilder setNetworks(string networks)
         {
             nativeBannerRequestBuilder.setNetworks(networks);
@@ -520,7 +535,7 @@ namespace BidMachineAds.Unity.Api
             return new BannerRequest(nativeBannerRequestBuilder.build());
         }
     }
-    
+
     public enum AdContentType
     {
         All,
@@ -537,7 +552,7 @@ namespace BidMachineAds.Unity.Api
         {
             nativeInterstitialRequestBuilder = BidMachineClientFactory.GetInterstitialRequestBuilder();
         }
-        
+
         public IInterstitialRequestBuilder GetInterstitialRequestBuilder()
         {
             return nativeInterstitialRequestBuilder;
@@ -560,43 +575,43 @@ namespace BidMachineAds.Unity.Api
             nativeInterstitialRequestBuilder.setAdContentType(contentType);
             return this;
         }
-        
+
         public InterstitialRequestBuilder setSessionAdParams(SessionAdParams sessionAdParams)
         {
             nativeInterstitialRequestBuilder.setSessionAdParams(sessionAdParams);
             return this;
         }
-        
+
         public InterstitialRequestBuilder setPlacementId(string placementId)
         {
             nativeInterstitialRequestBuilder.setPlacementId(placementId);
             return this;
         }
-        
+
         public InterstitialRequestBuilder setLoadingTimeOut(int timeOut)
         {
             nativeInterstitialRequestBuilder.setLoadingTimeOut(timeOut);
             return this;
         }
-        
+
         public InterstitialRequestBuilder setBidPayload(string bidPayLoad)
         {
             nativeInterstitialRequestBuilder.setBidPayload(bidPayLoad);
             return this;
         }
-        
+
         public InterstitialRequestBuilder setNetworks(string networks)
         {
             nativeInterstitialRequestBuilder.setNetworks(networks);
             return this;
         }
-        
+
         public InterstitialRequestBuilder setListener(IInterstitialRequestListener listener)
         {
             nativeInterstitialRequestBuilder.setListener(listener);
             return this;
         }
-        
+
         public InterstitialRequest build()
         {
             return new InterstitialRequest(nativeInterstitialRequestBuilder.build());
@@ -635,31 +650,31 @@ namespace BidMachineAds.Unity.Api
             nativeRewardedRequestBuilder.setSessionAdParams(sessionAdParams);
             return this;
         }
-        
+
         public RewardedRequestBuilder setPlacementId(string placementId)
         {
             nativeRewardedRequestBuilder.setPlacementId(placementId);
             return this;
         }
-        
+
         public RewardedRequestBuilder setLoadingTimeOut(int timeOut)
         {
             nativeRewardedRequestBuilder.setLoadingTimeOut(timeOut);
             return this;
         }
-        
+
         public RewardedRequestBuilder setBidPayload(string bidPayLoad)
         {
             nativeRewardedRequestBuilder.setBidPayload(bidPayLoad);
             return this;
         }
-        
+
         public RewardedRequestBuilder setNetworks(string networks)
         {
             nativeRewardedRequestBuilder.setNetworks(networks);
             return this;
         }
-        
+
         public RewardedRequestBuilder setListener(IRewardedRequestListener listener)
         {
             nativeRewardedRequestBuilder.setListener(listener);
@@ -686,10 +701,10 @@ namespace BidMachineAds.Unity.Api
         {
             return nativeBannerRequest;
         }
-        
+
         public BannerSize getSize()
         {
-            return  nativeBannerRequest.getSize();
+            return nativeBannerRequest.getSize();
         }
     }
 
