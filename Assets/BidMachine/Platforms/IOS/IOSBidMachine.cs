@@ -118,6 +118,132 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    public class iOSTargetingParams : ITargetingParams
+    {
+        private readonly TargetingObjcBridge bridge;
+
+        public iOSTargetingParams()
+        {
+            bridge = new TargetingObjcBridge();
+        }
+
+        public IntPtr GetIntPtr()
+        {
+            return bridge.getNativeObject();
+        }
+
+        public void setUserId(string id)
+        {
+            TargetingObjcBridge.setUserId(!string.IsNullOrEmpty(id) ? id : "null");
+        }
+
+        public void setGender(TargetingParams.Gender gender)
+        {
+            switch (gender)
+            {
+                case Api.TargetingParams.Gender.Omitted:
+                {
+                    TargetingObjcBridge.setGender(3);
+                    break;
+                }
+                case Api.TargetingParams.Gender.Male:
+                {
+                    TargetingObjcBridge.setGender(1);
+                    break;
+                }
+                case Api.TargetingParams.Gender.Female:
+                {
+                    TargetingObjcBridge.setGender(2);
+                    break;
+                }
+                default:
+                    TargetingObjcBridge.setGender(3);
+                    break;
+            }
+        }
+
+        public void setBirthdayYear(int year)
+        {
+            TargetingObjcBridge.setBirthdayYear(year);
+        }
+
+        public void setKeyWords(string[] keyWords)
+        {
+            TargetingObjcBridge.setKeyWords(keyWords.Length > 0
+                ? string.Join(",", keyWords)
+                : string.Join(",", "null"));
+        }
+
+        public void setCountry(string country)
+        {
+            TargetingObjcBridge.setCountry(!string.IsNullOrEmpty(country) ? country : "empty");
+        }
+
+        public void setCity(string city)
+        {
+            TargetingObjcBridge.setCity(!string.IsNullOrEmpty(city) ? city : "empty");
+        }
+
+        public void setZip(string zip)
+        {
+            TargetingObjcBridge.setZip(!string.IsNullOrEmpty(zip) ? zip : "empty");
+        }
+
+        public void setStoreUrl(string storeUrl)
+        {
+            TargetingObjcBridge.setStoreUrl(!string.IsNullOrEmpty(storeUrl) ? storeUrl : "empty");
+        }
+
+        public void setStoreCategory(string storeCategory)
+        {
+            TargetingObjcBridge.setStoreCategory(!string.IsNullOrEmpty(storeCategory) ? storeCategory : "empty");
+        }
+
+        public void setStoreSubCategories(string[] storeSubCategories)
+        {
+            TargetingObjcBridge.setStoreSubCategories(storeSubCategories.Length > 0
+                ? storeSubCategories
+                : new[] { "empty" });
+        }
+
+        public void setFramework(string framework)
+        {
+            TargetingObjcBridge.setFramework(!string.IsNullOrEmpty(framework) ? framework : "empty");
+        }
+
+        public void setPaid(bool paid)
+        {
+            TargetingObjcBridge.setPaid(paid);
+        }
+
+        public void setDeviceLocation(string providerName, double latitude, double longitude)
+        {
+            TargetingObjcBridge.setDeviceLocation(providerName, latitude, longitude);
+        }
+
+        public void setExternalUserIds(ExternalUserId[] externalUserIdList)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void addBlockedApplication(string bundleOrPackage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void addBlockedAdvertiserIABCategory(string category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void addBlockedAdvertiserDomain(string domain)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class iOSSessionAdParams : ISessionAdParams
     {
         private readonly SessionAdParamsObjcBridge bridge;
@@ -153,147 +279,6 @@ namespace BidMachineAds.Unity.iOS
         }
     }
 
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    public class iOSTargetingParams : ITargetingParams
-    {
-        private readonly TargetingObjcBridge bridge;
-
-        public iOSTargetingParams()
-        {
-            bridge = new TargetingObjcBridge();
-        }
-
-        public IntPtr GetIntPtr()
-        {
-            return bridge.getNativeObject();
-        }
-
-        public void setBirthdayYear(int year)
-        {
-            TargetingObjcBridge.setBirthdayYear(year);
-        }
-
-        public void setBlockedAdvertiserDomain(string domains)
-        {
-            TargetingObjcBridge.setBlockedAdvertiserDomain(domains);
-        }
-
-        public void setBlockedAdvertiserIABCategories(string categories)
-        {
-            TargetingObjcBridge.setBlockedAdvertiserIABCategories(categories);
-        }
-
-        public void setBlockedApplication(string applications)
-        {
-            TargetingObjcBridge.setBlockedApplication(applications);
-        }
-
-        public void setCity(string city)
-        {
-            TargetingObjcBridge.setCity(city);
-        }
-
-        public void setCountry(string country)
-        {
-            TargetingObjcBridge.setCountry(country);
-        }
-
-        public void setDeviceLocation(double latitude, double longitude)
-        {
-            TargetingObjcBridge.setDeviceLocation(longitude, latitude);
-        }
-
-        public void setGender(Api.TargetingParams.Gender gender)
-        {
-            switch (gender)
-            {
-                case Api.TargetingParams.Gender.Omitted:
-                {
-                    TargetingObjcBridge.setGender(3);
-                    break;
-                }
-                case Api.TargetingParams.Gender.Male:
-                {
-                    TargetingObjcBridge.setGender(1);
-                    break;
-                }
-                case Api.TargetingParams.Gender.Female:
-                {
-                    TargetingObjcBridge.setGender(2);
-                    break;
-                }
-                default:
-                    TargetingObjcBridge.setGender(3);
-                    break;
-            }
-        }
-
-        public void setKeyWords(string[] keyWords)
-        {
-            TargetingObjcBridge.setKeyWords(keyWords);
-        }
-
-        public void setFramework(string framework)
-        {
-            TargetingObjcBridge.setFramework(framework);
-        }
-
-        public void setPaid(bool paid)
-        {
-            TargetingObjcBridge.setPaid(paid);
-        }
-
-        public void setDeviceLocation(string providerName, double latitude, double longitude)
-        {
-            TargetingObjcBridge.setDeviceLocation(latitude, longitude);
-        }
-
-        public void setExternalUserIds(ExternalUserId[] externalUserIdList)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void addBlockedApplication(string bundleOrPackage)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void addBlockedAdvertiserIABCategory(string category)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void addBlockedAdvertiserDomain(string domain)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void setStoreUrl(string storeUrl)
-        {
-            TargetingObjcBridge.setStoreUrl(storeUrl);
-        }
-
-        public void setStoreCategory(string storeCategory)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void setStoreSubCategories(string[] storeSubCategories)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void setUserId(string id)
-        {
-            TargetingObjcBridge.setUserId(id);
-        }
-
-        public void setZip(string zip)
-        {
-            TargetingObjcBridge.setZip(zip);
-        }
-    }
 
     public class iOSPriceFloorParams : IPriceFloorParams
     {
