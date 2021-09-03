@@ -44,6 +44,7 @@ namespace BidMachineAds.Unity.Common
         void setStoreUrl(string storeUrl);
         void setStoreCategory(string storeCategory);
         void setStoreSubCategories(string[] storeSubCategories);
+        void setStoreId(string storeId);
         void setFramework(string framework);
         void setPaid(bool paid);
         void setDeviceLocation(string providerName, double latitude, double longitude);
@@ -82,7 +83,7 @@ namespace BidMachineAds.Unity.Common
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
         void setNetworks(string networks);
-        
+
         IBannerRequest build();
     }
 
@@ -98,7 +99,7 @@ namespace BidMachineAds.Unity.Common
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
         void setNetworks(string networks);
-        
+
         IInterstitialRequest build();
     }
 
