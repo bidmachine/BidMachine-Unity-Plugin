@@ -356,6 +356,12 @@ namespace BidMachineAds.Unity.Api
             nativeTargetingParams.addBlockedAdvertiserDomain(domain);
             return this;
         }
+        
+        public TargetingParams setStoreId(string storeId)
+        {
+            nativeTargetingParams.addBlockedAdvertiserDomain(storeId);
+            return this;
+        }
     }
 
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
