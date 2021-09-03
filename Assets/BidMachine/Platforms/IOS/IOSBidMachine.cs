@@ -332,11 +332,11 @@ namespace BidMachineAds.Unity.iOS
 
     public class iOSInterstitialRequest : IInterstitialRequest
     {
-        private IntertitialRequestObjCBridge bridge;
+        private InterstitialRequestObjCBridge bridge;
 
         public iOSInterstitialRequest(IntPtr interstitialRequest)
         {
-            bridge = new IntertitialRequestObjCBridge(interstitialRequest);
+            bridge = new InterstitialRequestObjCBridge(interstitialRequest);
         }
 
         public IntPtr GetIntPtr()
