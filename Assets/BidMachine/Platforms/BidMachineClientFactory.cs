@@ -41,7 +41,7 @@ namespace BidMachineAds.Unity
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
         }
-        
+
         internal static ISessionAdParams GetSessionAdParams()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -52,6 +52,7 @@ namespace BidMachineAds.Unity
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
         }
+        
 
         internal static IInterstitialRequestBuilder GetInterstitialRequestBuilder()
         {
