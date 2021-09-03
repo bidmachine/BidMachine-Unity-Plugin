@@ -79,11 +79,9 @@ namespace BidMachineAds.Unity.iOS
         {
             return nativeObject;
         }
-        
+
         // [DllImport("__Internal")]
         // internal static extern IntPtr GetSessionAdParams();
-        
-        
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -117,24 +115,9 @@ namespace BidMachineAds.Unity.iOS
             TargetingSetYearOfBirth(year);
         }
 
-        public static void setKeyWords(string[] keyWords)
+        public static void setKeyWords(string keyWords)
         {
-            TargetingSetKeyWords(string.Join(",", keyWords));
-        }
-
-        public static void setBlockedAdvertiserIABCategories(string categories)
-        {
-            TargetingSetBlockedCategories(categories);
-        }
-
-        public static void setBlockedAdvertiserDomain(string domains)
-        {
-            TargetingSetBlockedAdvertisers(domains);
-        }
-
-        public static void setBlockedApplication(string applications)
-        {
-            TargetingSetBlockedApps(applications);
+            TargetingSetKeyWords(keyWords);
         }
 
         public static void setCity(string city)
@@ -167,9 +150,19 @@ namespace BidMachineAds.Unity.iOS
             TargetingSetZip(zip);
         }
 
+        public static void setStoreCategory(string storeCategory)
+        {
+            TargetingSetStoreCategory(storeCategory);
+        }
+
+        public static void setStoreSubCategories(string[] storeSubCategories)
+        {
+            TargetingSetStoreSubCategories(string.Join(",", storeSubCategories));
+        }
+
         public static void setFramework(string framework)
         {
-           // SetFramework(framework);
+            TargetingSetFramework(framework);
         }
 
         public static void setDeviceLocation(string providerName, double latitude, double longitude)
@@ -219,8 +212,14 @@ namespace BidMachineAds.Unity.iOS
         [DllImport("__Internal")]
         internal static extern void TargetingSetZip(string zip);
 
-        // [DllImport("__Internal")]
-        // internal static extern void SetFramework(string framework);
+        [DllImport("__Internal")]
+        internal static extern void TargetingSetStoreCategory(string storeCategory);
+
+        [DllImport("__Internal")]
+        internal static extern void TargetingSetStoreSubCategories(string storeSubCategories);
+        
+        [DllImport("__Internal")]
+        internal static extern void TargetingSetFramework(string framework);
 
         // [DllImport("__Internal")]
         // internal static extern void SetDeviceLocation(double latitude, double longitude);
