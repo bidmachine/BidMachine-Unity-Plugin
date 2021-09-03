@@ -53,6 +53,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         targetingParams.setZip("220059");
         targetingParams.setStoreUrl("https://store.url");
         targetingParams.setStoreCategory("cards");
+        targetingParams.setStoreId("id");
         targetingParams.setStoreSubCategories(new[] { "games", "cards" });
         targetingParams.setFramework("unity");
         targetingParams.setFramework("unity");
