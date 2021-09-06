@@ -256,6 +256,11 @@ namespace BidMachineAds.Unity.iOS
         {
             bridge = new SessionAdParamsObjcBridge();
         }
+        
+        public IntPtr GetIntPtr()
+        {
+            return bridge.getNativeObject();
+        }
 
         public void setSessionDuration(int value)
         {
@@ -409,17 +414,22 @@ namespace BidMachineAds.Unity.iOS
 
         public void setSessionAdParams(SessionAdParams sessionAdParams)
         {
-            
+            if (sessionAdParams == null) return;
+            var iOSSessionAdParams = (iOSSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
+            var iSessionAdParams = iOSSessionAdParams.GetIntPtr();
+            bridge.setSessionAdParams(iSessionAdParams);
         }
 
         public void setLoadingTimeOut(int value)
         {
-           
+            bridge.setLoadingTimeOut(value);
+
         }
 
         public void setPlacementId(string placementId)
         {
-           
+            bridge.setPlacementId(placementId);
+
         }
 
         public void setBidPayload(string bidPayLoad)
