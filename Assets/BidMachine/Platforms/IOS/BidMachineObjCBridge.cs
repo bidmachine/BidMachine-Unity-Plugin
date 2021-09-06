@@ -72,7 +72,7 @@ namespace BidMachineAds.Unity.iOS
 
         public SessionAdParamsObjcBridge()
         {
-            // nativeObject = GetSessionAdParams();
+            nativeObject = GetSessionAdParams();
         }
 
         public IntPtr getNativeObject()
@@ -80,8 +80,64 @@ namespace BidMachineAds.Unity.iOS
             return nativeObject;
         }
 
-        // [DllImport("__Internal")]
-        // internal static extern IntPtr GetSessionAdParams();
+        public void setSessionDuration(int value)
+        {
+            SetSessionDuration(value);
+        }
+
+        public void setImpressionCount(int value)
+        {
+            SetImpressionCount(value);
+        }
+
+        public void setClickRate(int value)
+        {
+            SetClickRate(value);
+        }
+
+        public void setLastAdomain(string value)
+        {
+            SetLastAdomain(value);
+        }
+
+        public void setCompletionRate(int value)
+        {
+            SetCompletionRate(value);
+        }
+
+        public void setLastClickForImpression(int value)
+        {
+            SetLastClickForImpression(value);
+        }
+
+        public void setLastBundle(string value)
+        {
+            SetLastBundle(value);
+        }
+        
+        [DllImport("__Internal")]
+        internal static extern IntPtr GetSessionAdParams();
+
+        [DllImport("__Internal")]
+        internal static extern void SetSessionDuration(int value);
+
+        [DllImport("__Internal")]
+        internal static extern void SetImpressionCount(int value);
+
+        [DllImport("__Internal")]
+        internal static extern void SetClickRate(int value);
+
+        [DllImport("__Internal")]
+        internal static extern void SetLastAdomain(string value);
+
+        [DllImport("__Internal")]
+        internal static extern void SetCompletionRate(int value);
+
+        [DllImport("__Internal")]
+        internal static extern void SetLastClickForImpression(int value);
+        
+        [DllImport("__Internal")]
+        internal static extern void SetLastBundle(string value);
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -250,9 +306,10 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void TargetingSetStoreId(string storeId);
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class PriceFloorObjcBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        private readonly IntPtr nativeObject;
 
         public PriceFloorObjcBridge()
         {
@@ -276,9 +333,10 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void PriceFloorAddPrifeFloor(string id, double value);
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class InterstitialRequestObjCBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        private readonly IntPtr nativeObject;
 
         public InterstitialRequestObjCBridge(IntPtr interstitialRequest)
         {
@@ -293,7 +351,7 @@ namespace BidMachineAds.Unity.iOS
 
     internal class InterstitialRequestBuilderObjCBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        private readonly IntPtr nativeObject;
 
         public InterstitialRequestBuilderObjCBridge()
         {
@@ -320,6 +378,11 @@ namespace BidMachineAds.Unity.iOS
             InterstitialRequestSetType(type);
         }
 
+        public void setBidPayload(string bidPayLoad)
+        {
+            InterstitialSetBidPayload(bidPayLoad);
+        }
+
         [DllImport("__Internal")]
         internal static extern IntPtr GetInterstitialRequest();
 
@@ -331,6 +394,9 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         internal static extern void InterstitialRequestSetType(int type);
+        
+        [DllImport("__Internal")]
+        internal static extern void InterstitialSetBidPayload(string value);
     }
 
     internal class InterstitialAdObjCBridge
