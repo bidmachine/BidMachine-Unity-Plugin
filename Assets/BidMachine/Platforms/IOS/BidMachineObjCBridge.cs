@@ -371,7 +371,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void setTargetingParams(IntPtr targetingParams)
         {
-           Debug.Log("Not support on iOS platform");
+            Debug.Log("Not support on iOS platform");
         }
 
         public void setType(int type)
@@ -404,7 +404,7 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         internal static extern void InterstitialRequestSetPriceFloor(IntPtr priceFloor);
-        
+
         [DllImport("__Internal")]
         internal static extern void InterstitialRequestSetType(int type);
 
@@ -565,7 +565,7 @@ namespace BidMachineAds.Unity.iOS
             BidMachineRewardedCallbacks onAdClicked,
             BidMachineRewardedCallbacks onAdClosed);
     }
-    
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class RewardedRequestObjCBridge
     {
@@ -630,33 +630,34 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         internal static extern void RewardedSetBidPayload(string value);
-        
+
         [DllImport("__Internal")]
         internal static extern void RewardedSetPlacementId(string value);
-        
+
         [DllImport("__Internal")]
         internal static extern void RewardedSetLoadingTimeOut(int value);
+
         [DllImport("__Internal")]
         internal static extern void RewardedSetSessionAdParams(IntPtr value);
     }
 
     internal class BannerViewObjCBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        public IntPtr NativeObject;
 
         public BannerViewObjCBridge()
         {
-            nativeObject = GetBannerView();
+            NativeObject = GetBannerView();
         }
 
         public BannerViewObjCBridge(IntPtr bannerView)
         {
-            nativeObject = bannerView;
+            NativeObject = bannerView;
         }
 
         public IntPtr GetIntPtr()
         {
-            return nativeObject;
+            return NativeObject;
         }
 
         public bool canShow()
@@ -708,24 +709,26 @@ namespace BidMachineAds.Unity.iOS
             BidMachineBannerCallbacks onAdClicked);
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class BannerViewRequestObjCBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        private readonly IntPtr NativeObject;
 
         public BannerViewRequestObjCBridge(IntPtr bannerViewRequest)
         {
-            nativeObject = bannerViewRequest;
+            NativeObject = bannerViewRequest;
         }
 
         public IntPtr getNativeObject()
         {
-            return nativeObject;
+            return NativeObject;
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class BannerViewRequestBuilderObjCBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        private readonly IntPtr nativeObject;
 
         public BannerViewRequestBuilderObjCBridge()
         {
@@ -742,14 +745,29 @@ namespace BidMachineAds.Unity.iOS
             BannerViewRequestSetPriceFloor(priceFloor);
         }
 
-        public void setTargetingParams(IntPtr targetingParams)
-        {
-            BannerViewRequestSetTargeting(targetingParams);
-        }
-
         public void setBannerSize(int size)
         {
             BannerViewSetSize(size);
+        }
+
+        public void setBidPayload(string bidPayLoad)
+        {
+            BannerViewSetBidPayload(bidPayLoad);
+        }
+
+        public void setPlacementId(string placementId)
+        {
+            BannerViewSetPlacementId(placementId);
+        }
+
+        public void setLoadingTimeOut(int value)
+        {
+            BannerViewSetLoadingTimeOut(value);
+        }
+
+        public void setSessionAdParams(IntPtr sessionAdParams)
+        {
+            BannerViewSetSessionAdParams(sessionAdParams);
         }
 
         [DllImport("__Internal")]
@@ -759,10 +777,19 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void BannerViewRequestSetPriceFloor(IntPtr priceFloor);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewRequestSetTargeting(IntPtr targetingParams);
+        internal static extern void BannerViewSetSize(int size);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewSetSize(int size);
+        internal static extern void BannerViewSetBidPayload(string value);
+
+        [DllImport("__Internal")]
+        internal static extern void BannerViewSetPlacementId(string value);
+
+        [DllImport("__Internal")]
+        internal static extern void BannerViewSetLoadingTimeOut(int value);
+
+        [DllImport("__Internal")]
+        internal static extern void BannerViewSetSessionAdParams(IntPtr value);
     }
 }
 #endif
