@@ -438,6 +438,25 @@ namespace BidMachineAds.Unity.Api
             nativeSessionAdParams.setCompletionRate(value);
             return this;
         }
+        
+        public SessionAdParams setLastAdomain(string value)
+        {
+            nativeSessionAdParams.setLastAdomain(value);
+            return this;
+        }
+        
+        public SessionAdParams setLastClickForImpression(int value)
+        {
+            nativeSessionAdParams.setLastClickForImpression(value);
+            return this;
+        }
+        
+        public SessionAdParams setLastBundle(string value)
+        {
+            nativeSessionAdParams.setLastBundle(value);
+            return this;
+        }
+        
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
