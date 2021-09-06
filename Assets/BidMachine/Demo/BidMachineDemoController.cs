@@ -172,13 +172,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         if (rewardedRequest == null)
         {
             rewardedRequest = new RewardedRequestBuilder()
-                // .setTargetingParams(targetingParams)
-                // .setPriceFloorParams(priceFloorParams)
-                // .setSessionAdParams(sessionAdParams)
-                // .setPlacementId("placement1")
-                // .setLoadingTimeOut(123)
-                // .setBidPayload("123")
-                // .setNetworks("admob")
+                .setTargetingParams(targetingParams)
+                .setPriceFloorParams(priceFloorParams)
+                .setSessionAdParams(sessionAdParams)
+                .setPlacementId("placement1")
+                .setLoadingTimeOut(123)
+                .setBidPayload("123")
+                .setNetworks("admob")
                 .setListener(this)
                 .build();
         }
