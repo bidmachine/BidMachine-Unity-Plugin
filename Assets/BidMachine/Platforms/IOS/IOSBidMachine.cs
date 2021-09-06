@@ -259,35 +259,51 @@ namespace BidMachineAds.Unity.iOS
 
         public void setSessionDuration(int value)
         {
-            throw new NotImplementedException();
+            bridge.setSessionDuration(value);
         }
 
         public void setImpressionCount(int value)
         {
-            throw new NotImplementedException();
+            bridge.setImpressionCount(value);
         }
 
         public void setClickRate(float value)
         {
-            throw new NotImplementedException();
+            bridge.setClickRate((int)value);
+        }
+
+        public void setLastAdomain(string value)
+        {
+            bridge.setLastAdomain(value);
         }
 
         public void setIsUserClickedOnLastAd(bool value)
         {
-            throw new NotImplementedException();
+            Debug.Log("Not support on iOS platform");
         }
 
         public void setCompletionRate(float value)
         {
-            throw new NotImplementedException();
+            bridge.setCompletionRate((int)value);
+        }
+
+        public void setLastClickForImpression(int value)
+        {
+            bridge.setLastClickForImpression(value);
+        }
+
+        public void setLastBundle(string value)
+        {
+            bridge.setLastBundle(value);
         }
     }
 
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class iOSPriceFloorParams : IPriceFloorParams
     {
-        private PriceFloorObjcBridge bridge;
+        private readonly PriceFloorObjcBridge bridge;
 
         public iOSPriceFloorParams()
         {
@@ -299,31 +315,22 @@ namespace BidMachineAds.Unity.iOS
             return bridge.getNativeObject();
         }
 
-        public void setPriceFloor(string uniqueFloorId, double priceFloor)
-        {
-            bridge.setPriceFloor(uniqueFloorId, priceFloor);
-        }
-
-        public void setPriceFloor(double priceFloor)
-        {
-            Debug.Log("Support only on Android platform");
-        }
-
         public void addPriceFloor(double priceFloor)
         {
-            throw new NotImplementedException();
+            Debug.Log("Support only on Android platform");
+
         }
 
         public void addPriceFloor(string uniqueFloorId, double priceFloor)
         {
-            throw new NotImplementedException();
+            bridge.setPriceFloor(uniqueFloorId, priceFloor);
         }
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class iOSInterstitialRequest : IInterstitialRequest
     {
-        private InterstitialRequestObjCBridge bridge;
+        private readonly InterstitialRequestObjCBridge bridge;
 
         public iOSInterstitialRequest(IntPtr interstitialRequest)
         {
@@ -380,6 +387,9 @@ namespace BidMachineAds.Unity.iOS
                     bridge.setType(0);
                     break;
                 }
+                default:
+                    bridge.setType(2);
+                    break;
             }
         }
 
@@ -394,27 +404,27 @@ namespace BidMachineAds.Unity.iOS
 
         public void setListener(IInterstitialRequestListener bannerRequestListener)
         {
-            throw new NotImplementedException();
+            //TODO implementation
         }
 
         public void setSessionAdParams(SessionAdParams sessionAdParams)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void setLoadingTimeOut(int value)
         {
-            throw new NotImplementedException();
+           
         }
 
         public void setPlacementId(string placementId)
         {
-            throw new NotImplementedException();
+           
         }
 
         public void setBidPayload(string bidPayLoad)
         {
-            throw new NotImplementedException();
+            bridge.setBidPayload(bidPayLoad);
         }
 
         public void setTargetingParams(TargetingParams targetingParams)
