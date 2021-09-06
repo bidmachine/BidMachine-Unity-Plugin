@@ -109,18 +109,10 @@ namespace BidMachineAds.Unity.iOS
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            if (targetingParams == null)
-            {
-                Debug.Log("IOSBidMachine targetingParams == null");
-            }
-            else
-            {
-                var targetingObjcBridge = (iOSTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-                var iTargetingParams = targetingObjcBridge.GetIntPtr();
-                BidMachineObjCBridge.BidMachineSetTargeting(iTargetingParams);
-
-                Debug.Log("IOSBidMachine BidMachineSetTargeting");
-            }
+            if (targetingParams == null) return;
+            var targetingObjcBridge = (iOSTargetingParams)targetingParams.GetNativeTargetingParamsClient();
+            var iTargetingParams = targetingObjcBridge.GetIntPtr();
+            BidMachineObjCBridge.BidMachineSetTargeting(iTargetingParams);
         }
     }
 
@@ -256,6 +248,7 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class iOSSessionAdParams : ISessionAdParams
     {
         private readonly SessionAdParamsObjcBridge bridge;
@@ -310,7 +303,6 @@ namespace BidMachineAds.Unity.iOS
             bridge.setLastBundle(value);
         }
     }
-
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
@@ -483,9 +475,9 @@ namespace BidMachineAds.Unity.iOS
         public void destroy()
         {
             bridge.destroy();
-            if (interstitialListeners.ContainsKey(bridge.nativeObject))
+            if (interstitialListeners.ContainsKey(bridge.NativeObject))
             {
-                interstitialListeners.Remove(bridge.nativeObject);
+                interstitialListeners.Remove(bridge.NativeObject);
             }
         }
 
@@ -624,22 +616,22 @@ namespace BidMachineAds.Unity.iOS
 
         public void setSessionAdParams(SessionAdParams sessionAdParams)
         {
-            if (sessionAdParams != null)
-            {
-                //bridge.setSessionAdParams(sessionAdParams);
-            }
+            if (sessionAdParams == null) return;
+            var sessionAdParamsObjcBridge = (iOSSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
+            var iSessionAdParams = sessionAdParamsObjcBridge.GetIntPtr();
+            bridge.setSessionAdParams(iSessionAdParams);
         }
 
         public void setLoadingTimeOut(int value)
         {
-            throw new NotImplementedException();
+            bridge.setLoadingTimeOut(value);
         }
 
         public void setPlacementId(string placementId)
         {
             if (!string.IsNullOrEmpty(placementId))
             {
-                //bridge.setPlacementId(placementId);
+                bridge.setPlacementId(placementId);
             }
         }
 
@@ -647,17 +639,13 @@ namespace BidMachineAds.Unity.iOS
         {
             if (!string.IsNullOrEmpty(bidPayLoad))
             {
-                //bridge.setBidPayload(bidPayLoad);
+                bridge.setBidPayload(bidPayLoad);
             }
         }
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            if (targetingParams == null) return;
-            var iOSTargetingParams =
-                (iOSTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-            var iTargetingParams = iOSTargetingParams.GetIntPtr();
-            bridge.setTargetingParams(iTargetingParams);
+            Debug.Log("Not support on iOS platform");
         }
     }
 
@@ -692,9 +680,9 @@ namespace BidMachineAds.Unity.iOS
         public void destroy()
         {
             bridge.destroy();
-            if (rewardedListeners.ContainsKey(bridge.nativeObject))
+            if (rewardedListeners.ContainsKey(bridge.NativeObject))
             {
-                rewardedListeners.Remove(bridge.nativeObject);
+                rewardedListeners.Remove(bridge.NativeObject);
             }
         }
 
