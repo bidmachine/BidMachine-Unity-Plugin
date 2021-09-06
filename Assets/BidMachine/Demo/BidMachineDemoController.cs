@@ -235,7 +235,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     public void ShowBannerView()
     {
         banner.showBannerView(
-            Screen.currentResolution.height - Screen.currentResolution.height / 10,
+            BidMachine.BANNER_BOTTOM,
             BidMachine.BANNER_HORIZONTAL_CENTER,
             bannerView);
     }
