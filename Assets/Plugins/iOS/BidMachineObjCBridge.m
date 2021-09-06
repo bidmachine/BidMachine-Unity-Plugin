@@ -14,25 +14,21 @@ static BDMSdkConfiguration *configuration;
 static BDMUserRestrictions *internalRestrictions;
 static id<BDMContextualProtocol> contextualData;
 
+static BDMTargeting *targeting;
+static BDMPriceFloor *priceFloor;
+static BDMUserGender *userGender;
 
+static BDMInterstitial *interstitial;
+static BDMRewarded * rewarded;
+static BDMBannerView * bannerView;
 
-BDMTargeting *targeting;
-BDMPriceFloor *priceFloor;
-BDMUserGender *userGender;
-
-BDMInterstitial *interstitial;
-BDMRewarded * rewarded;
-BDMBannerView * bannerView;
-
-BDMRewardedRequest *rewardedRequest;
-BDMInterstitialRequest *interstitialRequest;
-BDMBannerRequest *bannerRequest;
+static BDMRewardedRequest *rewardedRequest;
+static BDMInterstitialRequest *interstitialRequest;
+static BDMBannerRequest *bannerRequest;
 
 NSMutableSet *rewardedRequests;
 NSMutableSet *interstitialRequests;
 NSMutableSet *bannerViewRequests;
-
-
 
 static BidMachineInterstitialDelegate *BidMachineInterstitialDelegateInstance;
 static BidMachineRewardedDelegate *BidMachineRewardedDelegateInstance;
@@ -49,6 +45,7 @@ void BidMachineInitialize(const char *sellerId) {
     restrictions.hasConsent = internalRestrictions.hasConsent;
     restrictions.consentString = internalRestrictions.consentString;
     restrictions.USPrivacyString = internalRestrictions.USPrivacyString;
+   
     [BDMSdk.sharedSdk
      startSessionWithSellerID:[NSString stringWithUTF8String:sellerId]
      configuration:configuration
@@ -60,8 +57,8 @@ bool BidMachineIsInitialized(){
 }
 
 void BidMachineSetEndpoint(const char *url){
-    if (configuration == NULL) {
-        configuration =[BDMSdkConfiguration new];
+    if (!configuration) {
+        configuration = [BDMSdkConfiguration new];
     }
     NSString *urlEndPoint =[NSString stringWithUTF8String:url];
     configuration.baseURL = [NSURL URLWithString:urlEndPoint];
@@ -116,12 +113,12 @@ void BidMachineSetConsentString(BOOL consent, const char *consentString){
 }
 
 void BidMachineSetTargeting (){
+    NSLog(@"%s", "obj BidMachineSetTargeting");
     if (!configuration) {
         configuration = [BDMSdkConfiguration new];
     }
     configuration.targeting = targeting;
 }
-
 
 void TargetingSetUserId(const char *userId){
     if (!targeting){
@@ -244,7 +241,6 @@ void TargetingSetExternalUserIds(const char *ExternalUserIds){
     NSArray<BDMExternalUserId *> *externalUserIds = [NSArray<BDMExternalUserId *> new];
     
     for (NSDictionary *externalUserIdsArray in jsonArray) {
-
         BDMExternalUserId *externalUser = [BDMExternalUserId new];
         NSString *sourceId = [externalUserIdsArray objectForKey:@"sourceId"];
         externalUser.sourceId = sourceId;
@@ -254,9 +250,6 @@ void TargetingSetExternalUserIds(const char *ExternalUserIds){
     }
     
     targeting.externalUserIds = externalUserIds;
-    
-    NSLog(@"%s",ExternalUserIds);
-    NSLog(@"%@",jsonString);
 }
 
 void TargetingSetBlockedApps(const char *blockedApps){
