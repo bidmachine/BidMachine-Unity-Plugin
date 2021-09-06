@@ -589,7 +589,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void setNetworks(string networks)
         {
-            throw new NotImplementedException();
+            Debug.Log("Not support for iOS platform");
         }
 
         public IRewardedRequest build()
@@ -798,7 +798,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void setNetworks(string networks)
         {
-            throw new NotImplementedException();
+            Debug.Log("Not support on iOS platform");
         }
 
         public IBannerRequest build()
@@ -827,20 +827,22 @@ namespace BidMachineAds.Unity.iOS
         {
             if (sessionAdParams != null)
             {
-                //bridge.setSessionAdParams(sessionAdParams);
+                var iOSsAdParams = (iOSSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
+                var adParams = iOSsAdParams.GetIntPtr();
+                bridge.setSessionAdParams(adParams);
             }
         }
 
         public void setLoadingTimeOut(int value)
         {
-            //bridge.setLoadingTimeOut(value);
+            bridge.setLoadingTimeOut(value);
         }
 
         public void setPlacementId(string placementId)
         {
             if (!string.IsNullOrEmpty(placementId))
             {
-                //bridge.setPlacementId(placementId);
+                bridge.setPlacementId(placementId);
             }
         }
 
@@ -848,17 +850,13 @@ namespace BidMachineAds.Unity.iOS
         {
             if (!string.IsNullOrEmpty(bidPayLoad))
             {
-                //bridge.setBidPayload(bidPayLoad);
+                bridge.setBidPayload(bidPayLoad);
             }
         }
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            if (targetingParams == null) return;
-            var iOSTargetingParams =
-                (iOSTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-            var iTargetingParams = iOSTargetingParams.GetIntPtr();
-            bridge.setTargetingParams(iTargetingParams);
+            Debug.Log("Not support on iOS platform");
         }
 
         public void setSize(BannerSize size)
@@ -943,9 +941,9 @@ namespace BidMachineAds.Unity.iOS
         public void destroy()
         {
             bridge.destroy();
-            if (bannerListeners.ContainsKey(bridge.nativeObject))
+            if (bannerListeners.ContainsKey(bridge.NativeObject))
             {
-                bannerListeners.Remove(bridge.nativeObject);
+                bannerListeners.Remove(bridge.NativeObject);
             }
         }
 
