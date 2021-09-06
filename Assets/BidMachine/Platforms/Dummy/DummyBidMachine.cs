@@ -422,12 +422,27 @@ namespace BidMachineAds.Unity.Dummy
             throw new System.NotImplementedException();
         }
 
+        public void setLastAdomain(string value)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void setIsUserClickedOnLastAd(bool value)
         {
             throw new System.NotImplementedException();
         }
 
         public void setCompletionRate(float value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setLastClickForImpression(int value)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setLastBundle(string value)
         {
             throw new System.NotImplementedException();
         }
