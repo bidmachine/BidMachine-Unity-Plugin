@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Common;
+using UnityEngine;
 
 namespace BidMachineAds.Unity.Api
 {
@@ -81,6 +82,7 @@ namespace BidMachineAds.Unity.Api
         /// </summary>
         public static void setTargetingParams(TargetingParams targetingParams)
         {
+            Debug.Log("BidMachine setTargetingParams");
             getInstance().setTargetingParams(targetingParams);
         }
 
@@ -359,7 +361,7 @@ namespace BidMachineAds.Unity.Api
         
         public TargetingParams setStoreId(string storeId)
         {
-            nativeTargetingParams.addBlockedAdvertiserDomain(storeId);
+            nativeTargetingParams.setStoreId(storeId);
             return this;
         }
     }
