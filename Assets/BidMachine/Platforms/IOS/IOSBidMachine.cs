@@ -365,7 +365,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void setNetworks(string networks)
         {
-            throw new NotImplementedException();
+           Debug.Log("Not support on iOS platform");
         }
 
         public IInterstitialRequest build()
