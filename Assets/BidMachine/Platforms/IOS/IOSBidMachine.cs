@@ -109,10 +109,18 @@ namespace BidMachineAds.Unity.iOS
 
         public void setTargetingParams(TargetingParams targetingParams)
         {
-            if (targetingParams == null) return;
-            var targetingObjcBridge = (iOSTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-            var iTargetingParams = targetingObjcBridge.GetIntPtr();
-            BidMachineObjCBridge.BidMachineSetTargeting(iTargetingParams);
+            if (targetingParams == null)
+            {
+                Debug.Log("IOSBidMachine targetingParams == null");
+            }
+            else
+            {
+                var targetingObjcBridge = (iOSTargetingParams)targetingParams.GetNativeTargetingParamsClient();
+                var iTargetingParams = targetingObjcBridge.GetIntPtr();
+                BidMachineObjCBridge.BidMachineSetTargeting(iTargetingParams);
+
+                Debug.Log("IOSBidMachine BidMachineSetTargeting");
+            }
         }
     }
 
@@ -208,7 +216,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void setStoreId(string storeId)
         {
-            TargetingObjcBridge.setStoreId(storeId);
+            TargetingObjcBridge.setStoreId(!string.IsNullOrEmpty(storeId) ? storeId : "empty");
         }
 
         public void setFramework(string framework)
@@ -256,7 +264,7 @@ namespace BidMachineAds.Unity.iOS
         {
             bridge = new SessionAdParamsObjcBridge();
         }
-        
+
         public IntPtr GetIntPtr()
         {
             return bridge.getNativeObject();
@@ -323,7 +331,6 @@ namespace BidMachineAds.Unity.iOS
         public void addPriceFloor(double priceFloor)
         {
             Debug.Log("Support only on Android platform");
-
         }
 
         public void addPriceFloor(string uniqueFloorId, double priceFloor)
@@ -365,7 +372,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void setNetworks(string networks)
         {
-           Debug.Log("Not support on iOS platform");
+            Debug.Log("Not support on iOS platform");
         }
 
         public IInterstitialRequest build()
@@ -423,13 +430,11 @@ namespace BidMachineAds.Unity.iOS
         public void setLoadingTimeOut(int value)
         {
             bridge.setLoadingTimeOut(value);
-
         }
 
         public void setPlacementId(string placementId)
         {
             bridge.setPlacementId(placementId);
-
         }
 
         public void setBidPayload(string bidPayLoad)
