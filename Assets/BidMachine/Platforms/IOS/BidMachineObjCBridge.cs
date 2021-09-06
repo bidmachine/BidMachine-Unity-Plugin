@@ -114,7 +114,7 @@ namespace BidMachineAds.Unity.iOS
         {
             SetLastBundle(value);
         }
-        
+
         [DllImport("__Internal")]
         internal static extern IntPtr GetSessionAdParams();
 
@@ -135,7 +135,7 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         internal static extern void SetLastClickForImpression(int value);
-        
+
         [DllImport("__Internal")]
         internal static extern void SetLastBundle(string value);
     }
@@ -349,6 +349,7 @@ namespace BidMachineAds.Unity.iOS
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class InterstitialRequestBuilderObjCBridge
     {
         private readonly IntPtr nativeObject;
@@ -370,7 +371,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void setTargetingParams(IntPtr targetingParams)
         {
-            InterstitialRequestSetTargeting(targetingParams);
+           Debug.Log("Not support on iOS platform");
         }
 
         public void setType(int type)
@@ -383,20 +384,41 @@ namespace BidMachineAds.Unity.iOS
             InterstitialSetBidPayload(bidPayLoad);
         }
 
+        public void setSessionAdParams(IntPtr sessionAdParams)
+        {
+            InterstitialSetSessionAdParams(sessionAdParams);
+        }
+
+        public void setLoadingTimeOut(int value)
+        {
+            InterstitialSetLoadingTimeOut(value);
+        }
+
+        public void setPlacementId(string placementId)
+        {
+            InterstitialSetPlacementId(placementId);
+        }
+
         [DllImport("__Internal")]
         internal static extern IntPtr GetInterstitialRequest();
 
         [DllImport("__Internal")]
         internal static extern void InterstitialRequestSetPriceFloor(IntPtr priceFloor);
-
-        [DllImport("__Internal")]
-        internal static extern void InterstitialRequestSetTargeting(IntPtr targetingParams);
-
-        [DllImport("__Internal")]
-        internal static extern void InterstitialRequestSetType(int type);
         
         [DllImport("__Internal")]
+        internal static extern void InterstitialRequestSetType(int type);
+
+        [DllImport("__Internal")]
         internal static extern void InterstitialSetBidPayload(string value);
+
+        [DllImport("__Internal")]
+        internal static extern void InterstitialSetSessionAdParams(IntPtr value);
+
+        [DllImport("__Internal")]
+        internal static extern void InterstitialSetLoadingTimeOut(int type);
+
+        [DllImport("__Internal")]
+        internal static extern void InterstitialSetPlacementId(string type);
     }
 
     internal class InterstitialAdObjCBridge
@@ -542,8 +564,7 @@ namespace BidMachineAds.Unity.iOS
             BidMachineRewardedCallbacks onAdClicked,
             BidMachineRewardedCallbacks onAdClosed);
     }
-
-
+    
     internal class RewardedRequestObjCBridge
     {
         public IntPtr nativeObject = IntPtr.Zero;
