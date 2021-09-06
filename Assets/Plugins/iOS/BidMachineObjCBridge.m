@@ -364,15 +364,29 @@ void SetLastBundle(const char *value){
     contextualData.lastBundle =[NSString stringWithUTF8String:value];
 }
 
-void InterstitialRequestSetTargeting(BDMTargeting *bdmTargeting){
+void InterstitialSetSessionAdParams(id<BDMContextualProtocol> value){
     if (!interstitialRequest) {
         interstitialRequest = [BDMInterstitialRequest new];
     }
-    interstitialRequest.bidPayload = @"123";
-    interstitialRequest.timeout = 123;
-    interstitialRequest.placementId = @"placenentId";
-    
-    //interstitialRequest.targeting = bdmTargeting;
+    interstitialRequest.contextualData = value;
+}
+
+void InterstitialSetLoadingTimeOut(int value){
+    if (!interstitialRequest) {
+        interstitialRequest = [BDMInterstitialRequest new];
+    }
+    interstitialRequest.timeout =  [NSNumber numberWithInt:value];
+}
+
+void InterstitialSetPlacementId(const char *value){
+    interstitialRequest.placementId =[NSString stringWithUTF8String:value];
+}
+
+void InterstitialSetBidPayload(const char *value){
+    if (!interstitialRequest) {
+        interstitialRequest = [BDMInterstitialRequest new];
+    }
+    interstitialRequest.bidPayload = [NSString stringWithUTF8String:value];
 }
 
 void InterstitialRequestSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
