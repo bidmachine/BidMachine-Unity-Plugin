@@ -421,28 +421,29 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void InterstitialSetPlacementId(string type);
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class InterstitialAdObjCBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        public IntPtr NativeObject;
 
         public InterstitialAdObjCBridge()
         {
-            nativeObject = GetInterstitialAd();
+            NativeObject = GetInterstitialAd();
         }
 
         public InterstitialAdObjCBridge(IntPtr interstitial)
         {
-            nativeObject = interstitial;
+            NativeObject = interstitial;
         }
 
         public IntPtr GetIntPtr()
         {
-            return nativeObject;
+            return NativeObject;
         }
 
         public bool canShow()
         {
-            return InterstitialAdCanShow(nativeObject);
+            return InterstitialAdCanShow(NativeObject);
         }
 
         public void destroy()
@@ -495,21 +496,21 @@ namespace BidMachineAds.Unity.iOS
 
     internal class RewardedAdObjCBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        public IntPtr NativeObject;
 
         public RewardedAdObjCBridge()
         {
-            nativeObject = GetRewarded();
+            NativeObject = GetRewarded();
         }
 
         public RewardedAdObjCBridge(IntPtr rewardedAd)
         {
-            nativeObject = rewardedAd;
+            NativeObject = rewardedAd;
         }
 
         public IntPtr GetIntPtr()
         {
-            return nativeObject;
+            return NativeObject;
         }
 
         public bool canShow()
@@ -565,53 +566,78 @@ namespace BidMachineAds.Unity.iOS
             BidMachineRewardedCallbacks onAdClosed);
     }
     
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class RewardedRequestObjCBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        private readonly IntPtr NativeObject;
 
         public RewardedRequestObjCBridge(IntPtr rewardedRequest)
         {
-            nativeObject = rewardedRequest;
+            NativeObject = rewardedRequest;
         }
 
         public IntPtr getNativeObject()
         {
-            return nativeObject;
+            return NativeObject;
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class RewardedRequestBuilderObjCBridge
     {
-        public IntPtr nativeObject = IntPtr.Zero;
+        private readonly IntPtr NativeObject;
 
         public RewardedRequestBuilderObjCBridge()
         {
-            nativeObject = GetRewardedRequest();
+            NativeObject = GetRewardedRequest();
         }
 
         public IntPtr getNativeObject()
         {
-            return nativeObject;
+            return NativeObject;
         }
 
         public void setPriceFloor(IntPtr priceFloor)
         {
-            RewardedSetPriceFlooor(priceFloor);
+            RewardedSetPriceFloor(priceFloor);
         }
 
-        public void setTargetingParams(IntPtr targetingParams)
+        public void setBidPayload(string bidPayLoad)
         {
-            RewardedSetTargeting(targetingParams);
+            RewardedSetBidPayload(bidPayLoad);
+        }
+
+        public void setPlacementId(string placementId)
+        {
+            RewardedSetPlacementId(placementId);
+        }
+
+        public void setLoadingTimeOut(int value)
+        {
+            RewardedSetLoadingTimeOut(value);
+        }
+
+        public void setSessionAdParams(IntPtr sessionAdParams)
+        {
+            RewardedSetSessionAdParams(sessionAdParams);
         }
 
         [DllImport("__Internal")]
         internal static extern IntPtr GetRewardedRequest();
 
         [DllImport("__Internal")]
-        internal static extern void RewardedSetPriceFlooor(IntPtr priceFloor);
+        internal static extern void RewardedSetPriceFloor(IntPtr priceFloor);
 
         [DllImport("__Internal")]
-        internal static extern void RewardedSetTargeting(IntPtr targetingParams);
+        internal static extern void RewardedSetBidPayload(string value);
+        
+        [DllImport("__Internal")]
+        internal static extern void RewardedSetPlacementId(string value);
+        
+        [DllImport("__Internal")]
+        internal static extern void RewardedSetLoadingTimeOut(int value);
+        [DllImport("__Internal")]
+        internal static extern void RewardedSetSessionAdParams(IntPtr value);
     }
 
     internal class BannerViewObjCBridge
