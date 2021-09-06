@@ -507,7 +507,6 @@ void RewardedSetLoadingTimeOut(int value){
     rewardedRequest.timeout = [NSNumber numberWithInt:value];
 }
 
-
 void RewardedSetSessionAdParams(id<BDMContextualProtocol> value){
     if (!rewardedRequest) {
         rewardedRequest = [BDMRewardedRequest new];
@@ -619,6 +618,34 @@ void BannerViewSetSize(int type){
         default:
             bannerRequest.adSize = BDMBannerAdSize320x50;;
     }
+}
+
+void BannerViewSetBidPayload(const char *value){
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    bannerRequest.bidPayload = [NSString stringWithUTF8String:value];
+}
+
+void BannerViewSetPlacementId(const char *value){
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    bannerRequest.placementId = [NSString stringWithUTF8String:value];
+}
+
+void BannerViewSetLoadingTimeOut(int value){
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    bannerRequest.timeout = [NSNumber numberWithInt:value];
+}
+
+void BannerViewSetSessionAdParams(id<BDMContextualProtocol> value){
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    bannerRequest.contextualData = value;
 }
 
 BDMBannerRequest * GetBannerViewRequest(){
