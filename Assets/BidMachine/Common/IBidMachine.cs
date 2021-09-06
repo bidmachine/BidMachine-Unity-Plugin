@@ -64,11 +64,15 @@ namespace BidMachineAds.Unity.Common
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface ISessionAdParams
     {
-        void setSessionDuration(int value);
         void setImpressionCount(int value);
+        void setSessionDuration(int value);
         void setClickRate(float value);
-        void setIsUserClickedOnLastAd(bool value);
         void setCompletionRate(float value);
+        void setLastClickForImpression(int value);
+        void setLastBundle(string value);
+        void setLastAdomain(string value);
+        void setIsUserClickedOnLastAd(bool value);
+        
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
