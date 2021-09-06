@@ -45,7 +45,7 @@ void BidMachineInitialize(const char *sellerId) {
     restrictions.hasConsent = internalRestrictions.hasConsent;
     restrictions.consentString = internalRestrictions.consentString;
     restrictions.USPrivacyString = internalRestrictions.USPrivacyString;
-   
+    
     [BDMSdk.sharedSdk
      startSessionWithSellerID:[NSString stringWithUTF8String:sellerId]
      configuration:configuration
@@ -218,7 +218,7 @@ void TargetingSetPaid(BOOL paid){
         targeting = [BDMTargeting new];
     }
     targeting.paid = paid;
-  
+    
 }
 
 void TargetingSetDeviceLocation(double latitude, double longitude){
@@ -705,16 +705,28 @@ void BannerViewShow(int YAxis, int XAxis){
     if (!bannerView) {
         bannerView = [BDMBannerView new];
     }
+    
     [RootViewController().view addSubview:bannerView];
     [bannerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     switch (YAxis) {
         case 2:
-            [[[bannerView bottomAnchor] constraintEqualToAnchor:RootViewController().view.bottomAnchor] setActive:YES];
+            if (@available(iOS 11.0, *)) {
+                [[[[bannerView safeAreaLayoutGuide] bottomAnchor] constraintEqualToAnchor:RootViewController().view.safeAreaLayoutGuide.bottomAnchor] setActive:YES];
+            } else {
+                [[[bannerView bottomAnchor] constraintEqualToAnchor:RootViewController().view.bottomAnchor] setActive:YES];
+                break;
+            }
             break;
         case 1:
-            [[[bannerView topAnchor] constraintEqualToAnchor:RootViewController().view.topAnchor] setActive:YES];
-            break;
+            if (@available(iOS 11.0, *)) {
+                [[[[bannerView safeAreaLayoutGuide] topAnchor]
+                  constraintEqualToAnchor:RootViewController().view.safeAreaLayoutGuide.topAnchor] setActive:YES];
+                break;
+            } else {
+                [[[bannerView topAnchor] constraintEqualToAnchor:RootViewController().view.topAnchor] setActive:YES];
+                break;
+            }
     }
     
     switch (XAxis) {
