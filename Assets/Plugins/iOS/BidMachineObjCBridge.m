@@ -478,21 +478,41 @@ BDMInterstitial * GetInterstitialAd(){
     return interstitial;
 }
 
-void RewardedSetTargeting(BDMTargeting *bdmTargeting){
-    if (!rewardedRequest) {
-        rewardedRequest = [BDMRewardedRequest new];
-    }
-    
-    
-    //rewardedRequest.targeting = bdmTargeting;
-}
-
-void RewardedSetPriceFlooor(BDMPriceFloor *bdmPriceFloor){
+void RewardedSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
     if (!rewardedRequest) {
         rewardedRequest = [BDMRewardedRequest new];
     }
     NSArray<BDMPriceFloor *> *array = [[NSArray alloc] initWithObjects:bdmPriceFloor, nil];
     rewardedRequest.priceFloors = array;
+}
+
+void RewardedSetBidPayload(const char *value){
+    if (!rewardedRequest) {
+        rewardedRequest = [BDMRewardedRequest new];
+    }
+    rewardedRequest.bidPayload = [NSString stringWithUTF8String:value];
+}
+
+void RewardedSetPlacementId(const char *value){
+    if (!rewardedRequest) {
+        rewardedRequest = [BDMRewardedRequest new];
+    }
+    rewardedRequest.placementId = [NSString stringWithUTF8String:value];
+}
+
+void RewardedSetLoadingTimeOut(int value){
+    if (!rewardedRequest) {
+        rewardedRequest = [BDMRewardedRequest new];
+    }
+    rewardedRequest.timeout = [NSNumber numberWithInt:value];
+}
+
+
+void RewardedSetSessionAdParams(id<BDMContextualProtocol> value){
+    if (!rewardedRequest) {
+        rewardedRequest = [BDMRewardedRequest new];
+    }
+    rewardedRequest.contextualData = value;
 }
 
 BDMRewardedRequest * GetRewardedRequest(){
