@@ -33,11 +33,14 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     {
         tgTesting.isOn = true;
         tgLogging.isOn = true;
+        
+        BidMachine.setTargetingParams(new TargetingParams().setStoreId("12345"));
+
     }
 
     public void BidMachineInitialize()
     {
-        //  targetingParams = new TargetingParams();
+       // targetingParams = new TargetingParams();
         //  targetingParams.setExternalUserIds(new[]
         //  {
         //      new ExternalUserId("sourceId_1", "1"),
@@ -51,9 +54,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         // targetingParams.setCountry("Belarus");
         // targetingParams.setCity("Minsk");
         // targetingParams.setZip("220059");
-        // targetingParams.setStoreUrl("https://store.url");
+        //targetingParams.setStoreUrl("https://store.url");
         // targetingParams.setStoreCategory("cards");
-        // targetingParams.setStoreId("id");
+        //targetingParams.setStoreId("12345");
         // targetingParams.setStoreSubCategories(new[] { "games", "cards" });
         // targetingParams.setFramework("unity");
         // targetingParams.setFramework("unity");
@@ -65,18 +68,17 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
 
         //
-        priceFloorParams = new PriceFloorParams();
-        priceFloorParams.addPriceFloor("123", 1.2d);
-        sessionAdParams = new SessionAdParams()
-            .setSessionDuration(123)
-            .setImpressionCount(123)
-            .setClickRate(1.2f)
-            .setIsUserClickedOnLastAd(true)
-            .setCompletionRate(1.3f)
-            .setLastBundle("test")
-            .setLastAdomain("test");
-
-
+        // priceFloorParams = new PriceFloorParams();
+        // priceFloorParams.addPriceFloor("123", 1.2d);
+        // sessionAdParams = new SessionAdParams()
+        //     .setSessionDuration(123)
+        //     .setImpressionCount(123)
+        //     .setClickRate(1.2f)
+        //     .setIsUserClickedOnLastAd(true)
+        //     .setCompletionRate(1.3f)
+        //     .setLastBundle("test")
+        //     .setLastAdomain("test");
+        
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
         BidMachine.initialize("1");
@@ -90,7 +92,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         // BidMachine.setUSPrivacyString("test_string");
         // BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
 
-        // BidMachine.setTargetingParams(targetingParams);
     }
 
     public void IsInitialized()
@@ -122,9 +123,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         {
             interstitialRequest = new InterstitialRequestBuilder()
                 .setAdContentType(AdContentType.All)
-                //.setTargetingParams(targetingParams)
-                //.setPriceFloorParams(priceFloorParams)
-                //.setSessionAdParams(sessionAdParams)
+                // .setTargetingParams(targetingParams)
+                // .setPriceFloorParams(priceFloorParams)
+                // .setSessionAdParams(sessionAdParams)
                 // .setPlacementId("placement1")
                 // .setLoadingTimeOut(123)
                 // .setBidPayload("123")
