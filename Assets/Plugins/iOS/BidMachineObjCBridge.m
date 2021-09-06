@@ -12,6 +12,9 @@
 
 static BDMSdkConfiguration *configuration;
 static BDMUserRestrictions *internalRestrictions;
+static id<BDMContextualProtocol> contextualData;
+
+
 
 BDMTargeting *targeting;
 BDMPriceFloor *priceFloor;
@@ -290,13 +293,6 @@ void TargetingSetStoreId(const char *storeId){
     targeting.storeId = [NSString stringWithUTF8String:storeId];
 }
 
-
-
-
-
-
-
-
 int BidMachineGetErrorCode(NSError * error){
     return (int) error.code;
 }
@@ -336,10 +332,46 @@ BDMPriceFloor * GetPriceFloor(){
     return priceFloor;
 }
 
+id<BDMContextualProtocol> GetSessionAdParams(){
+    return contextualData;
+}
+
+void SetSessionDuration(int value){
+    contextualData.sessionDuration = value;
+}
+
+void SetImpressionCount(int value){
+    contextualData.impressions = value;
+}
+
+void SetClickRate(int value){
+    contextualData.clickRate = value;
+}
+
+void SetLastAdomain(const char *value){
+    contextualData.lastAdomain = [NSString stringWithUTF8String:value];
+}
+
+void SetCompletionRate(int value){
+    contextualData.completionRate = value;
+}
+
+void SetLastClickForImpression(int value){
+    contextualData.completionRate = value;
+}
+
+void SetLastBundle(const char *value){
+    contextualData.lastBundle =[NSString stringWithUTF8String:value];
+}
+
 void InterstitialRequestSetTargeting(BDMTargeting *bdmTargeting){
     if (!interstitialRequest) {
         interstitialRequest = [BDMInterstitialRequest new];
     }
+    interstitialRequest.bidPayload = @"123";
+    interstitialRequest.timeout = 123;
+    interstitialRequest.placementId = @"placenentId";
+    
     //interstitialRequest.targeting = bdmTargeting;
 }
 
