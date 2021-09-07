@@ -782,6 +782,7 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class iOSBannerViewRequestBuilder : IBannerRequestBuilder
     {
         private readonly BannerViewRequestBuilderObjCBridge bridge;
