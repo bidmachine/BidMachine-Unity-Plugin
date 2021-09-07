@@ -10,6 +10,12 @@ using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS
 {
+    internal delegate void BannerRequestSuccessCallback(IntPtr ad, string auctionResult);
+
+    internal delegate void BannerRequestFailedCallback(IntPtr ad, IntPtr error);
+
+    internal delegate void BannerRequestExpiredCallback(IntPtr ad);
+
     internal delegate void BidMachineInterstitialCallbacks(IntPtr ad);
 
     internal delegate void BidMachineInterstitialFailedCallback(IntPtr ad, IntPtr error);
@@ -740,6 +746,11 @@ namespace BidMachineAds.Unity.iOS
             return nativeObject;
         }
 
+        public IntPtr GetIntPtr()
+        {
+            return nativeObject;
+        }
+
         public void setPriceFloor(IntPtr priceFloor)
         {
             BannerViewRequestSetPriceFloor(priceFloor);
@@ -770,8 +781,22 @@ namespace BidMachineAds.Unity.iOS
             BannerViewSetSessionAdParams(sessionAdParams);
         }
 
+        public void setBannerRequestDelegate(BannerRequestSuccessCallback bannerRequestSuccessCallback,
+            BannerRequestFailedCallback bannerRequestFailedCallback,
+            BannerRequestExpiredCallback bannerRequestExpiredCallback)
+        {
+            SetBannerRequestDelegate(bannerRequestSuccessCallback,
+                bannerRequestFailedCallback,
+                bannerRequestExpiredCallback);
+        }
+
         [DllImport("__Internal")]
         internal static extern IntPtr GetBannerViewRequest();
+
+        [DllImport("__Internal")]
+        internal static extern void SetBannerRequestDelegate(BannerRequestSuccessCallback bannerRequestSuccessCallback,
+            BannerRequestFailedCallback bannerRequestFailedCallback,
+            BannerRequestExpiredCallback bannerRequestExpiredCallback);
 
         [DllImport("__Internal")]
         internal static extern void BannerViewRequestSetPriceFloor(IntPtr priceFloor);
