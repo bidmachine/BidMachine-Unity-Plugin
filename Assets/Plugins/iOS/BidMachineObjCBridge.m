@@ -9,6 +9,7 @@
 #import "BidMachineInterstitialDelegate.h"
 #import "BidMachineRewardedDelegate.h"
 #import "BidMachineBannerViewDelegate.h"
+#import "BidMachineBannerRequestDelegate.h"
 
 static BDMSdkConfiguration *configuration;
 static BDMUserRestrictions *internalRestrictions;
@@ -29,6 +30,8 @@ static BDMBannerRequest *bannerRequest;
 NSMutableSet *rewardedRequests;
 NSMutableSet *interstitialRequests;
 NSMutableSet *bannerViewRequests;
+
+static BidMachineBannerRequestDelegate *BidMachineBannerRequestDelegateInstance;
 
 static BidMachineInterstitialDelegate *BidMachineInterstitialDelegateInstance;
 static BidMachineRewardedDelegate *BidMachineRewardedDelegateInstance;
@@ -444,6 +447,24 @@ void InterstitialAdLoad( BDMInterstitialRequest *interstitialRequest){
     [interstitialRequests addObject:interstitial];
 }
 
+void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
+                              BannerRequestFailedCallback onFailed,
+                              BannerRequestExpiredCallback onExpired){
+    if (!BidMachineBannerRequestDelegateInstance) {
+        BidMachineBannerRequestDelegateInstance = [BidMachineBannerRequestDelegate new];
+    }
+    
+    BidMachineBannerRequestDelegateInstance.onBannerRequestSuccess = onSuccess;
+    BidMachineBannerRequestDelegateInstance.onBannerRequestFailed = onFailed;
+    BidMachineBannerRequestDelegateInstance.onBannerRequestExpired = onExpired;
+    
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    
+    [bannerRequest performWithDelegate:BidMachineBannerRequestDelegateInstance];
+}
+
 void InterstitialAdSetDelegate(BidMachineInterstitialCallbacks onAdLoaded,
                                BidMachineInterstitialFailedCallback onAdLoadFailed,
                                BidMachineInterstitialCallbacks onAdShown,
@@ -582,15 +603,6 @@ BDMRewarded * GetRewarded(){
     }
     return rewarded;
 }
-
-void BannerViewRequestSetTargeting(BDMTargeting *bdmTargeting){
-    if (!bannerRequest) {
-        bannerRequest = [BDMBannerRequest new];
-    }
-    //bannerRequest.targeting = bdmTargeting;
-}
-
-
 
 void BannerViewRequestSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
     if (!bannerRequest) {
