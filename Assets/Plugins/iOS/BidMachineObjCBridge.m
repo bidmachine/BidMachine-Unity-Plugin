@@ -10,6 +10,8 @@
 #import "BidMachineRewardedDelegate.h"
 #import "BidMachineBannerViewDelegate.h"
 #import "BidMachineBannerRequestDelegate.h"
+#import "BidMachineInterstitialRequestDelegate.h"
+#import "BidMachineRewardedRequestDelegate.h"
 
 static BDMSdkConfiguration *configuration;
 static BDMUserRestrictions *internalRestrictions;
@@ -32,6 +34,8 @@ NSMutableSet *interstitialRequests;
 NSMutableSet *bannerViewRequests;
 
 static BidMachineBannerRequestDelegate *BidMachineBannerRequestDelegateInstance;
+static BidMachineInterstitialRequestDelegate * BidMachineInterstitialRequestDelegateInstance;
+static BidMachineRewardedRequestDelegate *BidMachineRewardedRequestDelegateInstance;
 
 static BidMachineInterstitialDelegate *BidMachineInterstitialDelegateInstance;
 static BidMachineRewardedDelegate *BidMachineRewardedDelegateInstance;
@@ -449,6 +453,7 @@ void InterstitialAdLoad( BDMInterstitialRequest *interstitialRequest){
 void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
                               BannerRequestFailedCallback onFailed,
                               BannerRequestExpiredCallback onExpired){
+    
     if (!BidMachineBannerRequestDelegateInstance) {
         BidMachineBannerRequestDelegateInstance = [BidMachineBannerRequestDelegate new];
     }
@@ -462,6 +467,50 @@ void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
     }
     
     [bannerRequest performWithDelegate:BidMachineBannerRequestDelegateInstance];
+}
+
+void SetInterstitialRequestDelegate(InterstitialRequestSuccessCallback onSuccess,
+                                    InterstitialRequestFailedCallback onFailed,
+                                    InterstitialRequestExpiredCallback onExpired){
+    
+    if (!BidMachineInterstitialRequestDelegateInstance) {
+        BidMachineInterstitialRequestDelegateInstance = [BidMachineInterstitialRequestDelegate new];
+    }
+    
+    BidMachineInterstitialRequestDelegateInstance.onIntersittialRequestSuccess = onSuccess;
+    
+    BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestFailed = onFailed;
+    
+    BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestExpired = onExpired;
+    
+    
+    if (!interstitialRequest) {
+        interstitialRequest = [BDMInterstitialRequest new];
+    }
+    
+    [interstitialRequest performWithDelegate:BidMachineInterstitialRequestDelegateInstance];
+}
+
+void SetRewardedRequestDelegate(RewardedRequestSuccessCallback onSuccess,
+                                RewardedRequestFailedCallback onFailed,
+                                RewardedRequestExpiredCallback onExpired){
+    
+    if (!BidMachineRewardedRequestDelegateInstance) {
+        BidMachineRewardedRequestDelegateInstance = [BidMachineRewardedRequestDelegate new];
+    }
+    
+    BidMachineRewardedRequestDelegateInstance.onRewardedRequestSuccess = onSuccess;
+    
+    BidMachineRewardedRequestDelegateInstance.onRewardedRequestFailed = onFailed;
+    
+    BidMachineRewardedRequestDelegateInstance.onRewardedRequestExpired = onExpired;
+    
+    
+    if (!rewardedRequest) {
+        rewardedRequest = [BDMRewardedRequest new];
+    }
+    
+    [rewardedRequest performWithDelegate:BidMachineRewardedRequestDelegateInstance];
 }
 
 void InterstitialAdSetDelegate(BidMachineInterstitialCallbacks onAdLoaded,
