@@ -786,6 +786,9 @@ namespace BidMachineAds.Unity.iOS
     {
         private readonly BannerViewRequestBuilderObjCBridge bridge;
 
+        private static readonly Dictionary<IntPtr, IBannerRequestListener> bannerRequestListeners =
+            new Dictionary<IntPtr, IBannerRequestListener>();
+
         public iOSBannerViewRequestBuilder()
         {
             bridge = new BannerViewRequestBuilderObjCBridge();
@@ -815,22 +818,12 @@ namespace BidMachineAds.Unity.iOS
             bridge.setPriceFloor(iPriceFloor);
         }
 
-        public void setListener(IBannerRequestListener bannerRequestListener)
-        {
-            if (bannerRequestListener != null)
-            {
-                //bridge.setListener(sessionAdParams);
-            }
-        }
-
         public void setSessionAdParams(SessionAdParams sessionAdParams)
         {
-            if (sessionAdParams != null)
-            {
-                var iOSsAdParams = (iOSSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
-                var adParams = iOSsAdParams.GetIntPtr();
-                bridge.setSessionAdParams(adParams);
-            }
+            if (sessionAdParams == null) return;
+            var iOSsAdParams = (iOSSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
+            var adParams = iOSsAdParams.GetIntPtr();
+            bridge.setSessionAdParams(adParams);
         }
 
         public void setLoadingTimeOut(int value)
@@ -877,6 +870,45 @@ namespace BidMachineAds.Unity.iOS
                     break;
             }
         }
+
+        public void setListener(IBannerRequestListener bannerRequestListener)
+        {
+            if (bannerRequestListener == null) return;
+            
+            bridge.setBannerRequestDelegate(onBannerRequestSuccess, onBannerRequestFailed, onBannerRequestExpired);
+            bannerRequestListeners.Add(bridge.GetIntPtr(), bannerRequestListener);
+        }
+
+        #region BannerRequestCallbacks
+
+        [MonoPInvokeCallback(typeof(BannerRequestSuccessCallback))]
+        private static void onBannerRequestSuccess(IntPtr ad, string auctionResult)
+        {
+            if (!bannerRequestListeners.ContainsKey(ad)) return;
+            bannerRequestListeners[ad]
+                .onBannerRequestSuccess(new BannerRequest(new iOSBannerViewRequest(ad)), auctionResult);
+        }
+
+        [MonoPInvokeCallback(typeof(BannerRequestFailedCallback))]
+        private static void onBannerRequestFailed(IntPtr ad, IntPtr error)
+        {
+            if (!bannerRequestListeners.ContainsKey(ad)) return;
+            var err = new BMError
+            {
+                code = BidMachineObjCBridge.BidMachineGetErrorCode(error),
+                message = BidMachineObjCBridge.BidMachineGetErrorMessage(error)
+            };
+            bannerRequestListeners[ad].onBannerRequestFailed(new BannerRequest(new iOSBannerViewRequest(ad)), err);
+        }
+
+        [MonoPInvokeCallback(typeof(BannerRequestExpiredCallback))]
+        private static void onBannerRequestExpired(IntPtr ad)
+        {
+            if (!bannerRequestListeners.ContainsKey(ad)) return;
+            bannerRequestListeners[ad].onBannerRequestExpired(new BannerRequest(new iOSBannerViewRequest(ad)));
+        }
+
+        #endregion
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
