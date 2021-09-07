@@ -1,9 +1,9 @@
 #import <Foundation/Foundation.h>
 #import <BidMachine/BidMachine.h>
 
-typedef void (*BannerRequestSuccessCallback) (BDMRequest *request, const char *auctionInfo);
-typedef void (*BannerRequestFailedCallback) (BDMRequest *request, NSError *error);
-typedef void (*BannerRequestExpiredCallback) (BDMRequest *request);
+typedef void (*BannerRequestSuccessCallback) (BDMBannerRequest *request, const char *auctionInfo);
+typedef void (*BannerRequestFailedCallback) (BDMBannerRequest *request, NSError *error);
+typedef void (*BannerRequestExpiredCallback) (BDMBannerRequest *request);
 
 
 @interface BidMachineBannerRequestDelegate: NSObject <BDMRequestDelegate>
