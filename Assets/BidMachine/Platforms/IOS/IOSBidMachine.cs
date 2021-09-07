@@ -348,9 +348,13 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class iOSInterstitialRequestBuilder : IInterstitialRequestBuilder
     {
         private readonly InterstitialRequestBuilderObjCBridge bridge;
+
+        private static readonly Dictionary<IntPtr, IInterstitialRequestListener> interstitialRequestListeners =
+            new Dictionary<IntPtr, IInterstitialRequestListener>();
 
         public iOSInterstitialRequestBuilder()
         {
@@ -359,7 +363,7 @@ namespace BidMachineAds.Unity.iOS
 
         private IntPtr GetIntPtr()
         {
-            return bridge.getNativeObject();
+            return bridge.getIntPtr();
         }
 
         public void setNetworks(string networks)
@@ -406,11 +410,6 @@ namespace BidMachineAds.Unity.iOS
             bridge.setPriceFloor(iPriceFloor);
         }
 
-        public void setListener(IInterstitialRequestListener bannerRequestListener)
-        {
-            //TODO implementation
-        }
-
         public void setSessionAdParams(SessionAdParams sessionAdParams)
         {
             if (sessionAdParams == null) return;
@@ -442,6 +441,47 @@ namespace BidMachineAds.Unity.iOS
             var iTargetingParams = iOSTargetingParams.GetIntPtr();
             bridge.setTargetingParams(iTargetingParams);
         }
+
+        public void setListener(IInterstitialRequestListener interstitialAdRequestListener)
+        {
+            if (interstitialAdRequestListener == null) return;
+            bridge.setInterstitialRequestDelegate(onRewardedRequestSuccess, onRewardedRequestFailed,
+                onRewardedRequestExpired);
+            interstitialRequestListeners.Add(bridge.getIntPtr(), interstitialAdRequestListener);
+        }
+
+        #region InterstitialRequestCallbacks
+
+        [MonoPInvokeCallback(typeof(InterstitialRequestSuccessCallback))]
+        private static void onRewardedRequestSuccess(IntPtr ad, string auctionResult)
+        {
+            if (!interstitialRequestListeners.ContainsKey(ad)) return;
+            interstitialRequestListeners[ad]
+                .onInterstitialRequestSuccess(new InterstitialRequest(new iOSInterstitialRequest(ad)), auctionResult);
+        }
+
+        [MonoPInvokeCallback(typeof(InterstitialRequestFailedCallback))]
+        private static void onRewardedRequestFailed(IntPtr ad, IntPtr error)
+        {
+            if (!interstitialRequestListeners.ContainsKey(ad)) return;
+            var err = new BMError
+            {
+                code = BidMachineObjCBridge.BidMachineGetErrorCode(error),
+                message = BidMachineObjCBridge.BidMachineGetErrorMessage(error)
+            };
+            interstitialRequestListeners[ad]
+                .onInterstitialRequestFailed(new InterstitialRequest(new iOSInterstitialRequest(ad)), err);
+        }
+
+        [MonoPInvokeCallback(typeof(InterstitialRequestExpiredCallback))]
+        private static void onRewardedRequestExpired(IntPtr ad)
+        {
+            if (!interstitialRequestListeners.ContainsKey(ad)) return;
+            interstitialRequestListeners[ad]
+                .onInterstitialRequestExpired(new InterstitialRequest(new iOSInterstitialRequest(ad)));
+        }
+
+        #endregion
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -573,9 +613,13 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class iOSRewardedRequestBuilder : IRewardedRequestBuilder
     {
         private readonly RewardedRequestBuilderObjCBridge bridge;
+
+        private static readonly Dictionary<IntPtr, IRewardedRequestListener> rewardedRequestListeners =
+            new Dictionary<IntPtr, IRewardedRequestListener>();
 
         public iOSRewardedRequestBuilder()
         {
@@ -584,7 +628,7 @@ namespace BidMachineAds.Unity.iOS
 
         private IntPtr GetIntPtr()
         {
-            return bridge.getNativeObject();
+            return bridge.getIntPtr();
         }
 
         public void setNetworks(string networks)
@@ -604,14 +648,6 @@ namespace BidMachineAds.Unity.iOS
                 (iOSPriceFloorParams)priceFloorParameters.GetNativePriceFloorParams();
             var iPriceFloor = iOSPriceFloorParams.GetIntPtr();
             bridge.setPriceFloor(iPriceFloor);
-        }
-
-        public void setListener(IRewardedRequestListener rewardedRequestListener)
-        {
-            if (rewardedRequestListener != null)
-            {
-                //bridge.setListener(rewardedRequestListener);
-            }
         }
 
         public void setSessionAdParams(SessionAdParams sessionAdParams)
@@ -647,6 +683,45 @@ namespace BidMachineAds.Unity.iOS
         {
             Debug.Log("Not support on iOS platform");
         }
+
+        public void setListener(IRewardedRequestListener rewardedAdRequestListener)
+        {
+            if (rewardedAdRequestListener == null) return;
+            bridge.setRewardedRequestDelegate(onRewardedRequestSuccess, onRewardedRequestFailed,
+                onRewardedRequestExpired);
+            rewardedRequestListeners.Add(bridge.getIntPtr(), rewardedAdRequestListener);
+        }
+
+        #region RewardedRequestCallbacks
+
+        [MonoPInvokeCallback(typeof(RewardedRequestSuccessCallback))]
+        private static void onRewardedRequestSuccess(IntPtr ad, string auctionResult)
+        {
+            if (!rewardedRequestListeners.ContainsKey(ad)) return;
+            rewardedRequestListeners[ad]
+                .onRewardedRequestSuccess(new RewardedRequest(new iOSRewardedRequest(ad)), auctionResult);
+        }
+
+        [MonoPInvokeCallback(typeof(RewardedRequestFailedCallback))]
+        private static void onRewardedRequestFailed(IntPtr ad, IntPtr error)
+        {
+            if (!rewardedRequestListeners.ContainsKey(ad)) return;
+            var err = new BMError
+            {
+                code = BidMachineObjCBridge.BidMachineGetErrorCode(error),
+                message = BidMachineObjCBridge.BidMachineGetErrorMessage(error)
+            };
+            rewardedRequestListeners[ad].onRewardedRequestFailed(new RewardedRequest(new iOSRewardedRequest(ad)), err);
+        }
+
+        [MonoPInvokeCallback(typeof(RewardedRequestExpiredCallback))]
+        private static void onRewardedRequestExpired(IntPtr ad)
+        {
+            if (!rewardedRequestListeners.ContainsKey(ad)) return;
+            rewardedRequestListeners[ad].onRewardedRequestExpired(new RewardedRequest(new iOSRewardedRequest(ad)));
+        }
+
+        #endregion
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -875,7 +950,7 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(IBannerRequestListener bannerRequestListener)
         {
             if (bannerRequestListener == null) return;
-            
+
             bridge.setBannerRequestDelegate(onBannerRequestSuccess, onBannerRequestFailed, onBannerRequestExpired);
             bannerRequestListeners.Add(bridge.GetIntPtr(), bannerRequestListener);
         }
