@@ -445,15 +445,15 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(IInterstitialRequestListener interstitialAdRequestListener)
         {
             if (interstitialAdRequestListener == null) return;
-            bridge.setInterstitialRequestDelegate(onRewardedRequestSuccess, onRewardedRequestFailed,
-                onRewardedRequestExpired);
+            bridge.setInterstitialRequestDelegate(onInterstitialRequestSuccess, onInterstitialRequestFailed,
+                onInterstitialRequestExpired);
             interstitialRequestListeners.Add(bridge.getIntPtr(), interstitialAdRequestListener);
         }
 
         #region InterstitialRequestCallbacks
 
         [MonoPInvokeCallback(typeof(InterstitialRequestSuccessCallback))]
-        private static void onRewardedRequestSuccess(IntPtr ad, string auctionResult)
+        private static void onInterstitialRequestSuccess(IntPtr ad, string auctionResult)
         {
             if (!interstitialRequestListeners.ContainsKey(ad)) return;
             interstitialRequestListeners[ad]
@@ -461,7 +461,7 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [MonoPInvokeCallback(typeof(InterstitialRequestFailedCallback))]
-        private static void onRewardedRequestFailed(IntPtr ad, IntPtr error)
+        private static void onInterstitialRequestFailed(IntPtr ad, IntPtr error)
         {
             if (!interstitialRequestListeners.ContainsKey(ad)) return;
             var err = new BMError
@@ -474,7 +474,7 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [MonoPInvokeCallback(typeof(InterstitialRequestExpiredCallback))]
-        private static void onRewardedRequestExpired(IntPtr ad)
+        private static void onInterstitialRequestExpired(IntPtr ad)
         {
             if (!interstitialRequestListeners.ContainsKey(ad)) return;
             interstitialRequestListeners[ad]
@@ -947,12 +947,12 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        public void setListener(IBannerRequestListener bannerRequestListener)
+        public void setListener(IBannerRequestListener bannerAdRequestListener)
         {
-            if (bannerRequestListener == null) return;
+            if (bannerAdRequestListener == null) return;
 
             bridge.setBannerRequestDelegate(onBannerRequestSuccess, onBannerRequestFailed, onBannerRequestExpired);
-            bannerRequestListeners.Add(bridge.GetIntPtr(), bannerRequestListener);
+            bannerRequestListeners.Add(bridge.GetIntPtr(), bannerAdRequestListener);
         }
 
         #region BannerRequestCallbacks
