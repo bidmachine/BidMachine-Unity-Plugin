@@ -4,7 +4,7 @@
 
 - (void)request:(BDMRequest *)request failedWithError:(NSError *)error {
     if (self.onBannerRequestFailed) {
-        self.onBannerRequestFailed(request,error);
+        self.onBannerRequestFailed((BDMBannerRequest *)request,error);
     }
 }
 
@@ -31,13 +31,13 @@
     char infoChar = strncpy(cStringCopy, cString, [jsonString length]);
     
     if (self.onBannerRequestSuccess) {
-        self.onBannerRequestSuccess(request,infoChar);
+        self.onBannerRequestSuccess((BDMBannerRequest *)request, infoChar);
     }
 }
 
 - (void)requestDidExpire:(BDMRequest *)request {
     if (self.onBannerRequestExpired) {
-        self.onBannerRequestExpired(request);
+        self.onBannerRequestExpired((BDMBannerRequest *)request);
     }
 }
 
