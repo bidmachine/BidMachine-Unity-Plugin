@@ -116,7 +116,6 @@ void BidMachineSetConsentString(BOOL consent, const char *consentString){
 }
 
 void BidMachineSetTargeting (){
-    NSLog(@"%s", "obj BidMachineSetTargeting");
     if (!configuration) {
         configuration = [BDMSdkConfiguration new];
     }
