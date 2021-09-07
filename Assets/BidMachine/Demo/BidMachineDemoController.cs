@@ -33,14 +33,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     {
         tgTesting.isOn = true;
         tgLogging.isOn = true;
-        
-        BidMachine.setTargetingParams(new TargetingParams().setStoreId("12345"));
 
+        BidMachine.setTargetingParams(new TargetingParams().setStoreId("12345"));
     }
 
     public void BidMachineInitialize()
     {
-       // targetingParams = new TargetingParams();
+        // targetingParams = new TargetingParams();
         //  targetingParams.setExternalUserIds(new[]
         //  {
         //      new ExternalUserId("sourceId_1", "1"),
@@ -78,7 +77,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         //     .setCompletionRate(1.3f)
         //     .setLastBundle("test")
         //     .setLastAdomain("test");
-        
+
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
         BidMachine.initialize("1");
@@ -91,7 +90,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         // BidMachine.setConsentConfig(true, "test consent string");
         // BidMachine.setUSPrivacyString("test_string");
         // BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
-
     }
 
     public void IsInitialized()
@@ -390,9 +388,15 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onBannerRequestSuccess(BannerRequest request, string auctionResult)
     {
-        Debug.Log($"BannerRequestListener - onBannerRequestSuccess " +
-                  $"AdSize - {request.getSize()}" +
-                  $"auctionResult - {auctionResult}");
+        if (!string.IsNullOrEmpty(auctionResult))
+        {
+            Debug.Log($"BannerRequestListener - onBannerRequestSuccess" +
+                      $"auctionResult - {auctionResult}");
+        }
+        else
+        {
+            Debug.Log("auctionResult - IsNullOrEmpty");
+        }
     }
 
     public void onBannerRequestFailed(BannerRequest request, BMError error)
@@ -412,8 +416,15 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onInterstitialRequestSuccess(InterstitialRequest request, string auctionResult)
     {
-        Debug.Log($"InterstitialRequestListener - onInterstitialRequestSuccess" +
-                  $"auctionResult - {auctionResult}");
+        if (!string.IsNullOrEmpty(auctionResult))
+        {
+            Debug.Log($"InterstitialRequestListener - onInterstitialRequestSuccess" +
+                      $"auctionResult - {auctionResult}");
+        }
+        else
+        {
+            Debug.Log("auctionResult - IsNullOrEmpty");
+        }
     }
 
     public void onInterstitialRequestFailed(InterstitialRequest request, BMError error)
@@ -433,8 +444,15 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onRewardedRequestSuccess(RewardedRequest request, string auctionResult)
     {
-        Debug.Log($"RewardedRequestListener - onRewardedRequestSuccess" +
-                  $"auctionResult - {auctionResult}");
+        if (!string.IsNullOrEmpty(auctionResult))
+        {
+            Debug.Log($"RewardedRequestListener - onRewardedRequestSuccess" +
+                      $"auctionResult - {auctionResult}");
+        }
+        else
+        {
+            Debug.Log("auctionResult - IsNullOrEmpty");
+        }
     }
 
     public void onRewardedRequestFailed(RewardedRequest request, BMError error)
