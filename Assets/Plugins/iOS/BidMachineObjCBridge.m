@@ -53,12 +53,6 @@ void TargetingSetUserId(const char *userId){
     }
     
     targeting.userId = [NSString stringWithUTF8String:userId];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetUserId: %@", targeting.userId);
-    }else {
-        NSLog(@"TargetingSetUserId: targeting == null");
-    }
 }
 
 void TargetingSetGender(int gender){
@@ -80,12 +74,6 @@ void TargetingSetGender(int gender){
             targeting.gender = kBDMUserGenderUnknown;
             break;
     }
-    
-    if (targeting) {
-        NSLog(@" TargetingSetGender: %@", targeting.gender);
-    }else {
-        NSLog(@"TargetingSetGender: targeting == null");
-    }
 }
 
 void TargetingSetYearOfBirth(int yearOfBirth){
@@ -94,12 +82,6 @@ void TargetingSetYearOfBirth(int yearOfBirth){
     }
     
     targeting.yearOfBirth = [NSNumber numberWithInt:yearOfBirth];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetYearOfBirth: %@", targeting.yearOfBirth);
-    }else {
-        NSLog(@" TargetingSetYearOfBirth: targeting == null");
-    }
 }
 
 void TargetingSetKeyWords(const char *keywords){
@@ -108,12 +90,6 @@ void TargetingSetKeyWords(const char *keywords){
     }
     
     targeting.keywords =  [NSString stringWithUTF8String:keywords];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetKeyWords: %@", targeting.keywords);
-    }else {
-        NSLog(@" TargetingSetKeyWords: targeting == null");
-    }
 }
 
 void TargetingSetCountry(const char *country){
@@ -122,12 +98,6 @@ void TargetingSetCountry(const char *country){
     }
     
     targeting.country = [NSString stringWithUTF8String:country];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetCountry: %@", targeting.country);
-    }else {
-        NSLog(@" TargetingSetCountry: targeting == null");
-    }
 }
 
 void TargetingSetCity(const char *city){
@@ -136,12 +106,6 @@ void TargetingSetCity(const char *city){
     }
     
     targeting.city = [NSString stringWithUTF8String:city];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetCity: %@", targeting.city);
-    }else {
-        NSLog(@" TargetingSetCity: targeting == null");
-    }
 }
 
 void TargetingSetZip(const char *zip){
@@ -150,12 +114,6 @@ void TargetingSetZip(const char *zip){
     }
     
     targeting.zip = [NSString stringWithUTF8String:zip];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetZip: %@", targeting.zip);
-    }else {
-        NSLog(@" TargetingSetZip: targeting == null");
-    }
 }
 
 void TargetingSetStoreUrl(const char *url){
@@ -164,12 +122,6 @@ void TargetingSetStoreUrl(const char *url){
     }
     
     targeting.storeURL = [[NSURL alloc] initWithString:[NSString stringWithUTF8String:url]];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetStoreUrl: %@", targeting.storeURL);
-    }else {
-        NSLog(@" TargetingSetStoreUrl: targeting == null");
-    }
 }
 
 void TargetingSetStoreCategory(const char *storeCategory){
@@ -178,12 +130,6 @@ void TargetingSetStoreCategory(const char *storeCategory){
     }
     
     targeting.storeCategory = [NSString stringWithUTF8String:storeCategory];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetStoreCategory: %@", targeting.storeCategory);
-    }else {
-        NSLog(@" TargetingSetStoreCategory: targeting == null");
-    }
 }
 
 void TargetingSetStoreSubCategories(const char *storeSubCategories){
@@ -194,12 +140,6 @@ void TargetingSetStoreSubCategories(const char *storeSubCategories){
     NSString *list = [NSString stringWithUTF8String:storeSubCategories];
     NSArray *blockedAppsArray = [list componentsSeparatedByString:@","];
     targeting.storeSubcategory = blockedAppsArray;
-    
-    if (targeting) {
-        NSLog(@" TargetingSetStoreSubCategories: %@", targeting.storeSubcategory);
-    }else {
-        NSLog(@" TargetingSetStoreSubCategories: targeting == null");
-    }
 }
 
 void TargetingSetFramework(const char *framework){
@@ -208,12 +148,6 @@ void TargetingSetFramework(const char *framework){
     }
     
     targeting.frameworkName = [NSString stringWithUTF8String:framework];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetFramework: %@", targeting.frameworkName);
-    }else {
-        NSLog(@" TargetingSetFramework: targeting == null");
-    }
 }
 
 void TargetingSetPaid(BOOL paid){
@@ -222,27 +156,14 @@ void TargetingSetPaid(BOOL paid){
     }
     
     targeting.paid = paid;
-    
-    if (targeting) {
-        NSLog(@" TargetingSetPaid: %s", targeting.paid ? "true" : "false");
-    }else {
-        NSLog(@" TargetingSetPaid: targeting == null");
-    }
 }
 
 void TargetingSetDeviceLocation(double latitude, double longitude){
     if (!targeting){
         targeting = [BDMTargeting new];
     }
-    targeting.deviceLocation =  [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
     
-    if (targeting) {
-        NSLog(@" TargetingSetDeviceLocation: %@", targeting.deviceLocation);
-        NSLog(@" TargetingSetDeviceLocation: %f", targeting.deviceLocation.coordinate.latitude);
-        NSLog(@" TargetingSetDeviceLocation: %f", targeting.deviceLocation.coordinate.longitude);
-    }else {
-        NSLog(@" TargetingSetDeviceLocation: targeting == null");
-    }
+    targeting.deviceLocation =  [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
 }
 
 void TargetingSetExternalUserIds(const char *ExternalUserIds){
@@ -264,17 +185,7 @@ void TargetingSetExternalUserIds(const char *ExternalUserIds){
         externalUser.value = value;
         [externalUserIds addObject:externalUser];
     }
-    
     targeting.externalUserIds = externalUserIds;
-    
-    if (targeting) {
-        for (BDMExternalUserId *externalUserId in externalUserIds){
-            NSLog(@" TargetingSetExternalUserIds: sourceId %@", externalUserId.sourceId);
-            NSLog(@" TargetingSetExternalUserIds: value %@", externalUserId.value);
-        }
-    }else {
-        NSLog(@" TargetingSetExternalUserIds: targeting == null");
-    }
 }
 
 void TargetingSetBlockedApps(const char *blockedApps){
@@ -286,12 +197,6 @@ void TargetingSetBlockedApps(const char *blockedApps){
     NSArray *blockedAppsArray = [list componentsSeparatedByString:@","];
     
     targeting.blockedApps = blockedAppsArray;
-    
-    if (targeting) {
-        NSLog(@" TargetingSetBlockedApps: %@", targeting.blockedApps);
-    }else {
-        NSLog(@" TargetingSetBlockedApps: targeting == null");
-    }
 }
 
 void TargetingSetBlockedCategories(const char *blockedCategories){
@@ -302,12 +207,6 @@ void TargetingSetBlockedCategories(const char *blockedCategories){
     NSArray *blockedCategoriesArray = [list componentsSeparatedByString:@","];
     
     targeting.blockedCategories = blockedCategoriesArray;
-    
-    if (targeting) {
-        NSLog(@" TargetingSetBlockedCategories: %@", targeting.blockedCategories);
-    }else {
-        NSLog(@" TargetingSetBlockedCategories: targeting == null");
-    }
 }
 
 void TargetingSetBlockedAdvertisers(const char *blockedAdvertisers){
@@ -318,12 +217,6 @@ void TargetingSetBlockedAdvertisers(const char *blockedAdvertisers){
     NSArray *blockedAdvertisersArray = [list componentsSeparatedByString:@","];
     
     targeting.blockedAdvertisers = blockedAdvertisersArray;
-    
-    if (targeting) {
-        NSLog(@" TargetingSetBlockedAdvertisers: %@", targeting.blockedAdvertisers);
-    }else {
-        NSLog(@" TargetingSetBlockedAdvertisers: targeting == null");
-    }
 }
 
 void TargetingSetStoreId(const char *storeId){
@@ -332,21 +225,39 @@ void TargetingSetStoreId(const char *storeId){
     }
     
     targeting.storeId = [NSString stringWithUTF8String:storeId];
-    
-    if (targeting) {
-        NSLog(@" TargetingSetStoreId: %@", targeting.storeId);
-    }else {
-        NSLog(@" TargetingSetStoreId: targeting == null");
+}
+
+BDMTargeting * GetTargeting(){
+    if (!targeting){
+        targeting = [BDMTargeting new];
     }
+    return targeting;
+}
+
+//PriceFloor
+
+void PriceFloorAddPrifeFloor(const char *priceFloorId, double value){
+    if (!priceFloor) {
+        priceFloor = [BDMPriceFloor new];
+    }
+    priceFloor.ID = [NSString stringWithUTF8String:priceFloorId];
+    priceFloor.value = [[NSDecimalNumber alloc] initWithDouble:value];
+}
+
+BDMPriceFloor * GetPriceFloor(){
+    if (!priceFloor) {
+        priceFloor = [BDMPriceFloor new];
+    }
+    return priceFloor;
 }
 
 void BidMachineInitialize(const char *sellerId) {
-    BDMUserRestrictions * restrictions = [BDMSdk sharedSdk].restrictions;
-    restrictions.coppa = internalRestrictions.coppa;
-    restrictions.subjectToGDPR = internalRestrictions.subjectToGDPR;
-    restrictions.hasConsent = internalRestrictions.hasConsent;
-    restrictions.consentString = internalRestrictions.consentString;
-    restrictions.USPrivacyString = internalRestrictions.USPrivacyString;
+    
+    [BDMSdk sharedSdk].restrictions.coppa = internalRestrictions.coppa;
+    [BDMSdk sharedSdk].restrictions.subjectToGDPR = internalRestrictions.subjectToGDPR;
+    [BDMSdk sharedSdk].restrictions.hasConsent = internalRestrictions.hasConsent;
+    [BDMSdk sharedSdk].restrictions.consentString = internalRestrictions.consentString;
+    [BDMSdk sharedSdk].restrictions.USPrivacyString = internalRestrictions.USPrivacyString;
     
     [BDMSdk.sharedSdk
      startSessionWithSellerID:[NSString stringWithUTF8String:sellerId]
@@ -421,7 +332,7 @@ void BidMachineSetTargeting (){
     configuration.targeting = targeting;
 }
 
-
+//BMError
 
 int BidMachineGetErrorCode(NSError * error){
     return (int) error.code;
@@ -439,28 +350,7 @@ char * BidMachineGetErrorMessage(NSError * error){
     return strncpy(cStringCopy, cString, [message length]);
 }
 
-BDMTargeting * GetTargeting(){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    return targeting;
-}
 
-void PriceFloorAddPrifeFloor(const char *priceFloorId, double value){
-    if (!priceFloor) {
-        priceFloor = [BDMPriceFloor new];
-    }
-    NSDecimalNumber *doubleDecimal = [[NSDecimalNumber alloc] initWithDouble:value];
-    priceFloor.ID = [NSString stringWithUTF8String:priceFloorId];
-    priceFloor.value = doubleDecimal;
-}
-
-BDMPriceFloor * GetPriceFloor(){
-    if (!priceFloor) {
-        priceFloor = [BDMPriceFloor new];
-    }
-    return priceFloor;
-}
 
 id<BDMContextualProtocol> GetSessionAdParams(){
     return contextualData;
@@ -493,6 +383,11 @@ void SetLastClickForImpression(int value){
 void SetLastBundle(const char *value){
     contextualData.lastBundle =[NSString stringWithUTF8String:value];
 }
+
+
+
+
+
 
 void InterstitialSetSessionAdParams(id<BDMContextualProtocol> value){
     if (!interstitialRequest) {
