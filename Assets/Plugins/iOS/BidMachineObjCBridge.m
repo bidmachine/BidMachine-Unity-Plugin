@@ -12,10 +12,10 @@
 #import "BidMachineBannerRequestDelegate.h"
 #import "BidMachineInterstitialRequestDelegate.h"
 #import "BidMachineRewardedRequestDelegate.h"
+#import "BidMachineSessionAdParams.h"
 
 static BDMSdkConfiguration *configuration;
-static BDMUserRestrictions *internalRestrictions;
-static id<BDMContextualProtocol> contextualData;
+static BidMachineSessionAdParams *sessionAdParams;
 
 static BDMTargeting *targeting;
 static BDMPriceFloor *priceFloor;
@@ -251,87 +251,6 @@ BDMPriceFloor * GetPriceFloor(){
     return priceFloor;
 }
 
-void BidMachineInitialize(const char *sellerId) {
-    
-    [BDMSdk sharedSdk].restrictions.coppa = internalRestrictions.coppa;
-    [BDMSdk sharedSdk].restrictions.subjectToGDPR = internalRestrictions.subjectToGDPR;
-    [BDMSdk sharedSdk].restrictions.hasConsent = internalRestrictions.hasConsent;
-    [BDMSdk sharedSdk].restrictions.consentString = internalRestrictions.consentString;
-    [BDMSdk sharedSdk].restrictions.USPrivacyString = internalRestrictions.USPrivacyString;
-    
-    [BDMSdk.sharedSdk
-     startSessionWithSellerID:[NSString stringWithUTF8String:sellerId]
-     configuration:configuration
-     completion:nil];
-}
-
-bool BidMachineIsInitialized(){
-    return BDMSdk.sharedSdk.initialized;
-}
-
-void BidMachineSetEndpoint(const char *url){
-    if (!configuration) {
-        configuration = [BDMSdkConfiguration new];
-    }
-    NSString *urlEndPoint =[NSString stringWithUTF8String:url];
-    configuration.baseURL = [NSURL URLWithString:urlEndPoint];
-}
-
-void BidMachineSetLogging(BOOL logging){
-    BDMSdk.sharedSdk.enableLogging = logging;
-}
-
-void BidMachineSetTestMode(BOOL testing){
-    if (!configuration) {
-        configuration = [BDMSdkConfiguration new];
-    }
-    configuration.testMode = testing;
-}
-
-void BidMachineSetCoppa (BOOL coppa){
-    if (!internalRestrictions) {
-        internalRestrictions = [BDMUserRestrictions new];
-    }
-    internalRestrictions.coppa = coppa;
-}
-
-void BidMachineSetUSPrivacyString(const char *USPrivacyString){
-    if (!internalRestrictions) {
-        internalRestrictions = [BDMUserRestrictions new];
-    }
-    internalRestrictions.USPrivacyString =[NSString stringWithUTF8String:USPrivacyString];
-}
-
-void BidMachineSetPublisher(const char *id, const char *name, const char *domain, const char *categories){
-    BDMSdk.sharedSdk.publisherInfo.publisherId = [NSString stringWithUTF8String:id];
-    BDMSdk.sharedSdk.publisherInfo.publisherName =[NSString stringWithUTF8String:name];
-    BDMSdk.sharedSdk.publisherInfo.publisherDomain =[NSString stringWithUTF8String:domain];
-    NSString *nsCategories =[NSString stringWithUTF8String:categories];
-    BDMSdk.sharedSdk.publisherInfo.publisherCategories = [nsCategories componentsSeparatedByString:@","];
-}
-
-void BidMachineSetGdprRequired(BOOL subjectToGDPR){
-    if (!internalRestrictions) {
-        internalRestrictions = [BDMUserRestrictions new];
-    }
-    internalRestrictions.subjectToGDPR = subjectToGDPR;
-}
-
-void BidMachineSetConsentString(BOOL consent, const char *consentString){
-    if (!internalRestrictions) {
-        internalRestrictions = [BDMUserRestrictions new];
-    }
-    internalRestrictions.hasConsent = consent;
-    internalRestrictions.consentString = [NSString stringWithUTF8String:consentString];
-}
-
-void BidMachineSetTargeting (){
-    if (!configuration) {
-        configuration = [BDMSdkConfiguration new];
-    }
-    configuration.targeting = targeting;
-}
-
 //BMError
 
 int BidMachineGetErrorCode(NSError * error){
@@ -350,44 +269,135 @@ char * BidMachineGetErrorMessage(NSError * error){
     return strncpy(cStringCopy, cString, [message length]);
 }
 
-
+//SessionAdParams
 
 id<BDMContextualProtocol> GetSessionAdParams(){
-    return contextualData;
+    return sessionAdParams;
 }
 
 void SetSessionDuration(int value){
-    contextualData.sessionDuration = value;
+    if (!sessionAdParams) {
+        sessionAdParams = [BidMachineSessionAdParams new];
+    }
+    
+    sessionAdParams.sessionDuration = value;
 }
 
 void SetImpressionCount(int value){
-    contextualData.impressions = value;
+    if (!sessionAdParams) {
+        sessionAdParams = [BidMachineSessionAdParams new];
+    }
+    
+    sessionAdParams.impressions = value;
 }
 
 void SetClickRate(int value){
-    contextualData.clickRate = value;
+    if (!sessionAdParams) {
+        sessionAdParams = [BidMachineSessionAdParams new];
+    }
+    
+    sessionAdParams.clickRate = value;
 }
 
 void SetLastAdomain(const char *value){
-    contextualData.lastAdomain = [NSString stringWithUTF8String:value];
+    if (!sessionAdParams) {
+        sessionAdParams = [BidMachineSessionAdParams new];
+    }
+    
+    sessionAdParams.lastAdomain = [NSString stringWithUTF8String:value];
 }
 
 void SetCompletionRate(int value){
-    contextualData.completionRate = value;
+    if (!sessionAdParams) {
+        sessionAdParams = [BidMachineSessionAdParams new];
+    }
+    
+    sessionAdParams.completionRate = value;
 }
 
 void SetLastClickForImpression(int value){
-    contextualData.completionRate = value;
+    if (!sessionAdParams) {
+        sessionAdParams = [BidMachineSessionAdParams new];
+    }
+    
+    sessionAdParams.impressions = value;
 }
 
 void SetLastBundle(const char *value){
-    contextualData.lastBundle =[NSString stringWithUTF8String:value];
+    if (!sessionAdParams) {
+        sessionAdParams = [BidMachineSessionAdParams new];
+    }
+    
+    sessionAdParams.lastBundle =[NSString stringWithUTF8String:value];
 }
 
+//BidMachine
 
+void BidMachineInitialize(const char *sellerId) {
+    
+    if (!configuration) {
+        configuration = [BDMSdkConfiguration new];
+    }
+    
+    [BDMSdk.sharedSdk
+     startSessionWithSellerID:[NSString stringWithUTF8String:sellerId]
+     configuration:configuration
+     completion:nil];
+}
 
+bool BidMachineIsInitialized(){
+    return BDMSdk.sharedSdk.initialized;
+}
 
+void BidMachineSetEndpoint(const char *url){
+    if (!configuration) {
+        configuration = [BDMSdkConfiguration new];
+    }
+    configuration.baseURL = [NSURL URLWithString:[NSString stringWithUTF8String:url]];
+}
 
+void BidMachineSetTestMode(BOOL testing){
+    if (!configuration) {
+        configuration = [BDMSdkConfiguration new];
+    }
+    configuration.testMode = testing;
+}
+
+void BidMachineSetLogging(BOOL logging){
+    BDMSdk.sharedSdk.enableLogging = logging;
+}
+
+void BidMachineSetCoppa (BOOL coppa){
+    [BDMSdk sharedSdk].restrictions.coppa = coppa;
+}
+
+void BidMachineSetUSPrivacyString(const char *USPrivacyString){
+    [BDMSdk sharedSdk].restrictions.USPrivacyString =[NSString stringWithUTF8String:USPrivacyString];
+}
+
+void BidMachineSetGdprRequired(BOOL subjectToGDPR){
+    [BDMSdk sharedSdk].restrictions.subjectToGDPR = subjectToGDPR;
+}
+
+void BidMachineSetConsentString(BOOL consent, const char *consentString){
+    [BDMSdk sharedSdk].restrictions.hasConsent = consent;
+    [BDMSdk sharedSdk].restrictions.consentString = [NSString stringWithUTF8String:consentString];
+}
+
+void BidMachineSetPublisher(const char *id, const char *name, const char *domain, const char *categories){
+    BDMSdk.sharedSdk.publisherInfo.publisherId = [NSString stringWithUTF8String:id];
+    BDMSdk.sharedSdk.publisherInfo.publisherName =[NSString stringWithUTF8String:name];
+    BDMSdk.sharedSdk.publisherInfo.publisherDomain =[NSString stringWithUTF8String:domain];
+    NSString *nsCategories =[NSString stringWithUTF8String:categories];
+    BDMSdk.sharedSdk.publisherInfo.publisherCategories = [nsCategories componentsSeparatedByString:@","];
+}
+
+void BidMachineSetTargeting (){
+    if (!configuration) {
+        configuration = [BDMSdkConfiguration new];
+    }
+    configuration.targeting = targeting;
+}
 
 void InterstitialSetSessionAdParams(id<BDMContextualProtocol> value){
     if (!interstitialRequest) {
