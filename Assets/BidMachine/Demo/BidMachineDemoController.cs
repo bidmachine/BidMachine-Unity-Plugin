@@ -60,10 +60,10 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                         new ExternalUserId("sourceId_2", "2")
                     }
                 ));
-        
+
         priceFloorParams = new PriceFloorParams();
         priceFloorParams.addPriceFloor("123", 1.2d);
-        
+
         sessionAdParams = new SessionAdParams()
             .setSessionDuration(123)
             .setImpressionCount(123)
@@ -76,22 +76,17 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void BidMachineInitialize()
     {
-        
-
-       
-
+        BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
+        BidMachine.setEndpoint("https://test.com");
+        BidMachine.setSubjectToGDPR(true);
+        BidMachine.setCoppa(true);
+        BidMachine.setConsentConfig(true, "test consent string");
+        BidMachine.setConsentConfig(true, "test consent string");
+        BidMachine.setUSPrivacyString("test_string");
+        BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
         BidMachine.initialize("1");
-
-        // BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
-        // BidMachine.setEndpoint("https://test.com");
-        // BidMachine.setSubjectToGDPR(true);
-        // BidMachine.setCoppa(true);
-        // BidMachine.setConsentConfig(true, "test consent string");
-        // BidMachine.setConsentConfig(true, "test consent string");
-        // BidMachine.setUSPrivacyString("test_string");
-        // BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
     }
 
     public void IsInitialized()
@@ -123,13 +118,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         {
             interstitialRequest = new InterstitialRequestBuilder()
                 .setAdContentType(AdContentType.All)
-                // .setTargetingParams(targetingParams)
-                // .setPriceFloorParams(priceFloorParams)
-                // .setSessionAdParams(sessionAdParams)
-                // .setPlacementId("placement1")
-                // .setLoadingTimeOut(123)
-                // .setBidPayload("123")
-                // .setNetworks("admob")
+                .setTargetingParams(targetingParams)
+                .setPriceFloorParams(priceFloorParams)
+                .setSessionAdParams(sessionAdParams)
+                .setPlacementId("placement1")
+                .setLoadingTimeOut(123)
+                .setBidPayload("123")
+                .setNetworks("admob")
                 .setListener(this)
                 .build();
         }
@@ -172,13 +167,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         if (rewardedRequest == null)
         {
             rewardedRequest = new RewardedRequestBuilder()
-                // .setTargetingParams(targetingParams)
-                // .setPriceFloorParams(priceFloorParams)
-                // .setSessionAdParams(sessionAdParams)
-                // .setPlacementId("placement1")
-                // .setLoadingTimeOut(123)
-                // .setBidPayload("123")
-                // .setNetworks("admob")
+                .setTargetingParams(targetingParams)
+                .setPriceFloorParams(priceFloorParams)
+                .setSessionAdParams(sessionAdParams)
+                .setPlacementId("placement1")
+                .setLoadingTimeOut(123)
+                .setBidPayload("123")
+                .setNetworks("admob")
                 .setListener(this)
                 .build();
         }
@@ -215,13 +210,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     {
         bannerRequest = new BannerRequestBuilder()
             .setSize(BannerSize.Size_320х50)
-            // .setTargetingParams(targetingParams)
-            // .setPriceFloorParams(priceFloorParams)
-            // .setSessionAdParams(sessionAdParams)
-            // .setPlacementId("placement1")
-            // .setLoadingTimeOut(123)
-            // .setBidPayload("123")
-            // .setNetworks("admob")
+            .setTargetingParams(targetingParams)
+            .setPriceFloorParams(priceFloorParams)
+            .setSessionAdParams(sessionAdParams)
+            .setPlacementId("placement1")
+            .setLoadingTimeOut(123)
+            .setBidPayload("123")
+            .setNetworks("admob")
             .setListener(this)
             .build();
 
