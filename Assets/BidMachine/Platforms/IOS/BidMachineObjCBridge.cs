@@ -1,12 +1,9 @@
 #if UNITY_IPHONE
 using System.Runtime.InteropServices;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using BidMachineAds.Unity.Api;
 using UnityEngine;
-
 
 namespace BidMachineAds.Unity.iOS
 {
@@ -239,9 +236,9 @@ namespace BidMachineAds.Unity.iOS
             TargetingSetDeviceLocation(latitude, longitude);
         }
 
-        public static void setExternalUserIds(IEnumerable<ExternalUserId> externalUserIdList)
+        public static void setExternalUserIds(ExternalUserId[] externalUserIdList)
         {
-            TargetingSetExternalUserIds(JsonUtility.ToJson(externalUserIdList.ToList()));
+            TargetingSetExternalUserIds(BidMachineUtils.ToJson(externalUserIdList));
         }
 
         public static void addBlockedApplication(string bundleOrPackage)
@@ -856,6 +853,41 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         internal static extern void BannerViewSetSessionAdParams(IntPtr value);
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public static class BidMachineUtils
+    {
+        public static T[] FromJson<T>(string json)
+        {
+            var wrapper = JsonUtility.FromJson<Wrapper<T>>(json);
+            return wrapper.Items;
+        }
+
+        public static string ToJson<T>(T[] array)
+        {
+            var wrapper = new Wrapper<T> { Items = array };
+            return JsonUtility.ToJson(wrapper);
+        }
+
+        public static string ToJson<T>(T[] array, bool prettyPrint)
+        {
+            var wrapper = new Wrapper<T>();
+            wrapper.Items = array;
+            return JsonUtility.ToJson(wrapper, prettyPrint);
+        }
+
+        public static string fixJson(string value)
+        {
+            value = "{\"Items\":" + value + "}";
+            return value;
+        }
+
+        [Serializable]
+        private class Wrapper<T>
+        {
+            public T[] Items;
+        }
     }
 }
 #endif
