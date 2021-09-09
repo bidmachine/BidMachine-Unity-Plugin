@@ -228,7 +228,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void setExternalUserIds(ExternalUserId[] externalUserIdList)
         {
-            TargetingObjcBridge.setExternalUserIds(externalUserIdList.ToList());
+            TargetingObjcBridge.setExternalUserIds(externalUserIdList);
         }
 
         public void addBlockedApplication(string bundleOrPackage)
