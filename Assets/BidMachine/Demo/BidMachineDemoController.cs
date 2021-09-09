@@ -60,22 +60,25 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                         new ExternalUserId("sourceId_2", "2")
                     }
                 ));
+        
+        priceFloorParams = new PriceFloorParams();
+        priceFloorParams.addPriceFloor("123", 1.2d);
+        
+        sessionAdParams = new SessionAdParams()
+            .setSessionDuration(123)
+            .setImpressionCount(123)
+            .setClickRate(1.2f)
+            .setIsUserClickedOnLastAd(true)
+            .setCompletionRate(1.3f)
+            .setLastBundle("test")
+            .setLastAdomain("test");
     }
 
     public void BidMachineInitialize()
     {
-        //
-        // priceFloorParams = new PriceFloorParams();
-        // priceFloorParams.addPriceFloor("123", 1.2d);
+        
 
-        // sessionAdParams = new SessionAdParams()
-        //     .setSessionDuration(123)
-        //     .setImpressionCount(123)
-        //     .setClickRate(1.2f)
-        //     .setIsUserClickedOnLastAd(true)
-        //     .setCompletionRate(1.3f)
-        //     .setLastBundle("test")
-        //     .setLastAdomain("test");
+       
 
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
