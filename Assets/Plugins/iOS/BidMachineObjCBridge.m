@@ -45,6 +45,301 @@ static UIViewController* RootViewController() {
     return ((UnityAppController *)[UIApplication sharedApplication].delegate).rootViewController;
 }
 
+// TargetingParams
+
+void TargetingSetUserId(const char *userId){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.userId = [NSString stringWithUTF8String:userId];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetUserId: %@", targeting.userId);
+    }else {
+        NSLog(@"TargetingSetUserId: targeting == null");
+    }
+}
+
+void TargetingSetGender(int gender){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    switch ((int)gender) {
+        case 1:
+            targeting.gender = kBDMUserGenderMale;
+            break;
+        case 2:
+            targeting.gender = kBDMUserGenderFemale;
+            break;
+        case 3:
+            targeting.gender = kBDMUserGenderUnknown;
+            break;
+        default:
+            targeting.gender = kBDMUserGenderUnknown;
+            break;
+    }
+    
+    if (targeting) {
+        NSLog(@" TargetingSetGender: %@", targeting.gender);
+    }else {
+        NSLog(@"TargetingSetGender: targeting == null");
+    }
+}
+
+void TargetingSetYearOfBirth(int yearOfBirth){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.yearOfBirth = [NSNumber numberWithInt:yearOfBirth];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetYearOfBirth: %@", targeting.yearOfBirth);
+    }else {
+        NSLog(@" TargetingSetYearOfBirth: targeting == null");
+    }
+}
+
+void TargetingSetKeyWords(const char *keywords){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.keywords =  [NSString stringWithUTF8String:keywords];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetKeyWords: %@", targeting.keywords);
+    }else {
+        NSLog(@" TargetingSetKeyWords: targeting == null");
+    }
+}
+
+void TargetingSetCountry(const char *country){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.country = [NSString stringWithUTF8String:country];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetCountry: %@", targeting.country);
+    }else {
+        NSLog(@" TargetingSetCountry: targeting == null");
+    }
+}
+
+void TargetingSetCity(const char *city){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.city = [NSString stringWithUTF8String:city];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetCity: %@", targeting.city);
+    }else {
+        NSLog(@" TargetingSetCity: targeting == null");
+    }
+}
+
+void TargetingSetZip(const char *zip){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.zip = [NSString stringWithUTF8String:zip];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetZip: %@", targeting.zip);
+    }else {
+        NSLog(@" TargetingSetZip: targeting == null");
+    }
+}
+
+void TargetingSetStoreUrl(const char *url){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.storeURL = [[NSURL alloc] initWithString:[NSString stringWithUTF8String:url]];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetStoreUrl: %@", targeting.storeURL);
+    }else {
+        NSLog(@" TargetingSetStoreUrl: targeting == null");
+    }
+}
+
+void TargetingSetStoreCategory(const char *storeCategory){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.storeCategory = [NSString stringWithUTF8String:storeCategory];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetStoreCategory: %@", targeting.storeCategory);
+    }else {
+        NSLog(@" TargetingSetStoreCategory: targeting == null");
+    }
+}
+
+void TargetingSetStoreSubCategories(const char *storeSubCategories){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    NSString *list = [NSString stringWithUTF8String:storeSubCategories];
+    NSArray *blockedAppsArray = [list componentsSeparatedByString:@","];
+    targeting.storeSubcategory = blockedAppsArray;
+    
+    if (targeting) {
+        NSLog(@" TargetingSetStoreSubCategories: %@", targeting.storeSubcategory);
+    }else {
+        NSLog(@" TargetingSetStoreSubCategories: targeting == null");
+    }
+}
+
+void TargetingSetFramework(const char *framework){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.frameworkName = [NSString stringWithUTF8String:framework];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetFramework: %@", targeting.frameworkName);
+    }else {
+        NSLog(@" TargetingSetFramework: targeting == null");
+    }
+}
+
+void TargetingSetPaid(BOOL paid){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.paid = paid;
+    
+    if (targeting) {
+        NSLog(@" TargetingSetPaid: %s", targeting.paid ? "true" : "false");
+    }else {
+        NSLog(@" TargetingSetPaid: targeting == null");
+    }
+}
+
+void TargetingSetDeviceLocation(double latitude, double longitude){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    targeting.deviceLocation =  [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetDeviceLocation: %@", targeting.deviceLocation);
+        NSLog(@" TargetingSetDeviceLocation: %f", targeting.deviceLocation.coordinate.latitude);
+        NSLog(@" TargetingSetDeviceLocation: %f", targeting.deviceLocation.coordinate.longitude);
+    }else {
+        NSLog(@" TargetingSetDeviceLocation: targeting == null");
+    }
+}
+
+void TargetingSetExternalUserIds(const char *ExternalUserIds){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    NSString *jsonString = [NSString stringWithUTF8String:ExternalUserIds];
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *error = nil;
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
+    NSArray *jsonArray = json[@"Items"];
+    NSMutableArray<BDMExternalUserId *> *externalUserIds = [NSMutableArray<BDMExternalUserId *> new];
+    for (NSDictionary *externalUserIdsArray in jsonArray) {
+        BDMExternalUserId *externalUser = [BDMExternalUserId new];
+        NSString *sourceId = [externalUserIdsArray objectForKey:@"sourceId"];
+        externalUser.sourceId = sourceId;
+        NSString *value = [externalUserIdsArray objectForKey:@"value"];
+        externalUser.value = value;
+        [externalUserIds addObject:externalUser];
+    }
+    
+    targeting.externalUserIds = externalUserIds;
+    
+    if (targeting) {
+        for (BDMExternalUserId *externalUserId in externalUserIds){
+            NSLog(@" TargetingSetExternalUserIds: sourceId %@", externalUserId.sourceId);
+            NSLog(@" TargetingSetExternalUserIds: value %@", externalUserId.value);
+        }
+    }else {
+        NSLog(@" TargetingSetExternalUserIds: targeting == null");
+    }
+}
+
+void TargetingSetBlockedApps(const char *blockedApps){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    NSString *list = [NSString stringWithUTF8String:blockedApps];
+    NSArray *blockedAppsArray = [list componentsSeparatedByString:@","];
+    
+    targeting.blockedApps = blockedAppsArray;
+    
+    if (targeting) {
+        NSLog(@" TargetingSetBlockedApps: %@", targeting.blockedApps);
+    }else {
+        NSLog(@" TargetingSetBlockedApps: targeting == null");
+    }
+}
+
+void TargetingSetBlockedCategories(const char *blockedCategories){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    NSString *list = [NSString stringWithUTF8String:blockedCategories];
+    NSArray *blockedCategoriesArray = [list componentsSeparatedByString:@","];
+    
+    targeting.blockedCategories = blockedCategoriesArray;
+    
+    if (targeting) {
+        NSLog(@" TargetingSetBlockedCategories: %@", targeting.blockedCategories);
+    }else {
+        NSLog(@" TargetingSetBlockedCategories: targeting == null");
+    }
+}
+
+void TargetingSetBlockedAdvertisers(const char *blockedAdvertisers){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    NSString *list = [NSString stringWithUTF8String:blockedAdvertisers];
+    NSArray *blockedAdvertisersArray = [list componentsSeparatedByString:@","];
+    
+    targeting.blockedAdvertisers = blockedAdvertisersArray;
+    
+    if (targeting) {
+        NSLog(@" TargetingSetBlockedAdvertisers: %@", targeting.blockedAdvertisers);
+    }else {
+        NSLog(@" TargetingSetBlockedAdvertisers: targeting == null");
+    }
+}
+
+void TargetingSetStoreId(const char *storeId){
+    if (!targeting){
+        targeting = [BDMTargeting new];
+    }
+    
+    targeting.storeId = [NSString stringWithUTF8String:storeId];
+    
+    if (targeting) {
+        NSLog(@" TargetingSetStoreId: %@", targeting.storeId);
+    }else {
+        NSLog(@" TargetingSetStoreId: targeting == null");
+    }
+}
+
 void BidMachineInitialize(const char *sellerId) {
     BDMUserRestrictions * restrictions = [BDMSdk sharedSdk].restrictions;
     restrictions.coppa = internalRestrictions.coppa;
@@ -126,171 +421,7 @@ void BidMachineSetTargeting (){
     configuration.targeting = targeting;
 }
 
-void TargetingSetUserId(const char *userId){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.userId = [NSString stringWithUTF8String:userId];
-}
 
-void TargetingSetGender(int gender){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    
-    switch ((int)gender) {
-        case 1:
-            targeting.gender = kBDMUserGenderMale;
-            break;
-        case 2:
-            targeting.gender = kBDMUserGenderFemale;
-            break;
-        case 3:
-            targeting.gender = kBDMUserGenderUnknown;
-            break;
-        default:
-            break;
-    }
-    targeting.gender = kBDMUserGenderUnknown;
-}
-
-void TargetingSetYearOfBirth(int yearOfBirth){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.yearOfBirth = [NSNumber numberWithInt:yearOfBirth];
-}
-
-void TargetingSetKeyWords(const char *keywords){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.keywords =  [NSString stringWithUTF8String:keywords];
-}
-
-void TargetingSetCountry(const char *country){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.country = [NSString stringWithUTF8String:country];
-}
-
-void TargetingSetCity(const char *city){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.city = [NSString stringWithUTF8String:city];
-}
-
-void TargetingSetZip(const char *zip){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.zip = [NSString stringWithUTF8String:zip];
-}
-
-void TargetingSetStoreUrl(const char *url){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.storeURL = [[NSURL alloc] initWithString:[NSString stringWithUTF8String:url]];
-}
-
-void TargetingSetStoreCategory(const char *storeCategory){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.storeCategory = [NSString stringWithUTF8String:storeCategory];
-}
-
-void TargetingSetStoreSubCategories(const char *storeSubCategories){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    NSString *list = [NSString stringWithUTF8String:storeSubCategories];
-    NSArray *blockedAppsArray = [list componentsSeparatedByString:@","];
-    targeting.storeSubcategory = blockedAppsArray;
-}
-
-void TargetingSetFramework(const char *framework){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.frameworkName = [NSString stringWithUTF8String:framework];
-}
-
-void TargetingSetPaid(BOOL paid){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.paid = paid;
-    
-}
-
-void TargetingSetDeviceLocation(double latitude, double longitude){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.deviceLocation =  [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-}
-
-void TargetingSetExternalUserIds(const char *ExternalUserIds){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    
-    NSString *jsonString = [NSString stringWithUTF8String:ExternalUserIds];
-    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *error = nil;
-    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
-    
-    NSArray<BDMExternalUserId *> *externalUserIds = [NSArray<BDMExternalUserId *> new];
-    
-    for (NSDictionary *externalUserIdsArray in jsonArray) {
-        BDMExternalUserId *externalUser = [BDMExternalUserId new];
-        NSString *sourceId = [externalUserIdsArray objectForKey:@"sourceId"];
-        externalUser.sourceId = sourceId;
-        NSString *value = [externalUserIdsArray objectForKey:@"value"];
-        externalUser.value = value;
-        [externalUserIds arrayByAddingObject:externalUser];
-    }
-    
-    targeting.externalUserIds = externalUserIds;
-}
-
-void TargetingSetBlockedApps(const char *blockedApps){
-    NSString *list = [NSString stringWithUTF8String:blockedApps];
-    NSArray *blockedAppsArray = [list componentsSeparatedByString:@","];
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.blockedApps = blockedAppsArray;
-}
-
-void TargetingSetBlockedCategories(const char *blockedCategories){
-    NSString *list = [NSString stringWithUTF8String:blockedCategories];
-    NSArray *blockedCategoriesArray = [list componentsSeparatedByString:@","];
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.blockedCategories = blockedCategoriesArray;
-}
-
-void TargetingSetBlockedAdvertisers(const char *blockedAdvertisers){
-    NSString *list = [NSString stringWithUTF8String:blockedAdvertisers];
-    NSArray *blockedAdvertisersArray = [list componentsSeparatedByString:@","];
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.blockedAdvertisers = blockedAdvertisersArray;
-}
-
-void TargetingSetStoreId(const char *storeId){
-    if (!targeting){
-        targeting = [BDMTargeting new];
-    }
-    targeting.storeId = [NSString stringWithUTF8String:storeId];
-}
 
 int BidMachineGetErrorCode(NSError * error){
     return (int) error.code;
