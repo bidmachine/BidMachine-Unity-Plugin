@@ -118,13 +118,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         {
             interstitialRequest = new InterstitialRequestBuilder()
                 .setAdContentType(AdContentType.All)
-                .setTargetingParams(targetingParams)
-                .setPriceFloorParams(priceFloorParams)
-                .setSessionAdParams(sessionAdParams)
-                .setPlacementId("placement1")
-                .setLoadingTimeOut(123)
-                .setBidPayload("123")
-                .setNetworks("admob")
+                // .setTargetingParams(targetingParams)
+                // .setPriceFloorParams(priceFloorParams)
+                // .setSessionAdParams(sessionAdParams)
+                // .setPlacementId("placement1")
+                // .setLoadingTimeOut(123)
+                // .setBidPayload("123")
+                // .setNetworks("admob")
                 .setListener(this)
                 .build();
         }
@@ -167,13 +167,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         if (rewardedRequest == null)
         {
             rewardedRequest = new RewardedRequestBuilder()
-                .setTargetingParams(targetingParams)
-                .setPriceFloorParams(priceFloorParams)
-                .setSessionAdParams(sessionAdParams)
-                .setPlacementId("placement1")
-                .setLoadingTimeOut(123)
-                .setBidPayload("123")
-                .setNetworks("admob")
+                // .setTargetingParams(targetingParams)
+                // .setPriceFloorParams(priceFloorParams)
+                // .setSessionAdParams(sessionAdParams)
+                // .setPlacementId("placement1")
+                // .setLoadingTimeOut(123)
+                // .setBidPayload("123")
+                // .setNetworks("admob")
                 .setListener(this)
                 .build();
         }
@@ -210,13 +210,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     {
         bannerRequest = new BannerRequestBuilder()
             .setSize(BannerSize.Size_320х50)
-            .setTargetingParams(targetingParams)
-            .setPriceFloorParams(priceFloorParams)
-            .setSessionAdParams(sessionAdParams)
-            .setPlacementId("placement1")
-            .setLoadingTimeOut(123)
-            .setBidPayload("123")
-            .setNetworks("admob")
+            // .setTargetingParams(targetingParams)
+            // .setPriceFloorParams(priceFloorParams)
+            // .setSessionAdParams(sessionAdParams)
+            // .setPlacementId("placement1")
+            // .setLoadingTimeOut(123)
+            // .setBidPayload("123")
+            // .setNetworks("admob")
             .setListener(this)
             .build();
 
@@ -385,6 +385,14 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onBannerRequestSuccess(BannerRequest request, string auctionResult)
     {
+        if (request != null)
+        {
+            Debug.Log($"onBannerRequestSuccess - request.getSize() - {request.getSize()}");
+            Debug.Log($"onBannerRequestSuccess - request.getAuctionResult() - {request.getAuctionResult()}");
+            Debug.Log($"onBannerRequestSuccess - request.isExpired() - {request.isExpired()}");
+            Debug.Log($"onBannerRequestSuccess - request.isDestroyed() - {request.isDestroyed()}");
+        }
+
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"BannerRequestListener - onBannerRequestSuccess" +
