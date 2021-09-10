@@ -858,6 +858,24 @@ namespace BidMachineAds.Unity.Android
         {
             return interstitialRequest;
         }
+        
+        public string getAuctionResult()
+        {
+            var auctionResultAndroidJavaObject = interstitialRequest.Call<AndroidJavaObject>("getAuctionResult");
+            return !string.IsNullOrEmpty(auctionResultAndroidJavaObject.Call<string>("toString"))
+                ? auctionResultAndroidJavaObject.Call<string>("toString")
+                : "null";
+        }
+
+        public bool isDestroyed()
+        {
+            return interstitialRequest.Call<bool>("isDestroyed");
+        }
+
+        public bool isExpired()
+        {
+            return interstitialRequest.Call<bool>("isDestroyed");
+        }
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -873,6 +891,24 @@ namespace BidMachineAds.Unity.Android
         public AndroidJavaObject getJavaObject()
         {
             return rewardedRequest;
+        }
+        
+        public string getAuctionResult()
+        {
+            var auctionResultAndroidJavaObject = rewardedRequest.Call<AndroidJavaObject>("getAuctionResult");
+            return !string.IsNullOrEmpty(auctionResultAndroidJavaObject.Call<string>("toString"))
+                ? auctionResultAndroidJavaObject.Call<string>("toString")
+                : "null";
+        }
+
+        public bool isDestroyed()
+        {
+            return rewardedRequest.Call<bool>("isDestroyed");
+        }
+
+        public bool isExpired()
+        {
+            return rewardedRequest.Call<bool>("isDestroyed");
         }
     }
 
