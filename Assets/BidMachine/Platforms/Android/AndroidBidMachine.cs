@@ -824,6 +824,24 @@ namespace BidMachineAds.Unity.Android
 
             return bannerSize;
         }
+
+        public string getAuctionResult()
+        {
+            var auctionResultAndroidJavaObject = bannerRequest.Call<AndroidJavaObject>("getAuctionResult");
+            return !string.IsNullOrEmpty(auctionResultAndroidJavaObject.Call<string>("toString"))
+                ? auctionResultAndroidJavaObject.Call<string>("toString")
+                : "null";
+        }
+
+        public bool isDestroyed()
+        {
+            return bannerRequest.Call<bool>("isDestroyed");
+        }
+
+        public bool isExpired()
+        {
+            return bannerRequest.Call<bool>("isDestroyed");
+        }
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
