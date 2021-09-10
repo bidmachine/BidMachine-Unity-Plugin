@@ -288,6 +288,11 @@ namespace BidMachineAds.Unity.Android
             JavaTargetingParametrs.Call<AndroidJavaObject>("setStoreSubCategories", arrayObject);
         }
 
+        public void setStoreId(string storeId)
+        {
+            Debug.Log("Not support on Android Platform");
+        }
+
         public void setFramework(string framework)
         {
             if (!string.IsNullOrEmpty(framework))
@@ -420,6 +425,11 @@ namespace BidMachineAds.Unity.Android
             javaSessionAdParams.Call<AndroidJavaObject>("setClickRate", Helper.getJavaObject(value));
         }
 
+        public void setLastAdomain(string value)
+        {
+            Debug.Log("Not support on Android Platform");
+        }
+
         public void setIsUserClickedOnLastAd(bool value)
         {
             javaSessionAdParams.Call<AndroidJavaObject>("setIsUserClickedOnLastAd", Helper.getJavaObject(value));
@@ -428,6 +438,16 @@ namespace BidMachineAds.Unity.Android
         public void setCompletionRate(float value)
         {
             javaSessionAdParams.Call<AndroidJavaObject>("setCompletionRate", Helper.getJavaObject(value));
+        }
+
+        public void setLastClickForImpression(int value)
+        {
+            Debug.Log("Not support on Android Platform");
+        }
+
+        public void setLastBundle(string value)
+        {
+            Debug.Log("Not support on Android Platform");
         }
     }
 
@@ -1101,7 +1121,7 @@ namespace BidMachineAds.Unity.Android
                 return new AndroidJavaObject("java.lang.Double", value);
             }
 
-            return value ?? null;
+            return value;
         }
     }
 }
