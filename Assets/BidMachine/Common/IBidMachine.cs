@@ -130,14 +130,20 @@ namespace BidMachineAds.Unity.Common
 
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IInterstitialRequest
     {
-        
+        string getAuctionResult();
+        bool isDestroyed();
+        bool isExpired();
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IRewardedRequest
     {
-        
+        string getAuctionResult();
+        bool isDestroyed();
+        bool isExpired();
     }
 
     public interface IBannerView
