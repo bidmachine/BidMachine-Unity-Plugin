@@ -451,5 +451,20 @@ namespace BidMachineAds.Unity.Dummy
         {
             throw new System.NotImplementedException();
         }
+
+        public string getAuctionResult()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool isDestroyed()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool isExpired()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
