@@ -87,7 +87,6 @@ namespace BidMachineAds.Unity.Common
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
         void setNetworks(string networks);
-
         IBannerRequest build();
     }
 
@@ -121,17 +120,24 @@ namespace BidMachineAds.Unity.Common
         IRewardedRequest build();
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IBannerRequest
     {
         BannerSize getSize();
+        string getAuctionResult();
+        bool isDestroyed();
+        bool isExpired();
+
     }
 
     public interface IInterstitialRequest
     {
+        
     }
 
     public interface IRewardedRequest
     {
+        
     }
 
     public interface IBannerView
