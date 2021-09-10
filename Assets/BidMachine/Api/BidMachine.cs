@@ -163,7 +163,7 @@ namespace BidMachineAds.Unity.Api
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [Serializable]
-    public class ExternalUserId 
+    public class ExternalUserId
     {
         public string sourceId;
         public string value;
@@ -358,7 +358,7 @@ namespace BidMachineAds.Unity.Api
             nativeTargetingParams.addBlockedAdvertiserDomain(domain);
             return this;
         }
-        
+
         public TargetingParams setStoreId(string storeId)
         {
             nativeTargetingParams.setStoreId(storeId);
@@ -440,25 +440,24 @@ namespace BidMachineAds.Unity.Api
             nativeSessionAdParams.setCompletionRate(value);
             return this;
         }
-        
+
         public SessionAdParams setLastAdomain(string value)
         {
             nativeSessionAdParams.setLastAdomain(value);
             return this;
         }
-        
+
         public SessionAdParams setLastClickForImpression(int value)
         {
             nativeSessionAdParams.setLastClickForImpression(value);
             return this;
         }
-        
+
         public SessionAdParams setLastBundle(string value)
         {
             nativeSessionAdParams.setLastBundle(value);
             return this;
         }
-        
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -732,6 +731,21 @@ namespace BidMachineAds.Unity.Api
         public BannerSize getSize()
         {
             return nativeBannerRequest.getSize();
+        }
+
+        public string getAuctionResult()
+        {
+            return nativeBannerRequest.getAuctionResult();
+        }
+
+        public bool isDestroyed()
+        {
+            return nativeBannerRequest.isDestroyed();
+        }
+
+        public bool isExpired()
+        {
+            return nativeBannerRequest.isExpired();
         }
     }
 
