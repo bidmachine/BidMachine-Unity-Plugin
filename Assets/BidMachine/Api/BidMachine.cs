@@ -749,6 +749,7 @@ namespace BidMachineAds.Unity.Api
         }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class InterstitialRequest
     {
         private readonly IInterstitialRequest nativeInterstitialRequest;
@@ -762,8 +763,24 @@ namespace BidMachineAds.Unity.Api
         {
             return nativeInterstitialRequest;
         }
+        
+        public string getAuctionResult()
+        {
+            return nativeInterstitialRequest.getAuctionResult();
+        }
+
+        public bool isDestroyed()
+        {
+            return nativeInterstitialRequest.isDestroyed();
+        }
+
+        public bool isExpired()
+        {
+            return nativeInterstitialRequest.isExpired();
+        }
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class RewardedRequest
     {
         private readonly IRewardedRequest nativeRewardedRequest;
@@ -776,6 +793,21 @@ namespace BidMachineAds.Unity.Api
         public IRewardedRequest GetRewardedRequest()
         {
             return nativeRewardedRequest;
+        }
+        
+        public string getAuctionResult()
+        {
+            return nativeRewardedRequest.getAuctionResult();
+        }
+
+        public bool isDestroyed()
+        {
+            return nativeRewardedRequest.isDestroyed();
+        }
+
+        public bool isExpired()
+        {
+            return nativeRewardedRequest.isExpired();
         }
     }
 
