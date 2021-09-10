@@ -421,6 +421,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onInterstitialRequestSuccess(InterstitialRequest request, string auctionResult)
     {
+        if (request != null)
+        {
+            Debug.Log($"onInterstitialRequestSuccess - request.getAuctionResult() - {request.getAuctionResult()}");
+            Debug.Log($"onInterstitialRequestSuccess - request.isExpired() - {request.isExpired()}");
+            Debug.Log($"onInterstitialRequestSuccess - request.isDestroyed() - {request.isDestroyed()}");
+        }
+        
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"InterstitialRequestListener - onInterstitialRequestSuccess" +
@@ -449,6 +456,14 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onRewardedRequestSuccess(RewardedRequest request, string auctionResult)
     {
+        
+        if (request != null)
+        {
+            Debug.Log($"onRewardedRequestSuccess - request.getAuctionResult() - {request.getAuctionResult()}");
+            Debug.Log($"onRewardedRequestSuccess - request.isExpired() - {request.isExpired()}");
+            Debug.Log($"onRewardedRequestSuccess - request.isDestroyed() - {request.isDestroyed()}");
+        }
+        
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"RewardedRequestListener - onRewardedRequestSuccess" +
