@@ -806,25 +806,44 @@ namespace BidMachineAds.Unity.Android
             return jNativeRequestBuilder;
         }
 
-        public void setMediaAssetTypes(MediaAssetType mediaAssetType)
+        public void setMediaAssetTypes(NativeAdParams nativeAdParams)
         {
-            switch (mediaAssetType)
+            if (nativeAdParams != null)
             {
-                case MediaAssetType.Icon:
-                    getNativeRequestBuilder().Call<AndroidJavaObject>("setMediaAssetTypes",
-                        new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
-                            "Icon"));
-                    break;
-                case MediaAssetType.Image:
-                    getNativeRequestBuilder().Call<AndroidJavaObject>("setMediaAssetTypes",
-                        new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
-                            "Image"));
-                    break;
-                default:
-                    getNativeRequestBuilder().Call<AndroidJavaObject>("setMediaAssetTypes",
-                        new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
-                            "Icon"));
-                    break;
+                {
+                    var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
+                    var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
+                        new AndroidJavaClass("io.bidmachine.MediaAssetType"),
+                        nativeAdParams.getMediaAssetTypes().Length);
+                    for (int i = 0; i < nativeAdParams.getMediaAssetTypes().Length; i++)
+                    {
+                        switch (nativeAdParams.getMediaAssetTypes()[i])
+                        {
+                            case NativeAdParams.MediaAssetType.Video:
+                                arrayClass.CallStatic("set", arrayObject, i,
+                                    new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
+                                        "Video"));
+                                break;
+                            case NativeAdParams.MediaAssetType.Image:
+                                arrayClass.CallStatic("set", arrayObject, i,
+                                    new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
+                                        "Image"));
+                                break;
+                            case NativeAdParams.MediaAssetType.Icon:
+                                arrayClass.CallStatic("set", arrayObject, i,
+                                    new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
+                                        "Icon"));
+                                break;
+                            case NativeAdParams.MediaAssetType.All:
+                                arrayClass.CallStatic("set", arrayObject, i,
+                                    new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
+                                        "All"));
+                                break;
+                        }
+                    }
+
+                    getNativeRequestBuilder().Call<AndroidJavaObject>("setMediaAssetTypes", arrayObject);
+                }
             }
         }
 
