@@ -111,7 +111,7 @@ namespace BidMachineAds.Unity.Common
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface INativeRequestBuilder
     {
-        void setMediaAssetTypes(MediaAssetType mediaAssetType);
+        void setMediaAssetTypes(NativeAdParams nativeAdParams);
         void setTargetingParams(TargetingParams targetingParams);
         void setPriceFloorParams(PriceFloorParams priceFloorParameters);
         void setSessionAdParams(SessionAdParams sessionAdParams);
