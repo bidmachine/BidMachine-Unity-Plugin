@@ -97,6 +97,17 @@ namespace BidMachineAds.Unity
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
         }
+        
+        internal static INativeRequestBuilder GetNativeRequestBuilder()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+          return new BidMachineAds.Unity.Android.AndroidNativeRequestBuilder();
+#elif UNITY_IPHONE && !UNITY_EDITOR
+          return new BidMachineAds.Unity.iOS.iOSNativeRequestBuilder();
+#else
+            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
+#endif
+        }
 
         internal static IRewardedRequest GetRewardedRequest()
         {
@@ -115,6 +126,17 @@ namespace BidMachineAds.Unity
           return new BidMachineAds.Unity.Android.AndroidRewardedAd();
 #elif UNITY_IPHONE && !UNITY_EDITOR
           return new BidMachineAds.Unity.iOS.iOSRewardedAd();
+#else
+            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
+#endif
+        }
+        
+        internal static INativeAd GetNativeAd()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+          return new BidMachineAds.Unity.Android.AndroidNativeAd();
+#elif UNITY_IPHONE && !UNITY_EDITOR
+          return new BidMachineAds.Unity.iOS.iOSNativeAd();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
