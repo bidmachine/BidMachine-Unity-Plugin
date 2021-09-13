@@ -227,14 +227,7 @@ namespace BidMachineAds.Unity.Api
             set => categories = value;
         }
     }
-
-    public enum CreativeFormat
-    {
-        Banner,
-        Video,
-        Native
-    }
-
+    
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class TargetingParams
     {
@@ -486,7 +479,20 @@ namespace BidMachineAds.Unity.Api
         Size_300х250,
         Size_728х90,
     }
+    
+    public enum AdContentType
+    {
+        All,
+        Video,
+        Static,
+    }
 
+    public enum MediaAssetType
+    {
+        Icon,
+        Image
+    }
+    
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BannerRequestBuilder
     {
@@ -561,14 +567,7 @@ namespace BidMachineAds.Unity.Api
             return new BannerRequest(nativeBannerRequestBuilder.build());
         }
     }
-
-    public enum AdContentType
-    {
-        All,
-        Video,
-        Static,
-    }
-
+    
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class InterstitialRequestBuilder
     {
@@ -714,6 +713,67 @@ namespace BidMachineAds.Unity.Api
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class NativeRequestBuilder
+    {
+        private readonly INativeRequestBuilder nativeRequestBuilder;
+
+        public NativeRequestBuilder()
+        {
+            nativeRequestBuilder = BidMachineClientFactory.GetNativeRequestBuilder();
+        }
+
+        public void setMediaAssetTypes(MediaAssetType mediaAssetType)
+        {
+            nativeRequestBuilder.setMediaAssetTypes(mediaAssetType);
+        }
+
+        public void setTargetingParams(TargetingParams targetingParams)
+        {
+            nativeRequestBuilder.setTargetingParams(targetingParams);
+        }
+
+        public void setPriceFloorParams(PriceFloorParams priceFloorParameters)
+        {
+            nativeRequestBuilder.setPriceFloorParams(priceFloorParameters);
+        }
+
+        public void setSessionAdParams(SessionAdParams sessionAdParams)
+        {
+            nativeRequestBuilder.setSessionAdParams(sessionAdParams);
+        }
+
+        public void setLoadingTimeOut(int value)
+        {
+            nativeRequestBuilder.setLoadingTimeOut(value);
+        }
+
+        public void setPlacementId(string placementId)
+        {
+            nativeRequestBuilder.setPlacementId(placementId);
+        }
+
+        public void setBidPayload(string bidPayLoad)
+        {
+            nativeRequestBuilder.setBidPayload(bidPayLoad);
+        }
+
+        public void setNetworks(string networks)
+        {
+            nativeRequestBuilder.setNetworks(networks);
+        }
+
+        public void setListener(INativeRequestListener nativeRequestListener)
+        {
+            nativeRequestBuilder.setListener(nativeRequestListener);
+        }
+
+        public INativeRequest build()
+        {
+            return nativeRequestBuilder.build();
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BannerRequest
     {
         private readonly IBannerRequest nativeBannerRequest;
@@ -808,6 +868,38 @@ namespace BidMachineAds.Unity.Api
         public bool isExpired()
         {
             return nativeRewardedRequest.isExpired();
+        }
+    }
+    
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    public class NativeRequest
+    {
+        private readonly INativeRequest nativeRequest;
+
+        public NativeRequest(INativeRequest nRequest)
+        {
+            nativeRequest = nRequest;
+        }
+
+        public INativeRequest GetNativeRequest()
+        {
+            return nativeRequest;
+        }
+        
+        public string getAuctionResult()
+        {
+            return nativeRequest.getAuctionResult();
+        }
+
+        public bool isDestroyed()
+        {
+            return nativeRequest.isDestroyed();
+        }
+
+        public bool isExpired()
+        {
+            return nativeRequest.isExpired();
         }
     }
 
@@ -973,5 +1065,63 @@ namespace BidMachineAds.Unity.Api
         {
             nativeRewardedAd.setListener(rewardedAdListener);
         }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    
+    public class NativeAd
+    {
+        private readonly INativeAd nativeAd;
+        
+        public NativeAd()
+        {
+            nativeAd = BidMachineClientFactory.GetNativeAd();
+        }
+
+        public NativeAd(INativeAd native)
+        {
+            nativeAd = native;
+        }
+
+         public string getTitle()
+         {
+            return nativeAd.getTitle();
+         }
+
+         public string getDescription()
+         {
+             return nativeAd.getDescription();
+         }
+
+         public string getCallToAction()
+         {
+             return nativeAd.getCallToAction();
+         }
+
+         public float getRating()
+         {
+             return nativeAd.getRating();
+         }
+
+         public bool canShow()
+         {
+             return nativeAd.canShow();
+         }
+
+         public void destroy()
+         {
+             nativeAd.destroy();
+         }
+
+         public void load(NativeRequest nativeRequest)
+         {
+             nativeAd.load(nativeRequest);
+         }
+
+         public void setListener(INativeAdListener nativeAdListener)
+         {
+             nativeAd.setListener(nativeAdListener);
+         }
     }
 }
