@@ -1,14 +1,16 @@
+using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Api;
 
 namespace BidMachineAds.Unity.Common
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface INativeAdListener
     {
-        void onAdLoaded(NativeAd ad);
-        void onAdLoadFailed(NativeAd ad, BMError error);
-        void onAdShown(NativeAd ad);
-        void onAdImpression(NativeAd ad);
-        void onAdClicked(NativeAd ad);
-        void onAdExpired(NativeAd ad);
+        void onNativeAdLoaded(NativeAd ad);
+        void onNativeAdLoadFailed(NativeAd ad, BMError error);
+        void onNativeAdShown(NativeAd ad);
+        void onNativeAdImpression(NativeAd ad);
+        void onNativeAdClicked(NativeAd ad);
+        void onNativeAdExpired(NativeAd ad);
     }
 }
