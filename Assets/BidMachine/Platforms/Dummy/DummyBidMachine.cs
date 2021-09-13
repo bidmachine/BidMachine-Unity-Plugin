@@ -7,7 +7,8 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Dummy
 {
     public class DummyBidMachine : IBidMachine, ITargetingParams, IPriceFloorParams, IInterstitialRequestBuilder, IInterstitialAd, IInterstitialRequest,
-        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, IBannerRequest, IBannerView, IBanner, ISessionAdParams
+        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder, 
+        IBannerRequest, IBannerView, IBanner, ISessionAdParams, INativeAd, INativeRequestBuilder
     {
        
         public void build(InterstitialRequestBuilder interstitialRequestBuilder)
@@ -70,15 +71,50 @@ namespace BidMachineAds.Unity.Dummy
             throw new System.NotImplementedException();
         }
 
+        public void setListener(INativeRequestListener bannerRequestListener)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        INativeRequest INativeRequestBuilder.build()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void build()
         {
             Debug.Log("Not supported on this platform");
+        }
+
+        public string getTitle()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string getDescription()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string getCallToAction()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public float getRating()
+        {
+            throw new System.NotImplementedException();
         }
 
         public bool canShow()
         {
             Debug.Log("Not supported on this platform");
             return false;
+        }
+
+        public void load(NativeRequest nativeRequest)
+        {
+            throw new System.NotImplementedException();
         }
 
         public void setUSPrivacyString(string usPrivacyString)
@@ -100,6 +136,11 @@ namespace BidMachineAds.Unity.Dummy
         public void destroy()
         {
             Debug.Log("Not supported on this platform");
+        }
+
+        public void setListener(INativeAdListener nativeAdListener)
+        {
+            throw new System.NotImplementedException();
         }
 
         public IBannerView getBannerView()
@@ -320,6 +361,11 @@ namespace BidMachineAds.Unity.Dummy
         }
 
         public void setAdContentType(AdContentType contentType)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void setMediaAssetTypes(MediaAssetType mediaAssetType)
         {
             throw new System.NotImplementedException();
         }
