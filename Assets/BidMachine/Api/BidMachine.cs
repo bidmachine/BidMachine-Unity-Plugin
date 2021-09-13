@@ -487,10 +487,18 @@ namespace BidMachineAds.Unity.Api
         Static,
     }
 
-    public enum MediaAssetType
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    public class NativeAdParams
     {
-        Icon,
-        Image
+        private MediaAssetType[] types = null;
+        public enum MediaAssetType { Icon, Image, Video, All }
+        public void setMediaAssetTypes(params MediaAssetType[] type) {
+            this.types = type;
+        }
+        public MediaAssetType[] getMediaAssetTypes() {
+            return types;
+        }
     }
     
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -722,9 +730,9 @@ namespace BidMachineAds.Unity.Api
             nativeRequestBuilder = BidMachineClientFactory.GetNativeRequestBuilder();
         }
 
-        public NativeRequestBuilder setMediaAssetTypes(MediaAssetType mediaAssetType)
+        public NativeRequestBuilder setMediaAssetTypes(NativeAdParams nativeAdParams)
         {
-            nativeRequestBuilder.setMediaAssetTypes(mediaAssetType);
+            nativeRequestBuilder.setMediaAssetTypes(nativeAdParams);
             return this;
         }
 
