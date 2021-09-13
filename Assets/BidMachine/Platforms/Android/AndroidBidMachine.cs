@@ -1,10 +1,11 @@
 ﻿#if PLATFORM_ANDROID
+using System;
 using System.Diagnostics.CodeAnalysis;
+using BidMachineAds.Unity.Android;
 using UnityEngine;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using UnityEngine.Android;
-
 
 namespace BidMachineAds.Unity.Android
 {
@@ -791,6 +792,118 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class AndroidNativeRequestBuilder : INativeRequestBuilder
+    {
+        private AndroidJavaObject jNativeRequest;
+        private AndroidJavaObject jNativeRequestBuilder;
+
+        private AndroidJavaObject getNativeRequestBuilder()
+        {
+            return jNativeRequestBuilder ?? (jNativeRequestBuilder =
+                new AndroidJavaObject("io.bidmachine.nativead.NativeRequest$Builder"));
+        }
+
+        public AndroidJavaObject getJavaObject()
+        {
+            return jNativeRequestBuilder;
+        }
+
+        public void setMediaAssetTypes(MediaAssetType mediaAssetType)
+        {
+            switch (mediaAssetType)
+            {
+                case MediaAssetType.Icon:
+                    getNativeRequestBuilder().Call<AndroidJavaObject>("setSize",
+                        new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
+                            "Icon"));
+                    break;
+                case MediaAssetType.Image:
+                    getNativeRequestBuilder().Call<AndroidJavaObject>("setSize",
+                        new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
+                            "Image"));
+                    break;
+                default:
+                    getNativeRequestBuilder().Call<AndroidJavaObject>("setSize",
+                        new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
+                            "Icon"));
+                    break;
+            }
+        }
+
+        public void setTargetingParams(TargetingParams targetingParams)
+        {
+            if (targetingParams == null) return;
+            var androidTargeting =
+                (AndroidTargetingParams)targetingParams.GetNativeTargetingParamsClient();
+            getNativeRequestBuilder().Call<AndroidJavaObject>("setTargetingParams", androidTargeting.getJavaObject());
+        }
+
+        public void setPriceFloorParams(PriceFloorParams priceFloorParameters)
+        {
+            if (priceFloorParameters == null) return;
+            var p = (AndroidPriceFloorParams)priceFloorParameters.GetNativePriceFloorParams();
+            getNativeRequestBuilder().Call<AndroidJavaObject>("setPriceFloorParams", p.getJavaObject());
+        }
+
+        public void setSessionAdParams(SessionAdParams sessionAdParams)
+        {
+            if (sessionAdParams == null) return;
+            var androidSessionAdParams = (AndroidSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
+            getNativeRequestBuilder().Call<AndroidJavaObject>("setSessionAdParams",
+                androidSessionAdParams.GetAndroidSessionAdParams());
+        }
+
+        public void setLoadingTimeOut(int value)
+        {
+            getNativeRequestBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", value);
+        }
+
+        public void setPlacementId(string placementId)
+        {
+            if (!string.IsNullOrEmpty(placementId))
+            {
+                getNativeRequestBuilder()
+                    .Call<AndroidJavaObject>("setPlacementId", Helper.getJavaObject(placementId));
+            }
+        }
+
+        public void setBidPayload(string bidPayLoad)
+        {
+            if (!string.IsNullOrEmpty(bidPayLoad))
+            {
+                getNativeRequestBuilder()
+                    .Call<AndroidJavaObject>("setBidPayload", Helper.getJavaObject(bidPayLoad));
+            }
+        }
+
+        public void setNetworks(string networks)
+        {
+            if (!string.IsNullOrEmpty(networks))
+            {
+                getNativeRequestBuilder()
+                    .Call<AndroidJavaObject>("setNetworks", Helper.getJavaObject(networks));
+            }
+        }
+
+        public void setListener(INativeRequestListener nativeRequestListener)
+        {
+            if (nativeRequestListener != null)
+            {
+                getNativeRequestBuilder()
+                    .Call<AndroidJavaObject>("setListener",
+                        new AndroidNativeRequestListener(nativeRequestListener));
+            }
+        }
+
+        public INativeRequest build()
+        {
+            jNativeRequest = new AndroidJavaObject("io.bidmachine.interstitial.InterstitialRequest");
+            jNativeRequest = getNativeRequestBuilder().Call<AndroidJavaObject>("build");
+            return new AndroidNativeRequest(jNativeRequest);
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidBannerRequest : IBannerRequest
     {
         private readonly AndroidJavaObject bannerRequest;
@@ -858,7 +971,7 @@ namespace BidMachineAds.Unity.Android
         {
             return interstitialRequest;
         }
-        
+
         public string getAuctionResult()
         {
             var auctionResultAndroidJavaObject = interstitialRequest.Call<AndroidJavaObject>("getAuctionResult");
@@ -892,7 +1005,7 @@ namespace BidMachineAds.Unity.Android
         {
             return rewardedRequest;
         }
-        
+
         public string getAuctionResult()
         {
             var auctionResultAndroidJavaObject = rewardedRequest.Call<AndroidJavaObject>("getAuctionResult");
@@ -909,6 +1022,40 @@ namespace BidMachineAds.Unity.Android
         public bool isExpired()
         {
             return rewardedRequest.Call<bool>("isDestroyed");
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class AndroidNativeRequest : INativeRequest
+    {
+        private readonly AndroidJavaObject javaNativeRequest;
+
+        public AndroidNativeRequest(AndroidJavaObject jNativeRequest)
+        {
+            this.javaNativeRequest = jNativeRequest;
+        }
+
+        public AndroidJavaObject getJavaObject()
+        {
+            return javaNativeRequest;
+        }
+
+        public string getAuctionResult()
+        {
+            var auctionResultAndroidJavaObject = javaNativeRequest.Call<AndroidJavaObject>("getAuctionResult");
+            return !string.IsNullOrEmpty(auctionResultAndroidJavaObject.Call<string>("toString"))
+                ? auctionResultAndroidJavaObject.Call<string>("toString")
+                : "null";
+        }
+
+        public bool isDestroyed()
+        {
+            return javaNativeRequest.Call<bool>("isDestroyed");
+        }
+
+        public bool isExpired()
+        {
+            return javaNativeRequest.Call<bool>("isDestroyed");
         }
     }
 
@@ -1136,6 +1283,76 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class AndroidNativeAd : INativeAd
+    {
+        private readonly AndroidJavaObject jNativeAd;
+        private AndroidJavaObject activity;
+
+        public AndroidNativeAd()
+        {
+            jNativeAd = new AndroidJavaObject("io.bidmachine.nativead.NativeAd", getActivity());
+        }
+
+        private AndroidJavaObject getActivity()
+        {
+            if (activity != null) return activity;
+            var playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
+            return activity;
+        }
+
+        public AndroidNativeAd(AndroidJavaObject javaNativeAd)
+        {
+            jNativeAd = javaNativeAd;
+        }
+
+        public string getTitle()
+        {
+            return jNativeAd.Call<string>("getTitle");
+        }
+
+        public string getDescription()
+        {
+            return jNativeAd.Call<string>("getDescription");
+        }
+
+        public string getCallToAction()
+        {
+            return jNativeAd.Call<string>("getCallToAction");
+        }
+
+        public float getRating()
+        {
+            return jNativeAd.Call<float>("getRating");
+        }
+
+        public bool canShow()
+        {
+            return jNativeAd.Call<bool>("canShow");
+        }
+
+        public void load(NativeRequest nativeRequest)
+        {
+            if (nativeRequest == null) return;
+            var androidNativeRequest = (AndroidNativeRequest)nativeRequest.GetNativeRequest();
+            jNativeAd.Call<AndroidJavaObject>("load", androidNativeRequest.getJavaObject());
+        }
+
+        public void destroy()
+        {
+            jNativeAd.Call<bool>("destroy");
+        }
+
+        public void setListener(INativeAdListener nativeAdListener)
+        {
+            if (nativeAdListener == null) return;
+            {
+                jNativeAd.Call<AndroidJavaObject>("setListener", new AndroidNativeAdListener(nativeAdListener));
+            }
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class Helper
     {
         public static object getJavaObject(object value)
@@ -1179,4 +1396,5 @@ namespace BidMachineAds.Unity.Android
         }
     }
 }
+
 #endif
