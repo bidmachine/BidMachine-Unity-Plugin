@@ -147,7 +147,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     }
 
     #endregion
-    
+
     #region Native Ad
 
     public void LoadNativeAd()
@@ -157,17 +157,20 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             nativeAd = new NativeAd();
         }
 
+        var nativeAdParams = new NativeAdParams();
+        nativeAdParams.setMediaAssetTypes(new [] { NativeAdParams.MediaAssetType.Icon});
+
         if (nativeRequest == null)
         {
             nativeRequest = new NativeRequestBuilder()
-                .setMediaAssetTypes(MediaAssetType.Icon)
+                .setMediaAssetTypes(nativeAdParams)
                 .setTargetingParams(targetingParams)
                 .setPriceFloorParams(priceFloorParams)
-                 .setSessionAdParams(sessionAdParams)
-                 .setPlacementId("placement1")
-                 .setLoadingTimeOut(123)
-                 .setBidPayload("123")
-                 .setNetworks("admob")
+                .setSessionAdParams(sessionAdParams)
+                .setPlacementId("placement1")
+                .setLoadingTimeOut(123)
+                .setBidPayload("123")
+                .setNetworks("admob")
                 .setListener(this)
                 .build();
         }
@@ -184,7 +187,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     }
 
     #endregion
-    
+
     #region Interstitial Ad
 
     public void LoadInterstitialAd()
@@ -468,7 +471,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             Debug.Log($"onInterstitialRequestSuccess - request.isExpired() - {request.isExpired()}");
             Debug.Log($"onInterstitialRequestSuccess - request.isDestroyed() - {request.isDestroyed()}");
         }
-        
+
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"InterstitialRequestListener - onInterstitialRequestSuccess" +
@@ -497,14 +500,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onRewardedRequestSuccess(RewardedRequest request, string auctionResult)
     {
-        
         if (request != null)
         {
             Debug.Log($"onRewardedRequestSuccess - request.getAuctionResult() - {request.getAuctionResult()}");
             Debug.Log($"onRewardedRequestSuccess - request.isExpired() - {request.isExpired()}");
             Debug.Log($"onRewardedRequestSuccess - request.isDestroyed() - {request.isDestroyed()}");
         }
-        
+
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"RewardedRequestListener - onRewardedRequestSuccess" +
@@ -539,7 +541,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             Debug.Log($"onNativeRequestSuccess - request.isExpired() - {request.isExpired()}");
             Debug.Log($"onNativeRequestSuccess - request.isDestroyed() - {request.isDestroyed()}");
         }
-        
+
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"NativeRequestListener - onNativeRequestSuccess" +
@@ -560,9 +562,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     public void onNativeRequestExpired(NativeRequest request)
     {
         Debug.Log($"NativeRequestListener - onNativeRequestExpired");
-
     }
 
     #endregion
-  
 }
