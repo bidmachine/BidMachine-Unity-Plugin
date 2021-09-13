@@ -365,7 +365,7 @@ namespace BidMachineAds.Unity.Dummy
             throw new System.NotImplementedException();
         }
 
-        public void setMediaAssetTypes(MediaAssetType mediaAssetType)
+        public void setMediaAssetTypes(NativeAdParams nativeAdParams)
         {
             throw new System.NotImplementedException();
         }
