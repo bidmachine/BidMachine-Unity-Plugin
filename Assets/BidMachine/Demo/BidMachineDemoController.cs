@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, IRewardedAdListener, IBannerListener,
-    IBannerRequestListener, IInterstitialRequestListener, IRewardedRequestListener
+    IBannerRequestListener, IInterstitialRequestListener, IRewardedRequestListener, INativeRequestListener
 {
     [SerializeField] public Toggle tgTesting;
     [SerializeField] public Toggle tgLogging;
@@ -23,6 +23,10 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     private RewardedRequest rewardedRequest;
     private RewardedRequestBuilder rewardedRequestBuilder;
     private RewardedAd rewardedAd;
+
+    private NativeRequest nativeRequest;
+    private NativeRequestBuilder nativeRequestBuilder;
+    private NativeAd nativeAd;
 
     private BannerRequest bannerRequest;
     private BannerRequestBuilder bannerRequestBuilder;
@@ -105,6 +109,82 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         BidMachine.requestAndroidPermissions();
     }
 
+    #region Banner Ad
+
+    public void LoadBanner()
+    {
+        bannerRequest = new BannerRequestBuilder()
+            .setSize(BannerSize.Size_320х50)
+            // .setTargetingParams(targetingParams)
+            // .setPriceFloorParams(priceFloorParams)
+            // .setSessionAdParams(sessionAdParams)
+            // .setPlacementId("placement1")
+            // .setLoadingTimeOut(123)
+            // .setBidPayload("123")
+            // .setNetworks("admob")
+            .setListener(this)
+            .build();
+
+        banner = new Banner();
+        bannerView = banner.GetBannerView();
+
+        bannerView.setListener(this);
+        bannerView.load(bannerRequest);
+    }
+
+    public void ShowBannerView()
+    {
+        banner.showBannerView(
+            BidMachine.BANNER_BOTTOM,
+            BidMachine.BANNER_HORIZONTAL_CENTER,
+            bannerView);
+    }
+
+    public void DestroyBanner()
+    {
+        bannerView.destroy();
+        banner.hideBannerView();
+    }
+
+    #endregion
+    
+    #region Native Ad
+
+    public void LoadNativeAd()
+    {
+        if (nativeAd == null)
+        {
+            nativeAd = new NativeAd();
+        }
+
+        if (nativeRequest == null)
+        {
+            nativeRequest = new NativeRequestBuilder()
+                .setMediaAssetTypes(MediaAssetType.Icon)
+                .setTargetingParams(targetingParams)
+                .setPriceFloorParams(priceFloorParams)
+                 .setSessionAdParams(sessionAdParams)
+                 .setPlacementId("placement1")
+                 .setLoadingTimeOut(123)
+                 .setBidPayload("123")
+                 .setNetworks("admob")
+                .setListener(this)
+                .build();
+        }
+
+        nativeAd.load(nativeRequest);
+    }
+
+    public void DestroyNativeAd()
+    {
+        if (nativeAd == null) return;
+        nativeAd.destroy();
+        nativeAd = null;
+        nativeRequest = null;
+    }
+
+    #endregion
+    
     #region Interstitial Ad
 
     public void LoadInterstitialAd()
@@ -200,45 +280,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         rewardedAd.destroy();
         rewardedAd = null;
         rewardedRequest = null;
-    }
-
-    #endregion
-
-    #region Banner Ad
-
-    public void LoadBanner()
-    {
-        bannerRequest = new BannerRequestBuilder()
-            .setSize(BannerSize.Size_320х50)
-            // .setTargetingParams(targetingParams)
-            // .setPriceFloorParams(priceFloorParams)
-            // .setSessionAdParams(sessionAdParams)
-            // .setPlacementId("placement1")
-            // .setLoadingTimeOut(123)
-            // .setBidPayload("123")
-            // .setNetworks("admob")
-            .setListener(this)
-            .build();
-
-        banner = new Banner();
-        bannerView = banner.GetBannerView();
-
-        bannerView.setListener(this);
-        bannerView.load(bannerRequest);
-    }
-
-    public void ShowBannerView()
-    {
-        banner.showBannerView(
-            BidMachine.BANNER_BOTTOM,
-            BidMachine.BANNER_HORIZONTAL_CENTER,
-            bannerView);
-    }
-
-    public void DestroyBanner()
-    {
-        bannerView.destroy();
-        banner.hideBannerView();
     }
 
     #endregion
@@ -487,4 +528,41 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     }
 
     #endregion
+
+    #region NativeRequestListener
+
+    public void onNativeRequestSuccess(NativeRequest request, string auctionResult)
+    {
+        if (request != null)
+        {
+            Debug.Log($"onNativeRequestSuccess - request.getAuctionResult() - {request.getAuctionResult()}");
+            Debug.Log($"onNativeRequestSuccess - request.isExpired() - {request.isExpired()}");
+            Debug.Log($"onNativeRequestSuccess - request.isDestroyed() - {request.isDestroyed()}");
+        }
+        
+        if (!string.IsNullOrEmpty(auctionResult))
+        {
+            Debug.Log($"NativeRequestListener - onNativeRequestSuccess" +
+                      $"auctionResult - {auctionResult}");
+        }
+        else
+        {
+            Debug.Log("auctionResult - IsNullOrEmpty");
+        }
+    }
+
+    public void onNativeRequestFailed(NativeRequest request, BMError error)
+    {
+        Debug.Log($"NativeRequestListener - onNativeRequestFailed" +
+                  $"BMError - {error.code} - {error.message}");
+    }
+
+    public void onNativeRequestExpired(NativeRequest request)
+    {
+        Debug.Log($"NativeRequestListener - onNativeRequestExpired");
+
+    }
+
+    #endregion
+  
 }
