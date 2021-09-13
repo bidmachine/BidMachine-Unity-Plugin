@@ -1069,7 +1069,6 @@ namespace BidMachineAds.Unity.Api
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    
     public class NativeAd
     {
         private readonly INativeAd nativeAd;
