@@ -722,54 +722,63 @@ namespace BidMachineAds.Unity.Api
             nativeRequestBuilder = BidMachineClientFactory.GetNativeRequestBuilder();
         }
 
-        public void setMediaAssetTypes(MediaAssetType mediaAssetType)
+        public NativeRequestBuilder setMediaAssetTypes(MediaAssetType mediaAssetType)
         {
             nativeRequestBuilder.setMediaAssetTypes(mediaAssetType);
+            return this;
         }
 
-        public void setTargetingParams(TargetingParams targetingParams)
+        public NativeRequestBuilder setTargetingParams(TargetingParams targetingParams)
         {
             nativeRequestBuilder.setTargetingParams(targetingParams);
+            return this;
         }
 
-        public void setPriceFloorParams(PriceFloorParams priceFloorParameters)
+        public NativeRequestBuilder setPriceFloorParams(PriceFloorParams priceFloorParameters)
         {
             nativeRequestBuilder.setPriceFloorParams(priceFloorParameters);
+            return this;
         }
 
-        public void setSessionAdParams(SessionAdParams sessionAdParams)
+        public NativeRequestBuilder setSessionAdParams(SessionAdParams sessionAdParams)
         {
             nativeRequestBuilder.setSessionAdParams(sessionAdParams);
+            return this;
         }
 
-        public void setLoadingTimeOut(int value)
+        public NativeRequestBuilder setLoadingTimeOut(int value)
         {
             nativeRequestBuilder.setLoadingTimeOut(value);
+            return this;
         }
 
-        public void setPlacementId(string placementId)
+        public NativeRequestBuilder setPlacementId(string placementId)
         {
             nativeRequestBuilder.setPlacementId(placementId);
+            return this;
         }
 
-        public void setBidPayload(string bidPayLoad)
+        public NativeRequestBuilder setBidPayload(string bidPayLoad)
         {
             nativeRequestBuilder.setBidPayload(bidPayLoad);
+            return this;
         }
 
-        public void setNetworks(string networks)
+        public NativeRequestBuilder setNetworks(string networks)
         {
             nativeRequestBuilder.setNetworks(networks);
+            return this;
         }
 
-        public void setListener(INativeRequestListener nativeRequestListener)
+        public NativeRequestBuilder setListener(INativeRequestListener nativeRequestListener)
         {
             nativeRequestBuilder.setListener(nativeRequestListener);
+            return this;
         }
 
-        public INativeRequest build()
+        public NativeRequest build()
         {
-            return nativeRequestBuilder.build();
+            return new NativeRequest(nativeRequestBuilder.build());
         }
     }
 
