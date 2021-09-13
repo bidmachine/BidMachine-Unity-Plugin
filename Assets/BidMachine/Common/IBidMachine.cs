@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using BidMachineAds.Unity.Android;
+﻿using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Api;
-using UnityEngine;
 
 namespace BidMachineAds.Unity.Common
 {
@@ -20,13 +16,7 @@ namespace BidMachineAds.Unity.Common
         void setSubjectToGDPR(bool subjectToGDPR);
         void setCoppa(bool coppa);
         void setUSPrivacyString(string usPrivacyString);
-
         void setPublisher(Publisher publisher);
-
-        // void registerNetworks(@ NetworkConfig... networkConfigs);
-        // void registerNetworks(Context context, @NonNull String jsonData);
-        // void registerAdRequestListener(@NonNull AdRequest.AdRequestListener adRequestListener);
-        // void unregisterAdRequestListener(@NonNull AdRequest.AdRequestListener adRequestListener);
         bool checkAndroidPermissions(string permission);
         void requestAndroidPermissions();
     }
@@ -72,7 +62,6 @@ namespace BidMachineAds.Unity.Common
         void setLastBundle(string value);
         void setLastAdomain(string value);
         void setIsUserClickedOnLastAd(bool value);
-        
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -102,7 +91,6 @@ namespace BidMachineAds.Unity.Common
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
         void setNetworks(string networks);
-
         IInterstitialRequest build();
     }
 
@@ -121,13 +109,27 @@ namespace BidMachineAds.Unity.Common
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public interface INativeRequestBuilder
+    {
+        void setMediaAssetTypes(MediaAssetType mediaAssetType);
+        void setTargetingParams(TargetingParams targetingParams);
+        void setPriceFloorParams(PriceFloorParams priceFloorParameters);
+        void setSessionAdParams(SessionAdParams sessionAdParams);
+        void setLoadingTimeOut(int value);
+        void setPlacementId(string placementId);
+        void setBidPayload(string bidPayLoad);
+        void setNetworks(string networks);
+        void setListener(INativeRequestListener nativeRequestListener);
+        INativeRequest build();
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IBannerRequest
     {
         BannerSize getSize();
         string getAuctionResult();
         bool isDestroyed();
         bool isExpired();
-
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -146,6 +148,15 @@ namespace BidMachineAds.Unity.Common
         bool isExpired();
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public interface INativeRequest
+    {
+        string getAuctionResult();
+        bool isDestroyed();
+        bool isExpired();
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IBannerView
     {
         void setListener(IBannerListener bannerViewListener);
@@ -153,6 +164,7 @@ namespace BidMachineAds.Unity.Common
         void destroy();
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IBanner
     {
         void showBannerView(int YAxis, int XAxis, BannerView bannerView);
@@ -160,6 +172,7 @@ namespace BidMachineAds.Unity.Common
         IBannerView getBannerView();
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IInterstitialAd
     {
         bool canShow();
@@ -169,6 +182,7 @@ namespace BidMachineAds.Unity.Common
         void load(InterstitialRequest interstitialRequest);
     }
 
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IRewardedAd
     {
         bool canShow();
@@ -176,5 +190,18 @@ namespace BidMachineAds.Unity.Common
         void destroy();
         void setListener(IRewardedAdListener rewardedAdListener);
         void load(RewardedRequest rewardedRequest);
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public interface INativeAd
+    {
+        string getTitle();
+        string getDescription();
+        string getCallToAction();
+        float getRating();
+        bool canShow();
+        void load(NativeRequest nativeRequest);
+        void destroy();
+        void setListener(INativeAdListener nativeAdListener);
     }
 }
