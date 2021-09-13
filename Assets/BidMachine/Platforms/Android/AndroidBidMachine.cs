@@ -1,7 +1,5 @@
 ﻿#if PLATFORM_ANDROID
-using System;
 using System.Diagnostics.CodeAnalysis;
-using BidMachineAds.Unity.Android;
 using UnityEngine;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
@@ -813,17 +811,17 @@ namespace BidMachineAds.Unity.Android
             switch (mediaAssetType)
             {
                 case MediaAssetType.Icon:
-                    getNativeRequestBuilder().Call<AndroidJavaObject>("setSize",
+                    getNativeRequestBuilder().Call<AndroidJavaObject>("setMediaAssetTypes",
                         new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
                             "Icon"));
                     break;
                 case MediaAssetType.Image:
-                    getNativeRequestBuilder().Call<AndroidJavaObject>("setSize",
+                    getNativeRequestBuilder().Call<AndroidJavaObject>("setMediaAssetTypes",
                         new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
                             "Image"));
                     break;
                 default:
-                    getNativeRequestBuilder().Call<AndroidJavaObject>("setSize",
+                    getNativeRequestBuilder().Call<AndroidJavaObject>("setMediaAssetTypes",
                         new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
                             "Icon"));
                     break;
