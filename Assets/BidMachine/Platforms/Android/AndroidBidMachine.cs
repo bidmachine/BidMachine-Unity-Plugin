@@ -1355,7 +1355,7 @@ namespace BidMachineAds.Unity.Android
 
         public void destroy()
         {
-            jNativeAd.Call<bool>("destroy");
+            jNativeAd.Call("destroy");
         }
 
         public void setListener(INativeAdListener nativeAdListener)
