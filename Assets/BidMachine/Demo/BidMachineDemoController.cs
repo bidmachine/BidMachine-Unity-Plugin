@@ -5,12 +5,16 @@ using BidMachineAds.Unity.Common;
 using UnityEngine.Android;
 using UnityEngine.UI;
 
+#pragma warning disable 649
+
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, IRewardedAdListener, IBannerListener,
-    IBannerRequestListener, IInterstitialRequestListener, IRewardedRequestListener, INativeRequestListener
+    IBannerRequestListener, IInterstitialRequestListener, IRewardedRequestListener, INativeRequestListener,
+    INativeAdListener
 {
     [SerializeField] public Toggle tgTesting;
     [SerializeField] public Toggle tgLogging;
+    [SerializeField] public NativeAdView nativeAdView;
 
     private TargetingParams targetingParams;
     private PriceFloorParams priceFloorParams;
@@ -158,23 +162,24 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         }
 
         var nativeAdParams = new NativeAdParams();
-        nativeAdParams.setMediaAssetTypes(new [] { NativeAdParams.MediaAssetType.Icon});
+        nativeAdParams.setMediaAssetTypes(NativeAdParams.MediaAssetType.Icon, NativeAdParams.MediaAssetType.Image);
 
         if (nativeRequest == null)
         {
             nativeRequest = new NativeRequestBuilder()
                 .setMediaAssetTypes(nativeAdParams)
-                .setTargetingParams(targetingParams)
-                .setPriceFloorParams(priceFloorParams)
-                .setSessionAdParams(sessionAdParams)
-                .setPlacementId("placement1")
-                .setLoadingTimeOut(123)
-                .setBidPayload("123")
-                .setNetworks("admob")
+                // .setTargetingParams(targetingParams)
+                // .setPriceFloorParams(priceFloorParams)
+                // .setSessionAdParams(sessionAdParams)
+                // .setPlacementId("placement1")
+                // .setLoadingTimeOut(123)
+                // .setBidPayload("123")
+                // .setNetworks("admob")
                 .setListener(this)
                 .build();
         }
 
+        nativeAd.setListener(this);
         nativeAd.load(nativeRequest);
     }
 
@@ -182,6 +187,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     {
         if (nativeAd == null) return;
         nativeAd.destroy();
+        nativeAdView.destroyNativeView();
         nativeAd = null;
         nativeRequest = null;
     }
@@ -562,6 +568,48 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     public void onNativeRequestExpired(NativeRequest request)
     {
         Debug.Log($"NativeRequestListener - onNativeRequestExpired");
+    }
+
+    #endregion
+
+    #region NativeAdListener
+
+    public void onNativeAdLoaded(NativeAd ad)
+    {
+        Debug.Log($"onNativeAdLoaded - ad.getTitle() - {ad.getTitle()}");
+        Debug.Log($"onNativeAdLoaded - ad.getDescription() - {ad.getDescription()}");
+        Debug.Log($"onNativeAdLoaded - ad.getRating() - {ad.getRating().ToString("0.0000")}");
+        Debug.Log($"onNativeAdLoaded - ad.getCallToAction() - {ad.getCallToAction()}");
+
+        if (nativeAdView)
+        {
+            nativeAdView.setNativeAd(ad);
+        }
+    }
+
+    public void onNativeAdLoadFailed(NativeAd ad, BMError error)
+    {
+        Debug.Log($"onNativeAdLoadFailed - {error.message} - {error.code} ");
+    }
+
+    public void onNativeAdShown(NativeAd ad)
+    {
+        Debug.Log("onNativeAdShown");
+    }
+
+    public void onNativeAdImpression(NativeAd ad)
+    {
+        Debug.Log("onNativeAdImpression");
+    }
+
+    public void onNativeAdClicked(NativeAd ad)
+    {
+        Debug.Log("onNativeAdClicked");
+    }
+
+    public void onNativeAdExpired(NativeAd ad)
+    {
+        Debug.Log("onNativeAdExpired");
     }
 
     #endregion
