@@ -359,9 +359,7 @@ namespace BidMachineAds.Unity.iOS
 
         public string getAuctionResult()
         {
-            //TODO implement
-            // return bridge.getAuctionResult();
-            return null;
+            return bridge.getAuctionResult();
         }
 
         public bool isDestroyed()
@@ -642,9 +640,7 @@ namespace BidMachineAds.Unity.iOS
 
         public string getAuctionResult()
         {
-            //TODO Implementation 
-            // return bridge.getAuctionResult();
-            return null;
+            return bridge.getAuctionResult();
         }
 
         public bool isDestroyed()
@@ -897,16 +893,12 @@ namespace BidMachineAds.Unity.iOS
 
         public BannerSize getSize()
         {
-            //TODO NEED TO IMPLEMENT
-            //return bridge.getSize();
-            return BannerSize.Size_300х250;
+            return bridge.getSize();
         }
 
         public string getAuctionResult()
         {
-            //TODO NEED TO IMPLEMENT
-            //return bridge.getAuctionResult();
-            return null;
+            return bridge.getAuctionResult();
         }
 
         public bool isDestroyed()
