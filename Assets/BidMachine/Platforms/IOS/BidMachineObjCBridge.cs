@@ -401,6 +401,14 @@ namespace BidMachineAds.Unity.iOS
         {
             return nativeObject;
         }
+
+        public string getAuctionResult()
+        {
+            return GetAuctionResult();
+        }
+
+        [DllImport("__Internal")]
+        private static extern string GetAuctionResult();
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -653,6 +661,14 @@ namespace BidMachineAds.Unity.iOS
         {
             return NativeObject;
         }
+
+        public string getAuctionResult()
+        {
+            return GetAuctionResult();
+        }
+
+        [DllImport("__Internal")]
+        private static extern string GetAuctionResult();
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -800,6 +816,7 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
     internal class BannerViewRequestObjCBridge
     {
         private readonly IntPtr NativeObject;
@@ -813,6 +830,36 @@ namespace BidMachineAds.Unity.iOS
         {
             return NativeObject;
         }
+
+        public BannerSize getSize()
+        {
+            switch (GetSize())
+            {
+                case 0:
+                    return BannerSize.Size_320х50;
+                    break;
+                case 1:
+                    return BannerSize.Size_300х250;
+                    break;
+                case 2:
+                    return BannerSize.Size_728х90;
+                    break;
+                default:
+                    return BannerSize.Size_320х50;
+                    break;
+            }
+        }
+
+        public string getAuctionResult()
+        {
+            return GetAuctionResult();
+        }
+
+        [DllImport("__Internal")]
+        private static extern string GetAuctionResult();
+
+        [DllImport("__Internal")]
+        private static extern int GetSize();
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
