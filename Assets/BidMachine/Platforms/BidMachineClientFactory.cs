@@ -1,3 +1,4 @@
+// ReSharper disable All
 using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
@@ -52,7 +53,6 @@ namespace BidMachineAds.Unity
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
         }
-        
 
         internal static IInterstitialRequestBuilder GetInterstitialRequestBuilder()
         {
@@ -60,17 +60,6 @@ namespace BidMachineAds.Unity
           return new BidMachineAds.Unity.Android.AndroidInterstitialRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
           return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
-        internal static IInterstitialRequest GetInterstitialRequest()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-           return new BidMachineAds.Unity.Android.AndroidInterstitialRequestBuilder().build();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder().build();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
@@ -109,17 +98,6 @@ namespace BidMachineAds.Unity
 #endif
         }
 
-        internal static IRewardedRequest GetRewardedRequest()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-           return new BidMachineAds.Unity.Android.AndroidRewardedRequestBuilder().build();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSRewardedRequestBuilder().build();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
         internal static IRewardedAd GetRewardedAd()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -148,17 +126,6 @@ namespace BidMachineAds.Unity
           return new BidMachineAds.Unity.Android.AndroidBannerRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
         return new BidMachineAds.Unity.iOS.iOSBannerViewRequestBuilder();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
-        internal static IBannerRequest GetBannerRequest()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidBannerRequestBuilder().build();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-            return new BidMachineAds.Unity.iOS.iOSBannerViewRequestBuilder().build();
 #else
             return new BidMachineAds.Unity.Dummy.DummyBidMachine();
 #endif
