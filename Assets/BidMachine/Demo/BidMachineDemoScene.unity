@@ -308,7 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tgTesting: {fileID: 2038355073}
   tgLogging: {fileID: 1426276316}
-  nativeAdGO: {fileID: 0}
+  nativeAdView: {fileID: 2105850033}
 --- !u!4 &107517183
 Transform:
   m_ObjectHideFlags: 0
@@ -4684,13 +4684,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77dabdfc97349aeb356fce2f4ed9805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 0.9150943, g: 0.7208526, b: 0.7208526, a: 1}
-  font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-  fontSize: 14
-  keepScreenSquare: 0
-  xPadding: 0
-  yPadding: 0
   nativeAdViewTitle: {fileID: 1392935202}
   nativeAdViewIcon: {fileID: 235502649}
   nativeAdViewRatting: {fileID: 2110085966}
