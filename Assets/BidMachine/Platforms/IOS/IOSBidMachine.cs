@@ -268,22 +268,22 @@ namespace BidMachineAds.Unity.iOS
 
         public void setSessionDuration(int value)
         {
-            bridge.setSessionDuration(value);
+            SessionAdParamsObjcBridge.setSessionDuration(value);
         }
 
         public void setImpressionCount(int value)
         {
-            bridge.setImpressionCount(value);
+            SessionAdParamsObjcBridge.setImpressionCount(value);
         }
 
         public void setClickRate(float value)
         {
-            bridge.setClickRate((int)value);
+            SessionAdParamsObjcBridge.setClickRate((int)value);
         }
 
         public void setLastAdomain(string value)
         {
-            bridge.setLastAdomain(!string.IsNullOrEmpty(value) ? value : "");
+            SessionAdParamsObjcBridge.setLastAdomain(!string.IsNullOrEmpty(value) ? value : "");
         }
 
         public void setIsUserClickedOnLastAd(bool value)
@@ -293,17 +293,17 @@ namespace BidMachineAds.Unity.iOS
 
         public void setCompletionRate(float value)
         {
-            bridge.setCompletionRate((int)value);
+            SessionAdParamsObjcBridge.setCompletionRate((int)value);
         }
 
         public void setLastClickForImpression(int value)
         {
-            bridge.setLastClickForImpression(value);
+            SessionAdParamsObjcBridge.setLastClickForImpression(value);
         }
 
         public void setLastBundle(string value)
         {
-            bridge.setLastBundle(!string.IsNullOrEmpty(value) ? value : "");
+            SessionAdParamsObjcBridge.setLastBundle(!string.IsNullOrEmpty(value) ? value : "");
         }
     }
 
@@ -334,7 +334,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void addPriceFloor(string uniqueFloorId, double priceFloor)
         {
-            bridge.setPriceFloor(!string.IsNullOrEmpty(uniqueFloorId) ? uniqueFloorId : "", priceFloor);
+            PriceFloorObjcBridge.setPriceFloor(!string.IsNullOrEmpty(uniqueFloorId) ? uniqueFloorId : "", priceFloor);
         }
     }
 
@@ -464,9 +464,7 @@ namespace BidMachineAds.Unity.iOS
         public void setTargetingParams(TargetingParams targetingParams)
         {
             if (targetingParams == null) return;
-            var iOSTargetingParams =
-                (iOSTargetingParams)targetingParams.GetNativeTargetingParamsClient();
-            bridge.setTargetingParams(iOSTargetingParams.GetIntPtr());
+            Debug.Log($"setTargetingParams() {iOSBidMachine.DUMMY_MESSAGE}");
         }
 
         public void setListener(IInterstitialRequestListener interstitialAdRequestListener)
@@ -1166,6 +1164,5 @@ namespace BidMachineAds.Unity.iOS
     }
 
     #endregion
-    
 }
 #endif
