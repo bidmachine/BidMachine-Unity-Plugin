@@ -7,11 +7,17 @@ using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS
 {
+    #region BannerRequestDelegate
+
     internal delegate void BannerRequestSuccessCallback(IntPtr ad, string auctionResult);
 
     internal delegate void BannerRequestFailedCallback(IntPtr ad, IntPtr error);
 
     internal delegate void BannerRequestExpiredCallback(IntPtr ad);
+
+    #endregion
+
+    #region InterstitialRequestDelegate
 
     internal delegate void InterstitialRequestSuccessCallback(IntPtr ad, string auctionResult);
 
@@ -19,23 +25,43 @@ namespace BidMachineAds.Unity.iOS
 
     internal delegate void InterstitialRequestExpiredCallback(IntPtr ad);
 
+    #endregion
+
+    #region RewardedRequestDelegate
+
     internal delegate void RewardedRequestSuccessCallback(IntPtr ad, string auctionResult);
 
     internal delegate void RewardedRequestFailedCallback(IntPtr ad, IntPtr error);
 
     internal delegate void RewardedRequestExpiredCallback(IntPtr ad);
 
+    #endregion
+
+    #region BannerAdDelegate
+
+    internal delegate void BidMachineBannerCallbacks(IntPtr ad);
+
+    internal delegate void BidMachineBannerFailedCallback(IntPtr ad, IntPtr error);
+
+    #endregion
+
+    #region InterstitialAdDelegate
+
     internal delegate void BidMachineInterstitialCallbacks(IntPtr ad);
 
     internal delegate void BidMachineInterstitialFailedCallback(IntPtr ad, IntPtr error);
+
+    #endregion
+
+    #region RewardedAdDelegate
 
     internal delegate void BidMachineRewardedCallbacks(IntPtr ad);
 
     internal delegate void BidMachineRewardedFailedCallback(IntPtr ad, IntPtr error);
 
-    internal delegate void BidMachineBannerCallbacks(IntPtr ad);
+    #endregion
 
-    internal delegate void BidMachineBannerFailedCallback(IntPtr ad, IntPtr error);
+    #region BidMachine
 
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     internal class BidMachineObjCBridge
@@ -80,6 +106,10 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void BidMachineSetPublisher(string id, string name, string domain, string categories);
     }
 
+    #endregion
+
+    #region SessionAdParams
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class SessionAdParamsObjcBridge
     {
@@ -95,68 +125,71 @@ namespace BidMachineAds.Unity.iOS
             return nativeObject;
         }
 
-        public void setSessionDuration(int value)
+        public static void setSessionDuration(int value)
         {
             SetSessionDuration(value);
         }
 
-        public void setImpressionCount(int value)
+        public static void setImpressionCount(int value)
         {
             SetImpressionCount(value);
         }
 
-        public void setClickRate(int value)
+        public static void setClickRate(int value)
         {
             SetClickRate(value);
         }
 
-        public void setLastAdomain(string value)
+        public static void setLastAdomain(string value)
         {
             SetLastAdomain(value);
         }
 
-        public void setCompletionRate(int value)
+        public static void setCompletionRate(int value)
         {
             SetCompletionRate(value);
         }
 
-        public void setLastClickForImpression(int value)
+        public static void setLastClickForImpression(int value)
         {
             SetLastClickForImpression(value);
         }
 
-        public void setLastBundle(string value)
+        public static void setLastBundle(string value)
         {
             SetLastBundle(value);
         }
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetSessionAdParams();
+        private static extern IntPtr GetSessionAdParams();
 
         [DllImport("__Internal")]
-        internal static extern void SetSessionDuration(int value);
+        private static extern void SetSessionDuration(int value);
 
         [DllImport("__Internal")]
-        internal static extern void SetImpressionCount(int value);
+        private static extern void SetImpressionCount(int value);
 
         [DllImport("__Internal")]
-        internal static extern void SetClickRate(int value);
+        private static extern void SetClickRate(int value);
 
         [DllImport("__Internal")]
-        internal static extern void SetLastAdomain(string value);
+        private static extern void SetLastAdomain(string value);
 
         [DllImport("__Internal")]
-        internal static extern void SetCompletionRate(int value);
+        private static extern void SetCompletionRate(int value);
 
         [DllImport("__Internal")]
-        internal static extern void SetLastClickForImpression(int value);
+        private static extern void SetLastClickForImpression(int value);
 
         [DllImport("__Internal")]
-        internal static extern void SetLastBundle(string value);
+        private static extern void SetLastBundle(string value);
     }
 
+    #endregion
+
+    #region TargetingParams
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     internal class TargetingObjcBridge
     {
         private readonly IntPtr nativeObject;
@@ -262,64 +295,66 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetTargeting();
+        private static extern IntPtr GetTargeting();
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetUserId(string userId);
+        private static extern void TargetingSetUserId(string userId);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetGender(int gender);
+        private static extern void TargetingSetGender(int gender);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetYearOfBirth(int yearOfBirth);
+        private static extern void TargetingSetYearOfBirth(int yearOfBirth);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetKeyWords(string keywords);
+        private static extern void TargetingSetKeyWords(string keywords);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetCity(string city);
+        private static extern void TargetingSetCity(string city);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetCountry(string country);
+        private static extern void TargetingSetCountry(string country);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetDeviceLocation(double longitude, double latitude);
+        private static extern void TargetingSetDeviceLocation(double longitude, double latitude);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetPaid(bool paid);
+        private static extern void TargetingSetPaid(bool paid);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetStoreUrl(string storeUrl);
+        private static extern void TargetingSetStoreUrl(string storeUrl);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetZip(string zip);
+        private static extern void TargetingSetZip(string zip);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetStoreCategory(string storeCategory);
+        private static extern void TargetingSetStoreCategory(string storeCategory);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetStoreSubCategories(string storeSubCategories);
+        private static extern void TargetingSetStoreSubCategories(string storeSubCategories);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetFramework(string framework);
-
-
-        [DllImport("__Internal")]
-        internal static extern void TargetingSetExternalUserIds(string users);
+        private static extern void TargetingSetFramework(string framework);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetBlockedApps(string blockedAdvertisers);
+        public static extern void TargetingSetExternalUserIds(string users);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetBlockedAdvertisers(string advertiser);
-
-
-        [DllImport("__Internal")]
-        internal static extern void TargetingSetBlockedCategories(string categories);
+        private static extern void TargetingSetBlockedApps(string blockedAdvertisers);
 
         [DllImport("__Internal")]
-        internal static extern void TargetingSetStoreId(string storeId);
+        private static extern void TargetingSetBlockedAdvertisers(string advertiser);
+
+        [DllImport("__Internal")]
+        private static extern void TargetingSetBlockedCategories(string categories);
+
+        [DllImport("__Internal")]
+        private static extern void TargetingSetStoreId(string storeId);
     }
+
+    #endregion
+
+    #region PriceFloorParams
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class PriceFloorObjcBridge
@@ -336,17 +371,21 @@ namespace BidMachineAds.Unity.iOS
             return nativeObject;
         }
 
-        public void setPriceFloor(string id, double value)
+        public static void setPriceFloor(string id, double value)
         {
-            PriceFloorAddPrifeFloor(id, value);
+            PriceFloorAddPriceFloor(id, value);
         }
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetPriceFloor();
+        private static extern IntPtr GetPriceFloor();
 
         [DllImport("__Internal")]
-        internal static extern void PriceFloorAddPrifeFloor(string id, double value);
+        private static extern void PriceFloorAddPriceFloor(string id, double value);
     }
+
+    #endregion
+
+    #region Interstitial
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class InterstitialRequestObjCBridge
@@ -366,6 +405,7 @@ namespace BidMachineAds.Unity.iOS
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
     internal class InterstitialRequestBuilderObjCBridge
     {
         private readonly IntPtr nativeObject;
@@ -383,11 +423,6 @@ namespace BidMachineAds.Unity.iOS
         public void setPriceFloor(IntPtr priceFloor)
         {
             InterstitialRequestSetPriceFloor(priceFloor);
-        }
-
-        public void setTargetingParams(IntPtr targetingParams)
-        {
-            Debug.Log("Not support on iOS platform");
         }
 
         public void setType(int type)
@@ -453,6 +488,7 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
     internal class InterstitialAdObjCBridge
     {
         public IntPtr NativeObject;
@@ -502,22 +538,22 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetInterstitialAd();
+        private static extern IntPtr GetInterstitialAd();
 
         [DllImport("__Internal")]
-        internal static extern bool InterstitialAdCanShow(IntPtr no);
+        private static extern bool InterstitialAdCanShow(IntPtr no);
 
         [DllImport("__Internal")]
-        internal static extern void InterstitialAdDestroy();
+        private static extern void InterstitialAdDestroy();
 
         [DllImport("__Internal")]
-        internal static extern void InterstitialAdShow();
+        private static extern void InterstitialAdShow();
 
         [DllImport("__Internal")]
-        internal static extern void InterstitialAdLoad(IntPtr interstitialRequest);
+        private static extern void InterstitialAdLoad(IntPtr interstitialRequest);
 
         [DllImport("__Internal")]
-        internal static extern void InterstitialAdSetDelegate(
+        private static extern void InterstitialAdSetDelegate(
             BidMachineInterstitialCallbacks onAdLoaded,
             BidMachineInterstitialFailedCallback onAdLoadFailed,
             BidMachineInterstitialCallbacks onAdShown,
@@ -525,6 +561,12 @@ namespace BidMachineAds.Unity.iOS
             BidMachineInterstitialCallbacks onAdClosed);
     }
 
+    #endregion
+
+    #region Rewarded
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
     internal class RewardedAdObjCBridge
     {
         public IntPtr NativeObject;
@@ -574,22 +616,22 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetRewarded();
+        private static extern IntPtr GetRewarded();
 
         [DllImport("__Internal")]
-        internal static extern bool RewardedCanShow();
+        private static extern bool RewardedCanShow();
 
         [DllImport("__Internal")]
-        internal static extern void RewardedAdDestroy();
+        private static extern void RewardedAdDestroy();
 
         [DllImport("__Internal")]
-        internal static extern void RewardedShow();
+        private static extern void RewardedShow();
 
         [DllImport("__Internal")]
-        internal static extern void RewardedLoad(IntPtr rewardedRequest);
+        private static extern void RewardedLoad(IntPtr rewardedRequest);
 
         [DllImport("__Internal")]
-        internal static extern void RewardedSetDelegate(
+        private static extern void RewardedSetDelegate(
             BidMachineRewardedCallbacks onAdLoaded,
             BidMachineRewardedFailedCallback onAdLoadFailed,
             BidMachineRewardedCallbacks onAdShown,
@@ -614,7 +656,7 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
     internal class RewardedRequestBuilderObjCBridge
     {
         private readonly IntPtr NativeObject;
@@ -661,30 +703,34 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetRewardedRequest();
+        private static extern IntPtr GetRewardedRequest();
 
         [DllImport("__Internal")]
-        internal static extern void SetRewardedRequestDelegate(RewardedRequestSuccessCallback requestSuccessCallback,
+        private static extern void SetRewardedRequestDelegate(RewardedRequestSuccessCallback requestSuccessCallback,
             RewardedRequestFailedCallback requestFailedCallback, RewardedRequestExpiredCallback requestExpiredCallback);
 
         [DllImport("__Internal")]
-        internal static extern void RewardedSetPriceFloor(IntPtr priceFloor);
+        private static extern void RewardedSetPriceFloor(IntPtr priceFloor);
 
         [DllImport("__Internal")]
-        internal static extern void RewardedSetBidPayload(string value);
+        private static extern void RewardedSetBidPayload(string value);
 
         [DllImport("__Internal")]
-        internal static extern void RewardedSetPlacementId(string value);
+        private static extern void RewardedSetPlacementId(string value);
 
         [DllImport("__Internal")]
-        internal static extern void RewardedSetLoadingTimeOut(int value);
+        private static extern void RewardedSetLoadingTimeOut(int value);
 
         [DllImport("__Internal")]
-        internal static extern void RewardedSetSessionAdParams(IntPtr value);
+        private static extern void RewardedSetSessionAdParams(IntPtr value);
     }
 
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    #endregion
+
+    #region Banner
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
     internal class BannerViewObjCBridge
     {
         public IntPtr NativeObject;
@@ -732,22 +778,22 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetBannerView();
+        private static extern IntPtr GetBannerView();
 
         [DllImport("__Internal")]
-        internal static extern bool BannerViewAdCanShow();
+        private static extern bool BannerViewAdCanShow();
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewDestroy();
+        private static extern void BannerViewDestroy();
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewShow(int YAxis, int XAxis);
+        private static extern void BannerViewShow(int YAxis, int XAxis);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewLoad(IntPtr bannerViewRequest);
+        private static extern void BannerViewLoad(IntPtr bannerViewRequest);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewSetDelegate(
+        private static extern void BannerViewSetDelegate(
             BidMachineBannerCallbacks onAdLoaded,
             BidMachineBannerFailedCallback onAdLoadFailed,
             BidMachineBannerCallbacks onAdClicked);
@@ -770,6 +816,7 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
     internal class BannerViewRequestBuilderObjCBridge
     {
         private readonly IntPtr nativeObject;
@@ -829,31 +876,35 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [DllImport("__Internal")]
-        internal static extern IntPtr GetBannerViewRequest();
+        private static extern IntPtr GetBannerViewRequest();
 
         [DllImport("__Internal")]
-        internal static extern void SetBannerRequestDelegate(BannerRequestSuccessCallback bannerRequestSuccessCallback,
+        private static extern void SetBannerRequestDelegate(BannerRequestSuccessCallback bannerRequestSuccessCallback,
             BannerRequestFailedCallback bannerRequestFailedCallback,
             BannerRequestExpiredCallback bannerRequestExpiredCallback);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewRequestSetPriceFloor(IntPtr priceFloor);
+        private static extern void BannerViewRequestSetPriceFloor(IntPtr priceFloor);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewSetSize(int size);
+        private static extern void BannerViewSetSize(int size);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewSetBidPayload(string value);
+        private static extern void BannerViewSetBidPayload(string value);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewSetPlacementId(string value);
+        private static extern void BannerViewSetPlacementId(string value);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewSetLoadingTimeOut(int value);
+        private static extern void BannerViewSetLoadingTimeOut(int value);
 
         [DllImport("__Internal")]
-        internal static extern void BannerViewSetSessionAdParams(IntPtr value);
+        private static extern void BannerViewSetSessionAdParams(IntPtr value);
     }
+
+    #endregion
+
+    #region Utils
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class BidMachineUtils
@@ -889,5 +940,7 @@ namespace BidMachineAds.Unity.iOS
             public T[] Items;
         }
     }
+
+    #endregion
 }
 #endif
