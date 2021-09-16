@@ -231,7 +231,7 @@ namespace BidMachineAds.Unity.iOS
             TargetingSetFramework(framework);
         }
 
-        public static void setDeviceLocation(string providerName, double latitude, double longitude)
+        public static void setDeviceLocation(double latitude, double longitude)
         {
             TargetingSetDeviceLocation(latitude, longitude);
         }
