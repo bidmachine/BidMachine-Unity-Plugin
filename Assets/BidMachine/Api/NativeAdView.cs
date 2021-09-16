@@ -18,7 +18,7 @@ namespace BidMachineAds.Unity.Api
         }
 
         private NativeAd nativeAd;
-
+        
         [SerializeField] public Text nativeAdViewTitle;
         [SerializeField] public RawImage nativeAdViewIcon;
         [SerializeField] public Text nativeAdViewRatting;
