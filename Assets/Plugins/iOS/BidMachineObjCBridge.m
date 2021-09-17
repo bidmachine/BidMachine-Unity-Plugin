@@ -399,6 +399,8 @@ void BidMachineSetTargeting (){
     configuration.targeting = targeting;
 }
 
+//Interstitial
+
 void InterstitialSetSessionAdParams(id<BDMContextualProtocol> value){
     if (!interstitialRequest) {
         interstitialRequest = [BDMInterstitialRequest new];
@@ -455,6 +457,7 @@ BDMInterstitialRequest * GetInterstitialRequest(){
     if (!interstitialRequest) {
         interstitialRequest = [BDMInterstitialRequest new];
     }
+    
     return interstitialRequest;
 }
 
@@ -486,25 +489,6 @@ void InterstitialAdLoad( BDMInterstitialRequest *interstitialRequest){
     [interstitialRequests addObject:interstitial];
 }
 
-void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
-                              BannerRequestFailedCallback onFailed,
-                              BannerRequestExpiredCallback onExpired){
-    
-    if (!BidMachineBannerRequestDelegateInstance) {
-        BidMachineBannerRequestDelegateInstance = [BidMachineBannerRequestDelegate new];
-    }
-    
-    BidMachineBannerRequestDelegateInstance.onBannerRequestSuccess = onSuccess;
-    BidMachineBannerRequestDelegateInstance.onBannerRequestFailed = onFailed;
-    BidMachineBannerRequestDelegateInstance.onBannerRequestExpired = onExpired;
-    
-    if (!bannerRequest) {
-        bannerRequest = [BDMBannerRequest new];
-    }
-    
-    [bannerRequest performWithDelegate:BidMachineBannerRequestDelegateInstance];
-}
-
 void SetInterstitialRequestDelegate(InterstitialRequestSuccessCallback onSuccess,
                                     InterstitialRequestFailedCallback onFailed,
                                     InterstitialRequestExpiredCallback onExpired){
@@ -514,11 +498,8 @@ void SetInterstitialRequestDelegate(InterstitialRequestSuccessCallback onSuccess
     }
     
     BidMachineInterstitialRequestDelegateInstance.onIntersittialRequestSuccess = onSuccess;
-    
     BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestFailed = onFailed;
-    
     BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestExpired = onExpired;
-    
     
     if (!interstitialRequest) {
         interstitialRequest = [BDMInterstitialRequest new];
@@ -526,6 +507,58 @@ void SetInterstitialRequestDelegate(InterstitialRequestSuccessCallback onSuccess
     
     [interstitialRequest performWithDelegate:BidMachineInterstitialRequestDelegateInstance];
 }
+
+void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
+                              BannerRequestFailedCallback onFailed,
+                              BannerRequestExpiredCallback onExpired){
+    
+    if (!BidMachineBannerRequestDelegateInstance) {
+        BidMachineBannerRequestDelegateInstance = [BidMachineBannerRequestDelegate new];
+    }
+    
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    
+    BidMachineBannerRequestDelegateInstance.onBannerRequestSuccess = onSuccess;
+    BidMachineBannerRequestDelegateInstance.onBannerRequestFailed = onFailed;
+    BidMachineBannerRequestDelegateInstance.onBannerRequestExpired = onExpired;
+    
+    [bannerRequest performWithDelegate:BidMachineBannerRequestDelegateInstance];
+}
+
+void InterstitialAdSetDelegate(BidMachineInterstitialCallbacks onAdLoaded,
+                               BidMachineInterstitialFailedCallback onAdLoadFailed,
+                               BidMachineInterstitialCallbacks onAdShown,
+                               BidMachineInterstitialFailedCallback onAdShowFailed,
+                               BidMachineInterstitialCallbacks onAdImpression,
+                               BidMachineInterstitialCallbacks onAdClicked,
+                               BidMachineInterstitialClosedCallback onAdClosed,
+                               BidMachineInterstitialCallbacks onAdExpired){
+    if (!interstitial) {
+        interstitial = [BDMInterstitial new];
+    }
+    
+    if(!BidMachineInterstitialDelegateInstance){
+        BidMachineInterstitialDelegateInstance = [BidMachineInterstitialDelegate new];
+    }
+    
+    BidMachineInterstitialDelegateInstance.onAdLoaded = onAdLoaded;
+    BidMachineInterstitialDelegateInstance.onAdLoadFailed = onAdLoadFailed;
+    BidMachineInterstitialDelegateInstance.onAdShown =  onAdShown;
+    BidMachineInterstitialDelegateInstance.onAdShowFailed = onAdShowFailed;
+    BidMachineInterstitialDelegateInstance.onAdImpression = onAdImpression;
+    BidMachineInterstitialDelegateInstance.onAdClicked = onAdClicked;
+    BidMachineInterstitialDelegateInstance.onAdClosed = onAdClosed;
+    BidMachineInterstitialDelegateInstance.onAdExpired = onAdExpired;
+    
+    interstitial.delegate = BidMachineInterstitialDelegateInstance;
+    interstitial.producerDelegate = BidMachineInterstitialDelegateInstance;
+}
+
+
+
+
 
 void SetRewardedRequestDelegate(RewardedRequestSuccessCallback onSuccess,
                                 RewardedRequestFailedCallback onFailed,
@@ -535,39 +568,18 @@ void SetRewardedRequestDelegate(RewardedRequestSuccessCallback onSuccess,
         BidMachineRewardedRequestDelegateInstance = [BidMachineRewardedRequestDelegate new];
     }
     
-    BidMachineRewardedRequestDelegateInstance.onRewardedRequestSuccess = onSuccess;
-    
-    BidMachineRewardedRequestDelegateInstance.onRewardedRequestFailed = onFailed;
-    
-    BidMachineRewardedRequestDelegateInstance.onRewardedRequestExpired = onExpired;
-    
-    
     if (!rewardedRequest) {
         rewardedRequest = [BDMRewardedRequest new];
     }
     
+    BidMachineRewardedRequestDelegateInstance.onRewardedRequestSuccess = onSuccess;
+    BidMachineRewardedRequestDelegateInstance.onRewardedRequestFailed = onFailed;
+    BidMachineRewardedRequestDelegateInstance.onRewardedRequestExpired = onExpired;
+    
     [rewardedRequest performWithDelegate:BidMachineRewardedRequestDelegateInstance];
 }
 
-void InterstitialAdSetDelegate(BidMachineInterstitialCallbacks onAdLoaded,
-                               BidMachineInterstitialFailedCallback onAdLoadFailed,
-                               BidMachineInterstitialCallbacks onAdShown,
-                               BidMachineInterstitialCallbacks onAdClicked,
-                               BidMachineInterstitialCallbacks onAdClosed){
-    if (!interstitial) {
-        interstitial = [BDMInterstitial new];
-    }
-    if(!BidMachineInterstitialDelegateInstance){
-        BidMachineInterstitialDelegateInstance = [BidMachineInterstitialDelegate new];
-        BidMachineInterstitialDelegateInstance.interstitialLoaded = onAdLoaded;
-        BidMachineInterstitialDelegateInstance.interstitialLoadFailed = onAdLoadFailed;
-        BidMachineInterstitialDelegateInstance.interstitialShown = onAdShown;
-        BidMachineInterstitialDelegateInstance.interstitialClicked = onAdClicked;
-        BidMachineInterstitialDelegateInstance.interstitialClosed = onAdClosed;
-        
-    }
-    interstitial.delegate = BidMachineInterstitialDelegateInstance;
-}
+
 
 void InterstitialAdShow(){
     if (!interstitial) {
