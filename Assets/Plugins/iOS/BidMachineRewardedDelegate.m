@@ -2,49 +2,83 @@
 
 @implementation BidMachineRewardedDelegate
 
-
-
+BDMRewarded *bdmRewarded;
 
 - (void)rewarded:(nonnull BDMRewarded *)rewarded failedToPresentWithError:(nonnull NSError *)error {
-    if(self.rewardedLoadFailed){
-        self.rewardedLoadFailed(rewarded, error);
+    if(self.onAdShowFailed){
+        if (rewarded) {
+            bdmRewarded = rewarded;
+        }
+        
+        self.onAdShowFailed(rewarded, error);
     }
 }
 
 - (void)rewarded:(nonnull BDMRewarded *)rewarded failedWithError:(nonnull NSError *)error {
-    if(self.rewardedLoadFailed){
-        self.rewardedLoadFailed(rewarded, error);
+    if(self.onAdLoadFailed){
+        if (rewarded) {
+            bdmRewarded = rewarded;
+        }
+        self.onAdLoadFailed(rewarded, error);
     }
 }
 
 - (void)rewardedReadyToPresent:(nonnull BDMRewarded *)rewarded {
-    if(self.rewardedLoaded){
-        self.rewardedLoaded(rewarded);
+    if(self.onAdLoaded){
+        if (rewarded) {
+            bdmRewarded = rewarded;
+        }
+        self.onAdLoaded(rewarded);
     }
 }
 
 - (void)rewardedDidDismiss:(nonnull BDMRewarded *)rewarded {
-    if(self.rewardedClosed){
-        self.rewardedClosed(rewarded);
+    if(self.onAdClosed){
+        if (rewarded) {
+            bdmRewarded = rewarded;
+        }
+        self.onAdClosed(rewarded);
     }
 }
 
 - (void)rewardedRecieveUserInteraction:(nonnull BDMRewarded *)rewarded {
-    if(self.rewardedClicked){
-        self.rewardedClicked(rewarded);
+    if(self.onAdClicked){
+        if (rewarded) {
+            bdmRewarded = rewarded;
+        }
+        self.onAdClicked(rewarded);
     }
 }
 
 - (void)rewardedWillPresent:(nonnull BDMRewarded *)rewarded {
-    if(self.rewardedShown){
-        self.rewardedShown(rewarded);
+    if(self.onAdShown){
+        if (rewarded) {
+            bdmRewarded = rewarded;
+        }
+        self.onAdShown(rewarded);
     }
 }
 
 - (void)rewardedFinishRewardAction:(nonnull BDMRewarded *)rewarded {
-    if(self.rewardedFinished){
-        self.rewardedFinished(rewarded);
+    if(self.onAdClosed){
+        if (rewarded) {
+            bdmRewarded = rewarded;
+        }
+        self.onAdClosed(rewarded);
     }
+}
+
+- (void)didProduceImpression:(nonnull id<BDMAdEventProducer>)producer {
+    if(self.onAdImpression){
+        if (!bdmRewarded) {
+            bdmRewarded = [BDMRewarded new];
+        }
+        self.onAdImpression(bdmRewarded);
+    }
+}
+
+- (void)didProduceUserAction:(nonnull id<BDMAdEventProducer>)producer {
+    
 }
 
 @end
