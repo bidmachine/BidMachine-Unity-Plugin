@@ -7,7 +7,6 @@ namespace BidMachineAds.Unity.Common
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IRewardedAdListener
     {
-        
         void onRewardedAdLoaded(RewardedAd ad);
         void onRewardedAdLoadFailed(RewardedAd ad, BMError error);
         void onRewardedAdShown(RewardedAd ad);
