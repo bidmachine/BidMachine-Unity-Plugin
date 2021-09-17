@@ -17,7 +17,3 @@ typedef void (*BidMachineInterstitialClosedCallback) (BDMInterstitial *interstit
 @property (assign, nonatomic) BidMachineInterstitialCallbacks onAdExpired;
 
 @end
-
-
-
-
