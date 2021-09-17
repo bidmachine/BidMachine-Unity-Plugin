@@ -1,8 +1,10 @@
-﻿using BidMachineAds.Unity.Api;
+﻿using System.Diagnostics.CodeAnalysis;
+using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Android;
 
 namespace BidMachineAds.Unity.Common
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IBannerListener
     {
         /**
