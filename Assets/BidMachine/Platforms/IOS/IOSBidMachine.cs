@@ -1191,7 +1191,7 @@ namespace BidMachineAds.Unity.iOS
 
         #region BannerAd Delegate
 
-        [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineBannerCallback))]
         private static void bannerViewLoaded(IntPtr ad)
         {
             if (bannerListeners.ContainsKey(ad))
@@ -1212,7 +1212,7 @@ namespace BidMachineAds.Unity.iOS
             bannerListeners[ad].onBannerAdLoadFailed(new BannerView(new iOSBannerView(ad)), err);
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineBannerCallback))]
         private static void bannerAdShown(IntPtr ad)
         {
             if (bannerListeners.ContainsKey(ad))
@@ -1221,7 +1221,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineBannerCallback))]
         private static void bannerAdImpression(IntPtr ad)
         {
             if (bannerListeners.ContainsKey(ad))
@@ -1230,7 +1230,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineBannerCallback))]
         private static void bannerAdClicked(IntPtr ad)
         {
             if (bannerListeners.ContainsKey(ad))
@@ -1239,7 +1239,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineBannerCallback))]
         private static void bannerAdExpired(IntPtr ad)
         {
             if (bannerListeners.ContainsKey(ad))
