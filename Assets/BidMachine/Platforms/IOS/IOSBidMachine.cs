@@ -851,7 +851,7 @@ namespace BidMachineAds.Unity.iOS
 
         #region RewardedDelegate
         
-        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdLoaded(IntPtr ad)
         {
             if (rewardedListeners.ContainsKey(ad))
@@ -872,7 +872,7 @@ namespace BidMachineAds.Unity.iOS
             rewardedListeners[ad].onRewardedAdLoadFailed(new RewardedAd(new iOSRewardedAd(ad)), err);
         }
         
-        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdShown(IntPtr ad)
         {
             if (rewardedListeners.ContainsKey(ad))
@@ -893,7 +893,7 @@ namespace BidMachineAds.Unity.iOS
             rewardedListeners[ad].onRewardedAdShowFailed(new RewardedAd(new iOSRewardedAd(ad)), err);
         }
         
-        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdImpression(IntPtr ad)
         {
             if (rewardedListeners.ContainsKey(ad))
@@ -902,7 +902,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdClicked(IntPtr ad)
         {
             if (rewardedListeners.ContainsKey(ad))
@@ -911,7 +911,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
        
-        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdRewarded(IntPtr ad)
         {
             if (rewardedListeners.ContainsKey(ad))
@@ -929,7 +929,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
         
-        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdExpired(IntPtr ad)
         {
             if (rewardedListeners.ContainsKey(ad))
