@@ -492,7 +492,7 @@ namespace BidMachineAds.Unity.Api
     public class NativeAdParams
     {
         private MediaAssetType[] types = null;
-        public enum MediaAssetType { Icon, Image, Video, All }
+        public enum MediaAssetType { Icon, Image, }
         public void setMediaAssetTypes(params MediaAssetType[] type) {
             this.types = type;
         }
