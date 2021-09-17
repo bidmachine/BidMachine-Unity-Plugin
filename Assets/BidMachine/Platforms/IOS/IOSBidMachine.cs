@@ -1185,7 +1185,7 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(IBannerListener bannerListener)
         {
             if (bannerListener == null) return;
-            bridge.setDelegate(bannerViewLoaded, bannerAdLoadFailed, bannerAdShown, bannerAdImpression, bannerClicked, bannerAdExpired);
+            bridge.setDelegate(bannerViewLoaded, bannerAdLoadFailed, bannerAdShown, bannerAdImpression, bannerAdClicked, bannerAdExpired);
             bannerListeners.Add(bridge.GetIntPtr(), bannerListener);
         }
 
@@ -1231,7 +1231,7 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
-        private static void bannerClicked(IntPtr ad)
+        private static void bannerAdClicked(IntPtr ad)
         {
             if (bannerListeners.ContainsKey(ad))
             {
@@ -1365,7 +1365,7 @@ namespace BidMachineAds.Unity.iOS
             nativeRequestListeners.Add(bridge.GetIntPtr(), nativeRequestListener);
         }
 
-        #region BannerRequestCallbacks
+        #region NativeRequestCallbacks
 
         [MonoPInvokeCallback(typeof(NativeRequestSuccessCallback))]
         private static void onNativeRequestSuccess(IntPtr ad, string auctionResult)
@@ -1470,7 +1470,7 @@ namespace BidMachineAds.Unity.iOS
             nativeListeners.Add(bridge.GetIntPtr(), nativeAdListener);
         }
 
-        #region NativeDelegate
+        #region NativeAdDelegate
 
         [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
         private static void nativeAdLoaded(IntPtr ad)
