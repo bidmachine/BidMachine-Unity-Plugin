@@ -340,7 +340,7 @@ namespace BidMachineAds.Unity.iOS
 
     #endregion
 
-    #region Interstitial
+    #region InterstitialAd
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class iOSInterstitialRequest : IInterstitialRequest
@@ -621,7 +621,7 @@ namespace BidMachineAds.Unity.iOS
 
     #endregion
 
-    #region Rewarded
+    #region RewardedAd
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class iOSRewardedRequest : IRewardedRequest
@@ -820,6 +820,15 @@ namespace BidMachineAds.Unity.iOS
         }
 
         #region RewardedDelegate
+        
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        private static void rewardedAdLoaded(IntPtr ad)
+        {
+            if (rewardedListeners.ContainsKey(ad))
+            {
+                rewardedListeners[ad].onRewardedAdLoaded(new RewardedAd(new iOSRewardedAd(ad)));
+            }
+        }
 
         [MonoPInvokeCallback(typeof(BidMachineRewardedFailedCallback))]
         private static void rewardedAdLoadFailed(IntPtr ad, IntPtr error)
@@ -832,35 +841,8 @@ namespace BidMachineAds.Unity.iOS
             };
             rewardedListeners[ad].onRewardedAdLoadFailed(new RewardedAd(new iOSRewardedAd(ad)), err);
         }
-
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
-        private static void rewardedAdLoaded(IntPtr ad)
-        {
-            if (rewardedListeners.ContainsKey(ad))
-            {
-                rewardedListeners[ad].onRewardedAdLoaded(new RewardedAd(new iOSRewardedAd(ad)));
-            }
-        }
-
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
-        private static void rewardedAdClosed(IntPtr ad)
-        {
-            if (rewardedListeners.ContainsKey(ad))
-            {
-                rewardedListeners[ad].onRewardedAdClosed(new RewardedAd(new iOSRewardedAd(ad)));
-            }
-        }
-
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
-        private static void rewardedAdClicked(IntPtr ad)
-        {
-            if (rewardedListeners.ContainsKey(ad))
-            {
-                rewardedListeners[ad].onRewardedAdClicked(new RewardedAd(new iOSRewardedAd(ad)));
-            }
-        }
-
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
+        
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
         private static void rewardedAdShown(IntPtr ad)
         {
             if (rewardedListeners.ContainsKey(ad))
@@ -868,13 +850,69 @@ namespace BidMachineAds.Unity.iOS
                 rewardedListeners[ad].onRewardedAdShown(new RewardedAd(new iOSRewardedAd(ad)));
             }
         }
+        
+        [MonoPInvokeCallback(typeof(BidMachineRewardedFailedCallback))]
+        private static void rewardedAdShowFailed(IntPtr ad, IntPtr error)
+        {
+            if (!rewardedListeners.ContainsKey(ad)) return;
+            var err = new BMError
+            {
+                code = BidMachineObjCBridge.BidMachineGetErrorCode(error),
+                message = BidMachineObjCBridge.BidMachineGetErrorMessage(error)
+            };
+            rewardedListeners[ad].onRewardedAdShowFailed(new RewardedAd(new iOSRewardedAd(ad)), err);
+        }
+        
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        private static void rewardedAdImpression(IntPtr ad)
+        {
+            if (rewardedListeners.ContainsKey(ad))
+            {
+                rewardedListeners[ad].onRewardedAdImpression(new RewardedAd(new iOSRewardedAd(ad)));
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        private static void rewardedAdClicked(IntPtr ad)
+        {
+            if (rewardedListeners.ContainsKey(ad))
+            {
+                rewardedListeners[ad].onRewardedAdClicked(new RewardedAd(new iOSRewardedAd(ad)));
+            }
+        }
+       
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        private static void rewardedAdRewarded(IntPtr ad)
+        {
+            if (rewardedListeners.ContainsKey(ad))
+            {
+                rewardedListeners[ad].onRewardedAdRewarded(new RewardedAd(new iOSRewardedAd(ad)));
+            }
+        }
+      
+        
+        [MonoPInvokeCallback(typeof(BidMachineRewardedCallbacks))]
+        private static void rewardedAdExpired(IntPtr ad)
+        {
+            if (rewardedListeners.ContainsKey(ad))
+            {
+                rewardedListeners[ad].onRewardedAdExpired(new RewardedAd(new iOSRewardedAd(ad)));
+            }
+        }
+        
+       
+
+
+
+
+
 
         #endregion
     }
 
     #endregion
 
-    #region Banner
+    #region BannerAd
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class iOSBannerViewRequest : IBannerRequest
@@ -1116,11 +1154,20 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(IBannerListener bannerListener)
         {
             if (bannerListener == null) return;
-            bridge.setDelegate(bannerViewLoaded, bannerAdLoadFailed, bannerClicked);
+            bridge.setDelegate(bannerViewLoaded, bannerAdLoadFailed, bannerAdShown, bannerAdImpression, bannerClicked, bannerAdExpired);
             bannerListeners.Add(bridge.GetIntPtr(), bannerListener);
         }
 
-        #region InterstitialAd Delegate
+        #region BannerAd Delegate
+
+        [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
+        private static void bannerViewLoaded(IntPtr ad)
+        {
+            if (bannerListeners.ContainsKey(ad))
+            {
+                bannerListeners[ad].onBannerAdLoaded(new BannerView(new iOSBannerView(ad)));
+            }
+        }
 
         [MonoPInvokeCallback(typeof(BidMachineBannerFailedCallback))]
         private static void bannerAdLoadFailed(IntPtr ad, IntPtr error)
@@ -1135,11 +1182,20 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
-        private static void bannerViewLoaded(IntPtr ad)
+        private static void bannerAdShown(IntPtr ad)
         {
             if (bannerListeners.ContainsKey(ad))
             {
-                bannerListeners[ad].onBannerAdLoaded(new BannerView(new iOSBannerView(ad)));
+                bannerListeners[ad].onBannerAdShown(new BannerView(new iOSBannerView(ad)));
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
+        private static void bannerAdImpression(IntPtr ad)
+        {
+            if (bannerListeners.ContainsKey(ad))
+            {
+                bannerListeners[ad].onBannerAdImpression(new BannerView(new iOSBannerView(ad)));
             }
         }
 
@@ -1149,6 +1205,296 @@ namespace BidMachineAds.Unity.iOS
             if (bannerListeners.ContainsKey(ad))
             {
                 bannerListeners[ad].onBannerAdClicked(new BannerView(new iOSBannerView(ad)));
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(BidMachineBannerCallbacks))]
+        private static void bannerAdExpired(IntPtr ad)
+        {
+            if (bannerListeners.ContainsKey(ad))
+            {
+                bannerListeners[ad].onBannerAdExpired(new BannerView(new iOSBannerView(ad)));
+            }
+        }
+
+        #endregion
+    }
+
+    #endregion
+
+    #region NativeAd
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class iOSNativeRequest : INativeRequest
+    {
+        private readonly NativeRequestObjCBridge bridge;
+
+        public iOSNativeRequest(IntPtr bannerViewRequest)
+        {
+            bridge = new NativeRequestObjCBridge(bannerViewRequest);
+        }
+
+        public IntPtr GetIntPtr()
+        {
+            return bridge.getNativeObject();
+        }
+
+        public string getAuctionResult()
+        {
+            return bridge.getAuctionResult();
+        }
+
+        public bool isDestroyed()
+        {
+            Debug.Log($"isDestroyed() {iOSBidMachine.DUMMY_MESSAGE}");
+            return false;
+        }
+
+        public bool isExpired()
+        {
+            Debug.Log($"isExpired() {iOSBidMachine.DUMMY_MESSAGE}");
+            return false;
+        }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    public class iOSNativeRequestBuilder : INativeRequestBuilder
+    {
+        private readonly NativeRequestBuilderObjCBridge bridge;
+
+        private static readonly Dictionary<IntPtr, INativeRequestListener> nativeRequestListeners =
+            new Dictionary<IntPtr, INativeRequestListener>();
+
+        public iOSNativeRequestBuilder()
+        {
+            bridge = new NativeRequestBuilderObjCBridge();
+        }
+
+        private IntPtr GetIntPtr()
+        {
+            return bridge.GetIntPtr();
+        }
+
+        public void setNetworks(string networks)
+        {
+            Debug.Log($"setNetworks() {iOSBidMachine.DUMMY_MESSAGE}");
+        }
+
+        public INativeRequest build()
+        {
+            return new iOSNativeRequest(GetIntPtr());
+        }
+
+        public void setPriceFloorParams(PriceFloorParams priceFloorParameters)
+        {
+            if (priceFloorParameters == null) return;
+            var iOSPriceFloorParams =
+                (iOSPriceFloorParams)priceFloorParameters.GetNativePriceFloorParams();
+            bridge.setPriceFloor(iOSPriceFloorParams.GetIntPtr());
+        }
+
+        public void setSessionAdParams(SessionAdParams sessionAdParams)
+        {
+            if (sessionAdParams == null) return;
+            var iOSsAdParams = (iOSSessionAdParams)sessionAdParams.GetNativeSessionAdParams();
+            bridge.setSessionAdParams(iOSsAdParams.GetIntPtr());
+        }
+
+        public void setLoadingTimeOut(int value)
+        {
+            bridge.setLoadingTimeOut(value);
+        }
+
+        public void setPlacementId(string placementId)
+        {
+            bridge.setPlacementId(!string.IsNullOrEmpty(placementId) ? placementId : "");
+        }
+
+        public void setBidPayload(string bidPayLoad)
+        {
+            bridge.setBidPayload(!string.IsNullOrEmpty(bidPayLoad) ? bidPayLoad : "");
+        }
+
+        public void setMediaAssetTypes(NativeAdParams nativeAdParams)
+        {
+            bridge.setMediaAssetTypes(nativeAdParams);
+        }
+
+        public void setTargetingParams(TargetingParams targetingParams)
+        {
+            if (targetingParams == null) return;
+            Debug.Log($"setTargetingParams() {iOSBidMachine.DUMMY_MESSAGE}");
+        }
+
+        public void setListener(INativeRequestListener nativeRequestListener)
+        {
+            if (nativeRequestListener == null) return;
+            bridge.setNativeRequestDelegate(onNativeRequestSuccess, onNativeRequestFailed, onNativeRequestExpired);
+            nativeRequestListeners.Add(bridge.GetIntPtr(), nativeRequestListener);
+        }
+
+        #region BannerRequestCallbacks
+
+        [MonoPInvokeCallback(typeof(NativeRequestSuccessCallback))]
+        private static void onNativeRequestSuccess(IntPtr ad, string auctionResult)
+        {
+            if (!nativeRequestListeners.ContainsKey(ad)) return;
+            nativeRequestListeners[ad]
+                .onNativeRequestSuccess(new NativeRequest(new iOSNativeRequest(ad)), auctionResult);
+        }
+
+        [MonoPInvokeCallback(typeof(NativeRequestFailedCallback))]
+        private static void onNativeRequestFailed(IntPtr ad, IntPtr error)
+        {
+            if (!nativeRequestListeners.ContainsKey(ad)) return;
+            var err = new BMError
+            {
+                code = BidMachineObjCBridge.BidMachineGetErrorCode(error),
+                message = BidMachineObjCBridge.BidMachineGetErrorMessage(error)
+            };
+            nativeRequestListeners[ad].onNativeRequestFailed(new NativeRequest(new iOSNativeRequest(ad)), err);
+        }
+
+        [MonoPInvokeCallback(typeof(NativeRequestExpiredCallback))]
+        private static void onNativeRequestExpired(IntPtr ad)
+        {
+            if (!nativeRequestListeners.ContainsKey(ad)) return;
+            nativeRequestListeners[ad].onNativeRequestExpired(new NativeRequest(new iOSNativeRequest(ad)));
+        }
+
+        #endregion
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public class iOSNativeAd : INativeAd
+    {
+        private static readonly Dictionary<IntPtr, INativeAdListener> nativeListeners =
+            new Dictionary<IntPtr, INativeAdListener>();
+
+        private readonly NativeAdObjCBridge bridge;
+
+        public iOSNativeAd()
+        {
+            bridge = new NativeAdObjCBridge();
+        }
+
+        private iOSNativeAd(IntPtr ad)
+        {
+            bridge = new NativeAdObjCBridge(ad);
+        }
+
+        public IntPtr GetIntPtr()
+        {
+            return bridge.GetIntPtr();
+        }
+
+        public string getTitle()
+        {
+            return bridge.getTitle();
+        }
+
+        public string getDescription()
+        {
+            return bridge.getDescription();
+        }
+
+        public string getCallToAction()
+        {
+            return bridge.getCallToAction();
+        }
+
+        public float getRating()
+        {
+            return bridge.getRating();
+        }
+
+        public bool canShow()
+        {
+            return bridge.canShow();
+        }
+
+        public void destroy()
+        {
+            bridge.destroy();
+
+            if (nativeListeners.ContainsKey(bridge.NativeObject))
+            {
+                nativeListeners.Remove(bridge.NativeObject);
+            }
+        }
+
+        public void load(NativeRequest nativeRequest)
+        {
+            if (nativeRequest == null) return;
+            var nativeAdRequest = (iOSNativeRequest)nativeRequest.GetNativeRequest();
+            bridge.load(nativeAdRequest.GetIntPtr());
+        }
+
+        public void setListener(INativeAdListener nativeAdListener)
+        {
+            if (nativeAdListener == null) return;
+            bridge.setDelegate(nativeAdLoaded, nativeAdLoadFailed, nativeAdShown, nativeAdClicked,
+                nativeAdImpression, nativeAdExpired);
+            nativeListeners.Add(bridge.GetIntPtr(), nativeAdListener);
+        }
+
+        #region NativeDelegate
+
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        private static void nativeAdLoaded(IntPtr ad)
+        {
+            if (nativeListeners.ContainsKey(ad))
+            {
+                nativeListeners[ad].onNativeAdLoaded(new NativeAd(new iOSNativeAd(ad)));
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(BidMachineNativeFailedCallback))]
+        private static void nativeAdLoadFailed(IntPtr ad, IntPtr error)
+        {
+            if (!nativeListeners.ContainsKey(ad)) return;
+            var err = new BMError
+            {
+                code = BidMachineObjCBridge.BidMachineGetErrorCode(error),
+                message = BidMachineObjCBridge.BidMachineGetErrorMessage(error)
+            };
+            nativeListeners[ad].onNativeAdLoadFailed(new NativeAd(new iOSNativeAd(ad)), err);
+        }
+
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        private static void nativeAdShown(IntPtr ad)
+        {
+            if (nativeListeners.ContainsKey(ad))
+            {
+                nativeListeners[ad].onNativeAdShown(new NativeAd(new iOSNativeAd(ad)));
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        private static void nativeAdImpression(IntPtr ad)
+        {
+            if (nativeListeners.ContainsKey(ad))
+            {
+                nativeListeners[ad].onNativeAdImpression(new NativeAd(new iOSNativeAd(ad)));
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        private static void nativeAdClicked(IntPtr ad)
+        {
+            if (nativeListeners.ContainsKey(ad))
+            {
+                nativeListeners[ad].onNativeAdClicked(new NativeAd(new iOSNativeAd(ad)));
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        private static void nativeAdExpired(IntPtr ad)
+        {
+            if (nativeListeners.ContainsKey(ad))
+            {
+                nativeListeners[ad].onNativeAdExpired(new NativeAd(new iOSNativeAd(ad)));
             }
         }
 
