@@ -3,13 +3,21 @@
 
 typedef void (*BidMachineInterstitialCallbacks) (BDMInterstitial *interstitial);
 typedef void (*BidMachineInterstitialFailedCallback) (BDMInterstitial *interstitial, NSError *error);
+typedef void (*BidMachineInterstitialClosedCallback) (BDMInterstitial *interstitial, bool finished);
 
-@interface BidMachineInterstitialDelegate: NSObject <BDMInterstitialDelegate>
+@interface BidMachineInterstitialDelegate: NSObject <BDMInterstitialDelegate, BDMAdEventProducerDelegate>
 
-@property (assign, nonatomic) BidMachineInterstitialCallbacks interstitialLoaded;
-@property (assign, nonatomic) BidMachineInterstitialFailedCallback interstitialLoadFailed;
-@property (assign, nonatomic) BidMachineInterstitialCallbacks interstitialShown;
-@property (assign, nonatomic) BidMachineInterstitialCallbacks interstitialClosed;
-@property (assign, nonatomic) BidMachineInterstitialCallbacks interstitialClicked;
+@property (assign, nonatomic) BidMachineInterstitialCallbacks onAdLoaded;
+@property (assign, nonatomic) BidMachineInterstitialFailedCallback onAdLoadFailed;
+@property (assign, nonatomic) BidMachineInterstitialCallbacks onAdShown;
+@property (assign, nonatomic) BidMachineInterstitialFailedCallback onAdShowFailed;
+@property (assign, nonatomic) BidMachineInterstitialCallbacks onAdImpression;
+@property (assign, nonatomic) BidMachineInterstitialCallbacks onAdClicked;
+@property (assign, nonatomic) BidMachineInterstitialClosedCallback onAdClosed;
+@property (assign, nonatomic) BidMachineInterstitialCallbacks onAdExpired;
 
 @end
+
+
+
+
