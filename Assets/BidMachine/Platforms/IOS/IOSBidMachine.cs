@@ -628,12 +628,12 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialClosedCallback))]
-        private static void interstitialAdClosed(IntPtr ad, bool finished)
+        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
+        private static void interstitialAdClosed(IntPtr ad)
         {
             if (interstitialListeners.ContainsKey(ad))
             {
-                interstitialListeners[ad].onInterstitialAdClosed(new InterstitialAd(new iOSInterstitialAd(ad)), finished);
+                interstitialListeners[ad].onInterstitialAdClosed(new InterstitialAd(new iOSInterstitialAd(ad)), true);
             }
         }
 
