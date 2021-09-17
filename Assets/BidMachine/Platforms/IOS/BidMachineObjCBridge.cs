@@ -49,7 +49,7 @@ namespace BidMachineAds.Unity.iOS
 
     #region BannerAdDelegate
 
-    internal delegate void BidMachineBannerCallbacks(IntPtr ad);
+    internal delegate void BidMachineBannerCallback(IntPtr ad);
 
     internal delegate void BidMachineBannerFailedCallback(IntPtr ad, IntPtr error);
 
@@ -828,12 +828,12 @@ namespace BidMachineAds.Unity.iOS
             BannerViewLoad(bannerViewRequest);
         }
 
-        public void setDelegate(BidMachineBannerCallbacks onAdLoaded,
+        public void setDelegate(BidMachineBannerCallback onAdLoaded,
             BidMachineBannerFailedCallback onAdLoadFailed,
-            BidMachineBannerCallbacks onAdShown,
-            BidMachineBannerCallbacks onAdImpression,
-            BidMachineBannerCallbacks onAdClicked,
-            BidMachineBannerCallbacks onAdExpired)
+            BidMachineBannerCallback onAdShown,
+            BidMachineBannerCallback onAdImpression,
+            BidMachineBannerCallback onAdClicked,
+            BidMachineBannerCallback onAdExpired)
         {
             BannerViewSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdImpression, onAdClicked, onAdExpired);
         }
@@ -855,12 +855,12 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         private static extern void BannerViewSetDelegate(
-            BidMachineBannerCallbacks onAdLoaded,
+            BidMachineBannerCallback onAdLoaded,
             BidMachineBannerFailedCallback onAdLoadFailed,
-            BidMachineBannerCallbacks onAdShown,
-            BidMachineBannerCallbacks onAdImpression,
-            BidMachineBannerCallbacks onAdClicked,
-            BidMachineBannerCallbacks onAdExpired);
+            BidMachineBannerCallback onAdShown,
+            BidMachineBannerCallback onAdImpression,
+            BidMachineBannerCallback onAdClicked,
+            BidMachineBannerCallback onAdExpired);
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
