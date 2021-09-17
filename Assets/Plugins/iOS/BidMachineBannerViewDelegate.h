@@ -1,13 +1,16 @@
 #import <Foundation/Foundation.h>
 #import <BidMachine/BidMachine.h>
 
-typedef void (*BidMachineBannerViewCallbacks) (BDMBannerView *nativeAd);
-typedef void (*BidMachineBannerViewFailedCallback) (BDMBannerView *nativeAd, NSError *error);
+typedef void (*BidMachineBannerCallback) (BDMBannerView *bannerView);
+typedef void (*BidMachineBannerFailedCallback) (BDMBannerView *bannerView, NSError *error);
 
-@interface BidMachineBannerViewDelegate: NSObject <BDMBannerDelegate>
+@interface BidMachineBannerViewDelegate: NSObject <BDMBannerDelegate, BDMAdEventProducerDelegate>
 
-@property (assign, nonatomic) BidMachineBannerViewCallbacks bannerViewLoaded;
-@property (assign, nonatomic) BidMachineBannerViewFailedCallback bannerViewLoadFailed;
-@property (assign, nonatomic) BidMachineBannerViewCallbacks bannerViewClicked;
+@property (assign, nonatomic) BidMachineBannerCallback onAdLoaded;
+@property (assign, nonatomic) BidMachineBannerFailedCallback onAdLoadFailed;
+@property (assign, nonatomic) BidMachineBannerCallback onAdShown;
+@property (assign, nonatomic) BidMachineBannerCallback onAdImpression;
+@property (assign, nonatomic) BidMachineBannerCallback onAdClicked;
+@property (assign, nonatomic) BidMachineBannerCallback onAdExpired;
 
 @end
