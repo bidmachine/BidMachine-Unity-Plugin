@@ -694,15 +694,7 @@ BDMRewardedRequest * GetRewardedRequest(){
     return rewardedRequest;
 }
 
-
-
-
-
-
-
-
-
-
+//Banner
 
 void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
                               BannerRequestFailedCallback onFailed,
@@ -779,14 +771,6 @@ void BannerViewSetSessionAdParams(id<BDMContextualProtocol> value){
     bannerRequest.contextualData = value;
 }
 
-BDMBannerRequest * GetBannerViewRequest(){
-    if (!bannerRequest) {
-        bannerRequest = [BDMBannerRequest new];
-    }
-    
-    return bannerRequest;
-}
-
 BOOL BannerViewAdCanShow(){
     if (!bannerView) {
         bannerView = [BDMBannerView new];
@@ -814,22 +798,6 @@ void BannerViewLoad(BDMInterstitialRequest *interstitialRequest){
     [bannerView populateWithRequest:bannerRequest];
     
     [bannerViewRequests addObject:bannerView];
-}
-
-void BannerViewSetDelegate(BidMachineBannerViewCallbacks onAdLoaded,
-                           BidMachineBannerViewFailedCallback onAdLoadFailed,
-                           BidMachineBannerViewCallbacks onAdClicked){
-    if (!bannerView) {
-        bannerView = [BDMBannerView new];
-    }
-    
-    if(!BidMachineBannerViewDelegateInstance){
-        BidMachineBannerViewDelegateInstance = [BidMachineBannerViewDelegate new];
-        BidMachineBannerViewDelegateInstance.bannerViewLoaded = onAdLoaded;
-        BidMachineBannerViewDelegateInstance.bannerViewLoadFailed = onAdLoadFailed;
-        BidMachineBannerViewDelegateInstance.bannerViewClicked = onAdClicked;
-    }
-    bannerView.delegate = BidMachineBannerViewDelegateInstance;
 }
 
 void BannerViewShow(int YAxis, int XAxis){
@@ -887,6 +855,42 @@ void BannerViewShow(int YAxis, int XAxis){
         [[[bannerView widthAnchor] constraintEqualToConstant:320] setActive:YES];
         [[[bannerView heightAnchor] constraintEqualToConstant:50] setActive:YES];
     }
+}
+
+
+
+void BannerViewSetDelegate(BidMachineBannerCallback onAdLoaded,
+                           BidMachineBannerFailedCallback onAdLoadFailed,
+                           BidMachineBannerCallback onAdShown,
+                           BidMachineBannerCallback onAdImpression,
+                           BidMachineBannerCallback onAdClicked,
+                           BidMachineBannerCallback onAdExpired){
+    
+    if (!bannerView) {
+        bannerView = [BDMBannerView new];
+    }
+    
+    if(!BidMachineBannerViewDelegateInstance){
+        BidMachineBannerViewDelegateInstance = [BidMachineBannerViewDelegate new];
+    }
+    
+    BidMachineBannerViewDelegateInstance.onAdLoaded = onAdLoaded;
+    BidMachineBannerViewDelegateInstance.onAdLoadFailed = onAdLoadFailed;
+    BidMachineBannerViewDelegateInstance.onAdShown = onAdShown;
+    BidMachineBannerViewDelegateInstance.onAdImpression = onAdImpression;
+    BidMachineBannerViewDelegateInstance.onAdClicked = onAdClicked;
+    BidMachineBannerViewDelegateInstance.onAdExpired = onAdExpired;
+    
+    bannerView.delegate = BidMachineBannerViewDelegateInstance;
+    bannerView.producerDelegate = BidMachineBannerViewDelegateInstance;
+}
+
+BDMBannerRequest * GetBannerViewRequest(){
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    
+    return bannerRequest;
 }
 
 BDMBannerView * GetBannerView(){
