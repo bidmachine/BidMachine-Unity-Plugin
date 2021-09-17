@@ -508,24 +508,7 @@ void SetInterstitialRequestDelegate(InterstitialRequestSuccessCallback onSuccess
     [interstitialRequest performWithDelegate:BidMachineInterstitialRequestDelegateInstance];
 }
 
-void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
-                              BannerRequestFailedCallback onFailed,
-                              BannerRequestExpiredCallback onExpired){
-    
-    if (!BidMachineBannerRequestDelegateInstance) {
-        BidMachineBannerRequestDelegateInstance = [BidMachineBannerRequestDelegate new];
-    }
-    
-    if (!bannerRequest) {
-        bannerRequest = [BDMBannerRequest new];
-    }
-    
-    BidMachineBannerRequestDelegateInstance.onBannerRequestSuccess = onSuccess;
-    BidMachineBannerRequestDelegateInstance.onBannerRequestFailed = onFailed;
-    BidMachineBannerRequestDelegateInstance.onBannerRequestExpired = onExpired;
-    
-    [bannerRequest performWithDelegate:BidMachineBannerRequestDelegateInstance];
-}
+
 
 void InterstitialAdSetDelegate(BidMachineInterstitialCallbacks onAdLoaded,
                                BidMachineInterstitialFailedCallback onAdLoadFailed,
@@ -556,9 +539,21 @@ void InterstitialAdSetDelegate(BidMachineInterstitialCallbacks onAdLoaded,
     interstitial.producerDelegate = BidMachineInterstitialDelegateInstance;
 }
 
+void InterstitialAdShow(){
+    if (!interstitial) {
+        interstitial = [BDMInterstitial new];
+    }
+    [interstitial presentFromRootViewController:RootViewController()];
+}
 
+BDMInterstitial * GetInterstitialAd(){
+    if (!interstitial) {
+        interstitial = [BDMInterstitial new];
+    }
+    return interstitial;
+}
 
-
+//Rewarded
 
 void SetRewardedRequestDelegate(RewardedRequestSuccessCallback onSuccess,
                                 RewardedRequestFailedCallback onFailed,
@@ -579,20 +574,36 @@ void SetRewardedRequestDelegate(RewardedRequestSuccessCallback onSuccess,
     [rewardedRequest performWithDelegate:BidMachineRewardedRequestDelegateInstance];
 }
 
-
-
-void InterstitialAdShow(){
-    if (!interstitial) {
-        interstitial = [BDMInterstitial new];
+void RewardedSetDelegate(BidMachineRewardedCallback onAdLoaded,
+                         BidMachineRewardedFailedCallback onAdLoadFailed,
+                         BidMachineRewardedCallback onAdShown,
+                         BidMachineRewardedFailedCallback onAdShowFailed,
+                         BidMachineRewardedCallback onAdImpression,
+                         BidMachineRewardedCallback onAdClicked,
+                         BidMachineRewardedCallback onAdRewarded,
+                         BidMachineRewardedClosedCallback onAdClosed,
+                         BidMachineRewardedCallback onAdExpired){
+    
+    if (!rewarded) {
+        rewarded = [BDMRewarded new];
     }
-    [interstitial presentFromRootViewController:RootViewController()];
-}
-
-BDMInterstitial * GetInterstitialAd(){
-    if (!interstitial) {
-        interstitial = [BDMInterstitial new];
+    
+    if(!BidMachineRewardedDelegateInstance){
+        BidMachineRewardedDelegateInstance = [BidMachineRewardedDelegate new];
     }
-    return interstitial;
+    
+    BidMachineRewardedDelegateInstance.onAdLoaded = onAdLoaded;
+    BidMachineRewardedDelegateInstance.onAdLoadFailed = onAdLoadFailed;
+    BidMachineRewardedDelegateInstance.onAdShown = onAdShown;
+    BidMachineRewardedDelegateInstance.onAdShowFailed = onAdShowFailed;
+    BidMachineRewardedDelegateInstance.onAdImpression = onAdImpression;
+    BidMachineRewardedDelegateInstance.onAdClicked = onAdClicked;
+    BidMachineRewardedDelegateInstance.onAdRewarded = onAdRewarded;
+    BidMachineRewardedDelegateInstance.onAdClosed = onAdClosed;
+    BidMachineRewardedDelegateInstance.onAdExpired = onAdExpired;
+    
+    interstitial.delegate = BidMachineInterstitialDelegateInstance;
+    interstitial.producerDelegate = BidMachineInterstitialDelegateInstance;
 }
 
 void RewardedSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
@@ -631,13 +642,6 @@ void RewardedSetSessionAdParams(id<BDMContextualProtocol> value){
     rewardedRequest.contextualData = value;
 }
 
-BDMRewardedRequest * GetRewardedRequest(){
-    if (!rewardedRequest) {
-        rewardedRequest = [BDMRewardedRequest new];
-    }
-    return rewardedRequest;
-}
-
 BOOL RewardedCanShow(){
     if (!rewarded) {
         rewarded = [BDMRewarded new];
@@ -649,8 +653,11 @@ void RewardedAdDestroy(){
     if (!rewarded) {
         rewarded = [BDMRewarded new];
     }
+    
     [rewarded invalidate];
+    
     if(!rewardedRequests) rewardedRequests = [[NSMutableSet alloc ]init];
+    
     if([rewardedRequests containsObject: rewarded]) [rewardedRequests removeObject:rewarded];
     
 }
@@ -666,26 +673,6 @@ void RewardedLoad(BDMRewardedRequest *rewardedRequest){
     [rewardedRequests addObject:rewarded];
 }
 
-void RewardedSetDelegate(BidMachineRewardedCallbacks onAdLoaded,
-                         BidMachineRewardedFailedCallback onAdLoadFailed,
-                         BidMachineRewardedCallbacks onAdClosed,
-                         BidMachineRewardedCallbacks onAdClicked,
-                         BidMachineRewardedCallbacks onAdShown){
-    if (!rewarded) {
-        rewarded = [BDMRewarded new];
-    }
-    
-    if(!BidMachineRewardedDelegateInstance){
-        BidMachineRewardedDelegateInstance = [BidMachineRewardedDelegate new];
-        BidMachineRewardedDelegateInstance.rewardedLoaded = onAdLoaded;
-        BidMachineRewardedDelegateInstance.rewardedLoadFailed = onAdLoadFailed;
-        BidMachineRewardedDelegateInstance.rewardedShown = onAdShown;
-        BidMachineRewardedDelegateInstance.rewardedClicked = onAdClicked;
-        BidMachineRewardedDelegateInstance.rewardedClosed = onAdClosed;
-    }
-    interstitial.delegate = BidMachineInterstitialDelegateInstance;
-}
-
 void RewardedShow(){
     if (!rewarded) {
         rewarded = [BDMRewarded new];
@@ -698,6 +685,42 @@ BDMRewarded * GetRewarded(){
         rewarded = [BDMRewarded new];
     }
     return rewarded;
+}
+
+BDMRewardedRequest * GetRewardedRequest(){
+    if (!rewardedRequest) {
+        rewardedRequest = [BDMRewardedRequest new];
+    }
+    return rewardedRequest;
+}
+
+
+
+
+
+
+
+
+
+
+
+void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
+                              BannerRequestFailedCallback onFailed,
+                              BannerRequestExpiredCallback onExpired){
+    
+    if (!BidMachineBannerRequestDelegateInstance) {
+        BidMachineBannerRequestDelegateInstance = [BidMachineBannerRequestDelegate new];
+    }
+    
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    
+    BidMachineBannerRequestDelegateInstance.onBannerRequestSuccess = onSuccess;
+    BidMachineBannerRequestDelegateInstance.onBannerRequestFailed = onFailed;
+    BidMachineBannerRequestDelegateInstance.onBannerRequestExpired = onExpired;
+    
+    [bannerRequest performWithDelegate:BidMachineBannerRequestDelegateInstance];
 }
 
 void BannerViewRequestSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
