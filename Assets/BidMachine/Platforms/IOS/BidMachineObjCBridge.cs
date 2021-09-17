@@ -60,9 +60,6 @@ namespace BidMachineAds.Unity.iOS
     internal delegate void BidMachineInterstitialCallbacks(IntPtr ad);
 
     internal delegate void BidMachineInterstitialFailedCallback(IntPtr ad, IntPtr error);
-    
-    internal delegate void BidMachineInterstitialClosedCallback(IntPtr ad, bool finished);
-
 
     #endregion
 
@@ -560,18 +557,19 @@ namespace BidMachineAds.Unity.iOS
             InterstitialAdLoad(interstitialRequest);
         }
 
-        public void setDelegate(BidMachineInterstitialCallbacks onAdLoaded,
+        public void setDelegate(
+            BidMachineInterstitialCallbacks onAdLoaded,
             BidMachineInterstitialFailedCallback onAdLoadFailed,
             BidMachineInterstitialCallbacks onAdShown,
             BidMachineInterstitialFailedCallback onAdShowFailed,
             BidMachineInterstitialCallbacks onAdImpression,
             BidMachineInterstitialCallbacks onAdClicked,
-            BidMachineInterstitialClosedCallback onAdClosed,
-            BidMachineInterstitialCallbacks AdExpired)
+            BidMachineInterstitialCallbacks onAdClosed,
+            BidMachineInterstitialCallbacks onAdExpired)
         {
             InterstitialAdSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, 
                 onAdShowFailed, onAdImpression,
-                onAdClicked, onAdClosed, AdExpired);
+                onAdClicked, onAdClosed, onAdExpired);
         }
 
         [DllImport("__Internal")]
@@ -597,7 +595,7 @@ namespace BidMachineAds.Unity.iOS
             BidMachineInterstitialFailedCallback onAdShowFailed,
             BidMachineInterstitialCallbacks onAdImpression,
             BidMachineInterstitialCallbacks onAdClicked,
-            BidMachineInterstitialClosedCallback onAdClosed,
+            BidMachineInterstitialCallbacks onAdClosed,
             BidMachineInterstitialCallbacks AdExpired);
     }
 
