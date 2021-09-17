@@ -37,6 +37,16 @@ namespace BidMachineAds.Unity.iOS
 
     #endregion
 
+    #region NativeRequestDelegate
+
+    internal delegate void NativeRequestSuccessCallback(IntPtr ad, string auctionResult);
+
+    internal delegate void NativeRequestFailedCallback(IntPtr ad, IntPtr error);
+
+    internal delegate void NativeRequestExpiredCallback(IntPtr ad);
+
+    #endregion
+
     #region BannerAdDelegate
 
     internal delegate void BidMachineBannerCallbacks(IntPtr ad);
@@ -58,6 +68,14 @@ namespace BidMachineAds.Unity.iOS
     internal delegate void BidMachineRewardedCallbacks(IntPtr ad);
 
     internal delegate void BidMachineRewardedFailedCallback(IntPtr ad, IntPtr error);
+
+    #endregion
+
+    #region NativeAdDelegate
+
+    internal delegate void BidMachineNativeCallbacks(IntPtr ad);
+
+    internal delegate void BidMachineNativeFailedCallback(IntPtr ad, IntPtr error);
 
     #endregion
 
@@ -385,7 +403,7 @@ namespace BidMachineAds.Unity.iOS
 
     #endregion
 
-    #region Interstitial
+    #region InterstitialAd
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal class InterstitialRequestObjCBridge
@@ -571,7 +589,7 @@ namespace BidMachineAds.Unity.iOS
 
     #endregion
 
-    #region Rewarded
+    #region RewardedAd
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
@@ -618,7 +636,8 @@ namespace BidMachineAds.Unity.iOS
             BidMachineRewardedFailedCallback onAdLoadFailed,
             BidMachineRewardedCallbacks onAdShown,
             BidMachineRewardedCallbacks onAdClicked,
-            BidMachineRewardedCallbacks onAdClosed)
+            BidMachineRewardedCallbacks onAdClosed
+        )
         {
             RewardedSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdClicked, onAdClosed);
         }
@@ -743,7 +762,7 @@ namespace BidMachineAds.Unity.iOS
 
     #endregion
 
-    #region Banner
+    #region BannerAd
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
@@ -788,9 +807,12 @@ namespace BidMachineAds.Unity.iOS
 
         public void setDelegate(BidMachineBannerCallbacks onAdLoaded,
             BidMachineBannerFailedCallback onAdLoadFailed,
-            BidMachineBannerCallbacks onAdClicked)
+            BidMachineBannerCallbacks onAdShown,
+            BidMachineBannerCallbacks onAdImpression,
+            BidMachineBannerCallbacks onAdClicked,
+            BidMachineBannerCallbacks onAdExpired)
         {
-            BannerViewSetDelegate(onAdLoaded, onAdLoadFailed, onAdClicked);
+            BannerViewSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdImpression, onAdClicked, onAdExpired);
         }
 
         [DllImport("__Internal")]
@@ -812,7 +834,10 @@ namespace BidMachineAds.Unity.iOS
         private static extern void BannerViewSetDelegate(
             BidMachineBannerCallbacks onAdLoaded,
             BidMachineBannerFailedCallback onAdLoadFailed,
-            BidMachineBannerCallbacks onAdClicked);
+            BidMachineBannerCallbacks onAdShown,
+            BidMachineBannerCallbacks onAdImpression,
+            BidMachineBannerCallbacks onAdClicked,
+            BidMachineBannerCallbacks onAdExpired);
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -947,6 +972,218 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         private static extern void BannerViewSetSessionAdParams(IntPtr value);
+    }
+
+    #endregion
+
+    #region NativeAd
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    public class NativeRequestObjCBridge
+    {
+        private readonly IntPtr NativeObject;
+
+        public NativeRequestObjCBridge(IntPtr nativeRequest)
+        {
+            NativeObject = nativeRequest;
+        }
+
+        public IntPtr getNativeObject()
+        {
+            return NativeObject;
+        }
+
+        public string getAuctionResult()
+        {
+            return GetAuctionResult();
+        }
+
+        [DllImport("__Internal")]
+        private static extern string GetAuctionResult();
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
+    internal class NativeRequestBuilderObjCBridge
+    {
+        private readonly IntPtr NativeObject;
+
+        public NativeRequestBuilderObjCBridge()
+        {
+            NativeObject = GetNativeRequest();
+        }
+
+        public IntPtr GetIntPtr()
+        {
+            return NativeObject;
+        }
+
+        public void setPriceFloor(IntPtr priceFloor)
+        {
+            NativeSetPriceFloor(priceFloor);
+        }
+
+        public void setBidPayload(string bidPayLoad)
+        {
+            NativeSetBidPayload(bidPayLoad);
+        }
+
+        public void setPlacementId(string placementId)
+        {
+            NativeSetPlacementId(placementId);
+        }
+
+        public void setLoadingTimeOut(int value)
+        {
+            NativeSetLoadingTimeOut(value);
+        }
+
+        public void setSessionAdParams(IntPtr sessionAdParams)
+        {
+            NativeSetSessionAdParams(sessionAdParams);
+        }
+
+        public void setMediaAssetTypes(NativeAdParams nativeAdParams)
+        {
+            foreach (var value in nativeAdParams.getMediaAssetTypes())
+            {
+                NativeSetMediaAssetTypes(value.ToString());
+            }
+        }
+
+        public void setNativeRequestDelegate(NativeRequestSuccessCallback requestSuccessCallback,
+            NativeRequestFailedCallback requestFailedCallback, NativeRequestExpiredCallback requestExpiredCallback)
+        {
+            SetNativeRequestDelegate(requestSuccessCallback, requestFailedCallback, requestExpiredCallback);
+        }
+
+        [DllImport("__Internal")]
+        private static extern IntPtr GetNativeRequest();
+
+        [DllImport("__Internal")]
+        private static extern IntPtr NativeSetMediaAssetTypes(string value);
+
+        [DllImport("__Internal")]
+        private static extern void SetNativeRequestDelegate(NativeRequestSuccessCallback requestSuccessCallback,
+            NativeRequestFailedCallback requestFailedCallback, NativeRequestExpiredCallback requestExpiredCallback);
+
+        [DllImport("__Internal")]
+        private static extern void NativeSetPriceFloor(IntPtr priceFloor);
+
+        [DllImport("__Internal")]
+        private static extern void NativeSetBidPayload(string value);
+
+        [DllImport("__Internal")]
+        private static extern void NativeSetPlacementId(string value);
+
+        [DllImport("__Internal")]
+        private static extern void NativeSetLoadingTimeOut(int value);
+
+        [DllImport("__Internal")]
+        private static extern void NativeSetSessionAdParams(IntPtr value);
+    }
+
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
+    internal class NativeAdObjCBridge
+    {
+        public IntPtr NativeObject;
+
+        public NativeAdObjCBridge()
+        {
+            NativeObject = GetNativeAd();
+        }
+
+        public NativeAdObjCBridge(IntPtr nativeAd)
+        {
+            NativeObject = nativeAd;
+        }
+
+        public IntPtr GetIntPtr()
+        {
+            return NativeObject;
+        }
+
+        public bool canShow()
+        {
+            return NativeAdCanShow();
+        }
+
+        public void destroy()
+        {
+            NativeAdDestroy();
+        }
+
+        public void load(IntPtr nativeRequest)
+        {
+            NativeAdLoad(nativeRequest);
+        }
+
+        public void setDelegate(BidMachineNativeCallbacks onAdLoaded,
+            BidMachineNativeFailedCallback onAdLoadFailed,
+            BidMachineNativeCallbacks onAdShown,
+            BidMachineNativeCallbacks onAdClicked,
+            BidMachineNativeCallbacks onAdImpression,
+            BidMachineNativeCallbacks onAdExpired
+        )
+        {
+            NativeSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdClicked, onAdImpression, onAdExpired);
+        }
+
+        public string getTitle()
+        {
+            return GetTitle();
+        }
+
+        public string getDescription()
+        {
+            return GetDescription();
+        }
+
+        public string getCallToAction()
+        {
+            return GetCallToAction();
+        }
+
+        public float getRating()
+        {
+            return GetRating();
+        }
+
+        [DllImport("__Internal")]
+        private static extern IntPtr GetNativeAd();
+
+        [DllImport("__Internal")]
+        private static extern string GetTitle();
+
+        [DllImport("__Internal")]
+        private static extern string GetDescription();
+
+        [DllImport("__Internal")]
+        private static extern string GetCallToAction();
+
+        [DllImport("__Internal")]
+        private static extern float GetRating();
+
+        [DllImport("__Internal")]
+        private static extern bool NativeAdCanShow();
+
+        [DllImport("__Internal")]
+        private static extern void NativeAdDestroy();
+
+        [DllImport("__Internal")]
+        private static extern void NativeAdLoad(IntPtr nativeRequest);
+
+        [DllImport("__Internal")]
+        private static extern void NativeSetDelegate(
+            BidMachineNativeCallbacks onAdLoaded,
+            BidMachineNativeFailedCallback onAdLoadFailed,
+            BidMachineNativeCallbacks onAdShown,
+            BidMachineNativeCallbacks onAdClicked,
+            BidMachineNativeCallbacks onAdImpression,
+            BidMachineNativeCallbacks onAdExpired);
     }
 
     #endregion
