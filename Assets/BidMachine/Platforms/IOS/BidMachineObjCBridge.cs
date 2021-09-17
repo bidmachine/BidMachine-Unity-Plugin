@@ -60,6 +60,9 @@ namespace BidMachineAds.Unity.iOS
     internal delegate void BidMachineInterstitialCallbacks(IntPtr ad);
 
     internal delegate void BidMachineInterstitialFailedCallback(IntPtr ad, IntPtr error);
+    
+    internal delegate void BidMachineInterstitialClosedCallback(IntPtr ad, bool finished);
+
 
     #endregion
 
@@ -68,6 +71,9 @@ namespace BidMachineAds.Unity.iOS
     internal delegate void BidMachineRewardedCallbacks(IntPtr ad);
 
     internal delegate void BidMachineRewardedFailedCallback(IntPtr ad, IntPtr error);
+    
+    internal delegate void BidMachineRewardedClosedCallback(IntPtr ad, bool finished);
+
 
     #endregion
 
@@ -557,10 +563,15 @@ namespace BidMachineAds.Unity.iOS
         public void setDelegate(BidMachineInterstitialCallbacks onAdLoaded,
             BidMachineInterstitialFailedCallback onAdLoadFailed,
             BidMachineInterstitialCallbacks onAdShown,
+            BidMachineInterstitialFailedCallback onAdShowFailed,
+            BidMachineInterstitialCallbacks onAdImpression,
             BidMachineInterstitialCallbacks onAdClicked,
-            BidMachineInterstitialCallbacks onAdClosed)
+            BidMachineInterstitialClosedCallback onAdClosed,
+            BidMachineInterstitialCallbacks AdExpired)
         {
-            InterstitialAdSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdClicked, onAdClosed);
+            InterstitialAdSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, 
+                onAdShowFailed, onAdImpression,
+                onAdClicked, onAdClosed, AdExpired);
         }
 
         [DllImport("__Internal")]
@@ -583,8 +594,11 @@ namespace BidMachineAds.Unity.iOS
             BidMachineInterstitialCallbacks onAdLoaded,
             BidMachineInterstitialFailedCallback onAdLoadFailed,
             BidMachineInterstitialCallbacks onAdShown,
+            BidMachineInterstitialFailedCallback onAdShowFailed,
+            BidMachineInterstitialCallbacks onAdImpression,
             BidMachineInterstitialCallbacks onAdClicked,
-            BidMachineInterstitialCallbacks onAdClosed);
+            BidMachineInterstitialClosedCallback onAdClosed,
+            BidMachineInterstitialCallbacks AdExpired);
     }
 
     #endregion
@@ -635,11 +649,16 @@ namespace BidMachineAds.Unity.iOS
         public void setDelegate(BidMachineRewardedCallbacks onAdLoaded,
             BidMachineRewardedFailedCallback onAdLoadFailed,
             BidMachineRewardedCallbacks onAdShown,
+            BidMachineRewardedFailedCallback onAdShowFailed,
+            BidMachineRewardedCallbacks onAdImpression,
             BidMachineRewardedCallbacks onAdClicked,
-            BidMachineRewardedCallbacks onAdClosed
+            BidMachineRewardedCallbacks onAdRewarded,
+            BidMachineRewardedClosedCallback onAdClosed,
+            BidMachineRewardedCallbacks onAdExpired
         )
         {
-            RewardedSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdClicked, onAdClosed);
+            RewardedSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdShowFailed, onAdImpression,
+                onAdClicked, onAdRewarded, onAdClosed, onAdExpired);
         }
 
         [DllImport("__Internal")]
@@ -662,8 +681,12 @@ namespace BidMachineAds.Unity.iOS
             BidMachineRewardedCallbacks onAdLoaded,
             BidMachineRewardedFailedCallback onAdLoadFailed,
             BidMachineRewardedCallbacks onAdShown,
+            BidMachineRewardedFailedCallback onAdShowFailed,
+            BidMachineRewardedCallbacks onAdImpression,
             BidMachineRewardedCallbacks onAdClicked,
-            BidMachineRewardedCallbacks onAdClosed);
+            BidMachineRewardedCallbacks onAdRewarded,
+            BidMachineRewardedClosedCallback onAdClosed,
+            BidMachineRewardedCallbacks onAdExpired);
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -731,8 +754,10 @@ namespace BidMachineAds.Unity.iOS
             RewardedSetSessionAdParams(sessionAdParams);
         }
 
-        public void setRewardedRequestDelegate(RewardedRequestSuccessCallback requestSuccessCallback,
-            RewardedRequestFailedCallback requestFailedCallback, RewardedRequestExpiredCallback requestExpiredCallback)
+        public void setRewardedRequestDelegate(
+            RewardedRequestSuccessCallback requestSuccessCallback,
+            RewardedRequestFailedCallback requestFailedCallback, 
+            RewardedRequestExpiredCallback requestExpiredCallback)
         {
             SetRewardedRequestDelegate(requestSuccessCallback, requestFailedCallback, requestExpiredCallback);
         }
