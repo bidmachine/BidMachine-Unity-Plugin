@@ -65,7 +65,7 @@ namespace BidMachineAds.Unity.iOS
 
     #region RewardedAdDelegate
 
-    internal delegate void BidMachineRewardedCallbacks(IntPtr ad);
+    internal delegate void BidMachineRewardedCallback(IntPtr ad);
 
     internal delegate void BidMachineRewardedFailedCallback(IntPtr ad, IntPtr error);
     
@@ -644,15 +644,15 @@ namespace BidMachineAds.Unity.iOS
             RewardedLoad(rewardedRequest);
         }
 
-        public void setDelegate(BidMachineRewardedCallbacks onAdLoaded,
+        public void setDelegate(BidMachineRewardedCallback onAdLoaded,
             BidMachineRewardedFailedCallback onAdLoadFailed,
-            BidMachineRewardedCallbacks onAdShown,
+            BidMachineRewardedCallback onAdShown,
             BidMachineRewardedFailedCallback onAdShowFailed,
-            BidMachineRewardedCallbacks onAdImpression,
-            BidMachineRewardedCallbacks onAdClicked,
-            BidMachineRewardedCallbacks onAdRewarded,
+            BidMachineRewardedCallback onAdImpression,
+            BidMachineRewardedCallback onAdClicked,
+            BidMachineRewardedCallback onAdRewarded,
             BidMachineRewardedClosedCallback onAdClosed,
-            BidMachineRewardedCallbacks onAdExpired
+            BidMachineRewardedCallback onAdExpired
         )
         {
             RewardedSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdShowFailed, onAdImpression,
@@ -676,15 +676,15 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         private static extern void RewardedSetDelegate(
-            BidMachineRewardedCallbacks onAdLoaded,
+            BidMachineRewardedCallback onAdLoaded,
             BidMachineRewardedFailedCallback onAdLoadFailed,
-            BidMachineRewardedCallbacks onAdShown,
+            BidMachineRewardedCallback onAdShown,
             BidMachineRewardedFailedCallback onAdShowFailed,
-            BidMachineRewardedCallbacks onAdImpression,
-            BidMachineRewardedCallbacks onAdClicked,
-            BidMachineRewardedCallbacks onAdRewarded,
+            BidMachineRewardedCallback onAdImpression,
+            BidMachineRewardedCallback onAdClicked,
+            BidMachineRewardedCallback onAdRewarded,
             BidMachineRewardedClosedCallback onAdClosed,
-            BidMachineRewardedCallbacks onAdExpired);
+            BidMachineRewardedCallback onAdExpired);
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
