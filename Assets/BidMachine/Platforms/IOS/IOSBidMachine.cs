@@ -1472,7 +1472,7 @@ namespace BidMachineAds.Unity.iOS
 
         #region NativeAdDelegate
 
-        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallback))]
         private static void nativeAdLoaded(IntPtr ad)
         {
             if (nativeListeners.ContainsKey(ad))
@@ -1493,7 +1493,7 @@ namespace BidMachineAds.Unity.iOS
             nativeListeners[ad].onNativeAdLoadFailed(new NativeAd(new iOSNativeAd(ad)), err);
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallback))]
         private static void nativeAdShown(IntPtr ad)
         {
             if (nativeListeners.ContainsKey(ad))
@@ -1502,7 +1502,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallback))]
         private static void nativeAdImpression(IntPtr ad)
         {
             if (nativeListeners.ContainsKey(ad))
@@ -1511,7 +1511,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallback))]
         private static void nativeAdClicked(IntPtr ad)
         {
             if (nativeListeners.ContainsKey(ad))
@@ -1520,7 +1520,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineNativeCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineNativeCallback))]
         private static void nativeAdExpired(IntPtr ad)
         {
             if (nativeListeners.ContainsKey(ad))
