@@ -1015,11 +1015,11 @@ namespace BidMachineAds.Unity.iOS
 
         public string getAuctionResult()
         {
-            return GetAuctionResult();
+            return GetNativeAuctionResult();
         }
 
         [DllImport("__Internal")]
-        private static extern string GetAuctionResult();
+        private static extern string GetNativeAuctionResult();
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -1148,43 +1148,43 @@ namespace BidMachineAds.Unity.iOS
             BidMachineNativeCallback onAdExpired
         )
         {
-            NativeSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdClicked, onAdImpression, onAdExpired);
+            NativeAdSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdClicked, onAdImpression, onAdExpired);
         }
 
         public string getTitle()
         {
-            return GetTitle();
+            return GetNativeTitle();
         }
 
         public string getDescription()
         {
-            return GetDescription();
+            return GetNativeDescription();
         }
 
         public string getCallToAction()
         {
-            return GetCallToAction();
+            return GetNativeCallToAction();
         }
 
         public float getRating()
         {
-            return GetRating();
+            return GetNativeRating();
         }
 
         [DllImport("__Internal")]
         private static extern IntPtr GetNativeAd();
 
         [DllImport("__Internal")]
-        private static extern string GetTitle();
+        private static extern string GetNativeTitle();
 
         [DllImport("__Internal")]
-        private static extern string GetDescription();
+        private static extern string GetNativeDescription();
 
         [DllImport("__Internal")]
-        private static extern string GetCallToAction();
+        private static extern string GetNativeCallToAction();
 
         [DllImport("__Internal")]
-        private static extern float GetRating();
+        private static extern float GetNativeRating();
 
         [DllImport("__Internal")]
         private static extern bool NativeAdCanShow();
@@ -1196,7 +1196,7 @@ namespace BidMachineAds.Unity.iOS
         private static extern void NativeAdLoad(IntPtr nativeRequest);
 
         [DllImport("__Internal")]
-        private static extern void NativeSetDelegate(
+        private static extern void NativeAdSetDelegate(
             BidMachineNativeCallback onAdLoaded,
             BidMachineNativeFailedCallback onAdLoadFailed,
             BidMachineNativeCallback onAdShown,
