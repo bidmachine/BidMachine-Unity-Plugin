@@ -76,7 +76,7 @@ namespace BidMachineAds.Unity.iOS
 
     #region NativeAdDelegate
 
-    internal delegate void BidMachineNativeCallbacks(IntPtr ad);
+    internal delegate void BidMachineNativeCallback(IntPtr ad);
 
     internal delegate void BidMachineNativeFailedCallback(IntPtr ad, IntPtr error);
 
@@ -885,16 +885,12 @@ namespace BidMachineAds.Unity.iOS
             {
                 case 0:
                     return BannerSize.Size_320х50;
-                    break;
                 case 1:
                     return BannerSize.Size_300х250;
-                    break;
                 case 2:
                     return BannerSize.Size_728х90;
-                    break;
                 default:
                     return BannerSize.Size_320х50;
-                    break;
             }
         }
 
@@ -1144,12 +1140,12 @@ namespace BidMachineAds.Unity.iOS
             NativeAdLoad(nativeRequest);
         }
 
-        public void setDelegate(BidMachineNativeCallbacks onAdLoaded,
+        public void setDelegate(BidMachineNativeCallback onAdLoaded,
             BidMachineNativeFailedCallback onAdLoadFailed,
-            BidMachineNativeCallbacks onAdShown,
-            BidMachineNativeCallbacks onAdClicked,
-            BidMachineNativeCallbacks onAdImpression,
-            BidMachineNativeCallbacks onAdExpired
+            BidMachineNativeCallback onAdShown,
+            BidMachineNativeCallback onAdClicked,
+            BidMachineNativeCallback onAdImpression,
+            BidMachineNativeCallback onAdExpired
         )
         {
             NativeSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdClicked, onAdImpression, onAdExpired);
@@ -1201,12 +1197,12 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         private static extern void NativeSetDelegate(
-            BidMachineNativeCallbacks onAdLoaded,
+            BidMachineNativeCallback onAdLoaded,
             BidMachineNativeFailedCallback onAdLoadFailed,
-            BidMachineNativeCallbacks onAdShown,
-            BidMachineNativeCallbacks onAdClicked,
-            BidMachineNativeCallbacks onAdImpression,
-            BidMachineNativeCallbacks onAdExpired);
+            BidMachineNativeCallback onAdShown,
+            BidMachineNativeCallback onAdClicked,
+            BidMachineNativeCallback onAdImpression,
+            BidMachineNativeCallback onAdExpired);
     }
 
     #endregion
