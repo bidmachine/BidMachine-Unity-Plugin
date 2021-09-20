@@ -905,8 +905,6 @@ BDMBannerView * GetBannerView(){
     return bannerView;
 }
 
-//Native
-
 
 void SetNativeRequestDelegate(NativeRequestSuccessCallback onSuccess,
                               NativeRequestFailedCallback onFailed,
@@ -928,12 +926,12 @@ void SetNativeRequestDelegate(NativeRequestSuccessCallback onSuccess,
     
 }
 
-void NativeSetDelegate(BidMachineNativeCallback onAdLoaded,
-                       BidMachineNativeFailedCallback onAdLoadFailed,
-                       BidMachineNativeCallback onAdShown,
-                       BidMachineNativeCallback onAdClicked,
-                       BidMachineNativeCallback onAdImpression,
-                       BidMachineNativeCallback onAdExpired){
+void NativeAdSetDelegate(BidMachineNativeCallback onAdLoaded,
+                         BidMachineNativeFailedCallback onAdLoadFailed,
+                         BidMachineNativeCallback onAdShown,
+                         BidMachineNativeCallback onAdClicked,
+                         BidMachineNativeCallback onAdImpression,
+                         BidMachineNativeCallback onAdExpired){
     
     if (!native) {
         native = [BDMNativeAd new];
@@ -976,7 +974,7 @@ void NativeSetPlacementId(const char *value){
     nativeRequest.placementId = [NSString stringWithUTF8String:value];
 }
 
-void RewardSetLoadingTimeOut(int value){
+void NativeSetLoadingTimeOut(int value){
     if (!nativeRequest) {
         nativeRequest = [BDMNativeAdRequest new];
     }
@@ -988,5 +986,86 @@ void NativeSetSessionAdParams(id<BDMContextualProtocol> value){
         nativeRequest = [BDMNativeAdRequest new];
     }
     nativeRequest.contextualData = value;
+}
+
+const char * GetNativeTitle(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    return GetUnityString(native.title);
+}
+
+const char * GetNativeDescription(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    return GetUnityString(native.description);
+}
+
+const char * GetNativeCallToAction(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    return GetUnityString(native.CTAText);
+}
+
+float * GetNativeRating(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    return GetUnityString(native.starRating);
+}
+
+bool * NativeAdCanShow(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    
+    return native.canShow;
+}
+
+void NativeAdDestroy(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    
+    [native invalidate];
+    if(!nativeRequests) nativeRequests = [[NSMutableSet alloc ]init];
+    if([nativeRequests containsObject: native]) [nativeRequests removeObject:native];
+}
+
+void NativeAdLoad(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    
+    if(!nativeRequests){
+        nativeRequests = [[NSMutableSet alloc ]init];
+    }
+    
+    [native makeRequest:nativeRequests];
+    [nativeRequests addObject:native];
+}
+
+const char *GetUnityString(NSString value){
+    const char *cString = [value UTF8String];
+    char *cStringCopy = calloc([value length]+1, 1);
+    return strncpy(cStringCopy, cString, [value length]);
+}
+
+BDMNativeAd * GetNativeAd(){
+    if (!native) {
+        native = [BDMNativeAd new]
+    }
+    
+    return native;
+}
+
+BDMNativeAdRequest * GetNativeRequest(){
+    if (!nativeRequest) {
+        nativeRequest = [BDMNativeAdRequest new];
+    }
+    
+    return nativeRequest;
 }
 
