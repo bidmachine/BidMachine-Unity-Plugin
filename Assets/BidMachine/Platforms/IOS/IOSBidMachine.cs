@@ -568,7 +568,7 @@ namespace BidMachineAds.Unity.iOS
 
         #region InterstitialAd Delegate
         
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdLoaded(IntPtr ad)
         {
             if (interstitialListeners.ContainsKey(ad))
@@ -589,7 +589,7 @@ namespace BidMachineAds.Unity.iOS
             interstitialListeners[ad].onInterstitialAdLoadFailed(new InterstitialAd(new iOSInterstitialAd(ad)), err);
         }
         
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdShown(IntPtr ad)
         {
             if (interstitialListeners.ContainsKey(ad))
@@ -610,7 +610,7 @@ namespace BidMachineAds.Unity.iOS
             interstitialListeners[ad].onInterstitialAdShowFailed(new InterstitialAd(new iOSInterstitialAd(ad)), err);
         }
         
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdImpression(IntPtr ad)
         {
             if (interstitialListeners.ContainsKey(ad))
@@ -619,7 +619,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
         
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdClicked(IntPtr ad)
         {
             if (interstitialListeners.ContainsKey(ad))
@@ -628,7 +628,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdClosed(IntPtr ad)
         {
             if (interstitialListeners.ContainsKey(ad))
@@ -637,7 +637,7 @@ namespace BidMachineAds.Unity.iOS
             }
         }
 
-        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallbacks))]
+        [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdExpired(IntPtr ad)
         {
             if (interstitialListeners.ContainsKey(ad))
