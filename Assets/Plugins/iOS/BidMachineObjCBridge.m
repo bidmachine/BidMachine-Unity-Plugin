@@ -579,6 +579,92 @@ void SetRewardedRequestDelegate(RewardedRequestSuccessCallback onSuccess,
     [rewardedRequest performWithDelegate:BidMachineRewardedRequestDelegateInstance];
 }
 
+char *GetRewardedAuctionResult(){
+    if (!rewardedRequest) {
+        rewardedRequest = [BDMRewardedRequest new];
+    }
+    
+    if(rewardedRequest.info){
+        
+        NSString *jsonString = @"";
+        NSMutableDictionary *dictionary = [NSMutableDictionary new];
+        
+        dictionary[@"adDomains"] = rewardedRequest.info.adDomains;
+        dictionary[@"bidID"] = rewardedRequest.info.bidID;
+        dictionary[@"cID"] = rewardedRequest.info.cID;
+        dictionary[@"creativeID"] = rewardedRequest.info.creativeID;
+        dictionary[@"customParams"] = rewardedRequest.info.customParams;
+        dictionary[@"dealID"] = rewardedRequest.info.dealID;
+        dictionary[@"demandSource"] = rewardedRequest.info.demandSource;
+        dictionary[@"price"] = rewardedRequest.info.price;
+        
+        NSError *error;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+        
+        if (data) {
+            NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
+        }
+        
+        if (data) {
+            
+            jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            const char *cString = [jsonString UTF8String];
+            char *cStringCopy = calloc([jsonString length]+1, 1);
+            return strncpy(cStringCopy, cString, [jsonString length]);
+            
+        }
+        else
+        {
+            return "empty";
+        }
+    }else {
+        return "empty";
+    }
+}
+
+char *GetInterstitialAuctionResult(){
+    if (!interstitialRequest) {
+        interstitialRequest = [BDMInterstitialRequest new];
+    }
+    
+    if(interstitialRequest.info){
+        
+        NSString *jsonString = @"";
+        NSMutableDictionary *dictionary = [NSMutableDictionary new];
+        
+        dictionary[@"adDomains"] = interstitialRequest.info.adDomains;
+        dictionary[@"bidID"] = interstitialRequest.info.bidID;
+        dictionary[@"cID"] = interstitialRequest.info.cID;
+        dictionary[@"creativeID"] = interstitialRequest.info.creativeID;
+        dictionary[@"customParams"] = interstitialRequest.info.customParams;
+        dictionary[@"dealID"] = interstitialRequest.info.dealID;
+        dictionary[@"demandSource"] = interstitialRequest.info.demandSource;
+        dictionary[@"price"] = interstitialRequest.info.price;
+        
+        NSError *error;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+        
+        if (data) {
+            NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
+        }
+        
+        if (data) {
+            
+            jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            const char *cString = [jsonString UTF8String];
+            char *cStringCopy = calloc([jsonString length]+1, 1);
+            return strncpy(cStringCopy, cString, [jsonString length]);
+            
+        }
+        else
+        {
+            return "empty";
+        }
+    }else {
+        return "empty";
+    }
+}
+
 void RewardedSetDelegate(BidMachineRewardedCallback onAdLoaded,
                          BidMachineRewardedFailedCallback onAdLoadFailed,
                          BidMachineRewardedCallback onAdShown,
@@ -870,13 +956,13 @@ int GetBannerSize(){
     switch (bannerRequest.adSize) {
         case BDMBannerAdSize320x50:
             return 0;
-           
+            
         case BDMBannerAdSize300x250:
             return 1;
-          
+            
         case BDMBannerAdSize728x90:
             return 2;
-           
+            
         default:
             return 0;
     }
