@@ -1211,6 +1211,48 @@ char *GetNativeAuctionResult(){
     }
 }
 
+char *GetBannerAuctionResult(){
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    
+    if(bannerRequest.info){
+        
+        NSString *jsonString = @"";
+        NSMutableDictionary *dictionary = [NSMutableDictionary new];
+        
+        dictionary[@"adDomains"] = bannerRequest.info.adDomains;
+        dictionary[@"bidID"] = bannerRequest.info.bidID;
+        dictionary[@"cID"] = bannerRequest.info.cID;
+        dictionary[@"creativeID"] = bannerRequest.info.creativeID;
+        dictionary[@"customParams"] = bannerRequest.info.customParams;
+        dictionary[@"dealID"] = bannerRequest.info.dealID;
+        dictionary[@"demandSource"] = bannerRequest.info.demandSource;
+        dictionary[@"price"] = bannerRequest.info.price;
+        
+        NSError *error;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+        
+        if (data) {
+            NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
+        }
+        
+        if (data) {
+            jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            const char *cString = [jsonString UTF8String];
+            char *cStringCopy = calloc([jsonString length]+1, 1);
+            return strncpy(cStringCopy, cString, [jsonString length]);
+            
+        }
+        else
+        {
+            return "empty";
+        }
+    }else {
+        return "empty";
+    }
+}
+
 BDMNativeAd * GetNativeAd(){
     if (!native) {
         native = [BDMNativeAd new];
