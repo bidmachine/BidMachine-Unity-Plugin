@@ -42,32 +42,32 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         tgTesting.isOn = true;
         tgLogging.isOn = true;
 
-        BidMachine.setTargetingParams(
-            new TargetingParams()
-                .setUserId("1")
-                .setStoreId("12345")
-                .setGender(TargetingParams.Gender.Female)
-                .setBirthdayYear(1991)
-                .setKeyWords(new[] { "games, sport" })
-                .setCountry("Belarus")
-                .setCity("Minsk")
-                .setZip("220059")
-                .setStoreUrl("https://store.url")
-                .setStoreCategory("cards")
-                .setStoreId("12345")
-                .setStoreSubCategories(new[] { "games", "cards" })
-                .setFramework("unity")
-                .setPaid(true)
-                .setDeviceLocation("", 22.0d, 22.0d)
-                .addBlockedApplication("com.appodeal.test")
-                .addBlockedAdvertiserIABCategory("IAB-71")
-                .addBlockedAdvertiserDomain("ua")
-                .setExternalUserIds(new[]
-                    {
-                        new ExternalUserId("sourceId_1", "1"),
-                        new ExternalUserId("sourceId_2", "2")
-                    }
-                ));
+        // BidMachine.setTargetingParams(
+        //     new TargetingParams()
+        //         .setUserId("1")
+        //         .setStoreId("12345")
+        //         .setGender(TargetingParams.Gender.Female)
+        //         .setBirthdayYear(1991)
+        //         .setKeyWords(new[] { "games, sport" })
+        //         .setCountry("Belarus")
+        //         .setCity("Minsk")
+        //         .setZip("220059")
+        //         .setStoreUrl("https://store.url")
+        //         .setStoreCategory("cards")
+        //         .setStoreId("12345")
+        //         .setStoreSubCategories(new[] { "games", "cards" })
+        //         .setFramework("unity")
+        //         .setPaid(true)
+        //         .setDeviceLocation("", 22.0d, 22.0d)
+        //         .addBlockedApplication("com.appodeal.test")
+        //         .addBlockedAdvertiserIABCategory("IAB-71")
+        //         .addBlockedAdvertiserDomain("ua")
+        //         .setExternalUserIds(new[]
+        //             {
+        //                 new ExternalUserId("sourceId_1", "1"),
+        //                 new ExternalUserId("sourceId_2", "2")
+        //             }
+        //         ));
 
         priceFloorParams = new PriceFloorParams();
         priceFloorParams.addPriceFloor("123", 1.2d);
@@ -84,16 +84,44 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void BidMachineInitialize()
     {
-        BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
-        BidMachine.setEndpoint("https://test.com");
-        BidMachine.setSubjectToGDPR(true);
-        BidMachine.setCoppa(true);
-        BidMachine.setConsentConfig(true, "test consent string");
-        BidMachine.setConsentConfig(true, "test consent string");
-        BidMachine.setUSPrivacyString("test_string");
-        BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
+        // BidMachine.setTargetingParams(
+        //     new TargetingParams()
+        //         .setUserId("1")
+        //         .setStoreId("12345")
+        //         .setGender(TargetingParams.Gender.Female)
+        //         .setBirthdayYear(1991)
+        //         .setKeyWords(new[] { "games, sport" })
+        //         .setCountry("Belarus")
+        //         .setCity("Minsk")
+        //         .setZip("220059")
+        //         .setStoreUrl("https://store.url")
+        //         .setStoreCategory("cards")
+        //         .setStoreId("12345")
+        //         .setStoreSubCategories(new[] { "games", "cards" })
+        //         .setFramework("unity")
+        //         .setPaid(true)
+        //         .setDeviceLocation("", 22.0d, 22.0d)
+        //         .addBlockedApplication("com.appodeal.test")
+        //         .addBlockedAdvertiserIABCategory("IAB-71")
+        //         .addBlockedAdvertiserDomain("ua")
+        //         .setExternalUserIds(new[]
+        //             {
+        //                 new ExternalUserId("sourceId_1", "1"),
+        //                 new ExternalUserId("sourceId_2", "2")
+        //             }
+        //         ));
+        
+        //BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
+        //BidMachine.setEndpoint("https://test.com");
+        // BidMachine.setSubjectToGDPR(true);
+        // BidMachine.setCoppa(true);
+        // BidMachine.setConsentConfig(true, "test consent string");
+        // BidMachine.setConsentConfig(true, "test consent string");
+        // BidMachine.setUSPrivacyString("test_string");
+        // BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
+        BidMachine.setTargetingParams(new TargetingParams().setStoreId("12345"));
         BidMachine.initialize("1");
     }
 
