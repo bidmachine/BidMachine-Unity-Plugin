@@ -881,7 +881,7 @@ namespace BidMachineAds.Unity.iOS
 
         public BannerSize getSize()
         {
-            switch (GetSize())
+            switch (GetBannerSize())
             {
                 case 0:
                     return BannerSize.Size_320х50;
@@ -903,7 +903,7 @@ namespace BidMachineAds.Unity.iOS
         private static extern string GetAuctionResult();
 
         [DllImport("__Internal")]
-        private static extern int GetSize();
+        private static extern int GetBannerSize();
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
