@@ -57,7 +57,7 @@ namespace BidMachineAds.Unity.iOS
 
     #region InterstitialAdDelegate
 
-    internal delegate void BidMachineInterstitialCallbacks(IntPtr ad);
+    internal delegate void BidMachineInterstitialCallback(IntPtr ad);
 
     internal delegate void BidMachineInterstitialFailedCallback(IntPtr ad, IntPtr error);
 
@@ -558,14 +558,14 @@ namespace BidMachineAds.Unity.iOS
         }
 
         public void setDelegate(
-            BidMachineInterstitialCallbacks onAdLoaded,
+            BidMachineInterstitialCallback onAdLoaded,
             BidMachineInterstitialFailedCallback onAdLoadFailed,
-            BidMachineInterstitialCallbacks onAdShown,
+            BidMachineInterstitialCallback onAdShown,
             BidMachineInterstitialFailedCallback onAdShowFailed,
-            BidMachineInterstitialCallbacks onAdImpression,
-            BidMachineInterstitialCallbacks onAdClicked,
-            BidMachineInterstitialCallbacks onAdClosed,
-            BidMachineInterstitialCallbacks onAdExpired)
+            BidMachineInterstitialCallback onAdImpression,
+            BidMachineInterstitialCallback onAdClicked,
+            BidMachineInterstitialCallback onAdClosed,
+            BidMachineInterstitialCallback onAdExpired)
         {
             InterstitialAdSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, 
                 onAdShowFailed, onAdImpression,
@@ -589,14 +589,14 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         private static extern void InterstitialAdSetDelegate(
-            BidMachineInterstitialCallbacks onAdLoaded,
+            BidMachineInterstitialCallback onAdLoaded,
             BidMachineInterstitialFailedCallback onAdLoadFailed,
-            BidMachineInterstitialCallbacks onAdShown,
+            BidMachineInterstitialCallback onAdShown,
             BidMachineInterstitialFailedCallback onAdShowFailed,
-            BidMachineInterstitialCallbacks onAdImpression,
-            BidMachineInterstitialCallbacks onAdClicked,
-            BidMachineInterstitialCallbacks onAdClosed,
-            BidMachineInterstitialCallbacks AdExpired);
+            BidMachineInterstitialCallback onAdImpression,
+            BidMachineInterstitialCallback onAdClicked,
+            BidMachineInterstitialCallback onAdClosed,
+            BidMachineInterstitialCallback AdExpired);
     }
 
     #endregion
