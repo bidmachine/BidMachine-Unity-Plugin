@@ -243,7 +243,7 @@ BDMTargeting * GetTargeting(){
 
 //PriceFloor
 
-void PriceFloorAddPrifeFloor(const char *priceFloorId, double value){
+void PriceFloorAddPriceFloor(const char *priceFloorId, double value){
     if (!priceFloor) {
         priceFloor = [BDMPriceFloor new];
     }
@@ -862,6 +862,25 @@ void BannerViewShow(int YAxis, int XAxis){
     }
 }
 
+int GetBannerSize(){
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
+    }
+    
+    switch (bannerRequest.adSize) {
+        case BDMBannerAdSize320x50:
+            return 0;
+           
+        case BDMBannerAdSize300x250:
+            return 1;
+          
+        case BDMBannerAdSize728x90:
+            return 2;
+           
+        default:
+            return 0;
+    }
+}
 
 
 void BannerViewSetDelegate(BidMachineBannerCallback onAdLoaded,
@@ -988,39 +1007,47 @@ void NativeSetSessionAdParams(id<BDMContextualProtocol> value){
     nativeRequest.contextualData = value;
 }
 
-const char * GetNativeTitle(){
+char * GetNativeTitle(){
     if (!native) {
         native = [BDMNativeAd new];
     }
-    return GetUnityString(native.title);
+    const char *cString = [native.title UTF8String];
+    char *cStringCopy = calloc([native.title length]+1, 1);
+    return strncpy(cStringCopy, cString, [native.title length]);
+    
 }
 
-const char * GetNativeDescription(){
+char * GetNativeDescription(){
     if (!native) {
         native = [BDMNativeAd new];
     }
-    return GetUnityString(native.description);
+    const char *cString = [native.description UTF8String];
+    char *cStringCopy = calloc([native.description length]+1, 1);
+    return strncpy(cStringCopy, cString, [native.description length]);
 }
 
-const char * GetNativeCallToAction(){
+char * GetNativeCallToAction(){
     if (!native) {
         native = [BDMNativeAd new];
     }
-    return GetUnityString(native.CTAText);
+    const char *cString = [native.CTAText UTF8String];
+    char *cStringCopy = calloc([native.CTAText length]+1, 1);
+    return strncpy(cStringCopy, cString, [native.CTAText length]);
+    
 }
 
-float * GetNativeRating(){
+float GetNativeRating(){
     if (!native) {
         native = [BDMNativeAd new];
     }
-    return GetUnityString(native.starRating);
+    float floatNativeStar = [native.starRating floatValue];
+    return floatNativeStar;
 }
 
 bool * NativeAdCanShow(){
     if (!native) {
         native = [BDMNativeAd new];
     }
-    
     return native.canShow;
 }
 
@@ -1043,19 +1070,64 @@ void NativeAdLoad(){
         nativeRequests = [[NSMutableSet alloc ]init];
     }
     
-    [native makeRequest:nativeRequests];
+    [native makeRequest:nativeRequest];
     [nativeRequests addObject:native];
 }
 
-const char *GetUnityString(NSString value){
-    const char *cString = [value UTF8String];
-    char *cStringCopy = calloc([value length]+1, 1);
-    return strncpy(cStringCopy, cString, [value length]);
+void NativeSetMediaAssetTypes(const char *value){
+    if (!nativeRequest) {
+        nativeRequest = [BDMNativeAdRequest new];
+    }
+    
+    nativeRequest.type = BDMNativeAdTypeIconAndImage;
+}
+
+char *GetNativeAuctionResult(){
+    if (!nativeRequest) {
+        nativeRequest = [BDMNativeAdRequest new];
+    }
+    
+    if(nativeRequest.info){
+        
+        NSString *jsonString = @"";
+        NSMutableDictionary *dictionary = [NSMutableDictionary new];
+        
+        dictionary[@"adDomains"] = nativeRequest.info.adDomains;
+        dictionary[@"bidID"] = nativeRequest.info.bidID;
+        dictionary[@"cID"] = nativeRequest.info.cID;
+        dictionary[@"creativeID"] = nativeRequest.info.creativeID;
+        dictionary[@"customParams"] = nativeRequest.info.customParams;
+        dictionary[@"dealID"] = nativeRequest.info.dealID;
+        dictionary[@"demandSource"] = nativeRequest.info.demandSource;
+        dictionary[@"price"] = nativeRequest.info.price;
+        
+        NSError *error;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+        
+        if (data) {
+            NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
+        }
+        
+        if (data) {
+            
+            jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            const char *cString = [jsonString UTF8String];
+            char *cStringCopy = calloc([jsonString length]+1, 1);
+            return strncpy(cStringCopy, cString, [jsonString length]);
+            
+        }
+        else
+        {
+            return "empty";
+        }
+    }else {
+        return "empty";
+    }
 }
 
 BDMNativeAd * GetNativeAd(){
     if (!native) {
-        native = [BDMNativeAd new]
+        native = [BDMNativeAd new];
     }
     
     return native;
