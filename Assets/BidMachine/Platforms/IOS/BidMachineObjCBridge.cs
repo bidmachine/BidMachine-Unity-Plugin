@@ -896,11 +896,11 @@ namespace BidMachineAds.Unity.iOS
 
         public string getAuctionResult()
         {
-            return GetAuctionResult();
+            return GetBannerAuctionResult();
         }
 
         [DllImport("__Internal")]
-        private static extern string GetAuctionResult();
+        private static extern string GetBannerAuctionResult();
 
         [DllImport("__Internal")]
         private static extern int GetBannerSize();
