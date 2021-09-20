@@ -13,6 +13,8 @@
 #import "BidMachineInterstitialRequestDelegate.h"
 #import "BidMachineRewardedRequestDelegate.h"
 #import "BidMachineSessionAdParams.h"
+#import "BidMachineNativeRequestDelegate.h"
+#import "BidMachineNativeDelegate.h"
 
 static BDMSdkConfiguration *configuration;
 static BidMachineSessionAdParams *sessionAdParams;
@@ -22,24 +24,29 @@ static BDMPriceFloor *priceFloor;
 static BDMUserGender *userGender;
 
 static BDMInterstitial *interstitial;
-static BDMRewarded * rewarded;
-static BDMBannerView * bannerView;
+static BDMRewarded *rewarded;
+static BDMBannerView *bannerView;
+static BDMNativeAd *native;
 
 static BDMRewardedRequest *rewardedRequest;
 static BDMInterstitialRequest *interstitialRequest;
 static BDMBannerRequest *bannerRequest;
+static BDMNativeAdRequest *nativeRequest;
 
 NSMutableSet *rewardedRequests;
 NSMutableSet *interstitialRequests;
 NSMutableSet *bannerViewRequests;
+NSMutableSet *nativeRequests;
 
 static BidMachineBannerRequestDelegate *BidMachineBannerRequestDelegateInstance;
 static BidMachineInterstitialRequestDelegate * BidMachineInterstitialRequestDelegateInstance;
 static BidMachineRewardedRequestDelegate *BidMachineRewardedRequestDelegateInstance;
+static BidMachineNativeRequestDelegate *BidMachineNativeRequestDelegateInstance;
 
 static BidMachineInterstitialDelegate *BidMachineInterstitialDelegateInstance;
 static BidMachineRewardedDelegate *BidMachineRewardedDelegateInstance;
 static BidMachineBannerViewDelegate *BidMachineBannerViewDelegateInstance;
+static BidMachineNativeDelegate *BidMachineNativeDelegateInstance;
 
 static UIViewController* RootViewController() {
     return ((UnityAppController *)[UIApplication sharedApplication].delegate).rootViewController;
@@ -497,27 +504,25 @@ void SetInterstitialRequestDelegate(InterstitialRequestSuccessCallback onSuccess
         BidMachineInterstitialRequestDelegateInstance = [BidMachineInterstitialRequestDelegate new];
     }
     
-    BidMachineInterstitialRequestDelegateInstance.onIntersittialRequestSuccess = onSuccess;
-    BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestFailed = onFailed;
-    BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestExpired = onExpired;
-    
     if (!interstitialRequest) {
         interstitialRequest = [BDMInterstitialRequest new];
     }
     
+    BidMachineInterstitialRequestDelegateInstance.onIntersittialRequestSuccess = onSuccess;
+    BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestFailed = onFailed;
+    BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestExpired = onExpired;
+    
     [interstitialRequest performWithDelegate:BidMachineInterstitialRequestDelegateInstance];
 }
 
-
-
-void InterstitialAdSetDelegate(BidMachineInterstitialCallbacks onAdLoaded,
+void InterstitialAdSetDelegate(BidMachineInterstitialCallback onAdLoaded,
                                BidMachineInterstitialFailedCallback onAdLoadFailed,
-                               BidMachineInterstitialCallbacks onAdShown,
+                               BidMachineInterstitialCallback onAdShown,
                                BidMachineInterstitialFailedCallback onAdShowFailed,
-                               BidMachineInterstitialCallbacks onAdImpression,
-                               BidMachineInterstitialCallbacks onAdClicked,
+                               BidMachineInterstitialCallback onAdImpression,
+                               BidMachineInterstitialCallback onAdClicked,
                                BidMachineInterstitialClosedCallback onAdClosed,
-                               BidMachineInterstitialCallbacks onAdExpired){
+                               BidMachineInterstitialCallback onAdExpired){
     if (!interstitial) {
         interstitial = [BDMInterstitial new];
     }
@@ -602,8 +607,8 @@ void RewardedSetDelegate(BidMachineRewardedCallback onAdLoaded,
     BidMachineRewardedDelegateInstance.onAdClosed = onAdClosed;
     BidMachineRewardedDelegateInstance.onAdExpired = onAdExpired;
     
-    interstitial.delegate = BidMachineInterstitialDelegateInstance;
-    interstitial.producerDelegate = BidMachineInterstitialDelegateInstance;
+    rewarded.delegate = BidMachineRewardedDelegateInstance;
+    rewarded.producerDelegate = BidMachineRewardedDelegateInstance;
 }
 
 void RewardedSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
@@ -899,3 +904,89 @@ BDMBannerView * GetBannerView(){
     }
     return bannerView;
 }
+
+//Native
+
+
+void SetNativeRequestDelegate(NativeRequestSuccessCallback onSuccess,
+                              NativeRequestFailedCallback onFailed,
+                              NativeRequestExpiredCallback onExpired){
+    
+    if (!BidMachineNativeRequestDelegateInstance) {
+        BidMachineNativeRequestDelegateInstance = [BidMachineNativeRequestDelegate new];
+    }
+    
+    if (!nativeRequest) {
+        nativeRequest = [BDMNativeAdRequest new];
+    }
+    
+    BidMachineNativeRequestDelegateInstance.onNativeRequestSuccess = onSuccess;
+    BidMachineNativeRequestDelegateInstance.onNativeRequestFailed = onFailed;
+    BidMachineNativeRequestDelegateInstance.onNativeRequestExpired = onExpired;
+    
+    [nativeRequest performWithDelegate:BidMachineNativeRequestDelegateInstance];
+    
+}
+
+void NativeSetDelegate(BidMachineNativeCallback onAdLoaded,
+                       BidMachineNativeFailedCallback onAdLoadFailed,
+                       BidMachineNativeCallback onAdShown,
+                       BidMachineNativeCallback onAdClicked,
+                       BidMachineNativeCallback onAdImpression,
+                       BidMachineNativeCallback onAdExpired){
+    
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    
+    if(!BidMachineNativeDelegateInstance){
+        BidMachineNativeDelegateInstance = [BidMachineNativeDelegate new];
+    }
+    
+    BidMachineNativeDelegateInstance.onAdLoaded = onAdLoaded;
+    BidMachineNativeDelegateInstance.onAdLoadFailed = onAdLoadFailed;
+    BidMachineNativeDelegateInstance.onAdShown = onAdShown;
+    BidMachineNativeDelegateInstance.onAdImpression = onAdImpression;
+    BidMachineNativeDelegateInstance.onAdClicked = onAdClicked;
+    BidMachineNativeDelegateInstance.onAdExpired = onAdExpired;
+    
+    native.delegate = BidMachineNativeDelegateInstance;
+    native.producerDelegate = BidMachineNativeDelegateInstance;
+}
+
+void NativeSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
+    if (!nativeRequest) {
+        nativeRequest = [BDMNativeAdRequest new];
+    }
+    NSArray<BDMPriceFloor *> *array = [[NSArray alloc] initWithObjects:bdmPriceFloor, nil];
+    nativeRequest.priceFloors = array;
+}
+
+void NativeSetBidPayload(const char *value){
+    if (!nativeRequest) {
+        nativeRequest = [BDMNativeAdRequest new];
+    }
+    nativeRequest.bidPayload = [NSString stringWithUTF8String:value];
+}
+
+void NativeSetPlacementId(const char *value){
+    if (!nativeRequest) {
+        nativeRequest = [BDMNativeAdRequest new];
+    }
+    nativeRequest.placementId = [NSString stringWithUTF8String:value];
+}
+
+void RewardSetLoadingTimeOut(int value){
+    if (!nativeRequest) {
+        nativeRequest = [BDMNativeAdRequest new];
+    }
+    nativeRequest.timeout = [NSNumber numberWithInt:value];
+}
+
+void NativeSetSessionAdParams(id<BDMContextualProtocol> value){
+    if (!nativeRequest) {
+        nativeRequest = [BDMNativeAdRequest new];
+    }
+    nativeRequest.contextualData = value;
+}
+
