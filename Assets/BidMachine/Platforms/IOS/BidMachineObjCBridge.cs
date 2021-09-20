@@ -425,11 +425,11 @@ namespace BidMachineAds.Unity.iOS
 
         public string getAuctionResult()
         {
-            return GetAuctionResult();
+            return GetInterstitialAuctionResult();
         }
 
         [DllImport("__Internal")]
-        private static extern string GetAuctionResult();
+        private static extern string GetInterstitialAuctionResult();
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -704,11 +704,11 @@ namespace BidMachineAds.Unity.iOS
 
         public string getAuctionResult()
         {
-            return GetAuctionResult();
+            return GetRewardedAuctionResult();
         }
 
         [DllImport("__Internal")]
-        private static extern string GetAuctionResult();
+        private static extern string GetRewardedAuctionResult();
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
