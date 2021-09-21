@@ -19,6 +19,11 @@ namespace BidMachineAds.Unity.Api
             transform.gameObject.SetActive(false);
         }
 
+        private void Start()
+        {
+            callToAction.onClick.AddListener(DispatchClick);
+        }
+
         private NativeAd nativeAd;
 
         [SerializeField] public Text nativeAdViewTitle;
@@ -31,7 +36,16 @@ namespace BidMachineAds.Unity.Api
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            DispatchClick();
+        }
+
+        private void DispatchClick()
+        {
             Debug.Log("OnPointerClick - dispatchClick");
+        }
+
+        public void DispatchImpression()
+        {
         }
 
         public void setNativeAd(NativeAd ad)
@@ -85,6 +99,8 @@ namespace BidMachineAds.Unity.Api
                     : "";
             }
 
+            transform.gameObject.SetActive(true);
+
             if (nativeAdViewIcon)
             {
                 StartCoroutine(DownloadImage(nativeAd.getIcon(), nativeAdViewIcon));
@@ -94,8 +110,6 @@ namespace BidMachineAds.Unity.Api
             {
                 StartCoroutine(DownloadImage(nativeAd.getImage(), nativeAdViewImage));
             }
-
-            transform.gameObject.SetActive(true);
         }
 
         private IEnumerator DownloadImage(string url, RawImage image)
