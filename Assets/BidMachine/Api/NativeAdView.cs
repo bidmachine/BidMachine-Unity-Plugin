@@ -46,6 +46,7 @@ namespace BidMachineAds.Unity.Api
 
         public void DispatchImpression()
         {
+            Debug.Log("DispatchImpression");
         }
 
         public void setNativeAd(NativeAd ad)
@@ -110,6 +111,9 @@ namespace BidMachineAds.Unity.Api
             {
                 StartCoroutine(DownloadImage(nativeAd.getImage(), nativeAdViewImage));
             }
+
+
+            DispatchImpression();
         }
 
         private IEnumerator DownloadImage(string url, RawImage image)
