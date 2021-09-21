@@ -1120,6 +1120,16 @@ namespace BidMachineAds.Unity.Api
              return nativeAd.getRating();
          }
 
+         public string getIcon()
+         {
+             return nativeAd.getIcon();
+         }
+
+         public string getImage()
+         {
+             return nativeAd.getImage();
+         }
+
          public bool canShow()
          {
              return nativeAd.canShow();
