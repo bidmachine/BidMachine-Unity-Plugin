@@ -1435,6 +1435,16 @@ namespace BidMachineAds.Unity.iOS
             return bridge.getCallToAction();
         }
 
+        public string getImage()
+        {
+           return bridge.getImage();
+        }
+
+        public string getIcon()
+        {
+            return bridge.getIcon();
+        }
+
         public float getRating()
         {
             return bridge.getRating();
