@@ -101,6 +101,16 @@ namespace BidMachineAds.Unity.Dummy
             throw new System.NotImplementedException();
         }
 
+        public string getImage()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string getIcon()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public float getRating()
         {
             throw new System.NotImplementedException();
