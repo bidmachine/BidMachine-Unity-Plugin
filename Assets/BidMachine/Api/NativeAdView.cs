@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 #pragma warning disable 649
@@ -49,50 +51,61 @@ namespace BidMachineAds.Unity.Api
         {
             if (nativeAd == null) return;
 
-            if (nativeAdViewTitle != null)
+
+            if (nativeAdViewTitle)
             {
-                if (nativeAdViewTitle)
-                {
-                    nativeAdViewTitle.text = !string.IsNullOrEmpty(nativeAd.getTitle()) ? nativeAd.getTitle() : "";
-                }
+                nativeAdViewTitle.text = !string.IsNullOrEmpty(nativeAd.getTitle()) ? nativeAd.getTitle() : "";
             }
 
-            if (nativeAdViewDescription != null)
+
+            if (nativeAdViewDescription)
             {
-                if (nativeAdViewDescription)
-                {
-                    nativeAdViewDescription.text =
-                        !string.IsNullOrEmpty(nativeAd.getDescription()) ? nativeAd.getDescription() : "";
-                }
+                nativeAdViewDescription.text =
+                    !string.IsNullOrEmpty(nativeAd.getDescription()) ? nativeAd.getDescription() : "";
             }
 
             if (nativeAdViewDescription)
             {
                 nativeAdViewSponsored.text = "Sponsored";
             }
-            
-            if (nativeAdViewRatting != null)
+
+
+            if (nativeAdViewRatting)
             {
-                if (nativeAdViewRatting)
-                {
-                    nativeAdViewRatting.text =
-                        !string.IsNullOrEmpty(nativeAd.getRating().ToString("0.0000"))
-                            ? nativeAd.getRating().ToString("0.0000")
-                            : "";
-                }
+                nativeAdViewRatting.text =
+                    !string.IsNullOrEmpty(nativeAd.getRating().ToString("0.0000"))
+                        ? nativeAd.getRating().ToString("0.0000")
+                        : "";
             }
 
-            if (callToAction != null)
+            if (callToAction.GetComponentInChildren<Text>())
             {
-                if (callToAction.GetComponentInChildren<Text>())
-                {
-                    callToAction.GetComponentInChildren<Text>().text = !string.IsNullOrEmpty(nativeAd.getCallToAction())
-                        ? nativeAd.getCallToAction()
-                        : "";
-                }
+                callToAction.GetComponentInChildren<Text>().text = !string.IsNullOrEmpty(nativeAd.getCallToAction())
+                    ? nativeAd.getCallToAction()
+                    : "";
             }
-            
+
+            if (nativeAdViewIcon)
+            {
+                StartCoroutine(DownloadImage(nativeAd.getIcon(), nativeAdViewIcon));
+            }
+
+            if (nativeAdViewImage)
+            {
+                StartCoroutine(DownloadImage(nativeAd.getImage(), nativeAdViewImage));
+            }
+
             transform.gameObject.SetActive(true);
+        }
+
+        private IEnumerator DownloadImage(string url, RawImage image)
+        {
+            var request = UnityWebRequestTexture.GetTexture(url);
+            yield return request.SendWebRequest();
+            if (request.isNetworkError || request.isHttpError)
+                Debug.Log(request.error);
+            else
+                image.texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
         }
     }
 }
