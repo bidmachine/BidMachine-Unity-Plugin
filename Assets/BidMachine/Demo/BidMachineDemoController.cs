@@ -8,6 +8,7 @@ using UnityEngine.UI;
 #pragma warning disable 649
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
+[SuppressMessage("ReSharper", "InvertIf")]
 public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, IRewardedAdListener, IBannerListener,
     IBannerRequestListener, IInterstitialRequestListener, IRewardedRequestListener, INativeRequestListener,
     INativeAdListener
@@ -110,7 +111,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         //                 new ExternalUserId("sourceId_2", "2")
         //             }
         //         ));
-        
+
         //BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
         //BidMachine.setEndpoint("https://test.com");
         // BidMachine.setSubjectToGDPR(true);
@@ -184,11 +185,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void LoadNativeAd()
     {
-        if (nativeAd == null)
-        {
-            nativeAd = new NativeAd();
-        }
-
         var nativeAdParams = new NativeAdParams();
         nativeAdParams.setMediaAssetTypes(NativeAdParams.MediaAssetType.Icon, NativeAdParams.MediaAssetType.Image);
 
@@ -207,13 +203,19 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 .build();
         }
 
-        nativeAd.setListener(this);
-        nativeAd.load(nativeRequest);
+        if (nativeAd == null)
+        {
+            nativeAd = new NativeAd();
+            nativeAd.setListener(this);
+            if (nativeRequest != null)
+            {
+                nativeAd.load(nativeRequest);
+            }
+        }
     }
 
     public void DestroyNativeAd()
     {
-        if (nativeAd == null) return;
         nativeAd.destroy();
         nativeAdView.destroyNativeView();
         nativeAd = null;
@@ -610,7 +612,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         Debug.Log($"onNativeAdLoaded - ad.getCallToAction() - {ad.getCallToAction()}");
         Debug.Log($"onNativeAdLoaded - ad.getIcon() - {ad.getIcon()}");
         Debug.Log($"onNativeAdLoaded - ad.getImage() - {ad.getImage()}");
-        
+
         if (nativeAdView)
         {
             nativeAdView.setNativeAd(ad);
