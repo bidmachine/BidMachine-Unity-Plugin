@@ -205,6 +205,8 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
         if (nativeAd == null)
         {
+            Debug.Log("LoadNativeAd: nativeAd != null ");
+
             nativeAd = new NativeAd();
             nativeAd.setListener(this);
             if (nativeRequest != null)
@@ -212,6 +214,11 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 nativeAd.load(nativeRequest);
             }
         }
+        else
+        {
+            Debug.Log("LoadNativeAd: nativeAd == null ");
+        }
+        
     }
 
     public void DestroyNativeAd()
