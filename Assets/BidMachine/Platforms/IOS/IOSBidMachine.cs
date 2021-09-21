@@ -556,9 +556,19 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(IInterstitialAdListener interstitialAdListener)
         {
             if (interstitialAdListener == null) return;
-            bridge.setDelegate(interstitialAdLoaded, interstitialAdLoadFailed, interstitialAdShown, interstitialAdShowFailed,
+            bridge.setDelegate(interstitialAdLoaded, interstitialAdLoadFailed, interstitialAdShown,
+                interstitialAdShowFailed,
                 interstitialAdImpression, interstitialAdClicked, interstitialAdClosed, interstitialAdExpired);
             interstitialListeners.Add(bridge.GetIntPtr(), interstitialAdListener);
+
+            if (interstitialListeners.ContainsKey(bridge.GetIntPtr()))
+            {
+                interstitialListeners.Remove(bridge.GetIntPtr());
+            }
+            else
+            {
+                interstitialListeners.Add(bridge.GetIntPtr(), interstitialAdListener);
+            }
         }
 
         public void show()
@@ -567,7 +577,7 @@ namespace BidMachineAds.Unity.iOS
         }
 
         #region InterstitialAd Delegate
-        
+
         [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdLoaded(IntPtr ad)
         {
@@ -588,7 +598,7 @@ namespace BidMachineAds.Unity.iOS
             };
             interstitialListeners[ad].onInterstitialAdLoadFailed(new InterstitialAd(new iOSInterstitialAd(ad)), err);
         }
-        
+
         [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdShown(IntPtr ad)
         {
@@ -597,7 +607,7 @@ namespace BidMachineAds.Unity.iOS
                 interstitialListeners[ad].onInterstitialAdShown(new InterstitialAd(new iOSInterstitialAd(ad)));
             }
         }
-        
+
         [MonoPInvokeCallback(typeof(BidMachineInterstitialFailedCallback))]
         private static void interstitialAdShowFailed(IntPtr ad, IntPtr error)
         {
@@ -609,7 +619,7 @@ namespace BidMachineAds.Unity.iOS
             };
             interstitialListeners[ad].onInterstitialAdShowFailed(new InterstitialAd(new iOSInterstitialAd(ad)), err);
         }
-        
+
         [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdImpression(IntPtr ad)
         {
@@ -618,7 +628,7 @@ namespace BidMachineAds.Unity.iOS
                 interstitialListeners[ad].onInterstitialAdImpression(new InterstitialAd(new iOSInterstitialAd(ad)));
             }
         }
-        
+
         [MonoPInvokeCallback(typeof(BidMachineInterstitialCallback))]
         private static void interstitialAdClicked(IntPtr ad)
         {
@@ -645,7 +655,7 @@ namespace BidMachineAds.Unity.iOS
                 interstitialListeners[ad].onInterstitialAdExpired(new InterstitialAd(new iOSInterstitialAd(ad)));
             }
         }
-        
+
         #endregion
     }
 
@@ -756,7 +766,14 @@ namespace BidMachineAds.Unity.iOS
             if (rewardedAdRequestListener == null) return;
             bridge.setRewardedRequestDelegate(onRewardedRequestSuccess, onRewardedRequestFailed,
                 onRewardedRequestExpired);
-            rewardedRequestListeners.Add(bridge.getIntPtr(), rewardedAdRequestListener);
+            if (rewardedRequestListeners.ContainsKey(bridge.getIntPtr()))
+            {
+                rewardedRequestListeners.Remove(bridge.getIntPtr());
+            }
+            else
+            {
+                rewardedRequestListeners.Add(bridge.getIntPtr(), rewardedAdRequestListener);
+            }
         }
 
         #region RewardedRequestCallbacks
@@ -840,7 +857,7 @@ namespace BidMachineAds.Unity.iOS
         {
             if (rewardedAdListener == null) return;
             bridge.setDelegate(rewardedAdLoaded, rewardedAdLoadFailed, rewardedAdShown, rewardedAdShowFailed,
-                rewardedAdImpression,rewardedAdClicked, rewardedAdRewarded, rewardedAdClosed, rewardedAdExpired);
+                rewardedAdImpression, rewardedAdClicked, rewardedAdRewarded, rewardedAdClosed, rewardedAdExpired);
             rewardedListeners.Add(bridge.GetIntPtr(), rewardedAdListener);
         }
 
@@ -850,7 +867,7 @@ namespace BidMachineAds.Unity.iOS
         }
 
         #region RewardedDelegate
-        
+
         [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdLoaded(IntPtr ad)
         {
@@ -871,7 +888,7 @@ namespace BidMachineAds.Unity.iOS
             };
             rewardedListeners[ad].onRewardedAdLoadFailed(new RewardedAd(new iOSRewardedAd(ad)), err);
         }
-        
+
         [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdShown(IntPtr ad)
         {
@@ -880,7 +897,7 @@ namespace BidMachineAds.Unity.iOS
                 rewardedListeners[ad].onRewardedAdShown(new RewardedAd(new iOSRewardedAd(ad)));
             }
         }
-        
+
         [MonoPInvokeCallback(typeof(BidMachineRewardedFailedCallback))]
         private static void rewardedAdShowFailed(IntPtr ad, IntPtr error)
         {
@@ -892,7 +909,7 @@ namespace BidMachineAds.Unity.iOS
             };
             rewardedListeners[ad].onRewardedAdShowFailed(new RewardedAd(new iOSRewardedAd(ad)), err);
         }
-        
+
         [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdImpression(IntPtr ad)
         {
@@ -910,7 +927,7 @@ namespace BidMachineAds.Unity.iOS
                 rewardedListeners[ad].onRewardedAdClicked(new RewardedAd(new iOSRewardedAd(ad)));
             }
         }
-       
+
         [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdRewarded(IntPtr ad)
         {
@@ -919,7 +936,7 @@ namespace BidMachineAds.Unity.iOS
                 rewardedListeners[ad].onRewardedAdRewarded(new RewardedAd(new iOSRewardedAd(ad)));
             }
         }
-        
+
         [MonoPInvokeCallback(typeof(BidMachineRewardedClosedCallback))]
         private static void rewardedAdClosed(IntPtr ad, bool finished)
         {
@@ -928,7 +945,7 @@ namespace BidMachineAds.Unity.iOS
                 rewardedListeners[ad].onRewardedAdClosed(new RewardedAd(new iOSRewardedAd(ad)), finished);
             }
         }
-        
+
         [MonoPInvokeCallback(typeof(BidMachineRewardedCallback))]
         private static void rewardedAdExpired(IntPtr ad)
         {
@@ -937,7 +954,7 @@ namespace BidMachineAds.Unity.iOS
                 rewardedListeners[ad].onRewardedAdExpired(new RewardedAd(new iOSRewardedAd(ad)));
             }
         }
-        
+
         #endregion
     }
 
@@ -1071,7 +1088,15 @@ namespace BidMachineAds.Unity.iOS
         {
             if (bannerAdRequestListener == null) return;
             bridge.setBannerRequestDelegate(onBannerRequestSuccess, onBannerRequestFailed, onBannerRequestExpired);
-            bannerRequestListeners.Add(bridge.GetIntPtr(), bannerAdRequestListener);
+
+            if (bannerRequestListeners.ContainsKey(bridge.GetIntPtr()))
+            {
+                bannerRequestListeners.Remove(bridge.GetIntPtr());
+            }
+            else
+            {
+                bannerRequestListeners.Add(bridge.GetIntPtr(), bannerAdRequestListener);
+            }
         }
 
         #region BannerRequestCallbacks
@@ -1185,7 +1210,10 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(IBannerListener bannerListener)
         {
             if (bannerListener == null) return;
-            bridge.setDelegate(bannerViewLoaded, bannerAdLoadFailed, bannerAdShown, bannerAdImpression, bannerAdClicked, bannerAdExpired);
+
+            bridge.setDelegate(bannerViewLoaded, bannerAdLoadFailed, bannerAdShown, bannerAdImpression, bannerAdClicked,
+                bannerAdExpired);
+
             bannerListeners.Add(bridge.GetIntPtr(), bannerListener);
         }
 
@@ -1362,7 +1390,15 @@ namespace BidMachineAds.Unity.iOS
         {
             if (nativeRequestListener == null) return;
             bridge.setNativeRequestDelegate(onNativeRequestSuccess, onNativeRequestFailed, onNativeRequestExpired);
-            nativeRequestListeners.Add(bridge.GetIntPtr(), nativeRequestListener);
+
+            if (nativeRequestListeners.ContainsKey(bridge.GetIntPtr()))
+            {
+                nativeRequestListeners.Remove(bridge.GetIntPtr());
+            }
+            else
+            {
+                nativeRequestListeners.Add(bridge.GetIntPtr(), nativeRequestListener);
+            }
         }
 
         #region NativeRequestCallbacks
@@ -1415,11 +1451,6 @@ namespace BidMachineAds.Unity.iOS
             bridge = new NativeAdObjCBridge(ad);
         }
 
-        public IntPtr GetIntPtr()
-        {
-            return bridge.GetIntPtr();
-        }
-
         public string getTitle()
         {
             return bridge.getTitle();
@@ -1437,7 +1468,7 @@ namespace BidMachineAds.Unity.iOS
 
         public string getImage()
         {
-           return bridge.getImage();
+            return bridge.getImage();
         }
 
         public string getIcon()
@@ -1475,9 +1506,11 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(INativeAdListener nativeAdListener)
         {
             if (nativeAdListener == null) return;
+
             bridge.setDelegate(nativeAdLoaded, nativeAdLoadFailed, nativeAdShown, nativeAdClicked,
                 nativeAdImpression, nativeAdExpired);
-            nativeListeners.Add(bridge.GetIntPtr(), nativeAdListener);
+
+            nativeListeners.Add(bridge.NativeObject, nativeAdListener);
         }
 
         #region NativeAdDelegate
