@@ -259,13 +259,16 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void ShowInterstitialAd()
     {
-        if (interstitialAd.canShow())
+        if (interstitialAd != null)
         {
-            interstitialAd.show();
-        }
-        else
-        {
-            Debug.Log("canShow - InterstitialAd - false");
+            if (interstitialAd.canShow())
+            {
+                interstitialAd.show();
+            }
+            else
+            {
+                Debug.Log("canShow - InterstitialAd - false");
+            }
         }
     }
 
@@ -282,11 +285,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void LoadRewardedAd()
     {
-        if (rewardedAd == null)
-        {
-            rewardedAd = new RewardedAd();
-        }
-
         if (rewardedRequest == null)
         {
             rewardedRequest = new RewardedRequestBuilder()
@@ -301,8 +299,12 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 .build();
         }
 
-        rewardedAd.setListener(this);
-        rewardedAd.load(rewardedRequest);
+        if (rewardedAd == null)
+        {
+            rewardedAd = new RewardedAd();
+            rewardedAd.setListener(this);
+            rewardedAd.load(rewardedRequest);
+        }
     }
 
     public void ShowRewardedAd()
