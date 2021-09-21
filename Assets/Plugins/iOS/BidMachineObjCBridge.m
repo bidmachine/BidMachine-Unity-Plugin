@@ -1107,6 +1107,9 @@ char * GetNativeDescription(){
     if (!native) {
         native = [BDMNativeAd new];
     }
+    
+    NSLog(@" Native description: %@", native.description);
+  
     const char *cString = [native.description UTF8String];
     char *cStringCopy = calloc([native.description length]+1, 1);
     return strncpy(cStringCopy, cString, [native.description length]);
@@ -1128,6 +1131,25 @@ float GetNativeRating(){
     }
     float floatNativeStar = [native.starRating floatValue];
     return floatNativeStar;
+}
+
+char * GetNativeImage(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    
+    const char *cString = [native.mainImageUrl UTF8String];
+    char *cStringCopy = calloc([native.mainImageUrl length]+1, 1);
+    return strncpy(cStringCopy, cString, [native.mainImageUrl length]);
+}
+
+char * GetNativeIcon(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    const char *cString = [native.iconUrl UTF8String];
+    char *cStringCopy = calloc([native.iconUrl length]+1, 1);
+    return strncpy(cStringCopy, cString, [native.mainImageUrl length]);
 }
 
 bool * NativeAdCanShow(){
