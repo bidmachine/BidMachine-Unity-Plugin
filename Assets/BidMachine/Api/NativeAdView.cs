@@ -18,17 +18,18 @@ namespace BidMachineAds.Unity.Api
         }
 
         private NativeAd nativeAd;
-        
+
         [SerializeField] public Text nativeAdViewTitle;
+        [SerializeField] public Text nativeAdViewDescription;
+        [SerializeField] public Text nativeAdViewSponsored;
         [SerializeField] public RawImage nativeAdViewIcon;
         [SerializeField] public Text nativeAdViewRatting;
-        [SerializeField] public Text nativeAdViewDescription;
         [SerializeField] public RawImage nativeAdViewImage;
         [SerializeField] public Button callToAction;
 
         public void OnPointerClick(PointerEventData eventData)
         {
-           Debug.Log("OnPointerClick - dispatchClick");
+            Debug.Log("OnPointerClick - dispatchClick");
         }
 
         public void setNativeAd(NativeAd ad)
@@ -50,37 +51,47 @@ namespace BidMachineAds.Unity.Api
 
             if (nativeAdViewTitle != null)
             {
-                nativeAdViewTitle.text = !string.IsNullOrEmpty(nativeAd.getTitle()) ? nativeAd.getTitle() : "";
+                if (nativeAdViewTitle)
+                {
+                    nativeAdViewTitle.text = !string.IsNullOrEmpty(nativeAd.getTitle()) ? nativeAd.getTitle() : "";
+                }
             }
 
             if (nativeAdViewDescription != null)
             {
-                nativeAdViewDescription.text =
-                    !string.IsNullOrEmpty(nativeAd.getDescription()) ? nativeAd.getDescription() : "";
+                if (nativeAdViewDescription)
+                {
+                    nativeAdViewDescription.text =
+                        !string.IsNullOrEmpty(nativeAd.getDescription()) ? nativeAd.getDescription() : "";
+                }
             }
 
-            if (callToAction != null)
+            if (nativeAdViewDescription)
             {
-                callToAction.GetComponentInChildren<Text>().text = !string.IsNullOrEmpty(nativeAd.getCallToAction())
-                    ? nativeAd.getCallToAction()
-                    : "";
+                nativeAdViewSponsored.text = "Sponsored";
             }
-
+            
             if (nativeAdViewRatting != null)
             {
-                nativeAdViewRatting.text =
-                    !string.IsNullOrEmpty(nativeAd.getRating().ToString("0.0000"))
-                        ? nativeAd.getRating().ToString("0.0000")
-                        : "";
+                if (nativeAdViewRatting)
+                {
+                    nativeAdViewRatting.text =
+                        !string.IsNullOrEmpty(nativeAd.getRating().ToString("0.0000"))
+                            ? nativeAd.getRating().ToString("0.0000")
+                            : "";
+                }
             }
 
             if (callToAction != null)
             {
-                callToAction.GetComponentInChildren<Text>().text = !string.IsNullOrEmpty(nativeAd.getCallToAction())
-                    ? nativeAd.getCallToAction()
-                    : "";
+                if (callToAction.GetComponentInChildren<Text>())
+                {
+                    callToAction.GetComponentInChildren<Text>().text = !string.IsNullOrEmpty(nativeAd.getCallToAction())
+                        ? nativeAd.getCallToAction()
+                        : "";
+                }
             }
-
+            
             transform.gameObject.SetActive(true);
         }
     }
