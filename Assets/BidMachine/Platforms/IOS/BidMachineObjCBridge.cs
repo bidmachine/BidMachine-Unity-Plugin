@@ -1171,11 +1171,27 @@ namespace BidMachineAds.Unity.iOS
             return GetNativeRating();
         }
 
+        public string getIcon()
+        {
+            return GetNativeIcon();
+        }
+
+        public string getImage()
+        {
+            return GetNativeImage();
+        }
+
         [DllImport("__Internal")]
         private static extern IntPtr GetNativeAd();
 
         [DllImport("__Internal")]
         private static extern string GetNativeTitle();
+        
+        [DllImport("__Internal")]
+        private static extern string GetNativeImage();
+        
+        [DllImport("__Internal")]
+        private static extern string GetNativeIcon();
 
         [DllImport("__Internal")]
         private static extern string GetNativeDescription();
