@@ -218,7 +218,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         {
             Debug.Log("LoadNativeAd: nativeAd == null ");
         }
-        
     }
 
     public void DestroyNativeAd()
@@ -235,11 +234,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void LoadInterstitialAd()
     {
-        if (interstitialAd == null)
-        {
-            interstitialAd = new InterstitialAd();
-        }
-
         if (interstitialRequest == null)
         {
             interstitialRequest = new InterstitialRequestBuilder()
@@ -255,8 +249,12 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 .build();
         }
 
-        interstitialAd.setListener(this);
-        interstitialAd.load(interstitialRequest);
+        if (interstitialAd == null)
+        {
+            interstitialAd = new InterstitialAd();
+            interstitialAd.setListener(this);
+            interstitialAd.load(interstitialRequest);
+        }
     }
 
     public void ShowInterstitialAd()
@@ -273,7 +271,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void DestroyInterstitial()
     {
-        if (interstitialAd == null) return;
         interstitialAd.destroy();
         interstitialAd = null;
         interstitialRequest = null;
