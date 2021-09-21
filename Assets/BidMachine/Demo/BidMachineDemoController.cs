@@ -608,7 +608,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         Debug.Log($"onNativeAdLoaded - ad.getDescription() - {ad.getDescription()}");
         Debug.Log($"onNativeAdLoaded - ad.getRating() - {ad.getRating().ToString("0.0000")}");
         Debug.Log($"onNativeAdLoaded - ad.getCallToAction() - {ad.getCallToAction()}");
-
+        Debug.Log($"onNativeAdLoaded - ad.getIcon() - {ad.getIcon()}");
+        Debug.Log($"onNativeAdLoaded - ad.getIcon() - {ad.getImage()}");
+        
         if (nativeAdView)
         {
             nativeAdView.setNativeAd(ad);
