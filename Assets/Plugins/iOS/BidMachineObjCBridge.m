@@ -1149,7 +1149,7 @@ char * GetNativeIcon(){
     }
     const char *cString = [native.iconUrl UTF8String];
     char *cStringCopy = calloc([native.iconUrl length]+1, 1);
-    return strncpy(cStringCopy, cString, [native.mainImageUrl length]);
+    return strncpy(cStringCopy, cString, [native.iconUrl length]);
 }
 
 bool * NativeAdCanShow(){
