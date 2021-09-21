@@ -58,33 +58,25 @@ namespace BidMachineAds.Unity.Api
 
         public void destroyNativeView()
         {
-            nativeAd?.destroy();
             transform.gameObject.SetActive(false);
         }
 
         private void updateNativeAdView()
         {
             if (nativeAd == null) return;
-
-
             if (nativeAdViewTitle)
             {
                 nativeAdViewTitle.text = !string.IsNullOrEmpty(nativeAd.getTitle()) ? nativeAd.getTitle() : "";
             }
-
-
             if (nativeAdViewDescription)
             {
                 nativeAdViewDescription.text =
                     !string.IsNullOrEmpty(nativeAd.getDescription()) ? nativeAd.getDescription() : "";
             }
-
             if (nativeAdViewDescription)
             {
                 nativeAdViewSponsored.text = "Sponsored";
             }
-
-
             if (nativeAdViewRatting)
             {
                 nativeAdViewRatting.text =
@@ -92,7 +84,6 @@ namespace BidMachineAds.Unity.Api
                         ? nativeAd.getRating().ToString("0.0000")
                         : "";
             }
-
             if (callToAction.GetComponentInChildren<Text>())
             {
                 callToAction.GetComponentInChildren<Text>().text = !string.IsNullOrEmpty(nativeAd.getCallToAction())
@@ -116,7 +107,7 @@ namespace BidMachineAds.Unity.Api
             DispatchImpression();
         }
 
-        private IEnumerator DownloadImage(string url, RawImage image)
+        private static IEnumerator DownloadImage(string url, RawImage image)
         {
             var request = UnityWebRequestTexture.GetTexture(url);
             yield return request.SendWebRequest();
