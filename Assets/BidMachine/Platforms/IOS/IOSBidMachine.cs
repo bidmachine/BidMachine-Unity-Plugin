@@ -470,7 +470,15 @@ namespace BidMachineAds.Unity.iOS
             if (interstitialAdRequestListener == null) return;
             bridge.setInterstitialRequestDelegate(onInterstitialRequestSuccess, onInterstitialRequestFailed,
                 onInterstitialRequestExpired);
-            interstitialRequestListeners.Add(bridge.getIntPtr(), interstitialAdRequestListener);
+
+            if (interstitialRequestListeners.ContainsKey(bridge.getIntPtr()))
+            {
+                interstitialRequestListeners.Remove(bridge.getIntPtr());
+            }
+            else
+            {
+                interstitialRequestListeners.Add(bridge.getIntPtr(), interstitialAdRequestListener);
+            }
         }
 
         #region InterstitialRequestCallbacks
