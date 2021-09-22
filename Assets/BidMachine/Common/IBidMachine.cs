@@ -126,7 +126,7 @@ namespace BidMachineAds.Unity.Common
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IBannerRequest
     {
-        BannerSize getSize();
+        BannerSize? getSize();
         string getAuctionResult();
         bool isDestroyed();
         bool isExpired();
