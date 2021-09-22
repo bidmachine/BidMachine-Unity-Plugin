@@ -985,7 +985,7 @@ namespace BidMachineAds.Unity.iOS
             return bridge.getNativeObject();
         }
 
-        public BannerSize getSize()
+        public BannerSize? getSize()
         {
             return bridge.getSize();
         }
