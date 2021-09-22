@@ -805,7 +805,7 @@ namespace BidMachineAds.Unity.Api
             return nativeBannerRequest;
         }
 
-        public BannerSize getSize()
+        public BannerSize? getSize()
         {
             return nativeBannerRequest.getSize();
         }
