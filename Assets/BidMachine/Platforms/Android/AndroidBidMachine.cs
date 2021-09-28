@@ -103,7 +103,6 @@ namespace BidMachineAds.Unity.Android
             publisherBuilder.Call<AndroidJavaObject>("setId", Helper.getJavaObject(publisher.ID));
             publisherBuilder.Call<AndroidJavaObject>("setName", Helper.getJavaObject(publisher.Name));
             publisherBuilder.Call<AndroidJavaObject>("setDomain", Helper.getJavaObject(publisher.Domain));
-
             var list = new AndroidJavaObject("java.util.ArrayList");
             foreach (var obj in publisher.Categories)
             {
@@ -111,9 +110,7 @@ namespace BidMachineAds.Unity.Android
             }
 
             publisherBuilder.Call<AndroidJavaObject>("addCategories", list);
-
             var androidPublisher = publisherBuilder.Call<AndroidJavaObject>("build");
-
             getBidMachineClass().CallStatic("setPublisher", androidPublisher);
         }
 
@@ -161,7 +158,6 @@ namespace BidMachineAds.Unity.Android
         }
     }
 
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidTargetingParams : ITargetingParams
     {
@@ -218,19 +214,17 @@ namespace BidMachineAds.Unity.Android
 
         public void setKeyWords(string[] keyWords)
         {
-            if (keyWords.Length > 0)
+            if (keyWords.Length <= 0) return;
+            var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
+            var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
+                new AndroidJavaClass("java.lang.String"), keyWords.Length);
+            for (var i = 0; i < keyWords.Length; i++)
             {
-                var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
-                var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
-                    new AndroidJavaClass("java.lang.String"), keyWords.Length);
-                for (var i = 0; i < keyWords.Length; i++)
-                {
-                    arrayClass.CallStatic("set", arrayObject, i,
-                        new AndroidJavaObject("java.lang.String", keyWords[i]));
-                }
-
-                JavaTargetingParametrs.Call<AndroidJavaObject>("setKeywords", arrayObject);
+                arrayClass.CallStatic("set", arrayObject, i,
+                    new AndroidJavaObject("java.lang.String", keyWords[i]));
             }
+
+            JavaTargetingParametrs.Call<AndroidJavaObject>("setKeywords", arrayObject);
         }
 
         public void setCountry(string country)
@@ -360,7 +354,6 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class AndroidPriceFloorParams : IPriceFloorParams
     {
         private readonly AndroidJavaObject JavaPriceFloorParams;
@@ -703,12 +696,8 @@ namespace BidMachineAds.Unity.Android
 
         private AndroidJavaObject getRewardedRequestBuilder()
         {
-            if (rewardedRequestBuilder == null)
-            {
-                rewardedRequestBuilder = new AndroidJavaObject("io.bidmachine.rewarded.RewardedRequest$Builder");
-            }
-
-            return rewardedRequestBuilder;
+            return rewardedRequestBuilder ?? (rewardedRequestBuilder =
+                new AndroidJavaObject("io.bidmachine.rewarded.RewardedRequest$Builder"));
         }
 
         public AndroidJavaObject getJavaObject()
@@ -1377,6 +1366,18 @@ namespace BidMachineAds.Unity.Android
             {
                 jNativeAd.Call<AndroidJavaObject>("setListener", new AndroidNativeAdListener(nativeAdListener));
             }
+        }
+
+        public void dispatchClick(NativeAd nativeAd)
+        {
+            var androidNativeAd = (AndroidNativeAd)nativeAd.GetNativeAd();
+            jNativeAdDispatcher.CallStatic("dispatchClick", androidNativeAd.getJavaObject());
+        }
+
+        public void dispatchImpression(NativeAd nativeAd)
+        {
+            var androidNativeAd = (AndroidNativeAd)nativeAd.GetNativeAd();
+            jNativeAdDispatcher.CallStatic("dispatchShow", androidNativeAd.getJavaObject());
         }
     }
 
