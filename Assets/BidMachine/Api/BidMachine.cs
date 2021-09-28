@@ -491,7 +491,7 @@ namespace BidMachineAds.Unity.Api
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class NativeAdParams
     {
-        private MediaAssetType[] types = null;
+        private MediaAssetType[] types;
         public enum MediaAssetType { Icon, Image, }
         public void setMediaAssetTypes(params MediaAssetType[] type) {
             this.types = type;
@@ -1095,6 +1095,11 @@ namespace BidMachineAds.Unity.Api
             nativeAd = BidMachineClientFactory.GetNativeAd();
         }
 
+        public INativeAd GetNativeAd()
+        {
+            return nativeAd;
+        }
+        
         public NativeAd(INativeAd native)
         {
             nativeAd = native;
@@ -1120,14 +1125,14 @@ namespace BidMachineAds.Unity.Api
              return nativeAd.getRating();
          }
 
-         public string getIcon()
+         public string getIcon(NativeAd ad)
          {
-             return nativeAd.getIcon();
+             return nativeAd.getIcon(ad);
          }
 
-         public string getImage()
+         public string getImage(NativeAd ad)
          {
-             return nativeAd.getImage();
+             return nativeAd.getImage(ad);
          }
 
          public bool canShow()
