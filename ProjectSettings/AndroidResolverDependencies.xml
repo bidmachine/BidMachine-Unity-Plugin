@@ -1,5 +1,6 @@
 <dependencies>
   <packages>
+    <package>io.bidmachine:ads.extensions.unity:1.7.6.1</package>
     <package>io.bidmachine:ads:1.7.6</package>
   </packages>
   <files />
