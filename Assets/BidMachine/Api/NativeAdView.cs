@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
@@ -39,12 +37,12 @@ namespace BidMachineAds.Unity.Api
             DispatchClick();
         }
 
-        private void DispatchClick()
+        private static void DispatchClick()
         {
             Debug.Log("OnPointerClick - dispatchClick");
         }
 
-        public void DispatchImpression()
+        private void DispatchImpression()
         {
             Debug.Log("DispatchImpression");
         }
@@ -95,15 +93,14 @@ namespace BidMachineAds.Unity.Api
 
             if (nativeAdViewIcon)
             {
-                StartCoroutine(DownloadImage(nativeAd.getIcon(), nativeAdViewIcon));
+                StartCoroutine(DownloadImage(nativeAd.getIcon(nativeAd), nativeAdViewIcon));
             }
 
             if (nativeAdViewImage)
             {
-                StartCoroutine(DownloadImage(nativeAd.getImage(), nativeAdViewImage));
+                StartCoroutine(DownloadImage(nativeAd.getImage(nativeAd), nativeAdViewImage));
             }
-
-
+            
             DispatchImpression();
         }
 
