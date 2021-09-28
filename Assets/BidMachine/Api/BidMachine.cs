@@ -1135,6 +1135,16 @@ namespace BidMachineAds.Unity.Api
              return nativeAd.getImage(ad);
          }
 
+         public void dispatchClick(NativeAd ad)
+         {
+             nativeAd.dispatchClick(ad);
+         }
+         
+         public void dispatchImpression(NativeAd ad)
+         {
+             nativeAd.dispatchImpression(ad);
+         }
+
          public bool canShow()
          {
              return nativeAd.canShow();
