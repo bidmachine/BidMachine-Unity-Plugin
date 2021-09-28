@@ -149,6 +149,16 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to setListener(INativeAdListener nativeAdListener) {DUMMY_MESSAGE}");
         }
 
+        public void dispatchClick(NativeAd nativeAd)
+        {
+            Debug.LogWarning($"Call to dispatchClick(NativeAd nativeAd) {DUMMY_MESSAGE}");
+        }
+
+        public void dispatchImpression(NativeAd nativeAd)
+        {
+            Debug.LogWarning($"Call to dispatchImpression(NativeAd nativeAd) {DUMMY_MESSAGE}");
+        }
+
         public IBannerView getBannerView()
         {
             Debug.LogWarning($"Call to getBannerView() {DUMMY_MESSAGE}");
