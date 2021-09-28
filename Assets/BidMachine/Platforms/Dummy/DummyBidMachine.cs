@@ -94,13 +94,13 @@ namespace BidMachineAds.Unity.Dummy
             return string.Empty;
         }
 
-        public string getImage()
+        public string getImage(NativeAd nativeAd)
         {
             Debug.LogWarning($"Call to getImage() {DUMMY_MESSAGE}");
             return string.Empty;
         }
 
-        public string getIcon()
+        public string getIcon(NativeAd nativeAd)
         {
             Debug.LogWarning($"Call to getIcon() {DUMMY_MESSAGE}");
             return string.Empty;
