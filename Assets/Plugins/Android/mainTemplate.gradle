@@ -8,7 +8,7 @@
             url "https://maven.google.com"
         }
         maven {
-            url "https://artifactory.bidmachine.io/bidmachine" // Assets/BidMachine/Editor/BidMachineDependencies.xml:10
+            url "https://artifactory.bidmachine.io/bidmachine" // Assets/BidMachine/Editor/BidMachineDependencies.xml:11
         }
         mavenLocal()
         jcenter()
@@ -22,9 +22,8 @@ apply plugin: 'com.android.library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
+    implementation 'io.bidmachine:ads.extensions.unity:1.7.6.1' // Assets/BidMachine/Editor/BidMachineDependencies.xml:8
     implementation 'io.bidmachine:ads:1.7.6' // Assets/BidMachine/Editor/BidMachineDependencies.xml:7
-    implementation 'com.google.android.gms:play-services-ads-identifier:15.0.0'
-    implementation 'com.google.android.gms:play-services-basement:15.0.0'
 // Android Resolver Dependencies End
 **DEPS**}
 
