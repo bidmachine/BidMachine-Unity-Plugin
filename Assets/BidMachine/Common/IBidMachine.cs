@@ -198,8 +198,8 @@ namespace BidMachineAds.Unity.Common
         string getTitle();
         string getDescription();
         string getCallToAction();
-        string getImage();
-        string getIcon();
+        string getImage(NativeAd nativeAd);
+        string getIcon(NativeAd nativeAd);
         float getRating();
         bool canShow();
         void load(NativeRequest nativeRequest);
