@@ -37,14 +37,14 @@ namespace BidMachineAds.Unity.Api
             DispatchClick();
         }
 
-        private static void DispatchClick()
+        private void DispatchClick()
         {
-            Debug.Log("OnPointerClick - dispatchClick");
+            nativeAd?.dispatchClick(nativeAd);
         }
 
         private void DispatchImpression()
         {
-            Debug.Log("DispatchImpression");
+            nativeAd?.dispatchImpression(nativeAd);
         }
 
         public void setNativeAd(NativeAd ad)
@@ -66,15 +66,18 @@ namespace BidMachineAds.Unity.Api
             {
                 nativeAdViewTitle.text = !string.IsNullOrEmpty(nativeAd.getTitle()) ? nativeAd.getTitle() : "";
             }
+
             if (nativeAdViewDescription)
             {
                 nativeAdViewDescription.text =
                     !string.IsNullOrEmpty(nativeAd.getDescription()) ? nativeAd.getDescription() : "";
             }
+
             if (nativeAdViewDescription)
             {
                 nativeAdViewSponsored.text = "Sponsored";
             }
+
             if (nativeAdViewRatting)
             {
                 nativeAdViewRatting.text =
@@ -82,6 +85,7 @@ namespace BidMachineAds.Unity.Api
                         ? nativeAd.getRating().ToString("0.0000")
                         : "";
             }
+
             if (callToAction.GetComponentInChildren<Text>())
             {
                 callToAction.GetComponentInChildren<Text>().text = !string.IsNullOrEmpty(nativeAd.getCallToAction())
@@ -102,6 +106,7 @@ namespace BidMachineAds.Unity.Api
             }
             
             DispatchImpression();
+            
         }
 
         private static IEnumerator DownloadImage(string url, RawImage image)
