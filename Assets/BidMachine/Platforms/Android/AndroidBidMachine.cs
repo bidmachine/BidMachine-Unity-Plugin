@@ -1293,13 +1293,15 @@ namespace BidMachineAds.Unity.Android
     public class AndroidNativeAd : INativeAd
     {
         private readonly AndroidJavaObject jNativeAd;
-        private AndroidJavaClass jNativeAdDispatcher;
+
+        private readonly AndroidJavaClass
+            jNativeAdDispatcher = new AndroidJavaClass("io.bidmachine.NativeAdDispatcher");
+
         private AndroidJavaObject activity;
 
         public AndroidNativeAd()
         {
             jNativeAd = new AndroidJavaObject("io.bidmachine.nativead.NativeAd", getActivity());
-            jNativeAdDispatcher = new AndroidJavaClass("io.bidmachine.NativeAdDispatcher");
         }
 
         private AndroidJavaObject getActivity()
@@ -1338,13 +1340,13 @@ namespace BidMachineAds.Unity.Android
         public string getImage(NativeAd nativeAd)
         {
             var androidNativeAd = (AndroidNativeAd)nativeAd.GetNativeAd();
-            return jNativeAdDispatcher.CallStatic<string>("getImage", androidNativeAd.getJavaObject());
+            return jNativeAdDispatcher.CallStatic<string>("getImageUrl", androidNativeAd.getJavaObject());
         }
 
         public string getIcon(NativeAd nativeAd)
         {
             var androidNativeAd = (AndroidNativeAd)nativeAd.GetNativeAd();
-            return jNativeAdDispatcher.CallStatic<string>("getIcon", androidNativeAd.getJavaObject());
+            return jNativeAdDispatcher.CallStatic<string>("getIconUrl", androidNativeAd.getJavaObject());
         }
 
         public float getRating()
