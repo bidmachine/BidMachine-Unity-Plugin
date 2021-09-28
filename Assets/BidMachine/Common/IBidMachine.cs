@@ -205,5 +205,7 @@ namespace BidMachineAds.Unity.Common
         void load(NativeRequest nativeRequest);
         void destroy();
         void setListener(INativeAdListener nativeAdListener);
+        void dispatchClick(NativeAd nativeAd);
+        void dispatchImpression(NativeAd nativeAd);
     }
 }
