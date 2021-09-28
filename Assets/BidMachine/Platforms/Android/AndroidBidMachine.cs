@@ -1,4 +1,5 @@
 ﻿#if PLATFORM_ANDROID
+using System;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using BidMachineAds.Unity.Api;
@@ -814,15 +815,10 @@ namespace BidMachineAds.Unity.Android
                 var arrayObject = arrayClass.CallStatic<AndroidJavaObject>("newInstance",
                     new AndroidJavaClass("io.bidmachine.MediaAssetType"),
                     nativeAdParams.getMediaAssetTypes().Length);
-                for (int i = 0; i < nativeAdParams.getMediaAssetTypes().Length; i++)
+                for (var i = 0; i < nativeAdParams.getMediaAssetTypes().Length; i++)
                 {
                     switch (nativeAdParams.getMediaAssetTypes()[i])
                     {
-                        case NativeAdParams.MediaAssetType.Video:
-                            arrayClass.CallStatic("set", arrayObject, i,
-                                new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
-                                    "Video"));
-                            break;
                         case NativeAdParams.MediaAssetType.Image:
                             arrayClass.CallStatic("set", arrayObject, i,
                                 new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
@@ -833,11 +829,9 @@ namespace BidMachineAds.Unity.Android
                                 new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
                                     "Icon"));
                             break;
-                        case NativeAdParams.MediaAssetType.All:
-                            arrayClass.CallStatic("set", arrayObject, i,
-                                new AndroidJavaClass("io.bidmachine.MediaAssetType").GetStatic<AndroidJavaObject>(
-                                    "All"));
-                            break;
+
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
                 }
 
@@ -933,7 +927,7 @@ namespace BidMachineAds.Unity.Android
             return bannerRequest;
         }
 
-        public BannerSize getSize()
+        public BannerSize? getSize()
         {
             var bannerSize = BannerSize.Size_320х50;
             var banner = bannerRequest.Call<AndroidJavaObject>("getSize").Call<string>("toString");
@@ -1250,11 +1244,9 @@ namespace BidMachineAds.Unity.Android
 
         private AndroidJavaObject getActivity()
         {
-            if (activity == null)
-            {
-                AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-            }
+            if (activity != null) return activity;
+            var playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
 
             return activity;
         }
@@ -1301,11 +1293,13 @@ namespace BidMachineAds.Unity.Android
     public class AndroidNativeAd : INativeAd
     {
         private readonly AndroidJavaObject jNativeAd;
+        private AndroidJavaClass jNativeAdDispatcher;
         private AndroidJavaObject activity;
 
         public AndroidNativeAd()
         {
             jNativeAd = new AndroidJavaObject("io.bidmachine.nativead.NativeAd", getActivity());
+            jNativeAdDispatcher = new AndroidJavaClass("io.bidmachine.NativeAdDispatcher");
         }
 
         private AndroidJavaObject getActivity()
@@ -1321,6 +1315,11 @@ namespace BidMachineAds.Unity.Android
             jNativeAd = javaNativeAd;
         }
 
+        public AndroidJavaObject getJavaObject()
+        {
+            return jNativeAd;
+        }
+
         public string getTitle()
         {
             return jNativeAd.Call<string>("getTitle");
@@ -1334,6 +1333,18 @@ namespace BidMachineAds.Unity.Android
         public string getCallToAction()
         {
             return jNativeAd.Call<string>("getCallToAction");
+        }
+
+        public string getImage(NativeAd nativeAd)
+        {
+            var androidNativeAd = (AndroidNativeAd)nativeAd.GetNativeAd();
+            return jNativeAdDispatcher.CallStatic<string>("getImage", androidNativeAd.getJavaObject());
+        }
+
+        public string getIcon(NativeAd nativeAd)
+        {
+            var androidNativeAd = (AndroidNativeAd)nativeAd.GetNativeAd();
+            return jNativeAdDispatcher.CallStatic<string>("getIcon", androidNativeAd.getJavaObject());
         }
 
         public float getRating()
