@@ -791,6 +791,7 @@ namespace BidMachineAds.Unity.Api
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "PossibleInvalidOperationException")]
     public class BannerRequest
     {
         private readonly IBannerRequest nativeBannerRequest;
@@ -805,9 +806,9 @@ namespace BidMachineAds.Unity.Api
             return nativeBannerRequest;
         }
 
-        public BannerSize? getSize()
+        public BannerSize getSize()
         {
-            return nativeBannerRequest.getSize();
+            return (BannerSize)nativeBannerRequest.getSize();
         }
 
         public string getAuctionResult()
@@ -940,9 +941,9 @@ namespace BidMachineAds.Unity.Api
             return nativeBanner;
         }
 
-        public void showBannerView(int YAxis, int XAxis, BannerView bannerView)
+        public void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
-            nativeBanner.showBannerView(YAxis, XAxis, bannerView);
+            nativeBanner.showBannerView(YAxis, XAxis, bannerView, bannerSize);
         }
 
         public void hideBannerView()
