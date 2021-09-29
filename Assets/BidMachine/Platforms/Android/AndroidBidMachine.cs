@@ -1064,10 +1064,6 @@ namespace BidMachineAds.Unity.Android
         private AndroidJavaObject bidMachineBannerInstance;
         private AndroidJavaObject javaBannerView;
         private AndroidJavaObject activity;
-        private BannerView internalBannerView;
-
-        private int internalYAxis;
-        private int internalXAxis;
 
         private AndroidJavaObject getActivity()
         {
@@ -1082,26 +1078,18 @@ namespace BidMachineAds.Unity.Android
         {
             if (bidMachineBannerInstance != null) return bidMachineBannerInstance;
             bidMachineBannerClass =
-                new AndroidJavaClass("com.bidmachine.bidmachineunity.BidMachineUnityBannerView");
-            bidMachineBannerInstance = bidMachineBannerClass.CallStatic<AndroidJavaObject>("getInstance");
+                new AndroidJavaClass("io.bidmachine.ads.extensions.unity.banner.BannerShowHelper");
+            bidMachineBannerInstance = bidMachineBannerClass.CallStatic<AndroidJavaObject>("get");
 
             return bidMachineBannerInstance;
         }
 
-        public void showBannerView(int YAxis, int XAxis, BannerView bannerView)
+        public void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
-            internalBannerView = bannerView;
-            internalXAxis = XAxis;
-            internalYAxis = XAxis;
-            getActivity().Call("runOnUiThread", new AndroidJavaRunnable(runOnUiThread));
-        }
-
-        private void runOnUiThread()
-        {
-            AndroidBannerView aBannerView = (AndroidBannerView)internalBannerView.GetBannerView();
-            AndroidJavaObject jBannerView = aBannerView.getJavaObject();
+            var aBannerView = (AndroidBannerView)bannerView.GetBannerView();
+            var jBannerView = aBannerView.getJavaObject();
             getBidMachineBannerInstance()
-                .Call("showAdView", getActivity(), internalXAxis, internalYAxis, jBannerView);
+                .Call("show", getActivity(), XAxis, YAxis, jBannerView);
         }
 
         public void hideBannerView()
