@@ -10,13 +10,13 @@ namespace BidMachineAds.Unity.Api
     [SuppressMessage("ReSharper", "InvalidXmlDocComment")]
     public class BidMachine
     {
-        public static int BANNER_HORIZONTAL_SMART = -1;
-        public static int BANNER_HORIZONTAL_CENTER = -2;
-        public static int BANNER_HORIZONTAL_LEFT = -4;
-        public static int BANNER_HORIZONTAL_RIGHT = -3;
+        public static int BANNER_HORIZONTAL_CENTER = 1;
+        public static int BANNER_HORIZONTAL_LEFT = 3;
+        public static int BANNER_HORIZONTAL_RIGHT = 5;
 
-        public static int BANNER_TOP = 1;
-        public static int BANNER_BOTTOM = 2;
+        public static int BANNER_VERTICAL_CENTER = 16;
+        public static int BANNER_VERTICAL_TOP = 48;
+        public static int BANNER_VERTICAL_BOTTOM = 80;
 
         private static IBidMachine client;
 
@@ -922,42 +922,6 @@ namespace BidMachineAds.Unity.Api
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class Banner
-    {
-        private readonly IBanner nativeBanner;
-
-        public Banner()
-        {
-            nativeBanner = BidMachineClientFactory.GetAndroidBanner();
-        }
-
-        public Banner(IBanner banner)
-        {
-            nativeBanner = banner;
-        }
-
-        public IBanner GetBanner()
-        {
-            return nativeBanner;
-        }
-
-        public void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
-        {
-            nativeBanner.showBannerView(YAxis, XAxis, bannerView, bannerSize);
-        }
-
-        public void hideBannerView()
-        {
-            nativeBanner.hideBannerView();
-        }
-
-        public BannerView GetBannerView()
-        {
-            return new BannerView(nativeBanner.getBannerView());
-        }
-    }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BannerView
     {
         private readonly IBannerView nativeBannerView;
@@ -990,6 +954,16 @@ namespace BidMachineAds.Unity.Api
         public void setListener(IBannerListener bannerViewListener)
         {
             nativeBannerView.setListener(bannerViewListener);
+        }
+        
+        public void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
+        {
+            nativeBannerView.showBannerView(YAxis, XAxis, bannerView, bannerSize);
+        }
+
+        public void hideBannerView()
+        {
+            nativeBannerView.hideBannerView();
         }
     }
 
