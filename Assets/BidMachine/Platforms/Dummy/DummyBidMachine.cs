@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using BidMachineAds.Unity.Android;
+﻿using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using UnityEngine;
@@ -12,9 +9,8 @@ namespace BidMachineAds.Unity.Dummy
     public class DummyBidMachine : IBidMachine, ITargetingParams, IPriceFloorParams, IInterstitialRequestBuilder,
         IInterstitialAd, IInterstitialRequest,
         IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder,
-        IBannerRequest, IBannerView, IBanner, ISessionAdParams, INativeAd, INativeRequestBuilder
+        IBannerRequest, IBannerView, ISessionAdParams, INativeAd, INativeRequestBuilder
     {
-        
         
         private const string DUMMY_MESSAGE =
             "on not supported platform. To test advertising, install your application on the Android/iOS device.";
@@ -157,12 +153,6 @@ namespace BidMachineAds.Unity.Dummy
         public void dispatchImpression(NativeAd nativeAd)
         {
             Debug.LogWarning($"Call to dispatchImpression(NativeAd nativeAd) {DUMMY_MESSAGE}");
-        }
-
-        public IBannerView getBannerView()
-        {
-            Debug.LogWarning($"Call to getBannerView() {DUMMY_MESSAGE}");
-            return null;
         }
 
         public void hideBannerView()
@@ -362,9 +352,10 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to show() {DUMMY_MESSAGE}");
         }
 
-        public void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
+        public bool showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
             Debug.LogWarning($"Call to showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize) {DUMMY_MESSAGE}");
+            return false;
         }
 
         IInterstitialRequest IInterstitialRequestBuilder.build()
