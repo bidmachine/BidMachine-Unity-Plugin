@@ -36,7 +36,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     private BannerRequest bannerRequest;
     private BannerRequestBuilder bannerRequestBuilder;
     private BannerView bannerView;
-    private Banner banner;
 
     private void Start()
     {
@@ -158,25 +157,23 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             .setListener(this)
             .build();
 
-        banner = new Banner();
-        bannerView = banner.GetBannerView();
-
+        bannerView = new BannerView();
         bannerView.setListener(this);
         bannerView.load(bannerRequest);
     }
 
     public void ShowBannerView()
     {
-        banner.showBannerView(
-            BidMachine.BANNER_BOTTOM,
+        bannerView.showBannerView(
+            BidMachine.BANNER_VERTICAL_BOTTOM,
             BidMachine.BANNER_HORIZONTAL_CENTER,
             bannerView, bannerRequest.getSize());
     }
 
     public void DestroyBanner()
     {
+        bannerView.hideBannerView();
         bannerView.destroy();
-        banner.hideBannerView();
     }
 
     #endregion
