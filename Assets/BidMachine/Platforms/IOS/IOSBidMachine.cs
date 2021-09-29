@@ -16,6 +16,7 @@ namespace BidMachineAds.Unity.iOS
     public class iOSBidMachine : IBidMachine
     {
         public const string DUMMY_MESSAGE = "method doesn't support on iOS platform";
+
         private const int GENDER_MALE = 1;
         private const int GENDER_FEMALE = 2;
         private const int GENDER_UNKNOWN = 3;
@@ -1474,12 +1475,12 @@ namespace BidMachineAds.Unity.iOS
             return bridge.getCallToAction();
         }
 
-        public string getImage()
+        public string getImage(NativeAd nativeAd)
         {
             return bridge.getImage();
         }
 
-        public string getIcon()
+        public string getIcon(NativeAd nativeAd)
         {
             return bridge.getIcon();
         }
@@ -1519,6 +1520,16 @@ namespace BidMachineAds.Unity.iOS
                 nativeAdImpression, nativeAdExpired);
 
             nativeListeners.Add(bridge.NativeObject, nativeAdListener);
+        }
+
+        public void dispatchClick(NativeAd nativeAd)
+        {
+            Debug.Log("Not support on iOS platform");
+        }
+
+        public void dispatchImpression(NativeAd nativeAd)
+        {
+            Debug.Log("Not support on iOS platform");
         }
 
         #region NativeAdDelegate
