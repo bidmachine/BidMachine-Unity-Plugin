@@ -818,9 +818,10 @@ namespace BidMachineAds.Unity.iOS
             BannerViewDestroy();
         }
 
-        public void show(int YAxis, int XAxis)
+        public bool show(int YAxis, int XAxis)
         {
             BannerViewShow(YAxis, XAxis);
+            return true;
         }
 
         public void load(IntPtr bannerViewRequest)
