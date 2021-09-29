@@ -134,7 +134,7 @@ namespace BidMachineAds.Unity
         internal static IBannerView GetAndroidBannerView()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidBanner().getBannerView();
+          return new BidMachineAds.Unity.Android.AndroidBannerView();
 #elif UNITY_IPHONE && !UNITY_EDITOR
           return new BidMachineAds.Unity.iOS.iOSBannerView();
 #else
@@ -142,15 +142,5 @@ namespace BidMachineAds.Unity
 #endif
         }
 
-        internal static IBanner GetAndroidBanner()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidBanner();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSBanner();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
     }
 }
