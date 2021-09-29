@@ -1058,35 +1058,45 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class AndroidBanner : IBanner
+    public class AndroidBannerView : IBannerView
     {
         private AndroidJavaClass bidMachineBannerClass;
-        private AndroidJavaObject bidMachineBannerInstance;
-        private AndroidJavaObject javaBannerView;
+        private readonly AndroidJavaObject javaBannerView;
         private AndroidJavaObject activity;
+
+        public AndroidBannerView()
+        {
+            javaBannerView = new AndroidJavaObject("io.bidmachine.banner.BannerView", getActivity());
+        }
+
+        public AndroidBannerView(AndroidJavaObject bannerView)
+        {
+            javaBannerView = bannerView;
+        }
 
         private AndroidJavaObject getActivity()
         {
             if (activity != null) return activity;
             var playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-
             return activity;
         }
 
-        private AndroidJavaObject getBidMachineBannerInstance()
+        private AndroidJavaClass getBidMachineBannerClass()
         {
-            if (bidMachineBannerInstance != null) return bidMachineBannerInstance;
-            bidMachineBannerClass =
-                new AndroidJavaClass("io.bidmachine.ads.extensions.unity.banner.BannerShowHelper");
-            bidMachineBannerInstance = bidMachineBannerClass.CallStatic<AndroidJavaObject>("get");
-
-            return bidMachineBannerInstance;
+            return bidMachineBannerClass ?? (bidMachineBannerClass =
+                new AndroidJavaClass("io.bidmachine.ads.extensions.unity.banner.BannerShowHelper"));
         }
 
-        public void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
+        private AndroidJavaObject getAndroidJavaObjectBannerView()
+        {
+            return javaBannerView;
+        }
+
+        public bool showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
             AndroidJavaObject jBannerSize;
+
             switch (bannerSize)
             {
                 case BannerSize.Size_320х50:
@@ -1098,55 +1108,32 @@ namespace BidMachineAds.Unity.Android
                 case BannerSize.Size_300х250:
                 {
                     jBannerSize = new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
-                            "Size_300x250");
+                        "Size_300x250");
                     break;
                 }
                 case BannerSize.Size_728х90:
                 {
-                    jBannerSize = 
+                    jBannerSize =
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                             "Size_728x90");
                     break;
                 }
                 default:
-                    jBannerSize = 
+                    jBannerSize =
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                             "Size_320x50");
                     break;
             }
 
             var aBannerView = (AndroidBannerView)bannerView.GetBannerView();
-            var jBannerView = aBannerView.getJavaObject();
-            getBidMachineBannerInstance()
-                .Call("show", getActivity(), jBannerView, jBannerSize, XAxis, YAxis);
+           return getBidMachineBannerClass()
+                .Call<bool>("show", getActivity(), aBannerView.getAndroidJavaObjectBannerView(), jBannerSize,
+                    XAxis, YAxis);
         }
 
         public void hideBannerView()
         {
-            getBidMachineBannerInstance().Call("hidePopUpWindow", getActivity());
-        }
-
-        public IBannerView getBannerView()
-        {
-            javaBannerView = new AndroidJavaObject("io.bidmachine.banner.BannerView", getActivity());
-            javaBannerView = getBidMachineBannerInstance().Call<AndroidJavaObject>("getBannerView", getActivity());
-            return new AndroidBannerView(javaBannerView);
-        }
-    }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class AndroidBannerView : IBannerView
-    {
-        private readonly AndroidJavaObject javaBannerView;
-
-        public AndroidBannerView(AndroidJavaObject bannerView)
-        {
-            javaBannerView = bannerView;
-        }
-
-        public AndroidJavaObject getJavaObject()
-        {
-            return javaBannerView;
+            getBidMachineBannerClass().Call("hide");
         }
 
         public void destroy()
