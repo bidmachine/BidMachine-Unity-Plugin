@@ -1086,10 +1086,39 @@ namespace BidMachineAds.Unity.Android
 
         public void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
+            AndroidJavaObject jBannerSize;
+            switch (bannerSize)
+            {
+                case BannerSize.Size_320х50:
+                {
+                    jBannerSize = new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
+                        "Size_320x50");
+                    break;
+                }
+                case BannerSize.Size_300х250:
+                {
+                    jBannerSize = new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
+                            "Size_300x250");
+                    break;
+                }
+                case BannerSize.Size_728х90:
+                {
+                    jBannerSize = 
+                        new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
+                            "Size_728x90");
+                    break;
+                }
+                default:
+                    jBannerSize = 
+                        new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
+                            "Size_320x50");
+                    break;
+            }
+
             var aBannerView = (AndroidBannerView)bannerView.GetBannerView();
             var jBannerView = aBannerView.getJavaObject();
             getBidMachineBannerInstance()
-                .Call("show", getActivity(), XAxis, YAxis, jBannerView);
+                .Call("show", getActivity(), jBannerView, jBannerSize, XAxis, YAxis);
         }
 
         public void hideBannerView()
