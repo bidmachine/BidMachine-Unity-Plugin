@@ -362,9 +362,9 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to show() {DUMMY_MESSAGE}");
         }
 
-        public void showBannerView(int YAxis, int XAxis, BannerView bannerView)
+        public void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
-            Debug.LogWarning($"Call to showBannerView(int YAxis, int XAxis, BannerView bannerView) {DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize) {DUMMY_MESSAGE}");
         }
 
         IInterstitialRequest IInterstitialRequestBuilder.build()
