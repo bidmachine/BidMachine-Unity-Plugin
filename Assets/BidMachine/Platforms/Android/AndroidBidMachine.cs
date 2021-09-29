@@ -9,6 +9,7 @@ using UnityEngine.Android;
 namespace BidMachineAds.Unity.Android
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
     [SuppressMessage("ReSharper", "RedundantAssignment")]
     public class AndroidBidMachine : IBidMachine
     {
@@ -159,6 +160,7 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class AndroidTargetingParams : ITargetingParams
     {
         private readonly AndroidJavaObject JavaTargetingParametrs;
@@ -354,6 +356,7 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class AndroidPriceFloorParams : IPriceFloorParams
     {
         private readonly AndroidJavaObject JavaPriceFloorParams;
@@ -445,6 +448,7 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
     public class AndroidBannerRequestBuilder : IBannerRequestBuilder
     {
         private AndroidJavaObject bannerRequest;
@@ -568,6 +572,7 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
     public class AndroidInterstitialRequestBuilder : IInterstitialRequestBuilder
     {
         private AndroidJavaObject interstitialRequestBuilder;
@@ -689,6 +694,7 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
     public class AndroidRewardedRequestBuilder : IRewardedRequestBuilder
     {
         private AndroidJavaObject rewardedRequest;
@@ -780,6 +786,7 @@ namespace BidMachineAds.Unity.Android
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "UnusedType.Global")]
     public class AndroidNativeRequestBuilder : INativeRequestBuilder
     {
         private AndroidJavaObject jNativeRequest;
@@ -1082,10 +1089,11 @@ namespace BidMachineAds.Unity.Android
             return activity;
         }
 
-        private AndroidJavaClass getBidMachineBannerClass()
+        private AndroidJavaObject getBannerShowHelper()
         {
             return bidMachineBannerClass ?? (bidMachineBannerClass =
-                new AndroidJavaClass("io.bidmachine.ads.extensions.unity.banner.BannerShowHelper"));
+                    new AndroidJavaClass("io.bidmachine.ads.extensions.unity.banner.BannerShowHelper"))
+                .CallStatic<AndroidJavaObject>("get");
         }
 
         private AndroidJavaObject getAndroidJavaObjectBannerView()
@@ -1096,7 +1104,6 @@ namespace BidMachineAds.Unity.Android
         public bool showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
             AndroidJavaObject jBannerSize;
-
             switch (bannerSize)
             {
                 case BannerSize.Size_320х50:
@@ -1126,14 +1133,14 @@ namespace BidMachineAds.Unity.Android
             }
 
             var aBannerView = (AndroidBannerView)bannerView.GetBannerView();
-           return getBidMachineBannerClass()
-                .Call<bool>("show", getActivity(), aBannerView.getAndroidJavaObjectBannerView(), jBannerSize,
-                    XAxis, YAxis);
+            return getBannerShowHelper().Call<bool>("show", getActivity(), aBannerView.getAndroidJavaObjectBannerView(),
+                jBannerSize,
+                XAxis, YAxis);
         }
 
         public void hideBannerView()
         {
-            getBidMachineBannerClass().Call("hide");
+            getBannerShowHelper().Call("hide");
         }
 
         public void destroy()
