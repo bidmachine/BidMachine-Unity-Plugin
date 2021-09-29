@@ -1141,37 +1141,6 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class iOSBanner : IBanner
-    {
-        private readonly BannerViewObjCBridge bridge;
-
-        public iOSBanner()
-        {
-            bridge = new BannerViewObjCBridge();
-        }
-
-        public IBannerView getBannerView()
-        {
-            return new iOSBannerView();
-        }
-
-        public IBannerView getBannerView(IntPtr bannerView)
-        {
-            return new iOSBannerView(bannerView);
-        }
-
-        public void hideBannerView()
-        {
-            bridge.destroy();
-        }
-
-        public void showBannerView(int YAxis, int XAxis, BannerView bannerView)
-        {
-            bridge.show(YAxis, XAxis);
-        }
-    }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class iOSBannerView : IBannerView
     {
         private static readonly Dictionary<IntPtr, IBannerListener> bannerListeners =
@@ -1184,7 +1153,7 @@ namespace BidMachineAds.Unity.iOS
             bridge = new BannerViewObjCBridge();
         }
 
-        public iOSBannerView(IntPtr ad)
+        private iOSBannerView(IntPtr ad)
         {
             bridge = new BannerViewObjCBridge(ad);
         }
@@ -1224,6 +1193,16 @@ namespace BidMachineAds.Unity.iOS
                 bannerAdExpired);
 
             bannerListeners.Add(bridge.GetIntPtr(), bannerListener);
+        }
+
+        public bool showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
+        {
+            return bridge.show(YAxis, XAxis);
+        }
+
+        public void hideBannerView()
+        {
+            bridge.destroy();
         }
 
         #region BannerAd Delegate
