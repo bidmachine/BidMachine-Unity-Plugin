@@ -900,7 +900,7 @@ void BannerViewShow(int YAxis, int XAxis){
     [bannerView setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     switch (YAxis) {
-        case 2:
+        case 80:
             if (@available(iOS 11.0, *)) {
                 [[[[bannerView safeAreaLayoutGuide] bottomAnchor] constraintEqualToAnchor:RootViewController().view.safeAreaLayoutGuide.bottomAnchor] setActive:YES];
             } else {
@@ -908,7 +908,7 @@ void BannerViewShow(int YAxis, int XAxis){
                 break;
             }
             break;
-        case 1:
+        case 48:
             if (@available(iOS 11.0, *)) {
                 [[[[bannerView safeAreaLayoutGuide] topAnchor]
                   constraintEqualToAnchor:RootViewController().view.safeAreaLayoutGuide.topAnchor] setActive:YES];
@@ -917,16 +917,26 @@ void BannerViewShow(int YAxis, int XAxis){
                 [[[bannerView topAnchor] constraintEqualToAnchor:RootViewController().view.topAnchor] setActive:YES];
                 break;
             }
+        case 16:
+            if (@available(iOS 11.0, *)) {
+                [[[[bannerView safeAreaLayoutGuide] topAnchor]
+                  constraintEqualToAnchor:RootViewController().view.safeAreaLayoutGuide.centerYAnchor] setActive:YES];
+                break;
+            } else {
+                [[[bannerView topAnchor] constraintEqualToAnchor:RootViewController().view.centerYAnchor] setActive:YES];
+                break;
+            }
+            
     }
     
     switch (XAxis) {
-        case -2:
+        case 1:
             [[[bannerView centerXAnchor] constraintEqualToAnchor:RootViewController().view.centerXAnchor] setActive:YES];
             break;
-        case -3:
+        case 3:
             [[[bannerView rightAnchor] constraintEqualToAnchor:RootViewController().view.rightAnchor] setActive:YES];
             break;
-        case -4:
+        case 5:
             [[[bannerView leftAnchor] constraintEqualToAnchor:RootViewController().view.leftAnchor] setActive:YES];
             break;
     }
