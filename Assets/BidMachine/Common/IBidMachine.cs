@@ -159,19 +159,13 @@ namespace BidMachineAds.Unity.Common
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IBannerView
     {
+        bool showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize);
+        void hideBannerView();
         void setListener(IBannerListener bannerViewListener);
         void load(BannerRequest bannerRequest);
         void destroy();
     }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public interface IBanner
-    {
-        void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize);
-        void hideBannerView();
-        IBannerView getBannerView();
-    }
-
+    
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IInterstitialAd
     {
