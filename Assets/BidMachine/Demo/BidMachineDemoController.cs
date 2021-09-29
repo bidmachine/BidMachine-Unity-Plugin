@@ -170,7 +170,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         banner.showBannerView(
             BidMachine.BANNER_BOTTOM,
             BidMachine.BANNER_HORIZONTAL_CENTER,
-            bannerView);
+            bannerView, bannerRequest.getSize());
     }
 
     public void DestroyBanner()
