@@ -956,9 +956,9 @@ namespace BidMachineAds.Unity.Api
             nativeBannerView.setListener(bannerViewListener);
         }
         
-        public void showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
+        public bool showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
-            nativeBannerView.showBannerView(YAxis, XAxis, bannerView, bannerSize);
+           return nativeBannerView.showBannerView(YAxis, XAxis, bannerView, bannerSize);
         }
 
         public void hideBannerView()
