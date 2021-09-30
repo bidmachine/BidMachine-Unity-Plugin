@@ -15,19 +15,22 @@ https://mega.nz/#!MyoR0Sqb!Bu8Ec20jtRBaREqGme67Av25_wSEB-0rVVj4UjzRV2U
 
 # Step 2. Project configuration 
 
-Android 
+2.1 Android 
 
-2.1. External Dependency Manager (Play Services Resolver)
-BidMachine Unity Plugin includes External Dependency Manager package.  You need to complete these following steps to resolve Appodeal's dependencies:
+Requirements:
+- Min Android SDK version - 15 (4.0.3 - 4.0.4, Ice Cream Sandwich).
 
-- After the import Appodeal Unity Plugin, in the Unity editor select File → Build Settings → Android.
+2.1.1 External Dependency Manager (Play Services Resolver)
+BidMachine Unity Plugin includes External Dependency Manager package.  You need to complete these following steps to resolve BidMachine's dependencies:
+
+- After the import BidMachine Unity Plugin, in the Unity editor select File → Build Settings → Android.
 - Add flag Custom Gradle Template for Unity 2017.4 - Unity 2019.2 versions or Custom Main Gradle Template for Unity 2019.3 or higher (Build Settings → Player Settings → Publishing settings).
 - Enable the setting "Patch mainTemplate.gradle" (Assets → External Dependency Manager → Android Resolver → Settings).
 - Enable the setting "Use Jetifier" (Assets → External Dependency Manager → Android Resolver → Settings).
 - Then run Assets → External Dependency Manager → Android Resolver and press Resolve or Force Resolve.
-- As a result, the modules, that are required for the Appodeal SDK support, will be imported to project's mainTemplate.gradle file.
+- As a result, the modules, that are required for the BidMachine SDK support, will be imported to project's mainTemplate.gradle file.
 
-2.2 Request runtime permissions in Android Marshmallow (API 6.0+)
+2.1.2 Request runtime permissions in Android Marshmallow (API 6.0+)
 
 SDK can automatically track user device location in order to serve better ads. To make it work for Android 6.0, you should request "android.permission.ACCESS_COARSE_LOCATION" and "android.permission.ACCESS_FINE_LOCATION":
 
@@ -38,14 +41,30 @@ BidMachine.checkAndroidPermissions(Permission.FineLocation));</strong></code></p
 <p>To request permissions you should use this method:<br> 
 <code><strong>BidMachine.requestAndroidPermissions();</strong></code></p>
 
+2.1.3 Multidex support
+
+- If you are using Unity 2019.2 and versions below you need to add Multidex support to your project. Follow this guide to add Multidex.
+- If you are using Unity 2019.3 or higher go to Player Settings → Publishing Settings → Other Settings and change Minimum API Level to 21 or higher.
 
 
+2.2 iOS 
 
+Requirements:
+- iOS 10.0+
+- Xcode: 12.0+
 
+2.2.1 External Dependency Manager (Play Services Resolver)
+BidMachine Unity Plugin includes External Dependency Manager package. You need to complete these following steps to resolve BidMachine's dependencies:
 
+- After the import Appodeal Unity Plugin, in the Unity editor select File → Build Settings → iOS.
+- During build a project the modules, that are required for the Appodeal SDK support, will be imported to your project. You can edit them or add other modules in the Assets → Appodeal → Editor → AppodealDependencies.xml file.
+
+# Step 3. Integration
+
+Initialize SDK, and set your SellerId. (To get your SELLER_ID, visit our website or contact the support.)
 
 <p>To initialize SDK and set your SellerId you should use this method:<br>
-<code><strong>BidMachine.initialize(String);</strong></code></p>
+<code><strong>BidMachine.initialize("YOUR_SELLER_ID");</strong></code></p>
 
 <p>To enable logs use this method:<br>
 <code><strong>BidMachine.setLoggingEnabled(Boolean);</strong></code></p>
@@ -53,20 +72,50 @@ BidMachine.checkAndroidPermissions(Permission.FineLocation));</strong></code></p
 <p>To enable test mode:<br>
 <code><strong>BidMachine.setTestMode(Boolean);</strong></code></p>
 
+<p>To Set your endpoint if required:<br>
+<code><strong>BidMachine.setEndpoint(Boolean);</strong></code></p>
+
+<p>To check if BidMachine SDK was initialized:<br>
+<code><strong>BidMachine.isInitialized();</strong></code></p>
+
+
+# Request parameters
+
+Global Parameters
+
+<p>Set default Targeting params:<br>
+<code><strong>BidMachine.setTargetingParams(...):</strong></code></p>
+
+<p>Set consent config:<br>
+<code><strong>BidMachine.setConsentConfig(...):</strong></code></p>
+
+<p>Set subject to GDPR:<br>
+<code><strong>BidMachine.setSubjectToGDPR(...):</strong></code></p>
+
+<p>Set COPPA:<br>
+<code><strong>BidMachine.setCoppa(...):</strong></code></p>
+
+<p>Set CCPA U.S. Privacy String:<br>
+<code><strong>BidMachine.setUSPrivacyString(...):</strong></code></p>
+
+<p>Sets publisher information:<br>
+<code><strong>BidMachine.setPublisher(...):</strong></code></p>
+
+# User Restriction Parameters 
+
+Param Header | Type Header | Description Header
+------------ | ------------- | -------------
+Content from cell 1 | Content from cell 2 | 
+Content in the first column | Content in the second column
 
 
 
-
-# REQUEST PARAMETRS
-<p>To set default Targeting params use a method:<br>
-<code><strong>BidMachine.setTargetingParams(TargetingParams targetingParams):</strong></code></p>
- 
 # TARGETING PARAMS
 <p><code><strong>TargetingParams targetingParams = new TargetingParams();</strong></code><br>
-<code><strong>targetingParams.setUserId("1");</strong></code><br>
+<code><strong>targetingParams.setUserId("USER_ID");</strong></code><br>
 <code><strong>targetingParams.setGender(TargetingParams.Gender.Male);</strong></code><br>
 <code><strong>targetingParams.setBirthdayYear(1990);</strong></code><br>
-<code><strong>targetingParams.setKeyWords(new string[] { "games", "sport" });</strong></code><br>
+<code><strong>targetingParams.setKeyWords(new string[] { "key_word_example", "key_word_example" });</strong></code><br>
 <code><strong>targetingParams.setDeviceLocation(40.730610, 73.935242);</strong></code><br>
 <code><strong>targetingParams.setCountry("USA");</strong></code><br>
 <code><strong>targetingParams.setCity("New-York");</strong></code><br>
