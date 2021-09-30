@@ -274,59 +274,156 @@ public class BidMachineController : MonoBehaviour, IBannerRequestListener, IBann
     bannerView.load(bannerRequest); // Load banner ad
 
     #region BannerRequestListener
-
-    public void onBannerRequestSuccess(BannerRequest request, string auctionResult) { Debug.Log("BidMachineUnity: onBannerRequestSuccess"); }
-    public void onBannerRequestFailed(BannerRequest request, BMError error) { Debug.Log("BannerRequestListener - onBannerRequestFailed" + $" - {error.code} - {error.message}"); }
-    public void onBannerRequestExpired(BannerRequest request) { Debug.Log("BannerRequestListener - onBannerRequestExpired"); }
-
+    public void onBannerRequestSuccess(BannerRequest request, string auctionResult) { 
+        Debug.Log("BidMachineUnity: onBannerRequestSuccess"); }
+    public void onBannerRequestFailed(BannerRequest request, BMError error) { 
+        Debug.Log("BannerRequestListener - onBannerRequestFailed" + $" - {error.code} - {error.message}"); }
+    public void onBannerRequestExpired(BannerRequest request) { 
+        Debug.Log("BannerRequestListener - onBannerRequestExpired"); }
     #endregion
 
     #region BannerListener
-
-    public void onBannerAdLoaded(BannerView ad) { Debug.Log("BidMachineUnity: BannerView - onAdLoaded"); }
-    public void onBannerAdLoadFailed(BannerView ad, BMError error) { Debug.Log("BidMachineUnity: BannerView - onAdLoadFailed"); }
-    public void onBannerAdShown(BannerView ad){  Debug.Log("BidMachineUnity: BannerView - onAdShown");}
-    public void onBannerAdImpression(BannerView ad) { Debug.Log("BidMachineUnity: BannerView - onAdImpression"); }
-    public void onBannerAdClicked(BannerView ad) { Debug.Log("BidMachineUnity: BannerView - onAdClicked"); }
-    public void onBannerAdExpired(BannerView ad) { Debug.Log("BidMachineUnity: BannerView - onAdExpired"); }
-
+    public void onBannerAdLoaded(BannerView ad) { 
+        Debug.Log("BidMachineUnity: BannerView - onAdLoaded"); }
+    public void onBannerAdLoadFailed(BannerView ad, BMError error) { 
+        Debug.Log("BidMachineUnity: BannerView - onAdLoadFailed"); }
+    public void onBannerAdShown(BannerView ad) {  
+        Debug.Log("BidMachineUnity: BannerView - onAdShown");}
+    public void onBannerAdImpression(BannerView ad) {
+         Debug.Log("BidMachineUnity: BannerView - onAdImpression"); }
+    public void onBannerAdClicked(BannerView ad) { 
+        Debug.Log("BidMachineUnity: BannerView - onAdClicked"); }
+    public void onBannerAdExpired(BannerView ad) { 
+        Debug.Log("BidMachineUnity: BannerView - onAdExpired"); }
     #endregion
 
     }
  ```
 
-
-
-
-
-
 # INTERSTITIAL AD
 
-<p>InterstitialRequestBuilder.ContentType.All - Flag to request both Video and Static ad content types.<br>
-InterstitialRequestBuilder.ContentType.Video - Flag to request Video ad content type only.<br>
-InterstitialRequestBuilder.ContentType.Static -	Flag to request Static ad content type only.</p>
+AdContentType 
 
-<code><strong>InterstitialAd = new InterstitialAd();</strong></code>
+By default AdContentType is AdContentType.All
 
-<p><code><strong>InterstitialRequest interstitialRequest = new InterstitialRequestBuilder()</strong></code><br>
-<code><strong>   .setAdContentType(InterstitialRequestBuilder.ContentType.All)</strong></code><br>
-<code><strong>   .setTargetingParams(TargetingParams targetingParams)</strong></code><br>
-<code><strong>   .setPriceFloorParams(PriceFloorParams priceFloorParams)</strong></code><br>
-<code><strong>   .build();</strong></code></p>
+Type  | Description
+------------ | -------------
+AdContentType.All | Flag to request both Video and Static ad content types.
+AdContentType.Static | Flag to request Static ad content type only.
+AdContentType.Video | Flag to request Video ad content type only.
 
-<p>To set Interstitial Ad listeners:<br>
-<code><strong>interstitialAd.setListener(this);</strong></code></p>
+To set Interstitial Ad listeners:
+```c#
+interstitialAd.setListener(this);
+```
 
-<p>To load interstitial:<br>
-<code><strong>interstitialAd.load(interstitialRequest);</strong></code></p>
+To check if Interstitial ad can show:
+```c#
+interstitialAd.canShow();
+```
 
-<p>To show interstitial:<br>
-<code><strong>interstitialAd.show();</strong></code></p>
+To load interstitial:
+```c#
+interstitialAd.load(interstitialRequest);
+```
 
-<p>To destroy interstitial:<br>
-<code><strong>interstitialAd.destroy();</strong></code></p>
+To show interstitial:
+```c#
+interstitialAd.show();
+```
+
+To destroy interstitial:
+```c#
+interstitialAd.destroy();
+```
+
+Example code: 
+```c#
+public class BidMachineController : MonoBehaviour, IInterstitialAdListener, IInterstitialRequestListener {
+
+     InterstitialRequest bannerRequest = new InterstitialRequestBuilder()
+        .setAdContentType(AdContentType.All)
+        .setTargetingParams(...) // Set TargatingParams instance
+        .setPriceFloorParams(...) // Set price floor parameters
+        .setSessionAdParams(...) // Set SessionAdParams instance
+        .setPlacementId("placement") // Set placement id
+        .setLoadingTimeOut(123) // Set loading timeout in milliseconds
+        .setListener(this) // Set interstitial request listener
+        .build();
+
+    Interstitial interstitialAd = new InterstitialAd();
+    interstitialAd.setListener(this); // Set banner listener       
+    interstitialAd.load(bannerRequest); // Load banner ad
+    
 
 
+    #region InterstitialRequestListener
+    public void onInterstitialRequestSuccess(InterstitialRequest request, string auctionResult) {
+        Debug.Log($"onInterstitialRequestSuccess");
+    }
+
+    public void onInterstitialRequestFailed(InterstitialRequest request, BMError error){
+        Debug.Log($"onInterstitialRequestFailed" +
+                  $" {error.code} - {error.message}");
+    }
+    public void onInterstitialRequestExpired(InterstitialRequest request) {
+        Debug.Log($"onInterstitialRequestExpired");
+    }
+    #endregion
+
+
+    #region InterstitialAd Callbacks
+
+    public void onInterstitialAdLoaded(InterstitialAd ad)
+    {
+        Debug.Log("BidMachineUnity: InterstitialAd - onAdLoaded");
+    }
+
+    public void onInterstitialAdLoadFailed(InterstitialAd ad, BMError error)
+    {
+        Debug.Log("BidMachineUnity: InterstitialAd - onAdLoadFailed");
+    }
+
+    public void onInterstitialAdShown(InterstitialAd ad)
+    {
+        Debug.Log("BidMachineUnity: InterstitialAd - onAdShown");
+    }
+
+    public void onInterstitialAdImpression(InterstitialAd ad)
+    {
+        Debug.Log("BidMachineUnity: InterstitialAd - onAdImpression");
+    }
+
+    public void onInterstitialAdClosed(InterstitialAd ad)
+    {
+        Debug.Log("BidMachineUnity: InterstitialAd - onAdClicked");
+    }
+
+    public void onInterstitialAdExpired(InterstitialAd ad)
+    {
+        Debug.Log("BidMachineUnity: InterstitialAd - onAdExpired");
+    }
+
+    public void onInterstitialAdShowFailed(InterstitialAd ad, BMError error)
+    {
+        Debug.Log("BidMachineUnity: InterstitialAd - onAdShowFailed");
+    }
+
+    public void onInterstitialAdClosed(InterstitialAd ad, bool finished)
+    {
+        Debug.Log("BidMachineUnity: InterstitialAd - onAdClosed");
+    }
+
+    public void onInterstitialAdClicked(InterstitialAd ad)
+    {
+        Debug.Log("BidMachineUnity: InterstitialAd - onAdClicked");
+    }
+
+    #endregion
+
+
+    }
+```
 # REWARDED AD
 
 <code><strong>RewardedAd rewardedAd = new RewardedAd();</strong></code>
