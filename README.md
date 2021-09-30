@@ -62,44 +62,60 @@ BidMachine Unity Plugin includes External Dependency Manager package. You need t
 # Step 3. Integration
 
 Initialize SDK, and set your SellerId. (To get your SELLER_ID, visit our website or contact the support.)
-
-<p>To initialize SDK and set your SellerId you should use this method:<br>
-<code><strong>BidMachine.initialize("YOUR_SELLER_ID");</strong></code></p>
-
-<p>To enable logs use this method:<br>
-<code><strong>BidMachine.setLoggingEnabled(Boolean);</strong></code></p>
-
-<p>To enable test mode:<br>
-<code><strong>BidMachine.setTestMode(Boolean);</strong></code></p>
-
-<p>To Set your endpoint if required:<br>
-<code><strong>BidMachine.setEndpoint(Boolean);</strong></code></p>
-
-<p>To check if BidMachine SDK was initialized:<br>
-<code><strong>BidMachine.isInitialized();</strong></code></p>
-
+To initialize SDK and set your SellerId you should use this method:
+```c# 
+BidMachine.initialize("YOUR_SELLER_ID");
+```
+To enable logs use this method:
+```c# 
+BidMachine.setLoggingEnabled(Boolean);
+```
+To enable test mode:
+```c# 
+BidMachine.setTestMode(Boolean);
+```
+To Set your endpoint if required:
+```c# 
+BidMachine.setEndpoint(Boolean);
+```
+To check if BidMachine SDK was initialized:
+```c# 
+BidMachine.isInitialized();
+```
 
 # Request parameters
 
 Global Parameters
 
-<p>Set default Targeting params:<br>
-<code><strong>BidMachine.setTargetingParams(TargetingParams):</strong></code></p>
+Set default Targeting params:
+```c# 
+BidMachine.setTargetingParams(TargetingParams);
+```
 
-<p>Set consent config:<br>
-<code><strong>BidMachine.setConsentConfig(bool, string):</strong></code></p>
+Set consent config:
+```c# 
+BidMachine.setConsentConfig(bool, string);
+```
 
-<p>Set subject to GDPR:<br>
-<code><strong>BidMachine.setSubjectToGDPR(bool):</strong></code></p>
+Set subject to GDPR:
+```c# 
+BidMachine.setSubjectToGDPR(bool);
+```
 
-<p>Set COPPA:<br>
-<code><strong>BidMachine.setCoppa(bool):</strong></code></p>
+Set COPPA:
+```c# 
+BidMachine.setCoppa(bool);
+```
 
-<p>Set CCPA U.S. Privacy String:<br>
-<code><strong>BidMachine.setUSPrivacyString(string):</strong></code></p>
+Set CCPA U.S. Privacy String:
+```c# 
+BidMachine.setUSPrivacyString(string);
+```
 
-<p>Sets publisher information:<br>
-<code><strong>BidMachine.setPublisher(Publisher):</strong></code></p>
+Sets publisher information:
+```c# 
+BidMachine.setPublisher(Publisher);
+```
 
 # User Restriction Parameters 
 
