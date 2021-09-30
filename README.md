@@ -203,33 +203,102 @@ Click Rate | Float | The percentage of clicks/impressions per user per placement
 Is User Clicked On Last Ad | Boolean | A boolean value indicating if the user clicked on the last impression in a given session per placement type.
 Completion Rate | Float | The percentage of successful completions/impressions per user per placement type for a given number of impressions. This only applies to Rewarded and Video placement types.
 
+Code example: 
+```c#
+SessionAdParams sessionAdParams = new SessionAdParams()
+            .setSessionDuration(123)
+            .setImpressionCount(123)
+            .setClickRate(1.2f)
+            .setIsUserClickedOnLastAd(true)
+            .setCompletionRate(1.3f)
+            .setLastBundle("LastBundle")
+            .setLastAdomain("LastAdomain");
+```
+
 # BANNER / MREC
 
-<p>BannerRequestBuilder.Size.Size_320_50 - Regular banner size.<br>
- BannerRequestBuilder.Size.Size_300_250 - MREC banner size.<br>
- BannerRequestBuilder.Size.Size_728_90 - Banner size for tablets.</p>
+BannerSize 
 
-<p><code><strong>BannerRequest bannerRequest = new BannerRequestBuilder()</strong></code><br>
-<code><strong>            .setSize(BannerRequestBuilder.Size.Size_320_50)</strong></code><br>
-<code><strong>            .setTargetingParams(TargetingParams targetingParams)</strong></code><br>
-<code><strong>            .setPriceFloorParams(PriceFloorParams priceFloorParams)</strong></code><br>
-<code><strong>            .build();</strong></code></p>
+Type | Size | Description
+------------ | ------------- | -------------
+Size_320x50 | width: 320 height: 50 | Regular banner size.
+Size_728x90 | width: 728 height: 90 | Banner size for tablets.
+Size_300x250 | width: 300 height: 250 | MREC banner size. 
 
-<p><code><strong>Banner banner = new Banner();</strong></code><br>
-<code><strong>BannerView bannerView = banner.GetBannerView();</strong></code></p>
 
-<p>To set Banner Ads events listener:<br>
-<code><strong>bannerView.setListener(this);</strong></code></p>
+To set Banner ads events listener:
+```c#
+bannerView.setListener(this);
+```
 
-<p>To load banners:<br>
-<code><strong>bannerView.load(bannerRequest);</strong></code></p>
+To load banners:
+```c#
+bannerView.load(bannerRequest);
+```
 
-<p>To show banner or mrec:<br>
-<code><strong>banner.showBannerView(BidMachine.BANNER_TOP, BidMachine.BANNER_HORIZONTAL_CENTER, bannerView);</strong></code></p>
+To show banner or mrec:
+```c#
+bannerView.showBannerView(
+            BidMachine.BANNER_VERTICAL_BOTTOM,
+            BidMachine.BANNER_HORIZONTAL_CENTER,
+            bannerView, bannerRequest.getSize());
+```
 
-<p>To destroy banner or mrec:<br>
-<code><strong>bannerView.destroy();</strong></code><br>
-<code><strong>banner.hideBannerView();</strong></code></p>
+To destroy banner or mrec:
+```c#
+bannerView.destroy();
+```
+
+To hide banner or mrec:
+```c#
+bannerView.hideBannerView();
+```
+
+Code example:
+ ```c#
+
+public class BidMachineController : MonoBehaviour, IBannerRequestListener, IBannerListener {
+
+     BannerRequest bannerRequest = new BannerRequestBuilder()
+        .setSize(...) // Set BannerSize. Required
+        .setTargetingParams(...) // Set TargatingParams instance
+        .setPriceFloorParams(...) // Set price floor parameters
+        .setSessionAdParams(...) // Set SessionAdParams instance
+        .setPlacementId("placement") // Set placement id
+        .setLoadingTimeOut(123) // Set loading timeout in milliseconds
+        .setListener(this) // Set banner request listener
+        .build();
+
+    BannerView bannerView = new BannerView();
+    bannerView.setListener(this); // Set banner listener       
+    bannerView.load(bannerRequest); // Load banner ad
+
+    #region BannerRequestListener
+
+    public void onBannerRequestSuccess(BannerRequest request, string auctionResult) { Debug.Log("BidMachineUnity: onBannerRequestSuccess"); }
+    public void onBannerRequestFailed(BannerRequest request, BMError error) { Debug.Log("BannerRequestListener - onBannerRequestFailed" + $" - {error.code} - {error.message}"); }
+    public void onBannerRequestExpired(BannerRequest request) { Debug.Log("BannerRequestListener - onBannerRequestExpired"); }
+
+    #endregion
+
+    #region BannerListener
+
+    public void onBannerAdLoaded(BannerView ad) { Debug.Log("BidMachineUnity: BannerView - onAdLoaded"); }
+    public void onBannerAdLoadFailed(BannerView ad, BMError error) { Debug.Log("BidMachineUnity: BannerView - onAdLoadFailed"); }
+    public void onBannerAdShown(BannerView ad){  Debug.Log("BidMachineUnity: BannerView - onAdShown");}
+    public void onBannerAdImpression(BannerView ad) { Debug.Log("BidMachineUnity: BannerView - onAdImpression"); }
+    public void onBannerAdClicked(BannerView ad) { Debug.Log("BidMachineUnity: BannerView - onAdClicked"); }
+    public void onBannerAdExpired(BannerView ad) { Debug.Log("BidMachineUnity: BannerView - onAdExpired"); }
+
+    #endregion
+
+    }
+ ```
+
+
+
+
+
 
 # INTERSTITIAL AD
 
