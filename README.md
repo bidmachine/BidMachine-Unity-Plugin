@@ -1,8 +1,8 @@
 # Step 1. Import SDK
 
-1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS Appodeal SDK with major improvements.
+1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS BidMachine SDK with major improvements.
 
-1.2 To import the BidMachine Unity plugin, double-click on the Appodeal-Unity-Plugin-2.14.4-26.08.2021.unitypackage , or go to   Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
+1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.0.0-30.09.2021.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
 
 # Step 2. Project configuration 
 
@@ -47,8 +47,8 @@ Requirements:
 2.2.1 External Dependency Manager (Play Services Resolver)
 BidMachine Unity Plugin includes External Dependency Manager package. You need to complete these following steps to resolve BidMachine's dependencies:
 
-- After the import Appodeal Unity Plugin, in the Unity editor select File → Build Settings → iOS.
-- During build a project the modules, that are required for the Appodeal SDK support, will be imported to your project. You can edit them or add other modules in the Assets → Appodeal → Editor → AppodealDependencies.xml file.
+- After the import BidMachine Unity Plugin, in the Unity editor select File → Build Settings → iOS.
+- During build a project the modules, that are required for the BidMachine SDK support, will be imported to your project. You can edit them or add other modules in the Assets → BidMachine → Editor → BidMachineDependencies.xml file.
 
 # Step 3. Integration
 
