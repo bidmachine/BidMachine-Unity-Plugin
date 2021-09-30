@@ -1,17 +1,8 @@
-# BM-unity-plugin
-https://mega.nz/#!d2oVFQ5S!-r_aSPvPt5v77mLVhr9R6xRlHVwjgTc8dd4op4DbIkU
-# BM-unity-plugin-resolver
-https://mega.nz/#!MyoR0Sqb!Bu8Ec20jtRBaREqGme67Av25_wSEB-0rVVj4UjzRV2U
-
-
-
 # Step 1. Import SDK
 
 1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS Appodeal SDK with major improvements.
 
 1.2 To import the BidMachine Unity plugin, double-click on the Appodeal-Unity-Plugin-2.14.4-26.08.2021.unitypackage , or go to   Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
-
-
 
 # Step 2. Project configuration 
 
@@ -341,7 +332,7 @@ Example code:
 ```c#
 public class BidMachineController : MonoBehaviour, IInterstitialAdListener, IInterstitialRequestListener {
 
-     InterstitialRequest bannerRequest = new InterstitialRequestBuilder()
+     InterstitialRequest interstitialRequest = new InterstitialRequestBuilder()
         .setAdContentType(AdContentType.All)
         .setTargetingParams(...) // Set TargatingParams instance
         .setPriceFloorParams(...) // Set price floor parameters
@@ -352,11 +343,9 @@ public class BidMachineController : MonoBehaviour, IInterstitialAdListener, IInt
         .build();
 
     InterstitialAd interstitialAd = new InterstitialAd();
-    interstitialAd.setListener(this); // Set banner listener       
-    interstitialAd.load(bannerRequest); // Load banner ad
+    interstitialAd.setListener(this); // Set interstitial listener       
+    interstitialAd.load(interstitialRequest); // Load interstitial ad
     
-
-
     #region InterstitialRequestListener
     public void onInterstitialRequestSuccess(InterstitialRequest request, string auctionResult) {
         Debug.Log($"onInterstitialRequestSuccess");
@@ -461,12 +450,12 @@ public class BidMachineController : MonoBehaviour, IRewardedAdListener, IRewarde
         .setSessionAdParams(...) // Set SessionAdParams instance
         .setPlacementId("placement") // Set placement id
         .setLoadingTimeOut(123) // Set loading timeout in milliseconds
-        .setListener(this) // Set interstitial request listener
+        .setListener(this) // Set rewarded request listener
         .build();
 
     RewardedAd rewardedAd = new RewardedAd();
-    rewardedAd.setListener(this); // Set banner listener       
-    rewardedAd.load(bannerRequest); // Load banner ad
+    rewardedAd.setListener(this); // Set rewarded listener       
+    rewardedAd.load(rewardedRequest); // Load rewarded ad
     
     #region RewardedAd Callbacks
 
@@ -535,4 +524,131 @@ public class BidMachineController : MonoBehaviour, IRewardedAdListener, IRewarde
 
     }
 ```
+
+# NATIVE AD
+
+NativeAdParams 
+
+Type  | Description
+------------ | -------------
+MediaAssetType.Icon | Only icon assets will be downloaded and displayed
+MediaAssetType.Image | Only image assets will be downloaded and displayed
+
+- Add NativeAdView (Game Object) to scene Canvas 
+- Add NativeAdView.cs to NativeAdView (Game Object) via Add component Button.
+- Pass the following native ad components to NativeAdView script: 
+     Text nativeAdViewTitle
+     Text nativeAdViewDescription
+     Text nativeAdViewSponsored
+     RawImage nativeAdViewIcon
+     Text nativeAdViewRatting
+     RawImage nativeAdViewImage
+     Button callToAction
+
+To set Native Ad listeners:
+```c#
+nativeAd.setListener(this);
+```
+
+To load Native Ad:
+```c#
+nativeAd.load(nativeRequest);
+```
+
+To show Native Ad:
+```c#
+nativeAdView.setNativeAd(ad);
+```
+
+To destroy Native Ad:
+```c#
+nativeAd.destroy();
+```
+
+Example code: 
+```c#
+public class BidMachineController : MonoBehaviour, IRewardedAdListener, IRewardedRequestListener {
+
+    [SerializeField] public NativeAdView nativeAdView;
+
+    NativeAdParams nativeAdParams = new NativeAdParams();
+        nativeAdParams.setMediaAssetTypes(NativeAdParams.MediaAssetType.Icon, NativeAdParams.MediaAssetType.Image);
+
+     NativeRequest nativeRequest = new NativeRequestBuilder()
+        .setMediaAssetTypes(nativeAdParams)
+        .setTargetingParams(...) // Set TargatingParams instance
+        .setPriceFloorParams(...) // Set price floor parameters
+        .setSessionAdParams(...) // Set SessionAdParams instance
+        .setPlacementId("placement") // Set placement id
+        .setLoadingTimeOut(123) // Set loading timeout in milliseconds
+        .setListener(this) // Set native request listener
+        .build();
+
+    RewardedAd nativeAd = new NativeAd();
+    nativeAd.setListener(this); // Set native listener       
+    nativeAd.load(nativeRequest); // Load native ad
+    
+    #region NativeRequestListener
+
+    public void onNativeRequestSuccess(NativeRequest request, string auctionResult)
+    {
+         Debug.Log($"onNativeRequestSuccess");
+    }
+
+    public void onNativeRequestFailed(NativeRequest request, BMError error)
+    {
+        Debug.Log($"onNativeRequestFailed");
+    }
+
+    public void onNativeRequestExpired(NativeRequest request)
+    {
+        Debug.Log($"onNativeRequestExpired");
+    }
+
+    #endregion
+
+        #region NativeAdListener
+
+    public void onNativeAdLoaded(NativeAd ad)
+    {
+        if (nativeAdView)
+        {
+            nativeAdView.setNativeAd(ad);
+        }
+    }
+
+    public void onNativeAdLoadFailed(NativeAd ad, BMError error)
+    {
+        Debug.Log($"onNativeAdLoadFailed - {error.message} - {error.code} ");
+    }
+
+    public void onNativeAdShown(NativeAd ad)
+    {
+        Debug.Log("onNativeAdShown");
+    }
+
+    public void onNativeAdImpression(NativeAd ad)
+    {
+        Debug.Log("onNativeAdImpression");
+    }
+
+    public void onNativeAdClicked(NativeAd ad)
+    {
+        Debug.Log("onNativeAdClicked");
+    }
+
+    public void onNativeAdExpired(NativeAd ad)
+    {
+        Debug.Log("onNativeAdExpired");
+    }
+
+    #endregion
+
+    }
+```
+
+
+
+
+
 
