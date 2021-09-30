@@ -541,13 +541,13 @@ MediaAssetType.Image | Only image assets will be downloaded and displayed
 - Add NativeAdView (Game Object) to scene Canvas 
 - Add NativeAdView.cs to NativeAdView (Game Object) via Add component Button.
 - Pass the following native ad components to NativeAdView script: 
-     Text nativeAdViewTitle
-     Text nativeAdViewDescription
-     Text nativeAdViewSponsored
-     RawImage nativeAdViewIcon
-     Text nativeAdViewRatting
-     RawImage nativeAdViewImage
-     Button callToAction
+     - Text nativeAdViewTitle
+     - Text nativeAdViewDescription
+     - Text nativeAdViewSponsored
+     - RawImage nativeAdViewIcon
+     - Text nativeAdViewRatting
+     - RawImage nativeAdViewImage
+     - Button callToAction
 
 To set Native Ad listeners:
 ```c#
