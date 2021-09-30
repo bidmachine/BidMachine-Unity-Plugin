@@ -84,34 +84,55 @@ Initialize SDK, and set your SellerId. (To get your SELLER_ID, visit our website
 Global Parameters
 
 <p>Set default Targeting params:<br>
-<code><strong>BidMachine.setTargetingParams(...):</strong></code></p>
+<code><strong>BidMachine.setTargetingParams(TargetingParams):</strong></code></p>
 
 <p>Set consent config:<br>
-<code><strong>BidMachine.setConsentConfig(...):</strong></code></p>
+<code><strong>BidMachine.setConsentConfig(bool, string):</strong></code></p>
 
 <p>Set subject to GDPR:<br>
-<code><strong>BidMachine.setSubjectToGDPR(...):</strong></code></p>
+<code><strong>BidMachine.setSubjectToGDPR(bool):</strong></code></p>
 
 <p>Set COPPA:<br>
-<code><strong>BidMachine.setCoppa(...):</strong></code></p>
+<code><strong>BidMachine.setCoppa(bool):</strong></code></p>
 
 <p>Set CCPA U.S. Privacy String:<br>
-<code><strong>BidMachine.setUSPrivacyString(...):</strong></code></p>
+<code><strong>BidMachine.setUSPrivacyString(string):</strong></code></p>
 
 <p>Sets publisher information:<br>
-<code><strong>BidMachine.setPublisher(...):</strong></code></p>
+<code><strong>BidMachine.setPublisher(Publisher):</strong></code></p>
 
 # User Restriction Parameters 
 
 Param | Type | Description
 ------------ | ------------- | -------------
 GDPR Consent String | String | GDPR consent string (if applicable), indicating the compliance with the IAB standard [Consent String Format](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Consent%20string%20and%20vendor%20list%20formats%20v1.1%20Final.md) of the [Transparency and ConsentFramework](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework) technical specifications.
-Subject to GDPR | Boolean | 
-Coppa | Boolean | 
-US Privacy String | String | 
+Subject to GDPR | Boolean | Flag indicating if GDPR regulations apply [The General Data Protection Regulation (GDPR)](https://wikipedia.org/wiki/General_Data_Protection_Regulation) is a regulation of the European Union.
+Coppa | Boolean | Flag indicating if COPPA regulations apply. [The Children's Online Privacy Protection Act (COPPA)](https://wikipedia.org/wiki/Children%27s_Online_Privacy_Protection_Act) was established by the U.S. Federal Trade Commission.
+US Privacy String | String | CCPA string if applicable, compliant with the IAB standard [CCPA String Format](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md)
 
 
 # TARGETING PARAMS
+
+Param | Type | Description
+------------ | ------------- | -------------
+User Id | String | Vendor-specific ID for the user.
+Gender | Enum |	Gender, one of the following: Female, Male, Omitted.
+Year of Birth | Integer | Year of birth as a 4-digit integer (e.g. - 1990).
+Keywords | String[] | List of keywords, interests, or intents (separated by comma if you use .xml).
+Device Location| string, double, double | Location of the device. It may not be the location sent to the server, as it is compared to the current device location at the time, when it was received.
+Country | String | Country of the user's domicile (i.e. not necessarily their current location).
+City | String | City of the user's domicile (i.e. not necessarily their current location).
+Zip | String | Zip of the user's domicile (i.e. not necessarily their current location).
+Store Url |	String | App store URL for an installed app; for IQG 2.1 compliance.
+Store Category | String | Sets App store category definitions (e.g. - "games").
+Store Sub Category | String[] | Sets App Store Subcategory definitions. The array is always capped at 3 strings.
+Framework Name | String | Sets app framework definitions.
+Paid | Boolean | Determines, if the app version is free or paid version of the app.
+External User Ids |	ExternalUserId[] | Set external user ID list.
+Blocked Advertiser IAB Category | String[] | Block list of content categories by IDs.
+Blocked Advertiser Domain |	String[] | Block list of advertisers by their domains (e.g., “example.com”).
+Blocked Application | String[] | Block list of apps where ads are disallowed. These should be bundle or package names (e.g., “com.foo.mygame”) and should NOT be app store IDs (e.g., not iTunes store IDs).
+
 <p><code><strong>TargetingParams targetingParams = new TargetingParams();</strong></code><br>
 <code><strong>targetingParams.setUserId("USER_ID");</strong></code><br>
 <code><strong>targetingParams.setGender(TargetingParams.Gender.Male);</strong></code><br>
