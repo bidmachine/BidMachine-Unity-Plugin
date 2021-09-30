@@ -20,12 +20,12 @@ Android
 2.1. External Dependency Manager (Play Services Resolver)
 BidMachine Unity Plugin includes External Dependency Manager package.  You need to complete these following steps to resolve Appodeal's dependencies:
 
-2.1.1 After the import Appodeal Unity Plugin, in the Unity editor select File → Build Settings → Android.
-2.1.2 Add flag Custom Gradle Template for Unity 2017.4 - Unity 2019.2 versions or Custom Main Gradle Template for Unity 2019.3 or higher (Build Settings → Player Settings → Publishing settings).
-2.1.3 Enable the setting "Patch mainTemplate.gradle" (Assets → External Dependency Manager → Android Resolver → Settings).
-2.1.4 Enable the setting "Use Jetifier" (Assets → External Dependency Manager → Android Resolver → Settings).
-2.1.5 Then run Assets → External Dependency Manager → Android Resolver and press Resolve or Force Resolve.
-2.1.6 As a result, the modules, that are required for the Appodeal SDK support, will be imported to project's mainTemplate.gradle file.
+- After the import Appodeal Unity Plugin, in the Unity editor select File → Build Settings → Android.
+- Add flag Custom Gradle Template for Unity 2017.4 - Unity 2019.2 versions or Custom Main Gradle Template for Unity 2019.3 or higher (Build Settings → Player Settings → Publishing settings).
+- Enable the setting "Patch mainTemplate.gradle" (Assets → External Dependency Manager → Android Resolver → Settings).
+- Enable the setting "Use Jetifier" (Assets → External Dependency Manager → Android Resolver → Settings).
+- Then run Assets → External Dependency Manager → Android Resolver and press Resolve or Force Resolve.
+- As a result, the modules, that are required for the Appodeal SDK support, will be imported to project's mainTemplate.gradle file.
 
 2.2 Request runtime permissions in Android Marshmallow (API 6.0+)
 
