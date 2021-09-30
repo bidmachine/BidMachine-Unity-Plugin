@@ -351,7 +351,7 @@ public class BidMachineController : MonoBehaviour, IInterstitialAdListener, IInt
         .setListener(this) // Set interstitial request listener
         .build();
 
-    Interstitial interstitialAd = new InterstitialAd();
+    InterstitialAd interstitialAd = new InterstitialAd();
     interstitialAd.setListener(this); // Set banner listener       
     interstitialAd.load(bannerRequest); // Load banner ad
     
@@ -426,18 +426,113 @@ public class BidMachineController : MonoBehaviour, IInterstitialAdListener, IInt
 ```
 # REWARDED AD
 
-<code><strong>RewardedAd rewardedAd = new RewardedAd();</strong></code>
-        
-<p><code><strong>RewardedRequest rewardedRequest = new RewardedRequestBuilder()</strong></code><br>
-<code><strong>.setTargetingParams(TargetingParams targetingParams)</strong></code><br>
-<code><strong>.setPriceFloorParams(PriceFloorParams priceFloorParams)</strong></code><br>
-<code><strong>.build();</strong></code></p>
-        
-<p>To set rewarded listeners:<br>        
-<code><strong>rewardedAd.setListener(this);</strong></code></p>
+To set Rewarded Ad listeners:
+```c#
+rewardedAd.setListener(this);
+```
 
-<p>To load rewarded ad:<br>
-<code><strong>rewardedAd.load(rewardedRequest);</strong></code></p>
+To check if Rewarded ad can show:
+```c#
+rewardedAd.canShow();
+```
 
-<p>To destroy rewarded ad:<br> 
-<code><strong>rewardedAd.destroy();</strong></code></p>
+To load rewarded ad:
+```c#
+rewardedAd.load(interstitialRequest);
+```
+
+To show rewarded ad:
+```c#
+rewardedAd.show();
+```
+
+To destroy rewarded ad:
+```c#
+rewardedAd.destroy();
+```
+
+Example code: 
+```c#
+public class BidMachineController : MonoBehaviour, IRewardedAdListener, IRewardedRequestListener {
+
+     RewardedRequest rewardedRequest = new InterstitialRequestBuilder()
+        .setTargetingParams(...) // Set TargatingParams instance
+        .setPriceFloorParams(...) // Set price floor parameters
+        .setSessionAdParams(...) // Set SessionAdParams instance
+        .setPlacementId("placement") // Set placement id
+        .setLoadingTimeOut(123) // Set loading timeout in milliseconds
+        .setListener(this) // Set interstitial request listener
+        .build();
+
+    RewardedAd rewardedAd = new RewardedAd();
+    rewardedAd.setListener(this); // Set banner listener       
+    rewardedAd.load(bannerRequest); // Load banner ad
+    
+    #region RewardedAd Callbacks
+
+    public void onRewardedAdLoaded(RewardedAd ad) {
+        Debug.Log("BidMachineUnity: onRewardedAdLoaded");
+    }
+
+    public void onRewardedAdLoadFailed(RewardedAd ad, BMError error){
+        Debug.Log("BidMachineUnity: onRewardedAdLoadFailed");
+    }
+
+    public void onRewardedAdShown(RewardedAd ad){
+        Debug.Log("BidMachineUnity: onRewardedAdShown");
+    }
+
+    public void onRewardedAdImpression(RewardedAd ad) {
+        Debug.Log("BidMachineUnity: onRewardedAdImpression");
+    }
+
+    public void onRewardedAdClicked(RewardedAd ad)  {
+        Debug.Log("BidMachineUnity: onRewardedAdClicked");
+    }
+
+    public void onRewardedAdExpired(RewardedAd ad) {
+        Debug.Log("BidMachineUnity: onRewardedAdExpired");
+    }
+
+    public void onRewardedAdShowFailed(RewardedAd ad, BMError error) {
+        Debug.Log("BidMachineUnity: onRewardedAdShowFailed");
+    }
+
+    public void onRewardedAdClosed(RewardedAd ad, bool finished)  {
+        Debug.Log("$BidMachineUnity: onRewardedAdClosed {finished}");
+    }
+
+    public void onRewardedAdRewarded(RewardedAd ad){
+        Debug.Log("BidMachineUnity: onRewardedAdRewarded");
+    }
+
+    public void onRewardedAdClosed(RewardedAd ad)
+    {
+        Debug.Log("BidMachineUnity: onRewardedAdClosed");
+    }
+
+    #endregion
+
+    #region RewardedRequestListener
+
+    public void onRewardedRequestSuccess(RewardedRequest request, string auctionResult)
+    {
+        Debug.Log($"onRewardedRequestSuccess");
+    }
+
+    public void onRewardedRequestFailed(RewardedRequest request, BMError error)
+    {
+        Debug.Log($"onRewardedRequestFailed");
+    }
+
+    public void onRewardedRequestExpired(RewardedRequest request)
+    {
+         Debug.Log($"onRewardedRequestExpired");
+    }
+
+    #endregion
+
+
+    }
+```
+
