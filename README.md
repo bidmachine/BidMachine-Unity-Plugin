@@ -133,34 +133,59 @@ Blocked Advertiser IAB Category | String[] | Block list of content categories by
 Blocked Advertiser Domain |	String[] | Block list of advertisers by their domains (e.g., “example.com”).
 Blocked Application | String[] | Block list of apps where ads are disallowed. These should be bundle or package names (e.g., “com.foo.mygame”) and should NOT be app store IDs (e.g., not iTunes store IDs).
 
-<p><code><strong>TargetingParams targetingParams = new TargetingParams();</strong></code><br>
-<code><strong>targetingParams.setUserId("USER_ID");</strong></code><br>
-<code><strong>targetingParams.setGender(TargetingParams.Gender.Male);</strong></code><br>
-<code><strong>targetingParams.setBirthdayYear(1990);</strong></code><br>
-<code><strong>targetingParams.setKeyWords(new string[] { "key_word_example", "key_word_example" });</strong></code><br>
-<code><strong>targetingParams.setDeviceLocation(40.730610, 73.935242);</strong></code><br>
-<code><strong>targetingParams.setCountry("USA");</strong></code><br>
-<code><strong>targetingParams.setCity("New-York");</strong></code><br>
-<code><strong>targetingParams.setZip("10001");</strong></code><br>
-<code><strong>targetingParams.setStoreUrl("https://test.com");</strong></code><br>
-<code><strong>targetingParams.setPaid(true);</strong></code><br>
-<code><strong>targetingParams.setBlockedAdvertiserIABCategories("IAB26,AB25");</strong></code><br>
-<code><strong>targetingParams.setBlockedAdvertiserDomain("example.com");</strong></code><br>
-<code><strong>targetingParams.setBlockedApplication("com.test.mygame");</strong></code></p>
+Code Example:
 
-# USER RESTRICTION PARAMETRS
-<p>To set consent config use a method:<br>
-<code><strong>BidMachine.setConsentConfig(Boolean, String);</strong></code></p>
+```c#
+ BidMachine.setTargetingParams(
+             new TargetingParams()
+                 .setUserId("UserId")
+                 .setStoreId("StoreId")
+                 .setGender(TargetingParams.Gender.Female)
+                 .setBirthdayYear(1991)
+                 .setKeyWords(new[] { "key_1, key_2" })
+                 .setCountry("Country")
+                 .setCity("City")
+                 .setZip("zip")
+                 .setStoreUrl("StoreUrl")
+                 .setStoreCategory("StoreCategory")
+                 .setStoreSubCategories(new[] { "sub_category_1", "sub_category_2" })
+                 .setFramework("unity")
+                 .setPaid(true)
+                 .setDeviceLocation("", 22.0d, 22.0d)
+                 .addBlockedApplication("BlockedApplication")
+                 .addBlockedAdvertiserIABCategory("BlockedAdvertiserIABCategory")
+                 .addBlockedAdvertiserDomain("BlockedAdvertiserDomain")
+                 .setExternalUserIds(new[]
+                     {
+                         new ExternalUserId("sourceId_1", "1"),
+                         new ExternalUserId("sourceId_2", "2")
+                     }
+                 ));
+```
 
-<p>To set subject to GDPR:<br>
-<code><strong>BidMachine.setSubjectToGDPR(Boolean);</strong></code></p>
- 
-<p>To set coppa:<br>
-<code><strong>BidMachine.setCoppa(Boolean);</strong></code></p>
 
 # PRICE FLOOR PARAMETRS
-<p><code><strong>PriceFloorParams priceFloorParams = new PriceFloorParams();</strong></code><br>
-<code><strong>priceFloorParams.setPriceFloor("sample", 2.15);</strong></code></p>
+
+Param | Type | Description
+------------ | ------------- | -------------
+Id | String | Unique floor identifier.
+Price |	double | Floor price
+
+Code example: 
+```c#
+PriceFloorParams priceFloorParams = new PriceFloorParams();
+priceFloorParams.addPriceFloor("123", 1.2d);
+```
+
+# Session Ad Parameters
+
+Param | Type | Description
+------------ | ------------- | -------------
+Session Duration | Integer | The total duration of time a user has spent so far in a specific app session expressed in seconds.
+Impression Count | Integer | The count of impressions for a specific placement type in a given app session.
+Click Rate | Float | The percentage of clicks/impressions per user per placement type over a given number of impressions.
+Is User Clicked On Last Ad | Boolean | A boolean value indicating if the user clicked on the last impression in a given session per placement type.
+Completion Rate | Float | The percentage of successful completions/impressions per user per placement type for a given number of impressions. This only applies to Rewarded and Video placement types.
 
 # BANNER / MREC
 
