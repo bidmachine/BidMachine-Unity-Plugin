@@ -25,12 +25,16 @@ BidMachine Unity Plugin includes External Dependency Manager package.  You need 
 
 SDK can automatically track user device location in order to serve better ads. To make it work for Android 6.0, you should request "android.permission.ACCESS_COARSE_LOCATION" and "android.permission.ACCESS_FINE_LOCATION":
 
-<p>To check permission use a method:<br>
-<code><strong>BidMachine.checkAndroidPermissions(Permission.CoarseLocation));<br>
-BidMachine.checkAndroidPermissions(Permission.FineLocation));</strong></code></p>
+To check permission use a method:
+```c# 
+BidMachine.checkAndroidPermissions(Permission.CoarseLocation));
+BidMachine.checkAndroidPermissions(Permission.FineLocation));
+```
 
-<p>To request permissions you should use this method:<br> 
-<code><strong>BidMachine.requestAndroidPermissions();</strong></code></p>
+To request permissions you should use this method:<br> 
+```c# 
+ BidMachine.requestAndroidPermissions();
+```
 
 2.1.3 Multidex support
 
