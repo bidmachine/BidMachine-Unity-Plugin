@@ -182,7 +182,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void LoadNativeAd()
     {
-        var nativeAdParams = new NativeAdParams();
+        NativeAdParams nativeAdParams = new NativeAdParams();
         nativeAdParams.setMediaAssetTypes(NativeAdParams.MediaAssetType.Icon, NativeAdParams.MediaAssetType.Image);
 
         if (nativeRequest == null)
@@ -202,18 +202,12 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
         if (nativeAd == null)
         {
-            Debug.Log("LoadNativeAd: nativeAd != null ");
-
             nativeAd = new NativeAd();
             nativeAd.setListener(this);
             if (nativeRequest != null)
             {
                 nativeAd.load(nativeRequest);
             }
-        }
-        else
-        {
-            Debug.Log("LoadNativeAd: nativeAd == null ");
         }
     }
 
