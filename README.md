@@ -35,14 +35,14 @@ SDK can automatically track user device location in order to serve better ads. T
 <code><strong>BidMachine.checkAndroidPermissions(Permission.CoarseLocation));<br>
 BidMachine.checkAndroidPermissions(Permission.FineLocation));</strong></code></p>
 
-
-
-
-
-
-
 <p>To request permissions you should use this method:<br> 
 <code><strong>BidMachine.requestAndroidPermissions();</strong></code></p>
+
+
+
+
+
+
 
 <p>To initialize SDK and set your SellerId you should use this method:<br>
 <code><strong>BidMachine.initialize(String);</strong></code></p>
