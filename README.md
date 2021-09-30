@@ -103,11 +103,12 @@ Global Parameters
 
 # User Restriction Parameters 
 
-Param Header | Type Header | Description Header
+Param | Type | Description
 ------------ | ------------- | -------------
-Content from cell 1 | Content from cell 2 | 
-Content in the first column | Content in the second column
-
+GDPR Consent String | String | GDPR consent string (if applicable), indicating the compliance with the IAB standard [Consent String Format](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Consent%20string%20and%20vendor%20list%20formats%20v1.1%20Final.md) of the [Transparency and ConsentFramework](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework) technical specifications.
+Subject to GDPR | Boolean | 
+Coppa | Boolean | 
+US Privacy String | String | 
 
 
 # TARGETING PARAMS
