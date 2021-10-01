@@ -62,6 +62,7 @@ namespace BidMachineAds.Unity.Api
         private void updateNativeAdView()
         {
             if (nativeAd == null) return;
+
             if (nativeAdViewTitle)
             {
                 nativeAdViewTitle.text = !string.IsNullOrEmpty(nativeAd.getTitle()) ? nativeAd.getTitle() : "";
@@ -93,8 +94,6 @@ namespace BidMachineAds.Unity.Api
                     : "";
             }
 
-            transform.gameObject.SetActive(true);
-
             if (nativeAdViewIcon)
             {
                 StartCoroutine(DownloadImage(nativeAd.getIcon(nativeAd), nativeAdViewIcon));
@@ -104,9 +103,9 @@ namespace BidMachineAds.Unity.Api
             {
                 StartCoroutine(DownloadImage(nativeAd.getImage(nativeAd), nativeAdViewImage));
             }
-            
+
+            transform.gameObject.SetActive(true);
             DispatchImpression();
-            
         }
 
         private static IEnumerator DownloadImage(string url, RawImage image)
