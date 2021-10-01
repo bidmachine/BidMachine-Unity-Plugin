@@ -1,8 +1,8 @@
 # Step 1. Import SDK
 
-1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS Appodeal SDK with major improvements.
+1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS BidMachine SDK with major improvements.
 
-1.2 To import the BidMachine Unity plugin, double-click on the Appodeal-Unity-Plugin-2.14.4-26.08.2021.unitypackage , or go to   Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
+1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.0.0-30.09.2021.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
 
 # Step 2. Project configuration 
 
@@ -25,12 +25,16 @@ BidMachine Unity Plugin includes External Dependency Manager package.  You need 
 
 SDK can automatically track user device location in order to serve better ads. To make it work for Android 6.0, you should request "android.permission.ACCESS_COARSE_LOCATION" and "android.permission.ACCESS_FINE_LOCATION":
 
-<p>To check permission use a method:<br>
-<code><strong>BidMachine.checkAndroidPermissions(Permission.CoarseLocation));<br>
-BidMachine.checkAndroidPermissions(Permission.FineLocation));</strong></code></p>
+To check permission use a method:
+```c# 
+BidMachine.checkAndroidPermissions(Permission.CoarseLocation));
+BidMachine.checkAndroidPermissions(Permission.FineLocation));
+```
 
-<p>To request permissions you should use this method:<br> 
-<code><strong>BidMachine.requestAndroidPermissions();</strong></code></p>
+To request permissions you should use this method:<br> 
+```c# 
+ BidMachine.requestAndroidPermissions();
+```
 
 2.1.3 Multidex support
 
@@ -47,8 +51,8 @@ Requirements:
 2.2.1 External Dependency Manager (Play Services Resolver)
 BidMachine Unity Plugin includes External Dependency Manager package. You need to complete these following steps to resolve BidMachine's dependencies:
 
-- After the import Appodeal Unity Plugin, in the Unity editor select File → Build Settings → iOS.
-- During build a project the modules, that are required for the Appodeal SDK support, will be imported to your project. You can edit them or add other modules in the Assets → Appodeal → Editor → AppodealDependencies.xml file.
+- After the import BidMachine Unity Plugin, in the Unity editor select File → Build Settings → iOS.
+- During build a project the modules, that are required for the BidMachine SDK support, will be imported to your project. You can edit them or add other modules in the Assets → BidMachine → Editor → BidMachineDependencies.xml file.
 
 # Step 3. Integration
 
@@ -537,13 +541,13 @@ MediaAssetType.Image | Only image assets will be downloaded and displayed
 - Add NativeAdView (Game Object) to scene Canvas 
 - Add NativeAdView.cs to NativeAdView (Game Object) via Add component Button.
 - Pass the following native ad components to NativeAdView script: 
-     Text nativeAdViewTitle
-     Text nativeAdViewDescription
-     Text nativeAdViewSponsored
-     RawImage nativeAdViewIcon
-     Text nativeAdViewRatting
-     RawImage nativeAdViewImage
-     Button callToAction
+     - Text nativeAdViewTitle
+     - Text nativeAdViewDescription
+     - Text nativeAdViewSponsored
+     - RawImage nativeAdViewIcon
+     - Text nativeAdViewRatting
+     - RawImage nativeAdViewImage
+     - Button callToAction
 
 To set Native Ad listeners:
 ```c#
