@@ -538,8 +538,8 @@ Type  | Description
 MediaAssetType.Icon | Only icon assets will be downloaded and displayed
 MediaAssetType.Image | Only image assets will be downloaded and displayed
 
-- Add NativeAdView (Game Object) to scene Canvas 
-- Add NativeAdView.cs to NativeAdView (Game Object) via Add component Button.
+- Add RawImage to scene Canvas (should be active in hierarchy)
+- Add NativeAdView.cs to your RawImage via Add component Button.
 - Pass the following native ad components to NativeAdView script: 
      - Text nativeAdViewTitle
      - Text nativeAdViewDescription
