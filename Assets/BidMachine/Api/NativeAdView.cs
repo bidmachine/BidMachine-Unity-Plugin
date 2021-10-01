@@ -93,7 +93,9 @@ namespace BidMachineAds.Unity.Api
                     ? nativeAd.getCallToAction()
                     : "";
             }
-
+            
+            transform.gameObject.SetActive(true);
+            
             if (nativeAdViewIcon)
             {
                 StartCoroutine(DownloadImage(nativeAd.getIcon(nativeAd), nativeAdViewIcon));
@@ -104,7 +106,6 @@ namespace BidMachineAds.Unity.Api
                 StartCoroutine(DownloadImage(nativeAd.getImage(nativeAd), nativeAdViewImage));
             }
 
-            transform.gameObject.SetActive(true);
             DispatchImpression();
         }
 
