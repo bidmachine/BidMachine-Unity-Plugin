@@ -1503,12 +1503,12 @@ namespace BidMachineAds.Unity.iOS
 
         public void dispatchClick(NativeAd nativeAd)
         {
-            Debug.Log("Not support on iOS platform");
+           bridge.dispatchClick();
         }
 
         public void dispatchImpression(NativeAd nativeAd)
         {
-            Debug.Log("Not support on iOS platform");
+            bridge.dispatchImpression();
         }
 
         #region NativeAdDelegate
