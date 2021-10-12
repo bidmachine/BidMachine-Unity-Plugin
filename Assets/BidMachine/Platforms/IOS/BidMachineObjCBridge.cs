@@ -1181,6 +1181,22 @@ namespace BidMachineAds.Unity.iOS
         {
             return GetNativeImage();
         }
+        
+        public void dispatchClick()
+        {
+            DispatchClick();
+        }
+
+        public void dispatchImpression()
+        {
+            DispatchImpression();
+        }
+        
+        [DllImport("__Internal")]
+        private static extern void DispatchImpression();
+        
+        [DllImport("__Internal")]
+        private static extern void DispatchClick();
 
         [DllImport("__Internal")]
         private static extern IntPtr GetNativeAd();
