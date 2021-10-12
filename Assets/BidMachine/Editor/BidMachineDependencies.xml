@@ -1,6 +1,6 @@
 <dependencies>
     <iosPods>
-        <iosPod name='BidMachine' version='1.7.3.6' minTargetSdk='10.0'/>
+        <iosPod name='BidMachine' version='1.7.4.0' minTargetSdk='10.0'/>
         <iosPod name='BDMIABAdapter' version='1.7.3.3' minTargetSdk='10.0'/>
     </iosPods>
     <androidPackages>
