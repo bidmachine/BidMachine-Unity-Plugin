@@ -15,6 +15,7 @@
 #import "BidMachineSessionAdParams.h"
 #import "BidMachineNativeRequestDelegate.h"
 #import "BidMachineNativeDelegate.h"
+#import "BidMachine/BDMNativeAd+TrackingEvents.h"
 
 static BDMSdkConfiguration *configuration;
 static BidMachineSessionAdParams *sessionAdParams;
@@ -27,6 +28,7 @@ static BDMInterstitial *interstitial;
 static BDMRewarded *rewarded;
 static BDMBannerView *bannerView;
 static BDMNativeAd *native;
+
 
 static BDMRewardedRequest *rewardedRequest;
 static BDMInterstitialRequest *interstitialRequest;
@@ -1283,6 +1285,24 @@ char *GetBannerAuctionResult(){
     }else {
         return "empty";
     }
+}
+
+void DispatchClick(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+
+    [native trackUserInteraction];
+}
+
+void DispatchImpression(){
+    if (!native) {
+        native = [BDMNativeAd new];
+    }
+    
+    [native trackContainerAdded];
+    [native trackImpression];
+    [native trackViewable];
 }
 
 BDMNativeAd * GetNativeAd(){
