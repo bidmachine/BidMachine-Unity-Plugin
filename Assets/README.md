@@ -539,15 +539,23 @@ MediaAssetType.Icon | Only icon assets will be downloaded and displayed
 MediaAssetType.Image | Only image assets will be downloaded and displayed
 
 - Add RawImage to scene Canvas (should be active in hierarchy)
+- Add these following UI elements to your RawImage as children:
+  - Text nativeAdViewTitle
+  - Text nativeAdViewDescription
+  - Text nativeAdViewSponsored
+  - RawImage nativeAdViewIcon
+  - Text nativeAdViewRatting
+  - RawImage nativeAdViewImage
+  - Button callToAction
 - Add NativeAdView.cs to your RawImage via Add component Button.
-- Pass the following native ad components to NativeAdView script: 
-     - Text nativeAdViewTitle
-     - Text nativeAdViewDescription
-     - Text nativeAdViewSponsored
-     - RawImage nativeAdViewIcon
-     - Text nativeAdViewRatting
-     - RawImage nativeAdViewImage
-     - Button callToAction
+- Pass the following your native ad components to NativeAdView script: 
+  - Text nativeAdViewTitle
+  - Text nativeAdViewDescription
+  - Text nativeAdViewSponsored
+  - RawImage nativeAdViewIcon
+  - Text nativeAdViewRatting
+  - RawImage nativeAdViewImage
+  - Button callToAction
 
 To set Native Ad listeners:
 ```c#
@@ -650,9 +658,3 @@ public class BidMachineController : MonoBehaviour, IRewardedAdListener, IRewarde
 
     }
 ```
-
-
-
-
-
-
