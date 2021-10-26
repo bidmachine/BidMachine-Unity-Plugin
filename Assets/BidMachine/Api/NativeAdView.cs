@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
@@ -10,6 +12,7 @@ using UnityEngine.UI;
 namespace BidMachineAds.Unity.Api
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "InvokeAsExtensionMethod")]
     public class NativeAdView : MonoBehaviour, IPointerClickHandler
     {
         private void Awake()
@@ -17,12 +20,23 @@ namespace BidMachineAds.Unity.Api
             transform.gameObject.SetActive(false);
         }
 
+        private void OnEnable()
+        {
+            Debug.Log("OnEnable");
+            if (callToAction)
+            {
+                callToAction.onClick.AddListener(DispatchClick);
+            }
+            InvokeRepeating(nameof(CheckVisibilityUI), 0.1f, 1);
+        }
+
         private void Start()
         {
-            callToAction.onClick.AddListener(DispatchClick);
+            Debug.Log("Start");
         }
 
         private NativeAd nativeAd;
+        private bool isNativeAdVisible;
 
         [SerializeField] public Text nativeAdViewTitle;
         [SerializeField] public Text nativeAdViewDescription;
@@ -31,6 +45,26 @@ namespace BidMachineAds.Unity.Api
         [SerializeField] public Text nativeAdViewRatting;
         [SerializeField] public RawImage nativeAdViewImage;
         [SerializeField] public Button callToAction;
+        [SerializeField] public Camera cam;
+
+        public void CheckVisibilityUI()
+        {
+            var rectTransform = gameObject.GetComponent<RectTransform>();
+            if (!rectTransform)
+            {
+                return;
+            }
+
+            if (!rectTransform.gameObject.activeInHierarchy)
+            {
+                isNativeAdVisible = false;
+                return;
+            }
+
+            isNativeAdVisible = IsFullyVisibleNativeAd(rectTransform);
+
+            Debug.Log($"IsFullyVisibleNativeAd - {IsFullyVisibleNativeAd(rectTransform)}");
+        }
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -56,6 +90,7 @@ namespace BidMachineAds.Unity.Api
 
         public void destroyNativeView()
         {
+            nativeAd?.destroy();
             transform.gameObject.SetActive(false);
         }
 
@@ -63,48 +98,31 @@ namespace BidMachineAds.Unity.Api
         {
             if (nativeAd == null) return;
 
-            if (nativeAdViewTitle)
-            {
-                nativeAdViewTitle.text = !string.IsNullOrEmpty(nativeAd.getTitle()) ? nativeAd.getTitle() : "";
-            }
+            if (!nativeAdViewTitle || !nativeAdViewDescription || !nativeAdViewDescription || !nativeAdViewRatting ||
+                !callToAction || !nativeAdViewIcon || !nativeAdViewImage) return;
 
-            if (nativeAdViewDescription)
-            {
-                nativeAdViewDescription.text =
-                    !string.IsNullOrEmpty(nativeAd.getDescription()) ? nativeAd.getDescription() : "";
-            }
+            nativeAdViewTitle.text = !string.IsNullOrEmpty(nativeAd.getTitle()) ? nativeAd.getTitle() : "";
+            nativeAdViewDescription.text =
+                !string.IsNullOrEmpty(nativeAd.getDescription()) ? nativeAd.getDescription() : "";
+            nativeAdViewSponsored.text = "Sponsored";
+            nativeAdViewRatting.text =
+                !string.IsNullOrEmpty(nativeAd.getRating().ToString("0.00"))
+                    ? nativeAd.getRating().ToString("0.00")
+                    : "";
 
-            if (nativeAdViewDescription)
-            {
-                nativeAdViewSponsored.text = "Sponsored";
-            }
+            var callToActionButtonText = callToAction.GetComponentInChildren<Text>();
 
-            if (nativeAdViewRatting)
-            {
-                nativeAdViewRatting.text =
-                    !string.IsNullOrEmpty(nativeAd.getRating().ToString("0.0000"))
-                        ? nativeAd.getRating().ToString("0.0000")
-                        : "";
-            }
-
-            if (callToAction.GetComponentInChildren<Text>())
+            if (callToActionButtonText)
             {
                 callToAction.GetComponentInChildren<Text>().text = !string.IsNullOrEmpty(nativeAd.getCallToAction())
                     ? nativeAd.getCallToAction()
                     : "";
             }
-            
-            transform.gameObject.SetActive(true);
-            
-            if (nativeAdViewIcon)
-            {
-                StartCoroutine(DownloadImage(nativeAd.getIcon(nativeAd), nativeAdViewIcon));
-            }
 
-            if (nativeAdViewImage)
-            {
-                StartCoroutine(DownloadImage(nativeAd.getImage(nativeAd), nativeAdViewImage));
-            }
+            gameObject.SetActive(true);
+
+            StartCoroutine(DownloadImage(nativeAd.getIcon(nativeAd), nativeAdViewIcon));
+            StartCoroutine(DownloadImage(nativeAd.getImage(nativeAd), nativeAdViewImage));
 
             DispatchImpression();
         }
@@ -114,9 +132,40 @@ namespace BidMachineAds.Unity.Api
             var request = UnityWebRequestTexture.GetTexture(url);
             yield return request.SendWebRequest();
             if (request.isNetworkError || request.isHttpError)
+            {
                 Debug.Log(request.error);
+            }
             else
+            {
                 image.texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+            }
+
+            yield return null;
+        }
+
+        private static int CountCornersVisibleFrom(RectTransform rectTransform, Camera camera = null)
+        {
+            var screenBounds = new Rect(0f, 0f, Screen.width, Screen.height);
+            var objectCorners = new Vector3[4];
+            rectTransform.GetWorldCorners(objectCorners);
+            return objectCorners.Select
+                (t => camera != null ? camera.WorldToScreenPoint(t) : t).Count(tempScreenSpaceCorner
+                => screenBounds.Contains(tempScreenSpaceCorner));
+        }
+
+        private static bool IsFullyVisibleNativeAd(RectTransform rectTransform, Camera camera = null)
+        {
+            return CountCornersVisibleFrom(rectTransform, camera) == 4;
+        }
+
+        private void OnDisable()
+        {
+            Debug.Log("OnDisable");
+            CancelInvoke();
+            if (callToAction)
+            {
+                callToAction.onClick.AddListener(null);
+            }
         }
     }
 }
