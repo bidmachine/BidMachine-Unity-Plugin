@@ -60,11 +60,11 @@ BDMRewarded *bdmRewarded;
 }
 
 - (void)rewardedFinishRewardAction:(nonnull BDMRewarded *)rewarded {
-    if(self.onAdClosed){
+    if(self.onAdRewarded){
         if (rewarded) {
             bdmRewarded = rewarded;
         }
-        self.onAdClosed(rewarded);
+        self.onAdRewarded(rewarded);
     }
 }
 
