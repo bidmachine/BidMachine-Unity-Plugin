@@ -344,53 +344,48 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onRewardedAdLoaded(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdLoaded");
+        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdLoaded");
     }
 
     public void onRewardedAdLoadFailed(RewardedAd ad, BMError error)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdLoadFailed");
+        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdLoadFailed");
     }
 
     public void onRewardedAdShown(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdShown");
+        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdShown");
     }
 
     public void onRewardedAdImpression(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdImpression");
+        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdImpression");
     }
 
     public void onRewardedAdClicked(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdClicked");
+        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdClicked");
     }
 
     public void onRewardedAdExpired(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdExpired");
+        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdExpired");
     }
 
     public void onRewardedAdShowFailed(RewardedAd ad, BMError error)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdShowFailed");
+        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdShowFailed");
     }
 
     public void onRewardedAdClosed(RewardedAd ad, bool finished)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdClosed");
+        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdClosed");
         Debug.Log("BidMachineUnity: RewardedAd - isFinished " + finished);
     }
 
     public void onRewardedAdRewarded(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdClosed");
-    }
-
-    public void onRewardedAdClosed(RewardedAd ad)
-    {
-        Debug.Log("BidMachineUnity: RewardedAd - onAdClosed");
+        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdRewarded");
     }
 
     #endregion
