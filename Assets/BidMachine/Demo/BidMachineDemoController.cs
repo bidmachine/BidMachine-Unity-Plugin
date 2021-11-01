@@ -295,47 +295,42 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onInterstitialAdLoaded(InterstitialAd ad)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdLoaded");
+        Debug.Log("BidMachineUnity: onInterstitialAdLoaded");
     }
 
     public void onInterstitialAdLoadFailed(InterstitialAd ad, BMError error)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdLoadFailed");
+        Debug.Log("BidMachineUnity: onInterstitialAdLoadFailed");
     }
 
     public void onInterstitialAdShown(InterstitialAd ad)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdShown");
+        Debug.Log("BidMachineUnity: onInterstitialAdShown");
     }
 
     public void onInterstitialAdImpression(InterstitialAd ad)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdImpression");
-    }
-
-    public void onInterstitialAdClosed(InterstitialAd ad)
-    {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdClicked");
+        Debug.Log("BidMachineUnity: onInterstitialAdImpression");
     }
 
     public void onInterstitialAdExpired(InterstitialAd ad)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdExpired");
+        Debug.Log("BidMachineUnity: onInterstitialAdExpired");
     }
 
     public void onInterstitialAdShowFailed(InterstitialAd ad, BMError error)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdShowFailed");
+        Debug.Log("BidMachineUnity: onInterstitialAdShowFailed");
     }
 
     public void onInterstitialAdClosed(InterstitialAd ad, bool finished)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdClosed");
+        Debug.Log($"BidMachineUnity: onInterstitialAdClosed - finished: {finished}");
     }
 
     public void onInterstitialAdClicked(InterstitialAd ad)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdClicked");
+        Debug.Log("BidMachineUnity: onInterstitialAdClicked");
     }
 
     #endregion
@@ -344,48 +339,92 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onRewardedAdLoaded(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdLoaded");
+        Debug.Log("BidMachineUnity: onRewardedAdLoaded");
     }
 
     public void onRewardedAdLoadFailed(RewardedAd ad, BMError error)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdLoadFailed");
+        Debug.Log("BidMachineUnity: onRewardedAdLoadFailed");
     }
 
     public void onRewardedAdShown(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdShown");
+        Debug.Log("BidMachineUnity: onRewardedAdShown");
     }
 
     public void onRewardedAdImpression(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdImpression");
+        Debug.Log("BidMachineUnity: onRewardedAdImpression");
     }
 
     public void onRewardedAdClicked(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdClicked");
+        Debug.Log("BidMachineUnity: onRewardedAdClicked");
     }
 
     public void onRewardedAdExpired(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdExpired");
+        Debug.Log("BidMachineUnity: onRewardedAdExpired");
     }
 
     public void onRewardedAdShowFailed(RewardedAd ad, BMError error)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdShowFailed");
+        Debug.Log("BidMachineUnity: onRewardedAdShowFailed");
     }
 
     public void onRewardedAdClosed(RewardedAd ad, bool finished)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdClosed");
-        Debug.Log("BidMachineUnity: RewardedAd - isFinished " + finished);
+        Debug.Log("BidMachineUnity: onRewardedAdClosed - finished: " + finished);
     }
 
     public void onRewardedAdRewarded(RewardedAd ad)
     {
-        Debug.Log("BidMachineUnity: RewardedAd - onRewardedAdRewarded");
+        Debug.Log("BidMachineUnity: onRewardedAdRewarded");
+    }
+
+    #endregion
+    
+    #region NativeAd Callbacks
+
+    public void onNativeAdLoaded(NativeAd ad)
+    {
+        Debug.Log($"BidMachineUnity: onNativeAdLoaded " +
+                  $" title - {ad.getTitle()}" + 
+                  $" description - {ad.getDescription()}" + 
+                  $" rating - {ad.getRating():0.0000}" + 
+                  $" callToAction - {ad.getCallToAction()}" + 
+                  $" icon - {ad.getIcon(ad)}" + 
+                  $" image - {ad.getImage(ad)}");
+        
+        if (nativeAdView)
+        {
+            nativeAdView.setNativeAd(ad);
+        }
+    }
+
+    public void onNativeAdLoadFailed(NativeAd ad, BMError error)
+    {
+        Debug.Log($"BidMachineUnity: onNativeAdLoadFailed - {error.message} - {error.code} ");
+    }
+
+    public void onNativeAdShown(NativeAd ad)
+    {
+        Debug.Log("BidMachineUnity: onNativeAdShown");
+    }
+
+    public void onNativeAdImpression(NativeAd ad)
+    {
+        Debug.Log("BidMachineUnity: onNativeAdImpression");
+    }
+
+    public void onNativeAdClicked(NativeAd ad)
+    {
+        Debug.Log("BidMachineUnity: onNativeAdClicked");
+    }
+
+    public void onNativeAdExpired(NativeAd ad)
+    {
+        Debug.Log("BidMachineUnity: onNativeAdExpired");
     }
 
     #endregion
@@ -394,37 +433,37 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onBannerAdLoaded(BannerView ad)
     {
-        Debug.Log("BidMachineUnity: BannerView - onAdLoaded");
+        Debug.Log("BidMachineUnity: onBannerAdLoaded");
     }
 
     public void onBannerAdLoadFailed(BannerView ad, BMError error)
     {
-        Debug.Log("BidMachineUnity: BannerView - onAdLoadFailed");
+        Debug.Log("BidMachineUnity: onBannerAdLoadFailed");
     }
 
     public void onBannerAdShown(BannerView ad)
     {
-        Debug.Log("BidMachineUnity: BannerView - onAdShown");
+        Debug.Log("BidMachineUnity: onBannerAdShown");
     }
 
     public void onBannerAdImpression(BannerView ad)
     {
-        Debug.Log("BidMachineUnity: BannerView - onAdImpression");
+        Debug.Log("BidMachineUnity: onBannerAdImpression");
     }
 
     public void onBannerAdClicked(BannerView ad)
     {
-        Debug.Log("BidMachineUnity: BannerView - onAdClicked");
+        Debug.Log("BidMachineUnity: onBannerAdClicked");
     }
 
     public void onBannerAdExpired(BannerView ad)
     {
-        Debug.Log("BidMachineUnity: BannerView - onAdExpired");
+        Debug.Log("BidMachineUnity: onBannerAdExpired");
     }
 
     #endregion
 
-    #region BannerRequestListener
+    #region BannerRequest Callbacks
 
     public void onBannerRequestSuccess(BannerRequest request, string auctionResult)
     {
@@ -460,7 +499,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     #endregion
 
-    #region InterstitialRequestListener
+    #region InterstitialRequest Callbacks
 
     public void onInterstitialRequestSuccess(InterstitialRequest request, string auctionResult)
     {
@@ -495,7 +534,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     #endregion
 
-    #region RewardedRequestListener
+    #region RewardedRequest Callbacks
 
     public void onRewardedRequestSuccess(RewardedRequest request, string auctionResult)
     {
@@ -530,7 +569,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     #endregion
 
-    #region NativeRequestListener
+    #region NativeRequest Callbacks
 
     public void onNativeRequestSuccess(NativeRequest request, string auctionResult)
     {
@@ -565,47 +604,5 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     #endregion
 
-    #region NativeAdListener
-
-    public void onNativeAdLoaded(NativeAd ad)
-    {
-        Debug.Log($"onNativeAdLoaded - ad.getTitle() - {ad.getTitle()}");
-        Debug.Log($"onNativeAdLoaded - ad.getDescription() - {ad.getDescription()}");
-        Debug.Log($"onNativeAdLoaded - ad.getRating() - {ad.getRating():0.0000}");
-        Debug.Log($"onNativeAdLoaded - ad.getCallToAction() - {ad.getCallToAction()}");
-        Debug.Log($"onNativeAdLoaded - ad.getIcon() - {ad.getIcon(ad)}");
-        Debug.Log($"onNativeAdLoaded - ad.getImage() - {ad.getImage(ad)}");
-
-        if (nativeAdView)
-        {
-            nativeAdView.setNativeAd(ad);
-        }
-    }
-
-    public void onNativeAdLoadFailed(NativeAd ad, BMError error)
-    {
-        Debug.Log($"onNativeAdLoadFailed - {error.message} - {error.code} ");
-    }
-
-    public void onNativeAdShown(NativeAd ad)
-    {
-        Debug.Log("onNativeAdShown");
-    }
-
-    public void onNativeAdImpression(NativeAd ad)
-    {
-        Debug.Log("onNativeAdImpression");
-    }
-
-    public void onNativeAdClicked(NativeAd ad)
-    {
-        Debug.Log("onNativeAdClicked");
-    }
-
-    public void onNativeAdExpired(NativeAd ad)
-    {
-        Debug.Log("onNativeAdExpired");
-    }
-
-    #endregion
+    
 }
