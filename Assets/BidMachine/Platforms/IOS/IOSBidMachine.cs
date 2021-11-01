@@ -469,6 +469,7 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(IInterstitialRequestListener interstitialAdRequestListener)
         {
             if (interstitialAdRequestListener == null) return;
+
             bridge.setInterstitialRequestDelegate(onInterstitialRequestSuccess, onInterstitialRequestFailed,
                 onInterstitialRequestExpired);
 
@@ -569,15 +570,6 @@ namespace BidMachineAds.Unity.iOS
                 interstitialAdShowFailed,
                 interstitialAdImpression, interstitialAdClicked, interstitialAdClosed, interstitialAdExpired);
             interstitialListeners.Add(bridge.GetIntPtr(), interstitialAdListener);
-
-            if (interstitialListeners.ContainsKey(bridge.GetIntPtr()))
-            {
-                interstitialListeners.Remove(bridge.GetIntPtr());
-            }
-            else
-            {
-                interstitialListeners.Add(bridge.GetIntPtr(), interstitialAdListener);
-            }
         }
 
         public void show()
@@ -1097,7 +1089,6 @@ namespace BidMachineAds.Unity.iOS
         {
             if (bannerAdRequestListener == null) return;
             bridge.setBannerRequestDelegate(onBannerRequestSuccess, onBannerRequestFailed, onBannerRequestExpired);
-
             if (bannerRequestListeners.ContainsKey(bridge.GetIntPtr()))
             {
                 bannerRequestListeners.Remove(bridge.GetIntPtr());
@@ -1188,10 +1179,8 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(IBannerListener bannerListener)
         {
             if (bannerListener == null) return;
-
             bridge.setDelegate(bannerViewLoaded, bannerAdLoadFailed, bannerAdShown, bannerAdImpression, bannerAdClicked,
                 bannerAdExpired);
-
             bannerListeners.Add(bridge.GetIntPtr(), bannerListener);
         }
 
@@ -1378,7 +1367,6 @@ namespace BidMachineAds.Unity.iOS
         {
             if (nativeRequestListener == null) return;
             bridge.setNativeRequestDelegate(onNativeRequestSuccess, onNativeRequestFailed, onNativeRequestExpired);
-
             if (nativeRequestListeners.ContainsKey(bridge.GetIntPtr()))
             {
                 nativeRequestListeners.Remove(bridge.GetIntPtr());
@@ -1494,16 +1482,14 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(INativeAdListener nativeAdListener)
         {
             if (nativeAdListener == null) return;
-
             bridge.setDelegate(nativeAdLoaded, nativeAdLoadFailed, nativeAdShown, nativeAdClicked,
                 nativeAdImpression, nativeAdExpired);
-
             nativeListeners.Add(bridge.NativeObject, nativeAdListener);
         }
 
         public void dispatchClick(NativeAd nativeAd)
         {
-           bridge.dispatchClick();
+            bridge.dispatchClick();
         }
 
         public void dispatchImpression(NativeAd nativeAd)
