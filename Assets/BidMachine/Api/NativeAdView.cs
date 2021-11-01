@@ -49,13 +49,13 @@ namespace BidMachineAds.Unity.Api
 
         public void setNativeAd(NativeAd ad)
         {
-            nativeAd?.destroy();
             nativeAd = ad;
             updateNativeAdView();
         }
 
         public void destroyNativeView()
         {
+            nativeAd = null;
             transform.gameObject.SetActive(false);
         }
 
@@ -93,9 +93,9 @@ namespace BidMachineAds.Unity.Api
                     ? nativeAd.getCallToAction()
                     : "";
             }
-            
+
             transform.gameObject.SetActive(true);
-            
+
             if (nativeAdViewIcon)
             {
                 StartCoroutine(DownloadImage(nativeAd.getIcon(nativeAd), nativeAdViewIcon));
