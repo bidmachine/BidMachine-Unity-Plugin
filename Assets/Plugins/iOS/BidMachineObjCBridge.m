@@ -38,7 +38,7 @@ static BDMNativeAdRequest *nativeRequest;
 NSMutableSet *rewardedRequests;
 NSMutableSet *interstitialRequests;
 NSMutableSet *bannerViewRequests;
-NSMutableSet *nativeRequests;
+//NSMutableSet *nativeRequests;
 
 static BidMachineBannerRequestDelegate *BidMachineBannerRequestDelegateInstance;
 static BidMachineInterstitialRequestDelegate * BidMachineInterstitialRequestDelegateInstance;
@@ -484,6 +484,7 @@ void InterstitialAdDestroy(){
     [interstitial invalidate];
     if(!interstitialRequests) interstitialRequests = [[NSMutableSet alloc ]init];
     if([interstitialRequests containsObject: interstitial]) [interstitialRequests removeObject:interstitial];
+    interstitial = nil;
 }
 
 void InterstitialAdLoad( BDMInterstitialRequest *interstitialRequest){
@@ -748,11 +749,9 @@ void RewardedAdDestroy(){
     }
     
     [rewarded invalidate];
-    
     if(!rewardedRequests) rewardedRequests = [[NSMutableSet alloc ]init];
-    
     if([rewardedRequests containsObject: rewarded]) [rewardedRequests removeObject:rewarded];
-    
+    rewarded = nil;
 }
 
 void RewardedLoad(BDMRewardedRequest *rewardedRequest){
@@ -1120,8 +1119,6 @@ char * GetNativeDescription(){
         native = [BDMNativeAd new];
     }
     
-    NSLog(@" Native description: %@", native.description);
-  
     const char *cString = [native.description UTF8String];
     char *cStringCopy = calloc([native.description length]+1, 1);
     return strncpy(cStringCopy, cString, [native.description length]);
@@ -1172,26 +1169,30 @@ bool * NativeAdCanShow(){
 }
 
 void NativeAdDestroy(){
-    if (!native) {
-        native = [BDMNativeAd new];
+    if (native != nil) {
+        [native invalidate];
+        printf("DEBuGBM Destroy native ad %s \n", native);
+        printf("DEBuGBM Load native request %s \n", nativeRequest);
+        native = nil;
+        
+        if(nativeRequest != nil){
+            nativeRequest = nil;
+        }
     }
-    
-    [native invalidate];
-    if(!nativeRequests) nativeRequests = [[NSMutableSet alloc ]init];
-    if([nativeRequests containsObject: native]) [nativeRequests removeObject:native];
 }
 
 void NativeAdLoad(){
-    if (!native) {
+    if (native == nil) {
         native = [BDMNativeAd new];
     }
     
-    if(!nativeRequests){
-        nativeRequests = [[NSMutableSet alloc ]init];
+    if (nativeRequest == nil) {
+        nativeRequest = [BDMNativeAdRequest new];
     }
     
     [native makeRequest:nativeRequest];
-    [nativeRequests addObject:native];
+    printf("DEBuGBM Load native ad %s \n", native);
+    printf("DEBuGBM Load native request %s \n", nativeRequest);
 }
 
 void NativeSetMediaAssetTypes(const char *value){
@@ -1291,7 +1292,7 @@ void DispatchClick(){
     if (!native) {
         native = [BDMNativeAd new];
     }
-
+    
     [native trackUserInteraction];
 }
 
