@@ -30,7 +30,12 @@ BDMNativeAd *bdmNativeAd;
 }
 
 - (void)didProduceUserAction:(nonnull id<BDMAdEventProducer>)producer {
-    
+    if(self.onAdClicked){
+        if (!bdmNativeAd) {
+            bdmNativeAd = [BDMNativeAd new];
+        }
+        self.onAdClicked(bdmNativeAd);
+    }
 }
 
 @end
