@@ -467,6 +467,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onBannerRequestSuccess(BannerRequest request, string auctionResult)
     {
+        Debug.Log("BidMachineUnity: onBannerRequestSuccess");
         if (request != null)
         {
             Debug.Log($"onBannerRequestSuccess - request.getSize() - {request.getSize()}");
@@ -480,20 +481,18 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             Debug.Log($"BannerRequestListener - onBannerRequestSuccess" +
                       $"auctionResult - {auctionResult}");
         }
-        else
-        {
-            Debug.Log("auctionResult - IsNullOrEmpty");
-        }
     }
 
     public void onBannerRequestFailed(BannerRequest request, BMError error)
     {
+        Debug.Log("BidMachineUnity: onBannerRequestFailed");
         Debug.Log("BannerRequestListener - onBannerRequestFailed" +
                   $"BMError - {error.code} - {error.message}");
     }
 
     public void onBannerRequestExpired(BannerRequest request)
     {
+        Debug.Log("BidMachineUnity: onBannerRequestExpired");
         Debug.Log("BannerRequestListener - onBannerRequestExpired");
     }
 
@@ -503,6 +502,8 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onInterstitialRequestSuccess(InterstitialRequest request, string auctionResult)
     {
+        Debug.Log("BidMachineUnity: onInterstitialRequestSuccess");
+
         if (request != null)
         {
             Debug.Log($"onInterstitialRequestSuccess - request.getAuctionResult() - {request.getAuctionResult()}");
@@ -523,12 +524,14 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onInterstitialRequestFailed(InterstitialRequest request, BMError error)
     {
+        Debug.Log("BidMachineUnity: onInterstitialRequestFailed");
         Debug.Log($"InterstitialRequestListener - onInterstitialRequestFailed" +
                   $"BMError - {error.code} - {error.message}");
     }
 
     public void onInterstitialRequestExpired(InterstitialRequest request)
     {
+        Debug.Log("BidMachineUnity: onInterstitialRequestExpired");
         Debug.Log($"InterstitialRequestListener - onInterstitialRequestExpired");
     }
 
@@ -538,6 +541,8 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onRewardedRequestSuccess(RewardedRequest request, string auctionResult)
     {
+        Debug.Log("BidMachineUnity: onRewardedRequestSuccess");
+
         if (request != null)
         {
             Debug.Log($"onRewardedRequestSuccess - request.getAuctionResult() - {request.getAuctionResult()}");
@@ -558,12 +563,14 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onRewardedRequestFailed(RewardedRequest request, BMError error)
     {
+        Debug.Log("BidMachineUnity: onRewardedRequestFailed");
         Debug.Log($"RewardedRequestListener - onRewardedRequestFailed" +
                   $"BMError - {error.code} - {error.message}");
     }
 
     public void onRewardedRequestExpired(RewardedRequest request)
     {
+        Debug.Log("BidMachineUnity: onRewardedRequestExpired");
         Debug.Log($"RewardedRequestListener - onRewardedRequestExpired");
     }
 
@@ -573,6 +580,8 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onNativeRequestSuccess(NativeRequest request, string auctionResult)
     {
+        Debug.Log("BidMachineUnity: onNativeRequestSuccess");
+
         if (request != null)
         {
             Debug.Log($"onNativeRequestSuccess - request.getAuctionResult() - {request.getAuctionResult()}");
@@ -593,16 +602,16 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onNativeRequestFailed(NativeRequest request, BMError error)
     {
+        Debug.Log("BidMachineUnity: onNativeRequestFailed");
         Debug.Log($"NativeRequestListener - onNativeRequestFailed" +
                   $"BMError - {error.code} - {error.message}");
     }
 
     public void onNativeRequestExpired(NativeRequest request)
     {
+        Debug.Log("BidMachineUnity: onNativeRequestExpired");
         Debug.Log($"NativeRequestListener - onNativeRequestExpired");
     }
 
     #endregion
-
-    
 }
