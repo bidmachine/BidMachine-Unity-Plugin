@@ -898,6 +898,14 @@ void BannerViewDestroy(){
     }
 }
 
+void BannerViewHide(){
+    if (bannerView != nil) {
+        [bannerView removeFromSuperview];
+    }else {
+        printf("BidMachineObjCBrigde.m BannerViewHide() BDMBannerView object - nil");
+    }
+}
+
 void BannerViewLoad(BDMInterstitialRequest *interstitialRequest){
     if (bannerView != nil) {
         [bannerView populateWithRequest:bannerRequest];
