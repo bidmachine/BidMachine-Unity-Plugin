@@ -1006,246 +1006,6 @@ void BannerViewSetDelegate(BidMachineBannerCallback onAdLoaded,
     bannerView.producerDelegate = BidMachineBannerViewDelegateInstance;
 }
 
-BDMBannerRequest * GetBannerViewRequest(){
-    if (!bannerRequest) {
-        bannerRequest = [BDMBannerRequest new];
-    }
-    
-    return bannerRequest;
-}
-
-BDMBannerView * GetBannerView(){
-    if (!bannerView) {
-        bannerView = [BDMBannerView new];
-    }
-    return bannerView;
-}
-
-
-void SetNativeRequestDelegate(NativeRequestSuccessCallback onSuccess,
-                              NativeRequestFailedCallback onFailed,
-                              NativeRequestExpiredCallback onExpired){
-    
-    if (!BidMachineNativeRequestDelegateInstance) {
-        BidMachineNativeRequestDelegateInstance = [BidMachineNativeRequestDelegate new];
-    }
-    
-    if (!nativeRequest) {
-        nativeRequest = [BDMNativeAdRequest new];
-    }
-    
-    BidMachineNativeRequestDelegateInstance.onNativeRequestSuccess = onSuccess;
-    BidMachineNativeRequestDelegateInstance.onNativeRequestFailed = onFailed;
-    BidMachineNativeRequestDelegateInstance.onNativeRequestExpired = onExpired;
-    
-    [nativeRequest performWithDelegate:BidMachineNativeRequestDelegateInstance];
-    
-}
-
-void NativeAdSetDelegate(BidMachineNativeCallback onAdLoaded,
-                         BidMachineNativeFailedCallback onAdLoadFailed,
-                         BidMachineNativeCallback onAdShown,
-                         BidMachineNativeCallback onAdClicked,
-                         BidMachineNativeCallback onAdImpression,
-                         BidMachineNativeCallback onAdExpired){
-    
-    if (!native) {
-        native = [BDMNativeAd new];
-    }
-    
-    if(!BidMachineNativeDelegateInstance){
-        BidMachineNativeDelegateInstance = [BidMachineNativeDelegate new];
-    }
-    
-    BidMachineNativeDelegateInstance.onAdLoaded = onAdLoaded;
-    BidMachineNativeDelegateInstance.onAdLoadFailed = onAdLoadFailed;
-    BidMachineNativeDelegateInstance.onAdShown = onAdShown;
-    BidMachineNativeDelegateInstance.onAdImpression = onAdImpression;
-    BidMachineNativeDelegateInstance.onAdClicked = onAdClicked;
-    BidMachineNativeDelegateInstance.onAdExpired = onAdExpired;
-    
-    native.delegate = BidMachineNativeDelegateInstance;
-    native.producerDelegate = BidMachineNativeDelegateInstance;
-}
-
-void NativeSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
-    if (!nativeRequest) {
-        nativeRequest = [BDMNativeAdRequest new];
-    }
-    NSArray<BDMPriceFloor *> *array = [[NSArray alloc] initWithObjects:bdmPriceFloor, nil];
-    nativeRequest.priceFloors = array;
-}
-
-void NativeSetBidPayload(const char *value){
-    if (!nativeRequest) {
-        nativeRequest = [BDMNativeAdRequest new];
-    }
-    nativeRequest.bidPayload = [NSString stringWithUTF8String:value];
-}
-
-void NativeSetPlacementId(const char *value){
-    if (!nativeRequest) {
-        nativeRequest = [BDMNativeAdRequest new];
-    }
-    nativeRequest.placementId = [NSString stringWithUTF8String:value];
-}
-
-void NativeSetLoadingTimeOut(int value){
-    if (!nativeRequest) {
-        nativeRequest = [BDMNativeAdRequest new];
-    }
-    nativeRequest.timeout = [NSNumber numberWithInt:value];
-}
-
-void NativeSetSessionAdParams(id<BDMContextualProtocol> value){
-    if (!nativeRequest) {
-        nativeRequest = [BDMNativeAdRequest new];
-    }
-    nativeRequest.contextualData = value;
-}
-
-char * GetNativeTitle(){
-    if (!native) {
-        native = [BDMNativeAd new];
-    }
-    const char *cString = [native.title UTF8String];
-    char *cStringCopy = calloc([native.title length]+1, 1);
-    return strncpy(cStringCopy, cString, [native.title length]);
-    
-}
-
-char * GetNativeDescription(){
-    if (!native) {
-        native = [BDMNativeAd new];
-    }
-    
-    const char *cString = [native.description UTF8String];
-    char *cStringCopy = calloc([native.description length]+1, 1);
-    return strncpy(cStringCopy, cString, [native.description length]);
-}
-
-char * GetNativeCallToAction(){
-    if (!native) {
-        native = [BDMNativeAd new];
-    }
-    const char *cString = [native.CTAText UTF8String];
-    char *cStringCopy = calloc([native.CTAText length]+1, 1);
-    return strncpy(cStringCopy, cString, [native.CTAText length]);
-    
-}
-
-float GetNativeRating(){
-    if (!native) {
-        native = [BDMNativeAd new];
-    }
-    float floatNativeStar = [native.starRating floatValue];
-    return floatNativeStar;
-}
-
-char * GetNativeImage(){
-    if (!native) {
-        native = [BDMNativeAd new];
-    }
-    
-    const char *cString = [native.mainImageUrl UTF8String];
-    char *cStringCopy = calloc([native.mainImageUrl length]+1, 1);
-    return strncpy(cStringCopy, cString, [native.mainImageUrl length]);
-}
-
-char * GetNativeIcon(){
-    if (!native) {
-        native = [BDMNativeAd new];
-    }
-    const char *cString = [native.iconUrl UTF8String];
-    char *cStringCopy = calloc([native.iconUrl length]+1, 1);
-    return strncpy(cStringCopy, cString, [native.iconUrl length]);
-}
-
-bool * NativeAdCanShow(){
-    if (!native) {
-        native = [BDMNativeAd new];
-    }
-    return native.canShow;
-}
-
-void NativeAdDestroy(){
-    if (native != nil) {
-        [native invalidate];
-        printf("DEBuGBM Destroy native ad %s \n", native);
-        printf("DEBuGBM Load native request %s \n", nativeRequest);
-        native = nil;
-        
-        if(nativeRequest != nil){
-            nativeRequest = nil;
-        }
-    }
-}
-
-void NativeAdLoad(){
-    if (native == nil) {
-        native = [BDMNativeAd new];
-    }
-    
-    if (nativeRequest == nil) {
-        nativeRequest = [BDMNativeAdRequest new];
-    }
-    
-    [native makeRequest:nativeRequest];
-    printf("DEBuGBM Load native ad %s \n", native);
-    printf("DEBuGBM Load native request %s \n", nativeRequest);
-}
-
-void NativeSetMediaAssetTypes(const char *value){
-    if (!nativeRequest) {
-        nativeRequest = [BDMNativeAdRequest new];
-    }
-    
-    nativeRequest.type = BDMNativeAdTypeIconAndImage;
-}
-
-char *GetNativeAuctionResult(){
-    if (!nativeRequest) {
-        nativeRequest = [BDMNativeAdRequest new];
-    }
-    
-    if(nativeRequest.info){
-        
-        NSString *jsonString = @"";
-        NSMutableDictionary *dictionary = [NSMutableDictionary new];
-        
-        dictionary[@"adDomains"] = nativeRequest.info.adDomains;
-        dictionary[@"bidID"] = nativeRequest.info.bidID;
-        dictionary[@"cID"] = nativeRequest.info.cID;
-        dictionary[@"creativeID"] = nativeRequest.info.creativeID;
-        dictionary[@"customParams"] = nativeRequest.info.customParams;
-        dictionary[@"dealID"] = nativeRequest.info.dealID;
-        dictionary[@"demandSource"] = nativeRequest.info.demandSource;
-        dictionary[@"price"] = nativeRequest.info.price;
-        
-        NSError *error;
-        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
-        
-        if (data) {
-            NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
-        }
-        
-        if (data) {
-            
-            jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            const char *cString = [jsonString UTF8String];
-            char *cStringCopy = calloc([jsonString length]+1, 1);
-            return strncpy(cStringCopy, cString, [jsonString length]);
-            
-        }
-        else
-        {
-            return "empty";
-        }
-    }else {
-        return "empty";
-    }
-}
-
 char *GetBannerAuctionResult(){
     if (!bannerRequest) {
         bannerRequest = [BDMBannerRequest new];
@@ -1288,37 +1048,267 @@ char *GetBannerAuctionResult(){
     }
 }
 
-void DispatchClick(){
-    if (!native) {
-        native = [BDMNativeAd new];
+BDMBannerRequest * GetBannerViewRequest(){
+    if (!bannerRequest) {
+        bannerRequest = [BDMBannerRequest new];
     }
     
+    return bannerRequest;
+}
+
+BDMBannerView * GetBannerView(){
+    if (!bannerView) {
+        bannerView = [BDMBannerView new];
+    }
+    return bannerView;
+}
+
+
+void SetNativeRequestDelegate(NativeRequestSuccessCallback onSuccess,
+                              NativeRequestFailedCallback onFailed,
+                              NativeRequestExpiredCallback onExpired){
+    
+    if (!BidMachineNativeRequestDelegateInstance) {
+        BidMachineNativeRequestDelegateInstance = [BidMachineNativeRequestDelegate new];}
+    
+    if (nativeRequest != nil) {
+        
+        BidMachineNativeRequestDelegateInstance.onNativeRequestSuccess = onSuccess;
+        BidMachineNativeRequestDelegateInstance.onNativeRequestFailed = onFailed;
+        BidMachineNativeRequestDelegateInstance.onNativeRequestExpired = onExpired;
+        
+        [nativeRequest performWithDelegate:BidMachineNativeRequestDelegateInstance];
+    }
+}
+
+void NativeAdSetDelegate(BidMachineNativeCallback onAdLoaded,
+                         BidMachineNativeFailedCallback onAdLoadFailed,
+                         BidMachineNativeCallback onAdShown,
+                         BidMachineNativeCallback onAdClicked,
+                         BidMachineNativeCallback onAdImpression,
+                         BidMachineNativeCallback onAdExpired){
+    
+    if (native != nil) {
+        
+        if(!BidMachineNativeDelegateInstance){
+            BidMachineNativeDelegateInstance = [BidMachineNativeDelegate new];
+        }
+        
+        BidMachineNativeDelegateInstance.onAdLoaded = onAdLoaded;
+        BidMachineNativeDelegateInstance.onAdLoadFailed = onAdLoadFailed;
+        BidMachineNativeDelegateInstance.onAdShown = onAdShown;
+        BidMachineNativeDelegateInstance.onAdImpression = onAdImpression;
+        BidMachineNativeDelegateInstance.onAdClicked = onAdClicked;
+        BidMachineNativeDelegateInstance.onAdExpired = onAdExpired;
+        
+        native.delegate = BidMachineNativeDelegateInstance;
+        native.producerDelegate = BidMachineNativeDelegateInstance;
+    }
+}
+
+void NativeSetPriceFloor(BDMPriceFloor *bdmPriceFloor){
+    if (nativeRequest != nil) {
+        NSArray<BDMPriceFloor *> *array = [[NSArray alloc] initWithObjects:bdmPriceFloor, nil];
+        nativeRequest.priceFloors = array;
+    }
+}
+
+void NativeSetBidPayload(const char *value){
+    if (nativeRequest != nil) {
+        nativeRequest.bidPayload = [NSString stringWithUTF8String:value];
+    }
+}
+
+void NativeSetPlacementId(const char *value){
+    if (nativeRequest != nil) {
+        nativeRequest.placementId = [NSString stringWithUTF8String:value];
+    }
+}
+
+void NativeSetLoadingTimeOut(int value){
+    if (nativeRequest != nil) {
+        nativeRequest.timeout = [NSNumber numberWithInt:value];
+    }
+}
+
+void NativeSetSessionAdParams(id<BDMContextualProtocol> value){
+    if (nativeRequest != nil) {
+        nativeRequest.contextualData = value;
+    }
+}
+
+char * GetNativeTitle(){
+    if (native != nil) {
+        const char *cString = [native.title UTF8String];
+        char *cStringCopy = calloc([native.title length]+1, 1);
+        return strncpy(cStringCopy, cString, [native.title length]);
+    }else {
+        return "BidMachineObjCBrigde.m GetNativeTitle() BDMNativeAd object - nil";
+    }
+}
+
+char * GetNativeDescription(){
+    if (native != nil) {
+        const char *cString = [native.description UTF8String];
+        char *cStringCopy = calloc([native.description length]+1, 1);
+        return strncpy(cStringCopy, cString, [native.description length]);
+    } else {
+        return "BidMachineObjCBrigde.m GetNativeDescription() BDMNativeAd object - nil";
+    }
+}
+
+char * GetNativeCallToAction(){
+    if (native != nil) {
+        const char *cString = [native.CTAText UTF8String];
+        char *cStringCopy = calloc([native.CTAText length]+1, 1);
+        return strncpy(cStringCopy, cString, [native.CTAText length]);
+    }else {
+        return "BidMachineObjCBrigde.m GetNativeCallToAction() BDMNativeAd object - nil";
+    }
+}
+
+float GetNativeRating(){
+    if (native != nil) {
+        float floatNativeStar = [native.starRating floatValue];
+        return floatNativeStar;
+    } else {
+        return 0.0f;
+    }
+}
+
+char * GetNativeImage(){
+    if (native != nil) {
+        const char *cString = [native.mainImageUrl UTF8String];
+        char *cStringCopy = calloc([native.mainImageUrl length]+1, 1);
+        return strncpy(cStringCopy, cString, [native.mainImageUrl length]);
+    }else {
+        return "BidMachineObjCBrigde.m GetNativeImage() BDMNativeAd object - nil";
+    }
+}
+
+char * GetNativeIcon(){
+    if (native != nil) {
+        const char *cString = [native.iconUrl UTF8String];
+        char *cStringCopy = calloc([native.iconUrl length]+1, 1);
+        return strncpy(cStringCopy, cString, [native.iconUrl length]);
+    }else {
+        return "BidMachineObjCBrigde.m GetNativeIcon() BDMNativeAd object - nil";
+    }
+}
+
+bool * NativeAdCanShow(){
+    if (native != nil) {
+        return native.canShow;
+    } else {
+        return false;
+    }
+}
+
+void NativeAdDestroy(){
+    printf("DEBuGBM native.auctionInfo.bidID  %s \n %s", [native.auctionInfo.bidID UTF8String]);
+  
+    if (native != nil) {
+        [native invalidate];
+        printf("DEBuGBM Destroy native ad %p \n", &native);
+        printf("DEBuGBM Destroy native request %p \n", &nativeRequest);
+        native = nil;
+        
+        if(nativeRequest != nil){
+            nativeRequest = nil;
+        }
+    }
+}
+
+void NativeAdLoad(){
+    if (native != nil && nativeRequest != nil) {
+        printf("DEBuGBM Load native ad %p \n", &native);
+        printf("DEBuGBM Load native request %p \n", &nativeRequest);
+        [native makeRequest:nativeRequest];
+    }
+}
+
+void NativeSetMediaAssetTypes(const char *value){
+    if (nativeRequest != nil) {
+        nativeRequest.type = BDMNativeAdTypeIconAndImage;
+    }
+}
+
+char *GetNativeAuctionResult(){
+    if (nativeRequest != nil) {
+        if(nativeRequest.info){
+            
+            NSString *jsonString = @"";
+            NSMutableDictionary *dictionary = [NSMutableDictionary new];
+            
+            dictionary[@"adDomains"] = nativeRequest.info.adDomains;
+            dictionary[@"bidID"] = nativeRequest.info.bidID;
+            dictionary[@"cID"] = nativeRequest.info.cID;
+            dictionary[@"creativeID"] = nativeRequest.info.creativeID;
+            dictionary[@"customParams"] = nativeRequest.info.customParams;
+            dictionary[@"dealID"] = nativeRequest.info.dealID;
+            dictionary[@"demandSource"] = nativeRequest.info.demandSource;
+            dictionary[@"price"] = nativeRequest.info.price;
+            
+            NSError *error;
+            NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
+            
+            if (data) {
+                NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
+            }
+            
+            if (data) {
+                
+                jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                const char *cString = [jsonString UTF8String];
+                char *cStringCopy = calloc([jsonString length]+1, 1);
+                return strncpy(cStringCopy, cString, [jsonString length]);
+                
+            }
+            else
+            {
+                return "empty";
+            }
+        }else {
+            return "empty";
+        }
+    }else {
+        return "BidMachineObjCBrigde.m GetNativeAuctionResult() BDMNativeAdRequest object - nil";
+    }
+}
+
+void DispatchClick(){
+    if (native != nil) {
     [native trackUserInteraction];
+    }
 }
 
 void DispatchImpression(){
-    if (!native) {
-        native = [BDMNativeAd new];
-    }
-    
+    if (native != nil) {
     [native trackContainerAdded];
     [native trackImpression];
     [native trackViewable];
+    }
 }
 
 BDMNativeAd * GetNativeAd(){
-    if (!native) {
+    if (native == nil) {
         native = [BDMNativeAd new];
-    }
+        
+        BDMNativeAd *someNative = [BDMNativeAd new];
+        native = someNative;
+        printf("DEBuGBM GetNativeAd static %p \n", &native);
+        printf("DEBuGBM GetNativeAd loc %p \n", &someNative);
     
+    }
     return native;
 }
 
 BDMNativeAdRequest * GetNativeRequest(){
-    if (!nativeRequest) {
+    
+    if (nativeRequest == nil) {
         nativeRequest = [BDMNativeAdRequest new];
+        printf("DEBuGBM GetNativeRequest %p \n", &nativeRequest);
     }
     
     return nativeRequest;
 }
-
