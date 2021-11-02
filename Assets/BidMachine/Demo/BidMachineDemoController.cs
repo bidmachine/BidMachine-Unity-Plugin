@@ -195,8 +195,8 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void DestroyNativeAd()
     {
-        nativeAd.destroy();
         nativeAdView.destroyNativeView();
+        nativeAd.destroy();
         nativeAd = null;
         nativeRequest = null;
     }
