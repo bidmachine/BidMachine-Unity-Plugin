@@ -29,7 +29,6 @@ static BDMRewarded *rewarded;
 static BDMBannerView *bannerView;
 static BDMNativeAd *native;
 
-
 static BDMRewardedRequest *rewardedRequest;
 static BDMInterstitialRequest *interstitialRequest;
 static BDMBannerRequest *bannerRequest;
@@ -807,7 +806,6 @@ void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
     }
     
     if (bannerRequest != nil) {
-        bannerRequest = [BDMBannerRequest new];
         BidMachineBannerRequestDelegateInstance.onBannerRequestSuccess = onSuccess;
         BidMachineBannerRequestDelegateInstance.onBannerRequestFailed = onFailed;
         BidMachineBannerRequestDelegateInstance.onBannerRequestExpired = onExpired;
