@@ -818,6 +818,11 @@ namespace BidMachineAds.Unity.iOS
             BannerViewDestroy();
         }
 
+        public void hide()
+        {
+            BannerViewHide();
+        }
+
         public bool show(int YAxis, int XAxis)
         {
             BannerViewShow(YAxis, XAxis);
@@ -847,6 +852,9 @@ namespace BidMachineAds.Unity.iOS
 
         [DllImport("__Internal")]
         private static extern void BannerViewDestroy();
+        
+        [DllImport("__Internal")]
+        private static extern void BannerViewHide();
 
         [DllImport("__Internal")]
         private static extern void BannerViewShow(int YAxis, int XAxis);
