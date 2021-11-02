@@ -1265,9 +1265,9 @@ namespace BidMachineAds.Unity.iOS
     {
         private readonly NativeRequestObjCBridge bridge;
 
-        public iOSNativeRequest(IntPtr bannerViewRequest)
+        public iOSNativeRequest(IntPtr nativeRequest)
         {
-            bridge = new NativeRequestObjCBridge(bannerViewRequest);
+            bridge = new NativeRequestObjCBridge(nativeRequest);
         }
 
         public IntPtr GetIntPtr()
