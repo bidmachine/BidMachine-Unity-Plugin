@@ -116,21 +116,27 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void LoadBanner()
     {
-        bannerRequest = new BannerRequestBuilder()
-            .setSize(BannerSize.Size_320х50)
-            // .setTargetingParams(targetingParams)
-            // .setPriceFloorParams(priceFloorParams)
-            // .setSessionAdParams(sessionAdParams)
-               .setPlacementId("placement_bannerRequest")
-            // .setLoadingTimeOut(123)
-            // .setBidPayload("123")
-            // .setNetworks("admob")
-            .setListener(this)
-            .build();
+        if (bannerRequest == null)
+        {
+            bannerRequest = new BannerRequestBuilder()
+                .setSize(BannerSize.Size_320х50)
+                // .setTargetingParams(targetingParams)
+                // .setPriceFloorParams(priceFloorParams)
+                // .setSessionAdParams(sessionAdParams)
+                .setPlacementId("placement_bannerRequest")
+                // .setLoadingTimeOut(123)
+                // .setBidPayload("123")
+                // .setNetworks("admob")
+                .setListener(this)
+                .build();
 
-        bannerView = new BannerView();
-        bannerView.setListener(this);
-        bannerView.load(bannerRequest);
+            if (bannerView == null)
+            {
+                bannerView = new BannerView();
+                bannerView.setListener(this);
+                bannerView.load(bannerRequest);
+            }
+        }
     }
 
     public void ShowBannerView()
@@ -143,8 +149,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void DestroyBanner()
     {
-        bannerView.hideBannerView();
-        bannerView.destroy();
+        if (bannerView != null)
+        {
+            bannerView.hideBannerView();
+            bannerView.destroy();
+            bannerView = null;
+            bannerRequest = null;
+        }
     }
 
     #endregion
@@ -163,13 +174,13 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 // .setTargetingParams(targetingParams)
                 // .setPriceFloorParams(priceFloorParams)
                 // .setSessionAdParams(sessionAdParams)
-                 .setPlacementId("placement_nativeRequest")
+                .setPlacementId("placement_nativeRequest")
                 // .setLoadingTimeOut(123)
                 // .setBidPayload("123")
                 // .setNetworks("admob")
                 .setListener(this)
                 .build();
-            
+
             if (nativeAd == null)
             {
                 nativeAd = new NativeAd();
@@ -203,19 +214,19 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 // .setTargetingParams(targetingParams)
                 // .setPriceFloorParams(priceFloorParams)
                 // .setSessionAdParams(sessionAdParams)
-                   .setPlacementId("placement_interstitialRequest")
+                .setPlacementId("placement_interstitialRequest")
                 // .setLoadingTimeOut(123)
                 // .setBidPayload("123")
                 // .setNetworks("admob")
                 .setListener(this)
                 .build();
-        }
 
-        if (interstitialAd == null)
-        {
-            interstitialAd = new InterstitialAd();
-            interstitialAd.setListener(this);
-            interstitialAd.load(interstitialRequest);
+            if (interstitialAd == null)
+            {
+                interstitialAd = new InterstitialAd();
+                interstitialAd.setListener(this);
+                interstitialAd.load(interstitialRequest);
+            }
         }
     }
 
@@ -227,18 +238,17 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             {
                 interstitialAd.show();
             }
-            else
-            {
-                Debug.Log("canShow - InterstitialAd - false");
-            }
         }
     }
 
     public void DestroyInterstitial()
     {
-        interstitialAd.destroy();
-        interstitialAd = null;
-        interstitialRequest = null;
+        if (interstitialAd != null)
+        {
+            interstitialAd.destroy();
+            interstitialAd = null;
+            interstitialRequest = null;
+        }
     }
 
     #endregion
@@ -259,25 +269,24 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 // .setNetworks("admob")
                 .setListener(this)
                 .build();
-        }
 
-        if (rewardedAd == null)
-        {
-            rewardedAd = new RewardedAd();
-            rewardedAd.setListener(this);
-            rewardedAd.load(rewardedRequest);
+            if (rewardedAd == null)
+            {
+                rewardedAd = new RewardedAd();
+                rewardedAd.setListener(this);
+                rewardedAd.load(rewardedRequest);
+            }
         }
     }
 
     public void ShowRewardedAd()
     {
-        if (rewardedAd.canShow())
+        if (rewardedAd != null)
         {
-            rewardedAd.show();
-        }
-        else
-        {
-            Debug.Log("canShow - RewardedAd - false");
+            if (rewardedAd.canShow())
+            {
+                rewardedAd.show();
+            }
         }
     }
 
@@ -383,19 +392,19 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     }
 
     #endregion
-    
+
     #region NativeAd Callbacks
 
     public void onNativeAdLoaded(NativeAd ad)
     {
         Debug.Log($"BidMachineUnity: onNativeAdLoaded " +
-                  $" title - {ad.getTitle()}" + 
-                  $" description - {ad.getDescription()}" + 
-                  $" rating - {ad.getRating():0.0000}" + 
-                  $" callToAction - {ad.getCallToAction()}" + 
-                  $" icon - {ad.getIcon(ad)}" + 
+                  $" title - {ad.getTitle()}" +
+                  $" description - {ad.getDescription()}" +
+                  $" rating - {ad.getRating():0.0000}" +
+                  $" callToAction - {ad.getCallToAction()}" +
+                  $" icon - {ad.getIcon(ad)}" +
                   $" image - {ad.getImage(ad)}");
-        
+
         if (nativeAdView)
         {
             nativeAdView.setNativeAd(ad);
