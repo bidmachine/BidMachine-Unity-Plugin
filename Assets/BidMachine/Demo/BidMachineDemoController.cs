@@ -477,6 +477,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     public void onBannerRequestSuccess(BannerRequest request, string auctionResult)
     {
         Debug.Log("BidMachineUnity: onBannerRequestSuccess");
+        
         if (request != null)
         {
             Debug.Log($"onBannerRequestSuccess - request.getSize() - {request.getSize()}");
