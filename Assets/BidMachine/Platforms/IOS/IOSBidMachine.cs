@@ -1191,7 +1191,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void hideBannerView()
         {
-            bridge.destroy();
+            bridge.hide();
         }
 
         #region BannerAd Delegate
