@@ -908,7 +908,6 @@ void BannerViewLoad(BDMInterstitialRequest *interstitialRequest){
 
 void BannerViewShow(int YAxis, int XAxis){
     if (bannerView != nil) {
-        
         [RootViewController().view addSubview:bannerView];
         [bannerView setTranslatesAutoresizingMaskIntoConstraints:NO];
         
