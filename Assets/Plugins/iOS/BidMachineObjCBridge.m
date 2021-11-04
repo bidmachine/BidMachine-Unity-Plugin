@@ -1111,12 +1111,11 @@ void NativeAdSetDelegate(BidMachineNativeCallback onAdLoaded,
                          BidMachineNativeCallback onAdImpression,
                          BidMachineNativeCallback onAdExpired){
     
+    if(!BidMachineNativeDelegateInstance){
+        BidMachineNativeDelegateInstance = [BidMachineNativeDelegate new];
+    }
+    
     if (native != nil) {
-        
-        if(!BidMachineNativeDelegateInstance){
-            BidMachineNativeDelegateInstance = [BidMachineNativeDelegate new];
-        }
-        
         BidMachineNativeDelegateInstance.onAdLoaded = onAdLoaded;
         BidMachineNativeDelegateInstance.onAdLoadFailed = onAdLoadFailed;
         BidMachineNativeDelegateInstance.onAdShown = onAdShown;
