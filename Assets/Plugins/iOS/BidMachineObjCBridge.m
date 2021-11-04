@@ -499,7 +499,7 @@ void InterstitialAdDestroy(){
     }
 }
 
-void InterstitialAdLoad( BDMInterstitialRequest *interstitialRequest){
+void InterstitialAdLoad(BDMInterstitialRequest *interstitialRequest){
     if (interstitial != nil) {
         [interstitial populateWithRequest:interstitialRequest];
     }else {
@@ -890,7 +890,9 @@ void BannerViewDestroy(){
     if (bannerView != nil) {
         [bannerView removeFromSuperview];
         bannerView = nil;
-        bannerRequest = nil;
+        if (bannerRequest != nil) {
+            bannerRequest = nil;
+        }
     }else {
         printf("BidMachineObjCBrigde.m BannerViewDestroy() BDMBannerView object - nil");
     }
@@ -904,7 +906,7 @@ void BannerViewHide(){
     }
 }
 
-void BannerViewLoad(BDMInterstitialRequest *interstitialRequest){
+void BannerViewLoad(BDMBannerRequest *bannerRequest){
     if (bannerView != nil) {
         [bannerView populateWithRequest:bannerRequest];
     }else {
@@ -1259,10 +1261,8 @@ void NativeAdDestroy(){
     }
 }
 
-void NativeAdLoad(){
-    if (native != nil && nativeRequest != nil) {
-        printf("DEBuGBM Load native ad %p \n", &native);
-        printf("DEBuGBM Load native request %p \n", &nativeRequest);
+void NativeAdLoad(BDMNativeAdRequest *nativeRequest){
+    if (native != nil) {
         [native makeRequest:nativeRequest];
     }else {
         printf("BidMachineObjCBrigde.m NativeAdLoad() BDMNativeAd and BDMNativeAdRequest objects - nil");
