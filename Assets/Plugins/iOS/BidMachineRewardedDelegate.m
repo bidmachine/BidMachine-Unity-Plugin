@@ -9,7 +9,6 @@ BDMRewarded *bdmRewarded;
         if (rewarded) {
             bdmRewarded = rewarded;
         }
-        
         self.onAdShowFailed(rewarded, error);
     }
 }
