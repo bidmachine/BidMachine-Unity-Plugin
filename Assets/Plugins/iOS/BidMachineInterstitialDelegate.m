@@ -7,7 +7,7 @@ BDMInterstitial *bdmInterstitial;
 
 - (void)interstitial:(BDMInterstitial *)interstitial failedWithError:(NSError *)error {
     if(self.onAdLoadFailed){
-        if (!bdmInterstitial) {
+        if(interstitial){
             bdmInterstitial = interstitial;
         }
         self.onAdLoadFailed(interstitial, error);
@@ -16,7 +16,7 @@ BDMInterstitial *bdmInterstitial;
 
 - (void)interstitial:(BDMInterstitial *)interstitial failedToPresentWithError:(NSError *)error {
     if(self.onAdShowFailed){
-        if (!bdmInterstitial) {
+        if (interstitial) {
             bdmInterstitial = interstitial;
         }
         self.onAdShowFailed(interstitial, error);
@@ -25,7 +25,7 @@ BDMInterstitial *bdmInterstitial;
 
 - (void)interstitialReadyToPresent:(nonnull BDMInterstitial *)interstitial {
     if(self.onAdLoaded){
-        if (!bdmInterstitial) {
+        if (interstitial) {
             bdmInterstitial = interstitial;
         }
         self.onAdLoaded(interstitial);
@@ -34,7 +34,7 @@ BDMInterstitial *bdmInterstitial;
 
 - (void)interstitialDidDismiss:(nonnull BDMInterstitial *)interstitial {
     if(self.onAdClosed){
-        if (!bdmInterstitial) {
+        if (interstitial) {
             bdmInterstitial = interstitial;
         }
         self.onAdClosed(interstitial, true);
@@ -43,7 +43,7 @@ BDMInterstitial *bdmInterstitial;
 
 - (void)interstitialRecieveUserInteraction:(nonnull BDMInterstitial *)interstitial {
     if(self.onAdClicked){
-        if (!bdmInterstitial) {
+        if (interstitial) {
             bdmInterstitial = interstitial;
         }
         self.onAdClicked(interstitial);
@@ -52,7 +52,7 @@ BDMInterstitial *bdmInterstitial;
 
 - (void)interstitialWillPresent:(nonnull BDMInterstitial *)interstitial {
     if(self.onAdShown){
-        if (!bdmInterstitial) {
+        if (interstitial) {
             bdmInterstitial = interstitial;
         }
         self.onAdShown(interstitial);
@@ -61,7 +61,7 @@ BDMInterstitial *bdmInterstitial;
 
 - (void)interstitialDidExpire:(BDMInterstitial *)interstitial{
     if(self.onAdExpired){
-        if (!bdmInterstitial) {
+        if (interstitial) {
             bdmInterstitial = interstitial;
         }
         self.onAdExpired(interstitial);
