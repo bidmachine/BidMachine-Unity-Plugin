@@ -5,6 +5,8 @@ using UnityEngine;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using UnityEngine.Android;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BidMachineAds.Unity.Android
 {
@@ -946,9 +948,7 @@ namespace BidMachineAds.Unity.Android
         public string getAuctionResult()
         {
             var auctionResultAndroidJavaObject = bannerRequest.Call<AndroidJavaObject>("getAuctionResult");
-            return !string.IsNullOrEmpty(auctionResultAndroidJavaObject.Call<string>("toString"))
-                ? auctionResultAndroidJavaObject.Call<string>("toString")
-                : "null";
+            return AuctionResultHelper.BuildAuctionResultString(auctionResultAndroidJavaObject);
         }
 
         public bool isDestroyed()
@@ -980,9 +980,7 @@ namespace BidMachineAds.Unity.Android
         public string getAuctionResult()
         {
             var auctionResultAndroidJavaObject = interstitialRequest.Call<AndroidJavaObject>("getAuctionResult");
-            return !string.IsNullOrEmpty(auctionResultAndroidJavaObject.Call<string>("toString"))
-                ? auctionResultAndroidJavaObject.Call<string>("toString")
-                : "null";
+            return AuctionResultHelper.BuildAuctionResultString(auctionResultAndroidJavaObject);
         }
 
         public bool isDestroyed()
@@ -1014,9 +1012,7 @@ namespace BidMachineAds.Unity.Android
         public string getAuctionResult()
         {
             var auctionResultAndroidJavaObject = rewardedRequest.Call<AndroidJavaObject>("getAuctionResult");
-            return !string.IsNullOrEmpty(auctionResultAndroidJavaObject.Call<string>("toString"))
-                ? auctionResultAndroidJavaObject.Call<string>("toString")
-                : "null";
+            return AuctionResultHelper.BuildAuctionResultString(auctionResultAndroidJavaObject);
         }
 
         public bool isDestroyed()
@@ -1048,9 +1044,7 @@ namespace BidMachineAds.Unity.Android
         public string getAuctionResult()
         {
             var auctionResultAndroidJavaObject = javaNativeRequest.Call<AndroidJavaObject>("getAuctionResult");
-            return !string.IsNullOrEmpty(auctionResultAndroidJavaObject.Call<string>("toString"))
-                ? auctionResultAndroidJavaObject.Call<string>("toString")
-                : "null";
+            return AuctionResultHelper.BuildAuctionResultString(auctionResultAndroidJavaObject);
         }
 
         public bool isDestroyed()
@@ -1433,6 +1427,53 @@ namespace BidMachineAds.Unity.Android
             }
 
             return value;
+        }
+    }
+    
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public static class AuctionResultHelper
+    {
+        public static string BuildAuctionResultString(AndroidJavaObject obj)
+        {
+            var customParamsAndroidJavaObject = obj.Call<AndroidJavaObject>("getCustomParams");
+            var adDomainsAndroidJavaObject = obj.Call<AndroidJavaObject>("getAdDomains");
+
+            string dealID = string.IsNullOrEmpty(obj.Call<string>("getDeal")) ? "null" : obj.Call<string>("getDeal").ToUpper();
+            string demandSource = string.IsNullOrEmpty(obj.Call<string>("getDemandSource")) ? "null" : obj.Call<string>("getDemandSource");
+            string cID = string.IsNullOrEmpty(obj.Call<string>("getCid")) ? "null" : obj.Call<string>("getCid");
+            string customParams = string.Join(",", MapToDictionary(customParamsAndroidJavaObject).Select(pair => String.Format("{0}:{1}", pair.Key.ToString(), pair.Value.ToString())).ToArray());
+            string adDomains = string.Join(",", AndroidJNIHelper.ConvertFromJNIArray<string[]>(adDomainsAndroidJavaObject.GetRawObject()).ToList().Select(adDomain => $"\"{adDomain}\"").ToList());
+            string creativeID = string.IsNullOrEmpty(obj.Call<string>("getCreativeId")) ? "null" : obj.Call<string>("getCreativeId");
+            string bidID = string.IsNullOrEmpty(obj.Call<string>("getId")) ? "null" : obj.Call<string>("getId");
+            string price = string.IsNullOrEmpty(obj.Call<double>("getPrice").ToString()) ? "null" : obj.Call<double>("getPrice").ToString();
+
+            var auctionResult = $"{{\"dealID\":\"{dealID}\",\"demandSource\":\"{demandSource}\",\"cID\":\"{cID}\",\"customParams\":{{{customParams}}},\"adDomains\":[{adDomains}],\"creativeID\":\"{creativeID}\",\"bidID\":\"{bidID}\",\"price\":{price}}}";
+
+            return auctionResult;
+        }
+
+        private static Dictionary<string, string> MapToDictionary(AndroidJavaObject obj)
+        {
+            var mapClazz = new AndroidJavaObject("java.util.HashMap");
+            var setClazz = new AndroidJavaObject("java.util.HashSet");
+
+            IntPtr keySetMethod = AndroidJNIHelper.GetMethodID(mapClazz.GetRawClass(), "keySet", "()Ljava/util/Set;");
+            IntPtr set = AndroidJNI.CallObjectMethod(obj.GetRawObject(), keySetMethod, new jvalue[] { });
+            IntPtr toArrayMethod = AndroidJNIHelper.GetMethodID(setClazz.GetRawClass(), "toArray", "()[Ljava/lang/Object;");
+            IntPtr array = AndroidJNI.CallObjectMethod(set, toArrayMethod, new jvalue[] { });
+
+            var dict = new Dictionary<string, string>();
+            var keys = AndroidJNIHelper.ConvertFromJNIArray<string[]>(array);
+
+            IntPtr getMethod = AndroidJNIHelper.GetMethodID(mapClazz.GetRawClass(), "get", "(Ljava/lang/Object;)Ljava/lang/Object;");
+
+            foreach (var k in keys)
+            {
+                string v = AndroidJNI.CallStringMethod(obj.GetRawObject(), getMethod, new jvalue[] { new jvalue() { l = AndroidJNI.NewStringUTF(k) } });
+                dict.Add($"\"{k}\"", $"\"{v}\"");
+            }
+
+            return dict;
         }
     }
 }

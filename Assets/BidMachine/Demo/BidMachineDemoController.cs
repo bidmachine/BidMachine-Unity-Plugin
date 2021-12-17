@@ -489,7 +489,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"BannerRequestListener - onBannerRequestSuccess" +
-                      $"auctionResult - {auctionResult}");
+                      $" auctionResult - {auctionResult}");
         }
     }
 
@@ -524,7 +524,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"InterstitialRequestListener - onInterstitialRequestSuccess" +
-                      $"auctionResult - {auctionResult}");
+                      $" auctionResult - {auctionResult}");
         }
         else
         {
@@ -563,7 +563,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"RewardedRequestListener - onRewardedRequestSuccess" +
-                      $"auctionResult - {auctionResult}");
+                      $" auctionResult - {auctionResult}");
         }
         else
         {
@@ -602,7 +602,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         if (!string.IsNullOrEmpty(auctionResult))
         {
             Debug.Log($"NativeRequestListener - onNativeRequestSuccess" +
-                      $"auctionResult - {auctionResult}");
+                      $" auctionResult - {auctionResult}");
         }
         else
         {

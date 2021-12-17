@@ -22,9 +22,7 @@ namespace BidMachineAds.Unity.Android
 
         void onRequestSuccess(AndroidJavaObject androidInterstitialRequest, AndroidJavaObject androidAuctionResult)
         {
-            var auctionResult = !string.IsNullOrEmpty(androidAuctionResult.Call<string>("toString"))
-                ? androidAuctionResult.Call<string>("toString")
-                : "null";
+            var auctionResult = AuctionResultHelper.BuildAuctionResultString(androidAuctionResult);
             listener.onInterstitialRequestSuccess(getInterstitialRequest(androidInterstitialRequest), auctionResult);
         }
 
