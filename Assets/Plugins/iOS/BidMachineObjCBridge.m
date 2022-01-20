@@ -1185,9 +1185,9 @@ char * GetNativeTitle(){
 
 char * GetNativeDescription(){
     if (native != nil) {
-        const char *cString = [native.description UTF8String];
-        char *cStringCopy = calloc([native.description length]+1, 1);
-        return strncpy(cStringCopy, cString, [native.description length]);
+        const char *cString = [native.body UTF8String];
+        char *cStringCopy = calloc([native.body length]+1, 1);
+        return strncpy(cStringCopy, cString, [native.body length]);
     } else {
         return "";
         printf("BidMachineObjCBrigde.m GetNativeDescription() BDMNativeAd object - nil");

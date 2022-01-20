@@ -7,5 +7,5 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/BidMachine/Demo/BidMachineDemoScene.unity
-    guid: 4fd3ad1aa0f0b4c289e1cec937388f5a
+    guid: 9d2b8b6ab27dc4bccb2e32712af719b5
   m_configObjects: {}
