@@ -1,11 +1,11 @@
 <dependencies>
     <iosPods>
-        <iosPod name='BidMachine' version='1.7.4.0' minTargetSdk='10.0'/>
-        <iosPod name='BDMIABAdapter' version='1.7.4.0' minTargetSdk='10.0'/>
+        <iosPod name='BidMachine' version='1.9.3.0' minTargetSdk='10.0'/>
+        <iosPod name='BDMIABAdapter' version='1.9.3.0' minTargetSdk='10.0'/>
     </iosPods>
     <androidPackages>
-        <androidPackage spec='io.bidmachine:ads:1.7.6'/>
-        <androidPackage spec='io.bidmachine:ads.extensions.unity:1.7.6.1'/>
+        <androidPackage spec='io.bidmachine:ads:1.9.3'/>
+        <androidPackage spec='io.bidmachine:ads.extensions.unity:1.9.3.+'/>
         <repositories>
             <repository>https://artifactory.bidmachine.io/bidmachine</repository>
         </repositories>

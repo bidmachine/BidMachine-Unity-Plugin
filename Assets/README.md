@@ -2,7 +2,7 @@
 
 1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS BidMachine SDK with major improvements.
 
-1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.0.5-20.01.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
+1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.0.6-13.05.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
 
 # Step 2. Project configuration 
 
@@ -46,13 +46,14 @@ To request permissions you should use this method:<br>
 
 Requirements:
 - iOS 10.0+
-- Xcode: 12.0+
+- Xcode: 13.3+
 
 2.2.1 External Dependency Manager (Play Services Resolver)
 BidMachine Unity Plugin includes External Dependency Manager package. You need to complete these following steps to resolve BidMachine's dependencies:
 
 - After the import BidMachine Unity Plugin, in the Unity editor select File → Build Settings → iOS.
 - During build a project the modules, that are required for the BidMachine SDK support, will be imported to your project. You can edit them or add other modules in the Assets → BidMachine → Editor → BidMachineDependencies.xml file.
+- Open Assets → External Dependency Manager → IOS Resolver → Settings and make sure that Link frameworks statically, Enable Swift Framework Support Workaround are unchecked.
 
 # Step 3. Integration
 
@@ -579,7 +580,7 @@ nativeAd.destroy();
 
 Example code: 
 ```c#
-public class BidMachineController : MonoBehaviour, IRewardedAdListener, IRewardedRequestListener {
+public class BidMachineController : MonoBehaviour, INativeAdListener, INativeRequestListener {
 
     [SerializeField] public NativeAdView nativeAdView;
 
@@ -596,7 +597,7 @@ public class BidMachineController : MonoBehaviour, IRewardedAdListener, IRewarde
         .setListener(this) // Set native request listener
         .build();
 
-    RewardedAd nativeAd = new NativeAd();
+    NativeAd nativeAd = new NativeAd();
     nativeAd.setListener(this); // Set native listener       
     nativeAd.load(nativeRequest); // Load native ad
     
