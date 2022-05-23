@@ -303,7 +303,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 107517181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d08122c61c3e454f81755637a9afa6e, type: 3}
+  m_Script: {fileID: 11500000, guid: 37b93f217dac848ad9a259fdfefc8192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tgTesting: {fileID: 2038355073}
@@ -1305,7 +1305,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 434367054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1025358fdbed4520b2dd49bf59518a5, type: 3}
+  m_Script: {fileID: 11500000, guid: dc6874709123d417aa56085c1a8b3347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nativeAdViewTitle: {fileID: 933679484}
@@ -1870,7 +1870,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 107517182}
+      - m_Target: {fileID: 0}
         m_MethodName: IsInitialized
         m_Mode: 1
         m_Arguments:

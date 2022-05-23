@@ -113,7 +113,11 @@ namespace BidMachineAds.Unity.Api
         {
             var request = UnityWebRequestTexture.GetTexture(url);
             yield return request.SendWebRequest();
+            #if UNITY_2020_1_OR_NEWER
             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            #else 
+            if (request.isNetworkError || request.isHttpError)
+            #endif
                 Debug.Log(request.error);
             else
                 image.texture = ((DownloadHandlerTexture)request.downloadHandler).texture;

@@ -2,7 +2,7 @@
 
 1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS BidMachine SDK with major improvements.
 
-1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.0.6-13.05.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
+1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.0.6-23.05.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
 
 # Step 2. Project configuration 
 
@@ -53,7 +53,7 @@ BidMachine Unity Plugin includes External Dependency Manager package. You need t
 
 - After the import BidMachine Unity Plugin, in the Unity editor select File → Build Settings → iOS.
 - During build a project the modules, that are required for the BidMachine SDK support, will be imported to your project. You can edit them or add other modules in the Assets → BidMachine → Editor → BidMachineDependencies.xml file.
-- Open Assets → External Dependency Manager → IOS Resolver → Settings and make sure that Link frameworks statically, Enable Swift Framework Support Workaround are unchecked.
+- Open Assets → External Dependency Manager → IOS Resolver → Settings and make sure that options "Link frameworks statically", "Enable Swift Framework Support Workaround" are unchecked.
 
 # Step 3. Integration
 
