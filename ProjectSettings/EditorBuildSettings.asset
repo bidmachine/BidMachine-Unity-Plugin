@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/BidMachine/Demo/BidMachineDemoScene.unity
-    guid: 9d2b8b6ab27dc4bccb2e32712af719b5
+    guid: 4dbba648431c4427ea1e1a02a1b6463b
   m_configObjects: {}
