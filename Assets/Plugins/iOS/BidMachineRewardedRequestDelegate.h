@@ -3,13 +3,13 @@
 
 typedef void (*RewardedRequestSuccessCallback) (BDMRewardedRequest *request, const char *auctionInfo);
 typedef void (*RewardedRequestFailedCallback) (BDMRewardedRequest *request, NSError *error);
-typedef void (*RewardedRequestExpiredCallback) (BDMRewardedRequest *request);
+//typedef void (*RewardedRequestExpiredCallback) (BDMRewardedRequest *request);
 
 
 @interface BidMachineRewardedRequestDelegate: NSObject <BDMRequestDelegate>
 
 @property (assign, nonatomic) RewardedRequestSuccessCallback onRewardedRequestSuccess;
 @property (assign, nonatomic) RewardedRequestFailedCallback onRewardedRequestFailed;
-@property (assign, nonatomic) RewardedRequestExpiredCallback onRewardedRequestExpired;
+//@property (assign, nonatomic) RewardedRequestExpiredCallback onRewardedRequestExpired;
 
 @end
