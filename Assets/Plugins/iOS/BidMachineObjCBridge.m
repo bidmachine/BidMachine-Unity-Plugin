@@ -508,8 +508,9 @@ void InterstitialAdLoad(BDMInterstitialRequest *interstitialRequest){
 }
 
 void SetInterstitialRequestDelegate(InterstitialRequestSuccessCallback onSuccess,
-                                    InterstitialRequestFailedCallback onFailed,
-                                    InterstitialRequestExpiredCallback onExpired){
+                                    InterstitialRequestFailedCallback onFailed
+//                                    InterstitialRequestExpiredCallback onExpired
+                                    ){
     
     if (!BidMachineInterstitialRequestDelegateInstance) {
         BidMachineInterstitialRequestDelegateInstance = [BidMachineInterstitialRequestDelegate new];
@@ -518,7 +519,7 @@ void SetInterstitialRequestDelegate(InterstitialRequestSuccessCallback onSuccess
     if (interstitialRequest != nil) {
         BidMachineInterstitialRequestDelegateInstance.onIntersittialRequestSuccess = onSuccess;
         BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestFailed = onFailed;
-        BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestExpired = onExpired;
+//        BidMachineInterstitialRequestDelegateInstance.onInterstitialRequestExpired = onExpired;
         [interstitialRequest performWithDelegate:BidMachineInterstitialRequestDelegateInstance];
     }else {
         printf("BidMachineObjCBrigde.m SetInterstitialRequestDelegate() BDMInterstitialRequest object - nil");
@@ -572,8 +573,9 @@ BDMInterstitial * GetInterstitialAd(){
 //Rewarded
 
 void SetRewardedRequestDelegate(RewardedRequestSuccessCallback onSuccess,
-                                RewardedRequestFailedCallback onFailed,
-                                RewardedRequestExpiredCallback onExpired){
+                                RewardedRequestFailedCallback onFailed
+//                                RewardedRequestExpiredCallback onExpired
+                                ){
     
     if (!BidMachineRewardedRequestDelegateInstance) {
         BidMachineRewardedRequestDelegateInstance = [BidMachineRewardedRequestDelegate new];
@@ -582,7 +584,7 @@ void SetRewardedRequestDelegate(RewardedRequestSuccessCallback onSuccess,
     if (rewardedRequest != nil) {
         BidMachineRewardedRequestDelegateInstance.onRewardedRequestSuccess = onSuccess;
         BidMachineRewardedRequestDelegateInstance.onRewardedRequestFailed = onFailed;
-        BidMachineRewardedRequestDelegateInstance.onRewardedRequestExpired = onExpired;
+//        BidMachineRewardedRequestDelegateInstance.onRewardedRequestExpired = onExpired;
         [rewardedRequest performWithDelegate:BidMachineRewardedRequestDelegateInstance];
     }else {
         printf("BidMachineObjCBrigde.m SetRewardedRequestDelegate() BDMRewardedRequest object - nil");
@@ -591,21 +593,21 @@ void SetRewardedRequestDelegate(RewardedRequestSuccessCallback onSuccess,
 
 char *GetRewardedAuctionResult(){
     if (rewardedRequest != nil) {
-        if(rewardedRequest.info){
+        if(rewardedRequest.adObject.auctionInfo){
             
             NSString *jsonString = @"";
             NSMutableDictionary *dictionary = [NSMutableDictionary new];
-            dictionary[@"adDomains"] = rewardedRequest.info.adDomains;
-            dictionary[@"bidID"] = rewardedRequest.info.bidID;
-            dictionary[@"cID"] = rewardedRequest.info.cID;
-            dictionary[@"creativeID"] = rewardedRequest.info.creativeID;
-            dictionary[@"customParams"] = rewardedRequest.info.customParams;
-            dictionary[@"dealID"] = rewardedRequest.info.dealID;
-            dictionary[@"demandSource"] = rewardedRequest.info.demandSource;
-            dictionary[@"price"] = rewardedRequest.info.price;
+            dictionary[@"adDomains"] = rewardedRequest.adObject.auctionInfo.adDomains;
+            dictionary[@"bidID"] = rewardedRequest.adObject.auctionInfo.bidID;
+            dictionary[@"cID"] = rewardedRequest.adObject.auctionInfo.cID;
+            dictionary[@"creativeID"] = rewardedRequest.adObject.auctionInfo.creativeID;
+            dictionary[@"serverParams"] = rewardedRequest.adObject.auctionInfo.customParams;
+            dictionary[@"dealID"] = rewardedRequest.adObject.auctionInfo.dealID;
+            dictionary[@"demandSource"] = rewardedRequest.adObject.auctionInfo.demandSource;
+            dictionary[@"price"] = rewardedRequest.adObject.auctionInfo.price;
             NSError *error;
             NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
-            if (data) {
+            if (error) {
                 NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
             }
             if (data) {
@@ -630,35 +632,35 @@ char *GetRewardedAuctionResult(){
 }
 
 char *GetInterstitialAuctionResult(){
-    if (interstitialRequest != nil) {
-        if(interstitialRequest.info){
-            
+    if (interstitialRequest != nil){
+        if(interstitialRequest.adObject.auctionInfo){
+
             NSString *jsonString = @"";
             NSMutableDictionary *dictionary = [NSMutableDictionary new];
-            
-            dictionary[@"adDomains"] = interstitialRequest.info.adDomains;
-            dictionary[@"bidID"] = interstitialRequest.info.bidID;
-            dictionary[@"cID"] = interstitialRequest.info.cID;
-            dictionary[@"creativeID"] = interstitialRequest.info.creativeID;
-            dictionary[@"customParams"] = interstitialRequest.info.customParams;
-            dictionary[@"dealID"] = interstitialRequest.info.dealID;
-            dictionary[@"demandSource"] = interstitialRequest.info.demandSource;
-            dictionary[@"price"] = interstitialRequest.info.price;
-            
+
+            dictionary[@"adDomains"] = interstitialRequest.adObject.auctionInfo.adDomains;
+            dictionary[@"bidID"] = interstitialRequest.adObject.auctionInfo.bidID;
+            dictionary[@"cID"] = interstitialRequest.adObject.auctionInfo.cID;
+            dictionary[@"creativeID"] = interstitialRequest.adObject.auctionInfo.creativeID;
+            dictionary[@"serverParams"] = interstitialRequest.adObject.auctionInfo.customParams;
+            dictionary[@"dealID"] = interstitialRequest.adObject.auctionInfo.dealID;
+            dictionary[@"demandSource"] = interstitialRequest.adObject.auctionInfo.demandSource;
+            dictionary[@"price"] = interstitialRequest.adObject.auctionInfo.price;
+
             NSError *error;
             NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
-            
-            if (data) {
+
+            if (error) {
                 NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
             }
-            
+
             if (data) {
-                
+
                 jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 const char *cString = [jsonString UTF8String];
                 char *cStringCopy = calloc([jsonString length]+1, 1);
                 return strncpy(cStringCopy, cString, [jsonString length]);
-                
+
             }
             else
             {
@@ -798,8 +800,9 @@ BDMRewardedRequest * GetRewardedRequest(){
 //Banner
 
 void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
-                              BannerRequestFailedCallback onFailed,
-                              BannerRequestExpiredCallback onExpired){
+                              BannerRequestFailedCallback onFailed
+//                              BannerRequestExpiredCallback onExpired
+                              ){
     
     if (!BidMachineBannerRequestDelegateInstance) {
         BidMachineBannerRequestDelegateInstance = [BidMachineBannerRequestDelegate new];
@@ -808,7 +811,7 @@ void SetBannerRequestDelegate(BannerRequestSuccessCallback onSuccess,
     if (bannerRequest != nil) {
         BidMachineBannerRequestDelegateInstance.onBannerRequestSuccess = onSuccess;
         BidMachineBannerRequestDelegateInstance.onBannerRequestFailed = onFailed;
-        BidMachineBannerRequestDelegateInstance.onBannerRequestExpired = onExpired;
+//        BidMachineBannerRequestDelegateInstance.onBannerRequestExpired = onExpired;
         [bannerRequest performWithDelegate:BidMachineBannerRequestDelegateInstance];
     }else {
         printf("BidMachineObjCBrigde.m SetBannerRequestDelegate() BDMBannerRequest object - nil");
@@ -1029,34 +1032,34 @@ void BannerViewSetDelegate(BidMachineBannerCallback onAdLoaded,
 }
 
 char *GetBannerAuctionResult(){
-    if (bannerRequest != nil) {
-        if(bannerRequest.info){
-            
+    if (bannerRequest != nil){
+        if(bannerRequest.adObject.auctionInfo){
+
             NSString *jsonString = @"";
             NSMutableDictionary *dictionary = [NSMutableDictionary new];
-            
-            dictionary[@"adDomains"] = bannerRequest.info.adDomains;
-            dictionary[@"bidID"] = bannerRequest.info.bidID;
-            dictionary[@"cID"] = bannerRequest.info.cID;
-            dictionary[@"creativeID"] = bannerRequest.info.creativeID;
-            dictionary[@"customParams"] = bannerRequest.info.customParams;
-            dictionary[@"dealID"] = bannerRequest.info.dealID;
-            dictionary[@"demandSource"] = bannerRequest.info.demandSource;
-            dictionary[@"price"] = bannerRequest.info.price;
-            
+
+            dictionary[@"adDomains"] = bannerRequest.adObject.auctionInfo.adDomains;
+            dictionary[@"bidID"] = bannerRequest.adObject.auctionInfo.bidID;
+            dictionary[@"cID"] = bannerRequest.adObject.auctionInfo.cID;
+            dictionary[@"creativeID"] = bannerRequest.adObject.auctionInfo.creativeID;
+            dictionary[@"serverParams"] = bannerRequest.adObject.auctionInfo.customParams;
+            dictionary[@"dealID"] = bannerRequest.adObject.auctionInfo.dealID;
+            dictionary[@"demandSource"] = bannerRequest.adObject.auctionInfo.demandSource;
+            dictionary[@"price"] = bannerRequest.adObject.auctionInfo.price;
+
             NSError *error;
             NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
-            
-            if (data) {
+
+            if (error) {
                 NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
             }
-            
+
             if (data) {
                 jsonString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 const char *cString = [jsonString UTF8String];
                 char *cStringCopy = calloc([jsonString length]+1, 1);
                 return strncpy(cStringCopy, cString, [jsonString length]);
-                
+
             }
             else
             {
@@ -1088,8 +1091,9 @@ BDMBannerView * GetBannerView(){
 
 
 void SetNativeRequestDelegate(NativeRequestSuccessCallback onSuccess,
-                              NativeRequestFailedCallback onFailed,
-                              NativeRequestExpiredCallback onExpired){
+                              NativeRequestFailedCallback onFailed
+//                              NativeRequestExpiredCallback onExpired
+                              ){
     
     if (!BidMachineNativeRequestDelegateInstance) {
         BidMachineNativeRequestDelegateInstance = [BidMachineNativeRequestDelegate new];}
@@ -1098,7 +1102,7 @@ void SetNativeRequestDelegate(NativeRequestSuccessCallback onSuccess,
         
         BidMachineNativeRequestDelegateInstance.onNativeRequestSuccess = onSuccess;
         BidMachineNativeRequestDelegateInstance.onNativeRequestFailed = onFailed;
-        BidMachineNativeRequestDelegateInstance.onNativeRequestExpired = onExpired;
+//        BidMachineNativeRequestDelegateInstance.onNativeRequestExpired = onExpired;
         
         [nativeRequest performWithDelegate:BidMachineNativeRequestDelegateInstance];
     }else {
@@ -1279,24 +1283,24 @@ void NativeSetMediaAssetTypes(const char *value){
 
 char *GetNativeAuctionResult(){
     if (nativeRequest != nil) {
-        if(nativeRequest.info){
+        if(nativeRequest.adObject.auctionInfo){
             
             NSString *jsonString = @"";
             NSMutableDictionary *dictionary = [NSMutableDictionary new];
             
-            dictionary[@"adDomains"] = nativeRequest.info.adDomains;
-            dictionary[@"bidID"] = nativeRequest.info.bidID;
-            dictionary[@"cID"] = nativeRequest.info.cID;
-            dictionary[@"creativeID"] = nativeRequest.info.creativeID;
-            dictionary[@"customParams"] = nativeRequest.info.customParams;
-            dictionary[@"dealID"] = nativeRequest.info.dealID;
-            dictionary[@"demandSource"] = nativeRequest.info.demandSource;
-            dictionary[@"price"] = nativeRequest.info.price;
+            dictionary[@"adDomains"] = nativeRequest.adObject.auctionInfo.adDomains;
+            dictionary[@"bidID"] = nativeRequest.adObject.auctionInfo.bidID;
+            dictionary[@"cID"] = nativeRequest.adObject.auctionInfo.cID;
+            dictionary[@"creativeID"] = nativeRequest.adObject.auctionInfo.creativeID;
+            dictionary[@"serverParams"] = nativeRequest.adObject.auctionInfo.customParams;
+            dictionary[@"dealID"] = nativeRequest.adObject.auctionInfo.dealID;
+            dictionary[@"demandSource"] = nativeRequest.adObject.auctionInfo.demandSource;
+            dictionary[@"price"] = nativeRequest.adObject.auctionInfo.price;
             
             NSError *error;
             NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:&error];
             
-            if (data) {
+            if (error) {
                 NSLog(@"%s: Data error: %@", __func__, error.localizedDescription);
             }
             

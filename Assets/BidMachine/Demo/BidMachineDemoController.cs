@@ -243,7 +243,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void DestroyInterstitial()
     {
-        if (interstitialAd != null)
+        if (interstitialAd == null) return;
         {
             interstitialAd.destroy();
             interstitialAd = null;
@@ -551,6 +551,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onRewardedRequestSuccess(RewardedRequest request, string auctionResult)
     {
+        
         Debug.Log("BidMachineUnity: onRewardedRequestSuccess");
 
         if (request != null)
