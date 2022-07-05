@@ -174,7 +174,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.mikeMan.bmtest
+    Android: com.unicostudio.braintest2new
     iPhone: io.bidmachine.test.app1
   buildNumber:
     Standalone: 0
