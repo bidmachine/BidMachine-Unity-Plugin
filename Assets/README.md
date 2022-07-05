@@ -2,7 +2,7 @@
 
 1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS BidMachine SDK with major improvements.
 
-1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.0.8-15.06.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
+1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.0.9-05.07.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
 
 # Step 2. Project configuration 
 
@@ -240,7 +240,7 @@ bannerView.showBannerView(
             bannerView, bannerRequest.getSize());
 ```
 
-To destroy banner or mrec:
+To destroy banner or mrec (you should destroy request each time before new request):
 ```c#
 bannerView.destroy();
 ```
@@ -328,7 +328,7 @@ To show interstitial:
 interstitialAd.show();
 ```
 
-To destroy interstitial:
+To destroy interstitial (you should destroy request each time before new request):
 ```c#
 interstitialAd.destroy();
 ```
@@ -440,7 +440,7 @@ To show rewarded ad:
 rewardedAd.show();
 ```
 
-To destroy rewarded ad:
+To destroy rewarded ad (you should destroy request each time before new request):
 ```c#
 rewardedAd.destroy();
 ```
@@ -573,7 +573,7 @@ To show Native Ad:
 nativeAdView.setNativeAd(ad);
 ```
 
-To destroy Native Ad:
+To destroy Native Ad (you should destroy request each time before new request):
 ```c#
 nativeAd.destroy();
 ```

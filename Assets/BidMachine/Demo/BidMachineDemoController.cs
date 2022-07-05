@@ -85,7 +85,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 ));
 
         BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
-        //BidMachine.setEndpoint("https://test.com");
+        BidMachine.setEndpoint("https://test.com");
         BidMachine.setSubjectToGDPR(true);
         //BidMachine.setCoppa(true);
         BidMachine.setConsentConfig(true, "test consent string");
