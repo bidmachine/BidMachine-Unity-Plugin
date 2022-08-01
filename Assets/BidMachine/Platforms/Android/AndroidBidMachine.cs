@@ -567,7 +567,6 @@ namespace BidMachineAds.Unity.Android
 
         public IBannerRequest build()
         {
-            bannerRequest = new AndroidJavaObject("io.bidmachine.banner.BannerRequest");
             bannerRequest = getBannerRequestBuilder().Call<AndroidJavaObject>("build");
             return new AndroidBannerRequest(bannerRequest);
         }
@@ -689,7 +688,6 @@ namespace BidMachineAds.Unity.Android
 
         public IInterstitialRequest build()
         {
-            interstitialRequest = new AndroidJavaObject("io.bidmachine.interstitial.InterstitialRequest");
             interstitialRequest = getInterstitialBuilder().Call<AndroidJavaObject>("build");
             return new AndroidInterstitialRequest(interstitialRequest);
         }
@@ -781,7 +779,6 @@ namespace BidMachineAds.Unity.Android
 
         public IRewardedRequest build()
         {
-            rewardedRequest = new AndroidJavaObject("io.bidmachine.interstitial.InterstitialRequest");
             rewardedRequest = getRewardedRequestBuilder().Call<AndroidJavaObject>("build");
             return new AndroidRewardedRequest(rewardedRequest);
         }
@@ -904,7 +901,6 @@ namespace BidMachineAds.Unity.Android
 
         public INativeRequest build()
         {
-            jNativeRequest = new AndroidJavaObject("io.bidmachine.interstitial.InterstitialRequest");
             jNativeRequest = getNativeRequestBuilder().Call<AndroidJavaObject>("build");
             return new AndroidNativeRequest(jNativeRequest);
         }

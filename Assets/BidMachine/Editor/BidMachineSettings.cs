@@ -2,12 +2,21 @@
 using UnityEditor;
 using UnityEngine;
 
-public class BidMachineSettings : ScriptableObject
+namespace BidMachine.Unity.Editor.Utils
 {
-	[MenuItem("BidMachine/SDK Documentation")]
-	public static void OpenDocumentation()
+	public class BidMachineSettings : ScriptableObject
 	{
-		Application.OpenURL("https://docs.bidmachine.io/docs");
+		[MenuItem("BidMachine/SDK Documentation")]
+		public static void OpenDocumentation()
+		{
+			Application.OpenURL("https://docs.bidmachine.io/docs");
+		}
+		[MenuItem("BidMachine/Remove plugin")]
+		public static void RemoveBidmachinePlugin()
+		{
+			RemoveHelper.RemovePlugin();
+		}
+
 	}
 }
 #endif
