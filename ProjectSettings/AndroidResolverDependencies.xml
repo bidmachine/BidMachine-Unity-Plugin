@@ -1,12 +1,12 @@
 <dependencies>
   <packages>
-    <package>io.bidmachine:ads.extensions.unity:1.9.6.+</package>
-    <package>io.bidmachine:ads:1.9.6</package>
+    <package>io.bidmachine:ads.extensions.unity:1.9.8.+</package>
+    <package>io.bidmachine:ads:1.9.8</package>
   </packages>
   <files />
   <settings>
     <setting name="androidAbis" value="arm64-v8a,armeabi-v7a" />
-    <setting name="bundleId" value="com.unicostudio.braintest2new" />
+    <setting name="bundleId" value="com.bidmachine.testIssue" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
     <setting name="gradlePropertiesTemplateEnabled" value="True" />

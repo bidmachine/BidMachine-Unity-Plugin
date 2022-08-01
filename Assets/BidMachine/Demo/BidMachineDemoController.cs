@@ -93,7 +93,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
-        BidMachine.initialize("1");
+        BidMachine.initialize("5");
     }
 
     public void IsInitialized()
@@ -151,7 +151,6 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     {
         if (bannerView != null)
         {
-            bannerView.hideBannerView();
             bannerView.destroy();
             bannerView = null;
             bannerRequest = null;
@@ -190,8 +189,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                     nativeAd.load(nativeRequest);
                 }
             }
-        }
+        }        
     }
+        
 
     public void DestroyNativeAd()
     {

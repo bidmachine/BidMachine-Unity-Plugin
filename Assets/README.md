@@ -2,14 +2,14 @@
 
 1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS BidMachine SDK with major improvements.
 
-1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.0.9-05.07.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
+1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.1.0-01.08.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
 
 # Step 2. Project configuration 
 
 2.1 Android 
 
 Requirements:
-- Min Android SDK version - 15 (4.0.3 - 4.0.4, Ice Cream Sandwich).
+- Min Android SDK version - 16 (4.1, Jelly Bean).
 
 2.1.1 External Dependency Manager (Play Services Resolver)
 BidMachine Unity Plugin includes External Dependency Manager package.  You need to complete these following steps to resolve BidMachine's dependencies:
