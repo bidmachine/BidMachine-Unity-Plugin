@@ -1094,18 +1094,21 @@ namespace BidMachineAds.Unity.Android
         public bool showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
             AndroidJavaObject jBannerSize;
+            int bannerHeight;
             switch (bannerSize)
             {
                 case BannerSize.Size_320х50:
                 {
                     jBannerSize = new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                         "Size_320x50");
+                    bannerHeight = 50;
                     break;
                 }
                 case BannerSize.Size_300х250:
                 {
                     jBannerSize = new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                         "Size_300x250");
+                    bannerHeight = 250;
                     break;
                 }
                 case BannerSize.Size_728х90:
@@ -1113,19 +1116,31 @@ namespace BidMachineAds.Unity.Android
                     jBannerSize =
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                             "Size_728x90");
+                    bannerHeight = 90;
                     break;
                 }
                 default:
                     jBannerSize =
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                             "Size_320x50");
+                    bannerHeight = 50;
                     break;
             }
 
             var aBannerView = (AndroidBannerView)bannerView.GetBannerView();
-            return getBannerShowHelper().Call<bool>("show", getActivity(), aBannerView.getAndroidJavaObjectBannerView(),
-                jBannerSize,
-                XAxis, YAxis);
+            if (YAxis == 80)
+            {
+                return getBannerShowHelper().Call<bool>("show", getActivity(), aBannerView.getAndroidJavaObjectBannerView(),
+                    jBannerSize,
+                    XAxis, YAxis, 0, (Screen.height - bannerHeight));
+            }
+            else
+            {
+                return getBannerShowHelper().Call<bool>("show", getActivity(), aBannerView.getAndroidJavaObjectBannerView(), 
+                    jBannerSize, XAxis, YAxis); 
+            }
+            // return getBannerShowHelper().Call<bool>("show", getActivity(), aBannerView.getAndroidJavaObjectBannerView(), 
+            //         jBannerSize, XAxis, YAxis); 
         }
 
         public void hideBannerView()

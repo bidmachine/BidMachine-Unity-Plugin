@@ -2,7 +2,7 @@
 
 1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS BidMachine SDK with major improvements.
 
-1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.1.0-01.08.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
+1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.1.1-03.08.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
 
 # Step 2. Project configuration 
 
@@ -232,7 +232,7 @@ To load banners:
 bannerView.load(bannerRequest);
 ```
 
-To show banner or mrec:
+To show banner or mrec (make sure to destroy and perform a new request if your device orientation is changed during the game):
 ```c#
 bannerView.showBannerView(
             BidMachine.BANNER_VERTICAL_BOTTOM,
