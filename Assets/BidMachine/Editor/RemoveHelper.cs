@@ -1,4 +1,4 @@
-﻿#pragma warning disable 0649
+#pragma warning disable 0649
 using System.IO;
 using UnityEditor;
 using System.Text.RegularExpressions;
@@ -53,5 +53,4 @@ namespace BidMachine.Unity.Editor.Utils
         }
 
     }
-
 }
