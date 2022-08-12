@@ -174,8 +174,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.bidmachine.testIssue
-    iPhone: io.bidmachine.test.app1
+    Android: com.bidmachine.test
+    iPhone: io.bidmachine.test
   buildNumber:
     Standalone: 0
     iPhone: 0
