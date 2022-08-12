@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-// using System.Linq;
+
 
 namespace BidMachine.Unity.Editor.Utils
 {
@@ -53,5 +53,4 @@ namespace BidMachine.Unity.Editor.Utils
         }
 
     }
-
 }
