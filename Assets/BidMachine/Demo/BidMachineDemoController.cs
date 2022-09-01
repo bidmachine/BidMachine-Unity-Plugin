@@ -85,9 +85,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 ));
 
         BidMachine.setPublisher(new Publisher("1", "Gena", "ua", new[] { "games, cards" }));
-        //BidMachine.setEndpoint("https://test.com");
+        // BidMachine.setEndpoint("https://test.com");
         BidMachine.setSubjectToGDPR(true);
-        //BidMachine.setCoppa(true);
+        // BidMachine.setCoppa(true);
         BidMachine.setConsentConfig(true, "test consent string");
         BidMachine.setUSPrivacyString("test_string");
         BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
@@ -212,10 +212,10 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             interstitialRequest = new InterstitialRequestBuilder()
                 .setAdContentType(AdContentType.All)
                 // .setTargetingParams(targetingParams)
-                // .setPriceFloorParams(priceFloorParams)
+                // .setPriceFloorParams(priceParam)
                 // .setSessionAdParams(sessionAdParams)
                 .setPlacementId("placement_interstitialRequest")
-                // .setLoadingTimeOut(123)
+                // .setLoadingTimeOut(30000)
                 // .setBidPayload("123")
                 // .setNetworks("admob")
                 .setListener(this)
