@@ -519,7 +519,7 @@ namespace BidMachineAds.Unity.Android
 
         public void setLoadingTimeOut(int value)
         {
-            getBannerRequestBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", value);
+            getBannerRequestBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", Helper.getJavaObject(value));
         }
 
         public void setPlacementId(string placementId)
@@ -647,7 +647,7 @@ namespace BidMachineAds.Unity.Android
 
         public void setLoadingTimeOut(int value)
         {
-            getInterstitialBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", value);
+            getInterstitialBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", Helper.getJavaObject(value));
         }
 
         public void setPlacementId(string placementId)
@@ -747,7 +747,7 @@ namespace BidMachineAds.Unity.Android
 
         public void setLoadingTimeOut(int value)
         {
-            getRewardedRequestBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", value);
+            getRewardedRequestBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", Helper.getJavaObject(value));
         }
 
         public void setPlacementId(string placementId)
@@ -859,7 +859,7 @@ namespace BidMachineAds.Unity.Android
 
         public void setLoadingTimeOut(int value)
         {
-            getNativeRequestBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", value);
+            getNativeRequestBuilder().Call<AndroidJavaObject>("setLoadingTimeOut", Helper.getJavaObject(value));
         }
 
         public void setPlacementId(string placementId)
