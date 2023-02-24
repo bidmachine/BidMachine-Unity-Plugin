@@ -40,10 +40,10 @@ namespace BidMachineAds.Unity.Android
             listener.onRewardedAdLoadFailed((new RewardedAd(new AndroidRewardedAd(ad))), bmError);
         }
 
-        void onAdShown(AndroidJavaObject ad)
-        {
-            listener.onRewardedAdShown((new RewardedAd(new AndroidRewardedAd(ad))));
-        }
+        // void onAdShown(AndroidJavaObject ad)
+        // {
+        //     listener.onRewardedAdShown((new RewardedAd(new AndroidRewardedAd(ad))));
+        // }
 
         void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {

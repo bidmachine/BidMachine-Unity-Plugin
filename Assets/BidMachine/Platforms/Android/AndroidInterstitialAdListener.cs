@@ -38,10 +38,10 @@ namespace BidMachineAds.Unity.Android
             listener.onInterstitialAdLoadFailed((new InterstitialAd(new AndroidInterstitialAd(ad))), bmError);
         }
 
-        void onAdShown(AndroidJavaObject ad)
-        {
-            listener.onInterstitialAdShown((new InterstitialAd(new AndroidInterstitialAd(ad))));
-        }
+        // void onAdShown(AndroidJavaObject ad)
+        // {
+        //     listener.onInterstitialAdShown((new InterstitialAd(new AndroidInterstitialAd(ad))));
+        // }
 
         void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {

@@ -312,10 +312,10 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         Debug.Log("BidMachineUnity: onInterstitialAdLoadFailed");
     }
 
-    public void onInterstitialAdShown(InterstitialAd ad)
-    {
-        Debug.Log("BidMachineUnity: onInterstitialAdShown");
-    }
+    // public void onInterstitialAdShown(InterstitialAd ad)
+    // {
+    //     Debug.Log("BidMachineUnity: onInterstitialAdShown");
+    // }
 
     public void onInterstitialAdImpression(InterstitialAd ad)
     {
@@ -356,10 +356,10 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         Debug.Log("BidMachineUnity: onRewardedAdLoadFailed");
     }
 
-    public void onRewardedAdShown(RewardedAd ad)
-    {
-        Debug.Log("BidMachineUnity: onRewardedAdShown");
-    }
+    // public void onRewardedAdShown(RewardedAd ad)
+    // {
+    //     Debug.Log("BidMachineUnity: onRewardedAdShown");
+    // }
 
     public void onRewardedAdImpression(RewardedAd ad)
     {
@@ -416,10 +416,10 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         Debug.Log($"BidMachineUnity: onNativeAdLoadFailed - {error.message} - {error.code} ");
     }
 
-    public void onNativeAdShown(NativeAd ad)
-    {
-        Debug.Log("BidMachineUnity: onNativeAdShown");
-    }
+    // public void onNativeAdShown(NativeAd ad)
+    // {
+    //     Debug.Log("BidMachineUnity: onNativeAdShown");
+    // }
 
     public void onNativeAdImpression(NativeAd ad)
     {
@@ -450,10 +450,10 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         Debug.Log("BidMachineUnity: onBannerAdLoadFailed");
     }
 
-    public void onBannerAdShown(BannerView ad)
-    {
-        Debug.Log("BidMachineUnity: onBannerAdShown");
-    }
+    // public void onBannerAdShown(BannerView ad)
+    // {
+    //     Debug.Log("BidMachineUnity: onBannerAdShown");
+    // }
 
     public void onBannerAdImpression(BannerView ad)
     {

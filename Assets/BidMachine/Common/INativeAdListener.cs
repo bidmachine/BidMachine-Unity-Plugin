@@ -8,7 +8,7 @@ namespace BidMachineAds.Unity.Common
     {
         void onNativeAdLoaded(NativeAd ad);
         void onNativeAdLoadFailed(NativeAd ad, BMError error);
-        void onNativeAdShown(NativeAd ad);
+        // void onNativeAdShown(NativeAd ad);
         void onNativeAdImpression(NativeAd ad);
         void onNativeAdClicked(NativeAd ad);
         void onNativeAdExpired(NativeAd ad);

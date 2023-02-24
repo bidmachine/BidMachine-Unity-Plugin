@@ -303,7 +303,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 107517181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37b93f217dac848ad9a259fdfefc8192, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bc3b149837044e0b9887cc73cae4cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tgTesting: {fileID: 2038355073}
@@ -1305,16 +1305,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 434367054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc6874709123d417aa56085c1a8b3347, type: 3}
+  m_Script: {fileID: 11500000, guid: 4706ec480db204400939975abc3d6fd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nativeAdViewTitle: {fileID: 933679484}
-  nativeAdViewDescription: {fileID: 193834810}
-  nativeAdViewSponsored: {fileID: 1947161983}
-  nativeAdViewIcon: {fileID: 1166978393}
-  nativeAdViewRatting: {fileID: 427295461}
-  nativeAdViewImage: {fileID: 624652368}
-  callToAction: {fileID: 1190020150}
+  nativeAdViewTitle: {fileID: 0}
+  nativeAdViewDescription: {fileID: 0}
+  nativeAdViewSponsored: {fileID: 0}
+  nativeAdViewIcon: {fileID: 0}
+  nativeAdViewRatting: {fileID: 0}
+  nativeAdViewImage: {fileID: 0}
+  callToAction: {fileID: 0}
 --- !u!1 &454631855
 GameObject:
   m_ObjectHideFlags: 0

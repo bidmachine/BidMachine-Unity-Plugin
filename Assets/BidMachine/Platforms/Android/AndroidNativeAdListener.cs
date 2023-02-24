@@ -35,10 +35,10 @@ namespace BidMachineAds.Unity.Android
             listener.onNativeAdLoadFailed((new NativeAd(new AndroidNativeAd(ad))), bmError);
         }
 
-        void onAdShown(AndroidJavaObject ad)
-        {
-            listener.onNativeAdShown(new NativeAd(new AndroidNativeAd(ad)));
-        }
+        // void onAdShown(AndroidJavaObject ad)
+        // {
+        //     listener.onNativeAdShown(new NativeAd(new AndroidNativeAd(ad)));
+        // }
 
         void onAdImpression(AndroidJavaObject ad)
         {

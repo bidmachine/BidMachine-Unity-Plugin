@@ -8,7 +8,7 @@ namespace BidMachineAds.Unity.Common
     {
         void onInterstitialAdLoaded(InterstitialAd ad);
         void onInterstitialAdLoadFailed(InterstitialAd ad, BMError error);
-        void onInterstitialAdShown(InterstitialAd ad);
+        // void onInterstitialAdShown(InterstitialAd ad);
         void onInterstitialAdShowFailed(InterstitialAd ad, BMError error);
         void onInterstitialAdImpression(InterstitialAd ad);
         void onInterstitialAdClicked(InterstitialAd ad);

@@ -9,7 +9,7 @@ namespace BidMachineAds.Unity.Common
     {
         void onRewardedAdLoaded(RewardedAd ad);
         void onRewardedAdLoadFailed(RewardedAd ad, BMError error);
-        void onRewardedAdShown(RewardedAd ad);
+        // void onRewardedAdShown(RewardedAd ad);
         void onRewardedAdShowFailed(RewardedAd ad, BMError error);
         void onRewardedAdImpression(RewardedAd ad);
         void onRewardedAdClicked(RewardedAd ad);
