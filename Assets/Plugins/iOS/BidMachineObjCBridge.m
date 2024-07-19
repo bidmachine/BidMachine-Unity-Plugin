@@ -1267,7 +1267,7 @@ void NativeAdDestroy(){
 
 void NativeAdLoad(BDMNativeAdRequest *nativeRequest){
     if (native != nil) {
-        [native makeRequest:nativeRequest];
+        [native populateWithRequest:nativeRequest];
     }else {
         printf("BidMachineObjCBrigde.m NativeAdLoad() BDMNativeAd and BDMNativeAdRequest objects - nil");
     }

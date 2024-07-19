@@ -26,7 +26,7 @@ namespace BidMachineAds.Unity.Editor.iOS
     public class iOSPostprocessUtils : MonoBehaviour
     {
         private const string suffix = ".framework";
-        private const string minVersionToEnableBitcode = "10.0";
+        private const string minVersionToDisableBitcode = "14.0";
 
         [PostProcessBuildAttribute(41)]
         public static void updateInfoPlist(BuildTarget buildTarget, string buildPath)
@@ -156,14 +156,15 @@ namespace BidMachineAds.Unity.Editor.iOS
 
             var xcodeVersion = getXcodeVersion();
             if (xcodeVersion == null ||
-                compareVersions(xcodeVersion, minVersionToEnableBitcode) >= 0)
+                compareVersions(xcodeVersion, minVersionToDisableBitcode) >= 0)
             {
-                project.SetBuildProperty(target, "ENABLE_BITCODE", "YES");
+                // project.SetBuildProperty(target, "ENABLE_BITCODE", "NO");
+                project.SetBuildProperty(project.ProjectGuid(), "ENABLE_BITCODE", "NO");
             }
-            else
-            {
-                project.SetBuildProperty(target, "ENABLE_BITCODE", "NO");
-            }
+            // else
+            // {
+            //     project.SetBuildProperty(target, "ENABLE_BITCODE", "YES");
+            // }
 
             project.AddBuildProperty(target, "LIBRARY_SEARCH_PATHS", "$(SRCROOT)/Libraries");
             project.AddBuildProperty(target, "LIBRARY_SEARCH_PATHS", "$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)");

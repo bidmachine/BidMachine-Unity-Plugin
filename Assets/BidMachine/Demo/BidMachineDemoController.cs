@@ -93,7 +93,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
-        BidMachine.initialize("5");
+        BidMachine.initialize("1");
     }
 
     public void IsInitialized()

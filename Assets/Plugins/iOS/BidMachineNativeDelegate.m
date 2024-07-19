@@ -12,7 +12,7 @@ BDMNativeAd *bdmNativeAd;
     }
 }
  
-- (void)nativeAd:(nonnull BDMNativeAd *)nativeAd readyToPresentAd:(nonnull BDMAuctionInfo *)auctionInfo {
+- (void)nativeAdReadyToPresent:(BDMNativeAd *)nativeAd {
     if (self.onAdLoaded) {
         bdmNativeAd = nativeAd;
         self.onAdLoaded(nativeAd);

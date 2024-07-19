@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 107517181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37b93f217dac848ad9a259fdfefc8192, type: 3}
+  m_Script: {fileID: 11500000, guid: b37d88f0317784f2580f58869d719d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tgTesting: {fileID: 2038355073}
@@ -1305,7 +1305,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 434367054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc6874709123d417aa56085c1a8b3347, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d09dacd866be4943b74d07913bd96f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nativeAdViewTitle: {fileID: 933679484}
