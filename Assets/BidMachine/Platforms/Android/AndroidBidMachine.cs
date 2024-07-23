@@ -99,6 +99,19 @@ namespace BidMachineAds.Unity.Android
             }
         }
 
+        public void setGPP(string gppString, int[] gppIds)
+        {
+            if (!string.IsNullOrEmpty(gppString))
+            {
+                var list = new AndroidJavaObject("java.util.ArrayList");
+                foreach (var obj in gppIds)
+                {
+                    list.Call<bool>("add", Helper.getJavaObject(obj));
+                }
+                getBidMachineClass().CallStatic("setGPP", Helper.getJavaObject(gppString), list);
+            }
+        }
+
         public void setPublisher(Publisher publisher)
         {
             if (publisher == null) return;
@@ -423,11 +436,6 @@ namespace BidMachineAds.Unity.Android
             javaSessionAdParams.Call<AndroidJavaObject>("setClickRate", Helper.getJavaObject(value));
         }
 
-        public void setLastAdomain(string value)
-        {
-            Debug.Log("Not support on Android Platform");
-        }
-
         public void setIsUserClickedOnLastAd(bool value)
         {
             javaSessionAdParams.Call<AndroidJavaObject>("setIsUserClickedOnLastAd", Helper.getJavaObject(value));
@@ -438,14 +446,29 @@ namespace BidMachineAds.Unity.Android
             javaSessionAdParams.Call<AndroidJavaObject>("setCompletionRate", Helper.getJavaObject(value));
         }
 
-        public void setLastClickForImpression(int value)
+        public void setLastBundle(string value)
         {
             Debug.Log("Not support on Android Platform");
         }
 
-        public void setLastBundle(string value)
+        public void setLastAdDomain(string value)
         {
             Debug.Log("Not support on Android Platform");
+        }
+
+        public void setClickCount(int value)
+        {
+            javaSessionAdParams.Call<AndroidJavaObject>("setClickCount", Helper.getJavaObject(value));
+        }
+
+        public void setVideoImpressionCount(int value)
+        {
+            javaSessionAdParams.Call<AndroidJavaObject>("setVideoImpressionCount", Helper.getJavaObject(value));
+        }
+
+        public void setCompletedVideosCount(int value)
+        {
+            javaSessionAdParams.Call<AndroidJavaObject>("setCompletedVideosCount", Helper.getJavaObject(value));
         }
     }
 

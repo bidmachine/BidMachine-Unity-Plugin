@@ -11,7 +11,7 @@ namespace BidMachineAds.Unity.Dummy
         IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder,
         IBannerRequest, IBannerView, ISessionAdParams, INativeAd, INativeRequestBuilder
     {
-        
+
         private const string DUMMY_MESSAGE =
             "on not supported platform. To test advertising, install your application on the Android/iOS device.";
 
@@ -122,6 +122,11 @@ namespace BidMachineAds.Unity.Dummy
         public void setUSPrivacyString(string usPrivacyString)
         {
             Debug.LogWarning($"Call to setUSPrivacyString(string usPrivacyString) {DUMMY_MESSAGE}");
+        }
+
+        public void setGPP(string gppString, int[] gppIds)
+        {
+            Debug.LogWarning($"Call to setGPP(string gppString, int[] gppIds) {DUMMY_MESSAGE}");
         }
 
         public void setPublisher(Publisher publisher)
@@ -401,11 +406,6 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to setClickRate(float value) {DUMMY_MESSAGE}");
         }
 
-        public void setLastAdomain(string value)
-        {
-            Debug.LogWarning($"Call to setLastAdomain(string value) {DUMMY_MESSAGE}");
-        }
-
         public void setIsUserClickedOnLastAd(bool value)
         {
             Debug.LogWarning($"Call to setIsUserClickedOnLastAd(bool value) {DUMMY_MESSAGE}");
@@ -416,14 +416,29 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to setCompletionRate(float value) {DUMMY_MESSAGE}");
         }
 
-        public void setLastClickForImpression(int value)
-        {
-            Debug.LogWarning($"Call to setLastClickForImpression(int value) {DUMMY_MESSAGE}");
-        }
-
         public void setLastBundle(string value)
         {
             Debug.LogWarning($"Call to setLastBundle(string value) {DUMMY_MESSAGE}");
+        }
+
+        public void setLastAdDomain(string value)
+        {
+            Debug.LogWarning($"Call to setLastAdDomain(string value) {DUMMY_MESSAGE}");
+        }
+
+        public void setClickCount(int value)
+        {
+            Debug.LogWarning($"Call to setClickCount(int value) {DUMMY_MESSAGE}");
+        }
+
+        public void setVideoImpressionCount(int value)
+        {
+            Debug.LogWarning($"Call to setVideoImpressionCount(int value) {DUMMY_MESSAGE}");
+        }
+
+        public void setCompletedVideosCount(int value)
+        {
+            Debug.LogWarning($"Call to setCompletedVideosCount(int value) {DUMMY_MESSAGE}");
         }
 
         public BannerSize? getSize()

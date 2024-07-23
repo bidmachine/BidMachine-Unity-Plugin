@@ -9,8 +9,8 @@ namespace BidMachineAds.Unity.Common
     {
         void onBannerAdLoaded(BannerView ad);
         void onBannerAdLoadFailed(BannerView ad, BMError error);
-        void onBannerAdShown(BannerView ad);
         void onBannerAdImpression(BannerView ad);
+        void onBannerAdShowFailed(BannerView ad, BMError error);
         void onBannerAdClicked(BannerView ad);
         void onBannerAdExpired(BannerView ad);
     }

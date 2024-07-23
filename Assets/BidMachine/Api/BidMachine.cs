@@ -133,6 +133,17 @@ namespace BidMachineAds.Unity.Api
         }
 
         /// <summary>
+        /// Sets GPP, if applicable, complying with the comply with the IAB standard <a href="https://github.com/InteractiveAdvertisingBureau/Global-Privacy-Platform/blob/main/Core/Consent%20String%20Specification.md">GPP String Format</a>.
+        /// See <see cref="BidMachine.setGPP"/> for resulting triggered event.
+        /// <param name="gppString">GPP string
+        /// <param name="gppIds">GPP Ids
+        /// </summary>
+        void setGPP(string gppString, int[] gppIds)
+        {
+            getInstance().setGPP(gppString, gppIds);
+        }
+
+        /// <summary>
         /// Check CoarseLocation and FineLocation permission.
         /// See <see cref="BidMachine.checkAndroidPermissions"/> for resulting triggered event.
         /// <param name="permission">Permission.CoarseLocation or Permission.CoarseLocation</param>
@@ -229,7 +240,7 @@ namespace BidMachineAds.Unity.Api
             set => categories = value;
         }
     }
-    
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class TargetingParams
     {
@@ -417,7 +428,6 @@ namespace BidMachineAds.Unity.Api
             nativeSessionAdParams.setImpressionCount(value);
             return this;
         }
-
         public SessionAdParams setClickRate(float value)
         {
             nativeSessionAdParams.setClickRate(value);
@@ -436,21 +446,33 @@ namespace BidMachineAds.Unity.Api
             return this;
         }
 
-        public SessionAdParams setLastAdomain(string value)
-        {
-            nativeSessionAdParams.setLastAdomain(value);
-            return this;
-        }
-
-        public SessionAdParams setLastClickForImpression(int value)
-        {
-            nativeSessionAdParams.setLastClickForImpression(value);
-            return this;
-        }
-
         public SessionAdParams setLastBundle(string value)
         {
             nativeSessionAdParams.setLastBundle(value);
+            return this;
+        }
+
+        public SessionAdParams setLastAdDomain(string value)
+        {
+            nativeSessionAdParams.setLastAdDomain(value);
+            return this;
+        }
+
+        public SessionAdParams setClickCount(int value)
+        {
+            nativeSessionAdParams.setClickCount(value);
+            return this;
+        }
+
+        public SessionAdParams setVideoImpressionCount(int value)
+        {
+            nativeSessionAdParams.setVideoImpressionCount(value);
+            return this;
+        }
+
+        public SessionAdParams setCompletedVideosCount(int value)
+        {
+            nativeSessionAdParams.setCompletedVideosCount(value);
             return this;
         }
     }
@@ -481,7 +503,7 @@ namespace BidMachineAds.Unity.Api
         Size_300х250,
         Size_728х90,
     }
-    
+
     public enum AdContentType
     {
         All,
@@ -495,14 +517,16 @@ namespace BidMachineAds.Unity.Api
     {
         private MediaAssetType[] types;
         public enum MediaAssetType { Icon, Image, }
-        public void setMediaAssetTypes(params MediaAssetType[] type) {
+        public void setMediaAssetTypes(params MediaAssetType[] type)
+        {
             this.types = type;
         }
-        public MediaAssetType[] getMediaAssetTypes() {
+        public MediaAssetType[] getMediaAssetTypes()
+        {
             return types;
         }
     }
-    
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BannerRequestBuilder
     {
@@ -577,7 +601,7 @@ namespace BidMachineAds.Unity.Api
             return new BannerRequest(nativeBannerRequestBuilder.build());
         }
     }
-    
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class InterstitialRequestBuilder
     {
@@ -843,7 +867,7 @@ namespace BidMachineAds.Unity.Api
         {
             return nativeInterstitialRequest;
         }
-        
+
         public string getAuctionResult()
         {
             return nativeInterstitialRequest.getAuctionResult();
@@ -874,7 +898,7 @@ namespace BidMachineAds.Unity.Api
         {
             return nativeRewardedRequest;
         }
-        
+
         public string getAuctionResult()
         {
             return nativeRewardedRequest.getAuctionResult();
@@ -890,7 +914,7 @@ namespace BidMachineAds.Unity.Api
             return nativeRewardedRequest.isExpired();
         }
     }
-    
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     public class NativeRequest
@@ -906,7 +930,7 @@ namespace BidMachineAds.Unity.Api
         {
             return nativeRequest;
         }
-        
+
         public string getAuctionResult()
         {
             return nativeRequest.getAuctionResult();
@@ -957,10 +981,10 @@ namespace BidMachineAds.Unity.Api
         {
             nativeBannerView.setListener(bannerViewListener);
         }
-        
+
         public bool showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
         {
-           return nativeBannerView.showBannerView(YAxis, XAxis, bannerView, bannerSize);
+            return nativeBannerView.showBannerView(YAxis, XAxis, bannerView, bannerSize);
         }
 
         public void hideBannerView()
@@ -1030,7 +1054,7 @@ namespace BidMachineAds.Unity.Api
             nativeRewardedAd = rewardedAd;
         }
 
-        public IRewardedAd GetInterstitialAdClient()
+        public IRewardedAd GetRewardedAdClient()
         {
             return nativeRewardedAd;
         }
@@ -1066,7 +1090,7 @@ namespace BidMachineAds.Unity.Api
     public class NativeAd
     {
         private readonly INativeAd nativeAd;
-        
+
         public NativeAd()
         {
             nativeAd = BidMachineClientFactory.GetNativeAd();
@@ -1076,70 +1100,70 @@ namespace BidMachineAds.Unity.Api
         {
             return nativeAd;
         }
-        
+
         public NativeAd(INativeAd native)
         {
             nativeAd = native;
         }
 
-         public string getTitle()
-         {
+        public string getTitle()
+        {
             return nativeAd.getTitle();
-         }
+        }
 
-         public string getDescription()
-         {
-             return nativeAd.getDescription();
-         }
+        public string getDescription()
+        {
+            return nativeAd.getDescription();
+        }
 
-         public string getCallToAction()
-         {
-             return nativeAd.getCallToAction();
-         }
+        public string getCallToAction()
+        {
+            return nativeAd.getCallToAction();
+        }
 
-         public float getRating()
-         {
-             return nativeAd.getRating();
-         }
+        public float getRating()
+        {
+            return nativeAd.getRating();
+        }
 
-         public string getIcon(NativeAd ad)
-         {
-             return nativeAd.getIcon(ad);
-         }
+        public string getIcon(NativeAd ad)
+        {
+            return nativeAd.getIcon(ad);
+        }
 
-         public string getImage(NativeAd ad)
-         {
-             return nativeAd.getImage(ad);
-         }
+        public string getImage(NativeAd ad)
+        {
+            return nativeAd.getImage(ad);
+        }
 
-         public void dispatchClick(NativeAd ad)
-         {
-             nativeAd.dispatchClick(ad);
-         }
-         
-         public void dispatchImpression(NativeAd ad)
-         {
-             nativeAd.dispatchImpression(ad);
-         }
+        public void dispatchClick(NativeAd ad)
+        {
+            nativeAd.dispatchClick(ad);
+        }
 
-         public bool canShow()
-         {
-             return nativeAd.canShow();
-         }
+        public void dispatchImpression(NativeAd ad)
+        {
+            nativeAd.dispatchImpression(ad);
+        }
 
-         public void destroy()
-         {
-             nativeAd.destroy();
-         }
+        public bool canShow()
+        {
+            return nativeAd.canShow();
+        }
 
-         public void load(NativeRequest nativeRequest)
-         {
-             nativeAd.load(nativeRequest);
-         }
+        public void destroy()
+        {
+            nativeAd.destroy();
+        }
 
-         public void setListener(INativeAdListener nativeAdListener)
-         {
-             nativeAd.setListener(nativeAdListener);
-         }
+        public void load(NativeRequest nativeRequest)
+        {
+            nativeAd.load(nativeRequest);
+        }
+
+        public void setListener(INativeAdListener nativeAdListener)
+        {
+            nativeAd.setListener(nativeAdListener);
+        }
     }
 }

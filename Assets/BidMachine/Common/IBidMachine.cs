@@ -16,6 +16,7 @@ namespace BidMachineAds.Unity.Common
         void setSubjectToGDPR(bool subjectToGDPR);
         void setCoppa(bool coppa);
         void setUSPrivacyString(string usPrivacyString);
+        void setGPP(string gppString, int[] gppIds);
         void setPublisher(Publisher publisher);
         bool checkAndroidPermissions(string permission);
         void requestAndroidPermissions();
@@ -28,6 +29,7 @@ namespace BidMachineAds.Unity.Common
         void setGender(TargetingParams.Gender gender);
         void setBirthdayYear(int year);
         void setKeyWords(string[] keyWords);
+        void setDeviceLocation(string providerName, double latitude, double longitude);
         void setCountry(string country);
         void setCity(string city);
         void setZip(string zip);
@@ -37,7 +39,6 @@ namespace BidMachineAds.Unity.Common
         void setStoreId(string storeId);
         void setFramework(string framework);
         void setPaid(bool paid);
-        void setDeviceLocation(string providerName, double latitude, double longitude);
         void setExternalUserIds(ExternalUserId[] externalUserIdList);
         void addBlockedApplication(string bundleOrPackage);
         void addBlockedAdvertiserIABCategory(string category);
@@ -54,14 +55,16 @@ namespace BidMachineAds.Unity.Common
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface ISessionAdParams
     {
-        void setImpressionCount(int value);
         void setSessionDuration(int value);
+        void setImpressionCount(int value);
         void setClickRate(float value);
-        void setCompletionRate(float value);
-        void setLastClickForImpression(int value);
-        void setLastBundle(string value);
-        void setLastAdomain(string value);
         void setIsUserClickedOnLastAd(bool value);
+        void setCompletionRate(float value);
+        void setLastBundle(string value);
+        void setLastAdDomain(string value);
+        void setClickCount(int value);
+        void setVideoImpressionCount(int value);
+        void setCompletedVideosCount(int value);
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -165,7 +168,7 @@ namespace BidMachineAds.Unity.Common
         void load(BannerRequest bannerRequest);
         void destroy();
     }
-    
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface IInterstitialAd
     {

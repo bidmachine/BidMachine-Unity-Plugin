@@ -25,11 +25,6 @@ namespace BidMachineAds.Unity.Android
             listener.onRewardedAdLoaded(new RewardedAd(new AndroidRewardedAd(ad)));
         }
 
-        void onAdClosed(AndroidJavaObject ad, bool finished)
-        {
-            listener.onRewardedAdClosed(new RewardedAd(new AndroidRewardedAd(ad)), finished);
-        }
-
         void onAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
             var bmError = new BMError
@@ -38,11 +33,6 @@ namespace BidMachineAds.Unity.Android
                 message = error.Call<string>("getMessage")
             };
             listener.onRewardedAdLoadFailed((new RewardedAd(new AndroidRewardedAd(ad))), bmError);
-        }
-
-        void onAdShown(AndroidJavaObject ad)
-        {
-            listener.onRewardedAdShown((new RewardedAd(new AndroidRewardedAd(ad))));
         }
 
         void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
@@ -73,6 +63,11 @@ namespace BidMachineAds.Unity.Android
         void onAdRewarded(AndroidJavaObject ad)
         {
             listener.onRewardedAdRewarded((new RewardedAd(new AndroidRewardedAd(ad))));
+        }
+
+        void onAdClosed(AndroidJavaObject ad, bool finished)
+        {
+            listener.onRewardedAdClosed(new RewardedAd(new AndroidRewardedAd(ad)), finished);
         }
     }
 #else

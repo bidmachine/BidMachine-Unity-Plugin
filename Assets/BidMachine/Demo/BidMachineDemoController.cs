@@ -52,7 +52,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
             .setIsUserClickedOnLastAd(true)
             .setCompletionRate(1.3f)
             .setLastBundle("test")
-            .setLastAdomain("test");
+            .setLastAdDomain("test");
     }
 
     public void BidMachineInitialize()
@@ -93,7 +93,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         BidMachine.checkAndroidPermissions(Permission.CoarseLocation);
         BidMachine.setLoggingEnabled(tgLogging.isOn);
         BidMachine.setTestMode(tgTesting.isOn);
-        BidMachine.initialize("1");
+        BidMachine.initialize("122");
     }
 
     public void IsInitialized()
@@ -112,31 +112,41 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         BidMachine.requestAndroidPermissions();
     }
 
-    #region Banner Ad
+    #region Banner & MREC Ads
 
     public void LoadBanner()
     {
-        if (bannerRequest == null)
-        {
-            bannerRequest = new BannerRequestBuilder()
-                .setSize(BannerSize.Size_320х50)
-                // .setTargetingParams(targetingParams)
-                // .setPriceFloorParams(priceFloorParams)
-                // .setSessionAdParams(sessionAdParams)
-                .setPlacementId("placement_bannerRequest")
-                // .setLoadingTimeOut(123)
-                // .setBidPayload("123")
-                // .setNetworks("admob")
-                .setListener(this)
-                .build();
+        LoadBanner(BannerSize.Size_320х50);
+    }
 
-            if (bannerView == null)
-            {
-                bannerView = new BannerView();
-                bannerView.setListener(this);
-                bannerView.load(bannerRequest);
-            }
+    public void LoadMrec()
+    {
+        LoadBanner(BannerSize.Size_300х250);
+    }
+
+    public void LoadBanner(BannerSize bannerSize)
+    {
+        //if (bannerRequest == null)
+        //{
+        bannerRequest = new BannerRequestBuilder()
+            .setSize(bannerSize)
+            // .setTargetingParams(targetingParams)
+            // .setPriceFloorParams(priceFloorParams)
+            // .setSessionAdParams(sessionAdParams)
+            .setPlacementId("placement_bannerRequest")
+            // .setLoadingTimeOut(123)
+            // .setBidPayload("123")
+            // .setNetworks("admob")
+            .setListener(this)
+            .build();
+
+        if (bannerView == null)
+        {
+            bannerView = new BannerView();
+            bannerView.setListener(this);
+            bannerView.load(bannerRequest);
         }
+        //}
     }
 
     public void ShowBannerView()
@@ -189,9 +199,9 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                     nativeAd.load(nativeRequest);
                 }
             }
-        }        
+        }
     }
-        
+
 
     public void DestroyNativeAd()
     {
@@ -450,14 +460,14 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
         Debug.Log("BidMachineUnity: onBannerAdLoadFailed");
     }
 
-    public void onBannerAdShown(BannerView ad)
-    {
-        Debug.Log("BidMachineUnity: onBannerAdShown");
-    }
-
     public void onBannerAdImpression(BannerView ad)
     {
         Debug.Log("BidMachineUnity: onBannerAdImpression");
+    }
+
+    public void onBannerAdShowFailed(BannerView ad, BMError error)
+    {
+        Debug.Log("BidMachineUnity: onBannerAdShowFailed");
     }
 
     public void onBannerAdClicked(BannerView ad)
@@ -477,7 +487,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     public void onBannerRequestSuccess(BannerRequest request, string auctionResult)
     {
         Debug.Log("BidMachineUnity: onBannerRequestSuccess");
-        
+
         if (request != null)
         {
             Debug.Log($"onBannerRequestSuccess - request.getSize() - {request.getSize()}");
@@ -551,7 +561,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void onRewardedRequestSuccess(RewardedRequest request, string auctionResult)
     {
-        
+
         Debug.Log("BidMachineUnity: onRewardedRequestSuccess");
 
         if (request != null)

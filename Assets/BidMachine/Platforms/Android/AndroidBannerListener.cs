@@ -35,14 +35,19 @@ namespace BidMachineAds.Unity.Android
             listener.onBannerAdLoadFailed(new BannerView(new AndroidBannerView(ad)), bmError);
         }
 
-        void onAdShown(AndroidJavaObject ad)
-        {
-            listener.onBannerAdShown(new BannerView(new AndroidBannerView(ad)));
-        }
-
         void onAdImpression(AndroidJavaObject ad)
         {
             listener.onBannerAdImpression(new BannerView(new AndroidBannerView(ad)));
+        }
+
+        void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
+        {
+            var bmError = new BMError
+            {
+                code = error.Call<int>("getCode"),
+                message = error.Call<string>("getMessage")
+            };
+            listener.onBannerAdShowFailed(new BannerView(new AndroidBannerView(ad)), bmError);
         }
 
         void onAdClicked(AndroidJavaObject ad)
