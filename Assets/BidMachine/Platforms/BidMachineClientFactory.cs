@@ -54,6 +54,17 @@ namespace BidMachineAds.Unity
 #endif
         }
 
+        internal static ICustomParams GetCustomParams()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+          return new BidMachineAds.Unity.Android.AndroidCustomParams();
+#elif UNITY_IPHONE && !UNITY_EDITOR
+          return new BidMachineAds.Unity.iOS.iOSCustomParams();
+#else
+            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
+#endif
+        }
+
         internal static IInterstitialRequestBuilder GetInterstitialRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR

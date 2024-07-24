@@ -229,7 +229,7 @@ namespace BidMachineAds.Unity.Android
             JavaTargetingParametrs.Call<AndroidJavaObject>("setBirthdayYear", Helper.getJavaObject(year));
         }
 
-        public void setKeyWords(string[] keyWords)
+        public void setKeywords(string[] keyWords)
         {
             if (keyWords.Length <= 0) return;
             var arrayClass = new AndroidJavaClass("java.lang.reflect.Array");
@@ -494,21 +494,21 @@ namespace BidMachineAds.Unity.Android
         {
             switch (size)
             {
-                case BannerSize.Size_320х50:
+                case BannerSize.Size_320x50:
                 {
                     getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                             "Size_320x50"));
                     break;
                 }
-                case BannerSize.Size_300х250:
+                case BannerSize.Size_300x250:
                 {
                     getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                             "Size_300x250"));
                     break;
                 }
-                case BannerSize.Size_728х90:
+                case BannerSize.Size_728x90:
                 {
                     getBannerRequestBuilder().Call<AndroidJavaObject>("setSize",
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
@@ -946,18 +946,18 @@ namespace BidMachineAds.Unity.Android
 
         public BannerSize? getSize()
         {
-            var bannerSize = BannerSize.Size_320х50;
+            var bannerSize = BannerSize.Size_320x50;
             var banner = bannerRequest.Call<AndroidJavaObject>("getSize").Call<string>("toString");
             switch (banner)
             {
                 case "Size_320x50":
-                    bannerSize = BannerSize.Size_320х50;
+                    bannerSize = BannerSize.Size_320x50;
                     break;
                 case "Size_300x250":
-                    bannerSize = BannerSize.Size_300х250;
+                    bannerSize = BannerSize.Size_300x250;
                     break;
                 case "Size_728x90":
-                    bannerSize = BannerSize.Size_728х90;
+                    bannerSize = BannerSize.Size_728x90;
                     break;
             }
 
@@ -1119,19 +1119,19 @@ namespace BidMachineAds.Unity.Android
             AndroidJavaObject jBannerSize;
             switch (bannerSize)
             {
-                case BannerSize.Size_320х50:
+                case BannerSize.Size_320x50:
                 {
                     jBannerSize = new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                         "Size_320x50");
                     break;
                 }
-                case BannerSize.Size_300х250:
+                case BannerSize.Size_300x250:
                 {
                     jBannerSize = new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(
                         "Size_300x250");
                     break;
                 }
-                case BannerSize.Size_728х90:
+                case BannerSize.Size_728x90:
                 {
                     jBannerSize =
                         new AndroidJavaClass("io.bidmachine.banner.BannerSize").GetStatic<AndroidJavaObject>(

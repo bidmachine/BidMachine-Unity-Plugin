@@ -63,7 +63,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
                 .setStoreId("12345")
                 .setGender(TargetingParams.Gender.Female)
                 .setBirthdayYear(1991)
-                .setKeyWords(new[] { "games, sport" })
+                .setKeywords(new[] { "games, sport" })
                 .setCountry("Belarus")
                 .setCity("Minsk")
                 .setZip("220059")
@@ -116,37 +116,37 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
 
     public void LoadBanner()
     {
-        LoadBanner(BannerSize.Size_320х50);
+        LoadBanner(BannerSize.Size_320x50);
     }
 
     public void LoadMrec()
     {
-        LoadBanner(BannerSize.Size_300х250);
+        LoadBanner(BannerSize.Size_300x250);
     }
 
     public void LoadBanner(BannerSize bannerSize)
     {
-        //if (bannerRequest == null)
-        //{
-        bannerRequest = new BannerRequestBuilder()
-            .setSize(bannerSize)
-            // .setTargetingParams(targetingParams)
-            // .setPriceFloorParams(priceFloorParams)
-            // .setSessionAdParams(sessionAdParams)
-            .setPlacementId("placement_bannerRequest")
-            // .setLoadingTimeOut(123)
-            // .setBidPayload("123")
-            // .setNetworks("admob")
-            .setListener(this)
-            .build();
-
-        if (bannerView == null)
+        if (bannerRequest == null)
         {
-            bannerView = new BannerView();
-            bannerView.setListener(this);
-            bannerView.load(bannerRequest);
+            bannerRequest = new BannerRequestBuilder()
+                .setSize(bannerSize)
+                // .setTargetingParams(targetingParams)
+                // .setPriceFloorParams(priceFloorParams)
+                // .setSessionAdParams(sessionAdParams)
+                .setPlacementId("placement_bannerRequest")
+                // .setLoadingTimeOut(123)
+                // .setBidPayload("123")
+                // .setNetworks("admob")
+                .setListener(this)
+                .build();
+
+            if (bannerView == null)
+            {
+                bannerView = new BannerView();
+                bannerView.setListener(this);
+                bannerView.load(bannerRequest);
+            }
         }
-        //}
     }
 
     public void ShowBannerView()
@@ -458,6 +458,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     public void onBannerAdLoadFailed(BannerView ad, BMError error)
     {
         Debug.Log("BidMachineUnity: onBannerAdLoadFailed");
+        DestroyBanner();
     }
 
     public void onBannerAdImpression(BannerView ad)
@@ -468,6 +469,7 @@ public class BidMachineDemoController : MonoBehaviour, IInterstitialAdListener, 
     public void onBannerAdShowFailed(BannerView ad, BMError error)
     {
         Debug.Log("BidMachineUnity: onBannerAdShowFailed");
+        DestroyBanner();
     }
 
     public void onBannerAdClicked(BannerView ad)

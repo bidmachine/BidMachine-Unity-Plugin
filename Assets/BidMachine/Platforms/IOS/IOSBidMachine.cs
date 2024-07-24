@@ -1070,13 +1070,13 @@ namespace BidMachineAds.Unity.iOS
         {
             switch (size)
             {
-                case BannerSize.Size_320х50:
+                case BannerSize.Size_320x50:
                     bridge.setBannerSize(0);
                     break;
-                case BannerSize.Size_300х250:
+                case BannerSize.Size_300x250:
                     bridge.setBannerSize(1);
                     break;
-                case BannerSize.Size_728х90:
+                case BannerSize.Size_728x90:
                     bridge.setBannerSize(2);
                     break;
                 default:

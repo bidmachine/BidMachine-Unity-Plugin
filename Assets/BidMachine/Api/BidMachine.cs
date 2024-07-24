@@ -281,9 +281,9 @@ namespace BidMachineAds.Unity.Api
             return this;
         }
 
-        public TargetingParams setKeyWords(string[] keyWords)
+        public TargetingParams setKeywords(string[] keyWords)
         {
-            nativeTargetingParams.setKeyWords(keyWords);
+            nativeTargetingParams.setKeywords(keyWords);
             return this;
         }
 
@@ -457,22 +457,27 @@ namespace BidMachineAds.Unity.Api
             nativeSessionAdParams.setLastAdDomain(value);
             return this;
         }
+    }
 
-        public SessionAdParams setClickCount(int value)
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    public class CustomParams
+    {
+        private readonly ICustomParams nativeInstance;
+
+        public CustomParams()
         {
-            nativeSessionAdParams.setClickCount(value);
-            return this;
+            nativeInstance = BidMachineClientFactory.GetCustomParams();
         }
 
-        public SessionAdParams setVideoImpressionCount(int value)
+        public ICustomParams GetNativeInstance()
         {
-            nativeSessionAdParams.setVideoImpressionCount(value);
-            return this;
+            return nativeInstance;
         }
 
-        public SessionAdParams setCompletedVideosCount(int value)
+        public CustomParams addParam(string key, string value)
         {
-            nativeSessionAdParams.setCompletedVideosCount(value);
+            nativeInstance.addParam(key, value);
             return this;
         }
     }
@@ -499,9 +504,9 @@ namespace BidMachineAds.Unity.Api
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public enum BannerSize
     {
-        Size_320х50,
-        Size_300х250,
-        Size_728х90,
+        Size_320x50,
+        Size_300x250,
+        Size_728x90,
     }
 
     public enum AdContentType

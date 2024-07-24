@@ -257,9 +257,9 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to setGender(TargetingParams.Gender gender) {DUMMY_MESSAGE}");
         }
 
-        public void setKeyWords(string[] keyWords)
+        public void setKeywords(string[] keyWords)
         {
-            Debug.LogWarning($"Call to setKeyWords(string[] keyWords) {DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to setKeywords(string[] keyWords) {DUMMY_MESSAGE}");
         }
 
         public void setListener(IInterstitialAdListener listener)

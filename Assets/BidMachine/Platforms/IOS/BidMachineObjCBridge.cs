@@ -893,13 +893,13 @@ namespace BidMachineAds.Unity.iOS
             switch (GetBannerSize())
             {
                 case 0:
-                    return BannerSize.Size_320х50;
+                    return BannerSize.Size_320x50;
                 case 1:
-                    return BannerSize.Size_300х250;
+                    return BannerSize.Size_300x250;
                 case 2:
-                    return BannerSize.Size_728х90;
+                    return BannerSize.Size_728x90;
                 default:
-                    return BannerSize.Size_320х50;
+                    return BannerSize.Size_320x50;
             }
         }
 

@@ -28,7 +28,7 @@ namespace BidMachineAds.Unity.Common
         void setUserId(string id);
         void setGender(TargetingParams.Gender gender);
         void setBirthdayYear(int year);
-        void setKeyWords(string[] keyWords);
+        void setKeywords(string[] keyWords);
         void setDeviceLocation(string providerName, double latitude, double longitude);
         void setCountry(string country);
         void setCity(string city);
@@ -39,7 +39,7 @@ namespace BidMachineAds.Unity.Common
         void setStoreId(string storeId);
         void setFramework(string framework);
         void setPaid(bool paid);
-        void setExternalUserIds(ExternalUserId[] externalUserIdList);
+        void setExternalUserIds(ExternalUserId[] externalUserIds);
         void addBlockedApplication(string bundleOrPackage);
         void addBlockedAdvertiserIABCategory(string category);
         void addBlockedAdvertiserDomain(string domain);
@@ -53,6 +53,12 @@ namespace BidMachineAds.Unity.Common
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public interface ICustomParams
+    {
+        void addParam(string key, string value);
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface ISessionAdParams
     {
         void setSessionDuration(int value);
@@ -62,9 +68,6 @@ namespace BidMachineAds.Unity.Common
         void setCompletionRate(float value);
         void setLastBundle(string value);
         void setLastAdDomain(string value);
-        void setClickCount(int value);
-        void setVideoImpressionCount(int value);
-        void setCompletedVideosCount(int value);
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -78,7 +81,8 @@ namespace BidMachineAds.Unity.Common
         void setLoadingTimeOut(int value);
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
-        void setNetworks(string networks);
+        void setNetworks(string jsonNetworksData);
+        void setCustomParams(CustomParams customParams);
         IBannerRequest build();
     }
 
@@ -93,7 +97,8 @@ namespace BidMachineAds.Unity.Common
         void setLoadingTimeOut(int value);
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
-        void setNetworks(string networks);
+        void setNetworks(string jsonNetworksData);
+        void setCustomParams(CustomParams customParams);
         IInterstitialRequest build();
     }
 
@@ -107,7 +112,8 @@ namespace BidMachineAds.Unity.Common
         void setLoadingTimeOut(int value);
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
-        void setNetworks(string networks);
+        void setNetworks(string jsonNetworksData);
+        void setCustomParams(CustomParams customParams);
         IRewardedRequest build();
     }
 
@@ -121,7 +127,8 @@ namespace BidMachineAds.Unity.Common
         void setLoadingTimeOut(int value);
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
-        void setNetworks(string networks);
+        void setNetworks(string jsonNetworksData);
+        void setCustomParams(CustomParams customParams);
         void setListener(INativeRequestListener nativeRequestListener);
         INativeRequest build();
     }
