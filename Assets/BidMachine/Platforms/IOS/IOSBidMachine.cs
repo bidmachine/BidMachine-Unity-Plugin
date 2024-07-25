@@ -68,6 +68,14 @@ namespace BidMachineAds.Unity.iOS
                 : "");
         }
 
+        public void setGPP(string gppString, int[] gppIds)
+        {
+            if (!string.IsNullOrEmpty(gppString) && gppIds.Length > 0)
+            {
+                BidMachineObjCBridge.BidMachineSetGppString(gppString, string.Join(",", gppIds));
+            }
+        }
+
         public void setPublisher(Publisher publisher)
         {
             if (publisher != null)
@@ -142,20 +150,20 @@ namespace BidMachineAds.Unity.iOS
             switch (gender)
             {
                 case TargetingParams.Gender.Omitted:
-                {
-                    TargetingObjcBridge.setGender(3);
-                    break;
-                }
+                    {
+                        TargetingObjcBridge.setGender(3);
+                        break;
+                    }
                 case TargetingParams.Gender.Male:
-                {
-                    TargetingObjcBridge.setGender(1);
-                    break;
-                }
+                    {
+                        TargetingObjcBridge.setGender(1);
+                        break;
+                    }
                 case TargetingParams.Gender.Female:
-                {
-                    TargetingObjcBridge.setGender(2);
-                    break;
-                }
+                    {
+                        TargetingObjcBridge.setGender(2);
+                        break;
+                    }
                 default:
                     TargetingObjcBridge.setGender(3);
                     break;
@@ -167,7 +175,7 @@ namespace BidMachineAds.Unity.iOS
             TargetingObjcBridge.setBirthdayYear(year);
         }
 
-        public void setKeyWords(string[] keyWords)
+        public void setKeywords(string[] keyWords)
         {
             TargetingObjcBridge.setKeyWords(keyWords.Length > 0
                 ? string.Join(",", keyWords)
@@ -282,7 +290,7 @@ namespace BidMachineAds.Unity.iOS
             SessionAdParamsObjcBridge.setClickRate((int)value);
         }
 
-        public void setLastAdomain(string value)
+        public void setLastAdDomain(string value)
         {
             SessionAdParamsObjcBridge.setLastAdomain(!string.IsNullOrEmpty(value) ? value : "");
         }
@@ -410,20 +418,20 @@ namespace BidMachineAds.Unity.iOS
             switch (contentType)
             {
                 case AdContentType.All:
-                {
-                    bridge.setType(2);
-                    break;
-                }
+                    {
+                        bridge.setType(2);
+                        break;
+                    }
                 case AdContentType.Video:
-                {
-                    bridge.setType(1);
-                    break;
-                }
+                    {
+                        bridge.setType(1);
+                        break;
+                    }
                 case AdContentType.Static:
-                {
-                    bridge.setType(0);
-                    break;
-                }
+                    {
+                        bridge.setType(0);
+                        break;
+                    }
                 default:
                     bridge.setType(2);
                     break;
@@ -1179,7 +1187,7 @@ namespace BidMachineAds.Unity.iOS
         public void setListener(IBannerListener bannerListener)
         {
             if (bannerListener == null) return;
-            bridge.setDelegate(bannerViewLoaded, bannerAdLoadFailed, bannerAdShown, bannerAdImpression, bannerAdClicked,
+            bridge.setDelegate(bannerViewLoaded, bannerAdLoadFailed, bannerAdImpression, bannerAdClicked,
                 bannerAdExpired);
             bannerListeners.Add(bridge.GetIntPtr(), bannerListener);
         }
@@ -1215,15 +1223,6 @@ namespace BidMachineAds.Unity.iOS
                 message = BidMachineObjCBridge.BidMachineGetErrorMessage(error)
             };
             bannerListeners[ad].onBannerAdLoadFailed(new BannerView(new iOSBannerView(ad)), err);
-        }
-
-        [MonoPInvokeCallback(typeof(BidMachineBannerCallback))]
-        private static void bannerAdShown(IntPtr ad)
-        {
-            if (bannerListeners.ContainsKey(ad))
-            {
-                bannerListeners[ad].onBannerAdShown(new BannerView(new iOSBannerView(ad)));
-            }
         }
 
         [MonoPInvokeCallback(typeof(BidMachineBannerCallback))]

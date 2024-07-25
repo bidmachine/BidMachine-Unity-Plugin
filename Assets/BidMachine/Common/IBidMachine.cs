@@ -53,12 +53,6 @@ namespace BidMachineAds.Unity.Common
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public interface ICustomParams
-    {
-        void addParam(string key, string value);
-    }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public interface ISessionAdParams
     {
         void setSessionDuration(int value);
@@ -82,7 +76,6 @@ namespace BidMachineAds.Unity.Common
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
         void setNetworks(string jsonNetworksData);
-        void setCustomParams(CustomParams customParams);
         IBannerRequest build();
     }
 
@@ -98,7 +91,6 @@ namespace BidMachineAds.Unity.Common
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
         void setNetworks(string jsonNetworksData);
-        void setCustomParams(CustomParams customParams);
         IInterstitialRequest build();
     }
 
@@ -113,7 +105,6 @@ namespace BidMachineAds.Unity.Common
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
         void setNetworks(string jsonNetworksData);
-        void setCustomParams(CustomParams customParams);
         IRewardedRequest build();
     }
 
@@ -128,7 +119,6 @@ namespace BidMachineAds.Unity.Common
         void setPlacementId(string placementId);
         void setBidPayload(string bidPayLoad);
         void setNetworks(string jsonNetworksData);
-        void setCustomParams(CustomParams customParams);
         void setListener(INativeRequestListener nativeRequestListener);
         INativeRequest build();
     }

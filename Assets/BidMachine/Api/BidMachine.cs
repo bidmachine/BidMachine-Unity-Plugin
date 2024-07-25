@@ -460,29 +460,6 @@ namespace BidMachineAds.Unity.Api
     }
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    public class CustomParams
-    {
-        private readonly ICustomParams nativeInstance;
-
-        public CustomParams()
-        {
-            nativeInstance = BidMachineClientFactory.GetCustomParams();
-        }
-
-        public ICustomParams GetNativeInstance()
-        {
-            return nativeInstance;
-        }
-
-        public CustomParams addParam(string key, string value)
-        {
-            nativeInstance.addParam(key, value);
-            return this;
-        }
-    }
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BMError
     {
         public int code;

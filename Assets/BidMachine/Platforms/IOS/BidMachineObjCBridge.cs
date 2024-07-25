@@ -124,6 +124,9 @@ namespace BidMachineAds.Unity.iOS
         internal static extern void BidMachineSetUSPrivacyString(string usPrivacyString);
 
         [DllImport("__Internal")]
+        internal static extern void BidMachineSetGppString(string gppString, string gppIds);
+
+        [DllImport("__Internal")]
         internal static extern void BidMachineSetPublisher(string id, string name, string domain, string categories);
     }
 
@@ -836,12 +839,11 @@ namespace BidMachineAds.Unity.iOS
 
         public void setDelegate(BidMachineBannerCallback onAdLoaded,
             BidMachineBannerFailedCallback onAdLoadFailed,
-            BidMachineBannerCallback onAdShown,
             BidMachineBannerCallback onAdImpression,
             BidMachineBannerCallback onAdClicked,
             BidMachineBannerCallback onAdExpired)
         {
-            BannerViewSetDelegate(onAdLoaded, onAdLoadFailed, onAdShown, onAdImpression, onAdClicked, onAdExpired);
+            BannerViewSetDelegate(onAdLoaded, onAdLoadFailed, onAdImpression, onAdClicked, onAdExpired);
         }
 
         [DllImport("__Internal")]
@@ -866,7 +868,6 @@ namespace BidMachineAds.Unity.iOS
         private static extern void BannerViewSetDelegate(
             BidMachineBannerCallback onAdLoaded,
             BidMachineBannerFailedCallback onAdLoadFailed,
-            BidMachineBannerCallback onAdShown,
             BidMachineBannerCallback onAdImpression,
             BidMachineBannerCallback onAdClicked,
             BidMachineBannerCallback onAdExpired);
