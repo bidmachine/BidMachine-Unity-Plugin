@@ -1,10 +1,9 @@
-﻿using BidMachineAds.Unity.Common;
-
-namespace BidMachineAds.Unity.Common
+﻿namespace BidMachineAds.Unity.Common
 {
-   public interface IPermissionGrantedListener
+    public interface IPermissionGrantedListener
     {
-        void writeExternalStorageResponse(int result);
-        void accessCoarseLocationResponse(int result);
+        void WriteExternalStorageResponse(int result);
+
+        void AccessCoarseLocationResponse(int result);
     }
 }

@@ -6,463 +6,208 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Dummy
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class DummyBidMachine : IBidMachine, ITargetingParams, IPriceFloorParams, IInterstitialRequestBuilder,
-        IInterstitialAd, IInterstitialRequest,
-        IRewardedRequestBuilder, IRewardedRequest, IRewardedAd, IBannerRequestBuilder,
-        IBannerRequest, IBannerView, ISessionAdParams, INativeAd, INativeRequestBuilder
+    public class DummyBidMachine
+        : IBidMachine,
+            IBannerAd,
+            IBannerRequestBuilder,
+            IInterstitialAd,
+            IInterstitialRequestBuilder,
+            IRewardedAd,
+            IRewardedRequestBuilder
     {
-
-        private const string DUMMY_MESSAGE =
-            "on not supported platform. To test advertising, install your application on the Android/iOS device.";
-
-        public void setSize(BannerSize size)
-        {
-            Debug.LogWarning($"Call to setSize(BannerSize size) {DUMMY_MESSAGE}");
-        }
-
-        public void setListener(IBannerRequestListener bannerRequestListener)
-        {
-            Debug.LogWarning($"Call to setListener(IBannerRequestListener bannerRequestListener) {DUMMY_MESSAGE}");
-        }
-
-        public void setListener(IInterstitialRequestListener bannerRequestListener)
-        {
-            Debug.LogWarning(
-                $"Call to setListener(IInterstitialRequestListener bannerRequestListener) {DUMMY_MESSAGE}");
-        }
-
-        public void setListener(IRewardedRequestListener rewardedRequestListener)
-        {
-            Debug.LogWarning($"Call to setListener(IRewardedRequestListener rewardedRequestListener) {DUMMY_MESSAGE}");
-        }
-
-        public void setSessionAdParams(SessionAdParams sessionAdParams)
-        {
-            Debug.LogWarning($"Call to setSessionAdParams(SessionAdParams sessionAdParams) {DUMMY_MESSAGE}");
-        }
-
-        public void setLoadingTimeOut(int value)
-        {
-            Debug.LogWarning($"Call to setLoadingTimeOut(int value) {DUMMY_MESSAGE}");
-        }
-
-        public void setPlacementId(string placementId)
-        {
-            Debug.LogWarning($"Call to setPlacementId(string placementId) {DUMMY_MESSAGE}");
-        }
-
-        public void setBidPayload(string bidPayLoad)
-        {
-            Debug.LogWarning($"Call to setBidPayload(string bidPayLoad) {DUMMY_MESSAGE}");
-        }
-
-        public void setNetworks(string networks)
-        {
-            Debug.LogWarning($"Call to setNetworks(string networks) {DUMMY_MESSAGE}");
-        }
-
-        public void setListener(INativeRequestListener bannerRequestListener)
-        {
-            Debug.LogWarning($"Call to setListener(INativeRequestListener bannerRequestListener) {DUMMY_MESSAGE}");
-        }
-
-        INativeRequest INativeRequestBuilder.build()
-        {
-            Debug.LogWarning($"Call to INativeRequestBuilder.build() {DUMMY_MESSAGE}");
-            return null;
-        }
-
-        public string getTitle()
-        {
-            Debug.LogWarning($"Call to getTitle() {DUMMY_MESSAGE}");
-            return string.Empty;
-        }
-
-        public string getDescription()
-        {
-            Debug.LogWarning($"Call to getDescription() {DUMMY_MESSAGE}");
-            return string.Empty;
-        }
-
-        public string getCallToAction()
-        {
-            Debug.LogWarning($"Call to getCallToAction() {DUMMY_MESSAGE}");
-            return string.Empty;
-        }
-
-        public string getImage(NativeAd nativeAd)
-        {
-            Debug.LogWarning($"Call to getImage() {DUMMY_MESSAGE}");
-            return string.Empty;
-        }
-
-        public string getIcon(NativeAd nativeAd)
-        {
-            Debug.LogWarning($"Call to getIcon() {DUMMY_MESSAGE}");
-            return string.Empty;
-        }
-
-        public float getRating()
-        {
-            Debug.LogWarning($"Call to getRating() {DUMMY_MESSAGE}");
-            return 0.0f;
-        }
-
-        public bool canShow()
-        {
-            Debug.LogWarning($"Call to canShow() {DUMMY_MESSAGE}");
-            return false;
-        }
-
-        public void load(NativeRequest nativeRequest)
-        {
-            Debug.LogWarning($"Call to load(NativeRequest nativeRequest) {DUMMY_MESSAGE}");
-        }
-
-        public void setUSPrivacyString(string usPrivacyString)
-        {
-            Debug.LogWarning($"Call to setUSPrivacyString(string usPrivacyString) {DUMMY_MESSAGE}");
-        }
-
-        public void setGPP(string gppString, int[] gppIds)
-        {
-            Debug.LogWarning($"Call to setGPP(string gppString, int[] gppIds) {DUMMY_MESSAGE}");
-        }
-
-        public void setPublisher(Publisher publisher)
-        {
-            Debug.LogWarning($"Call to setPublisher(Publisher publisher) {DUMMY_MESSAGE}");
-        }
-
-        public bool checkAndroidPermissions(string permission)
-        {
-            Debug.LogWarning($"Call to checkAndroidPermissions(string permission) {DUMMY_MESSAGE}");
-            return false;
-        }
-
-        public void destroy()
-        {
-            Debug.LogWarning($"Call to destroy() {DUMMY_MESSAGE}");
-        }
-
-        public void setListener(INativeAdListener nativeAdListener)
-        {
-            Debug.LogWarning($"Call to setListener(INativeAdListener nativeAdListener) {DUMMY_MESSAGE}");
-        }
-
-        public void dispatchClick(NativeAd nativeAd)
-        {
-            Debug.LogWarning($"Call to dispatchClick(NativeAd nativeAd) {DUMMY_MESSAGE}");
-        }
-
-        public void dispatchImpression(NativeAd nativeAd)
-        {
-            Debug.LogWarning($"Call to dispatchImpression(NativeAd nativeAd) {DUMMY_MESSAGE}");
-        }
-
-        public void hideBannerView()
-        {
-            Debug.LogWarning($"Call to hideBannerView() {DUMMY_MESSAGE}");
-        }
-
-        public void initialize(string sellerId)
-        {
-            Debug.LogWarning($"Call to initialize(string sellerId) {DUMMY_MESSAGE}");
-        }
-
-        public bool isInitialized()
-        {
-            Debug.LogWarning($"Call to isInitialized() {DUMMY_MESSAGE}");
-            return false;
-        }
-
-        public void setEndpoint(string url)
-        {
-            Debug.LogWarning($"Call to setEndpoint(string url) {DUMMY_MESSAGE}");
-        }
-
-        public void load(InterstitialRequest interstitialRequest)
-        {
-            Debug.LogWarning($"Call to load(InterstitialRequest interstitialRequest) {DUMMY_MESSAGE}");
-        }
-
-        public void load(RewardedRequest rewardedRequest)
-        {
-            Debug.LogWarning($"Call to load(RewardedRequest rewardedRequest) {DUMMY_MESSAGE}");
-        }
-
-        public void load(BannerRequest bannerRequest)
-        {
-            Debug.LogWarning($"Call to load(BannerRequest bannerRequest) {DUMMY_MESSAGE}");
-        }
-
-        public void requestAndroidPermissions()
-        {
-            Debug.LogWarning($"Call to requestAndroidPermissions() {DUMMY_MESSAGE}");
-        }
-
-        public void setBirthdayYear(int year)
-        {
-            Debug.LogWarning($"Call to setBirthdayYear(int year) {DUMMY_MESSAGE}");
-        }
-
-        public void setDeviceLocation(string providerName, double latitude, double longitude)
-        {
-            Debug.LogWarning(
-                $"Call to setDeviceLocation(string providerName, double latitude, double longitude) {DUMMY_MESSAGE}");
-        }
-
-        public void setExternalUserIds(ExternalUserId[] externalUserIdList)
-        {
-            Debug.LogWarning($"Call to setExternalUserIds(ExternalUserId[] externalUserIdList) {DUMMY_MESSAGE}");
-        }
-
-        public void addBlockedApplication(string bundleOrPackage)
-        {
-            Debug.LogWarning($"Call to addBlockedApplication(string bundleOrPackage) {DUMMY_MESSAGE}");
-        }
-
-        public void addBlockedAdvertiserIABCategory(string category)
-        {
-            Debug.LogWarning($"Call to addBlockedAdvertiserIABCategory(string category) {DUMMY_MESSAGE}");
-        }
-
-        public void addBlockedAdvertiserDomain(string domain)
-        {
-            Debug.LogWarning($"Call to addBlockedAdvertiserDomain(string domain) {DUMMY_MESSAGE}");
-        }
-
-        public void setCity(string city)
-        {
-            Debug.LogWarning($"Call to setCity(string city) {DUMMY_MESSAGE}");
-        }
-
-        public void setConsentConfig(bool consent, string consentConfig)
-        {
-            Debug.LogWarning($"Call to setConsentConfig(bool consent, string consentConfig) {DUMMY_MESSAGE}");
-        }
-
-        public void setCoppa(bool coppa)
-        {
-            Debug.LogWarning($"Call to setCoppa(bool coppa) {DUMMY_MESSAGE}");
-        }
-
-        public void setCountry(string country)
-        {
-            Debug.LogWarning($"Call to setCountry(string country) {DUMMY_MESSAGE}");
-        }
-
-        public void setGender(TargetingParams.Gender gender)
-        {
-            Debug.LogWarning($"Call to setGender(TargetingParams.Gender gender) {DUMMY_MESSAGE}");
-        }
-
-        public void setKeywords(string[] keyWords)
-        {
-            Debug.LogWarning($"Call to setKeywords(string[] keyWords) {DUMMY_MESSAGE}");
-        }
-
-        public void setListener(IInterstitialAdListener listener)
+        public IRewardedRequest Build()
         {
-            Debug.LogWarning($"Call to setListener(IInterstitialAdListener listener) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setListener(IRewardedAdListener rewardedAdListener)
+        public bool CanShow()
         {
-            Debug.LogWarning($"Call to setListener(IRewardedAdListener rewardedAdListener) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setListener(IBannerListener bannerViewListener)
+        public bool CheckAndroidPermissions(string permission)
         {
-            Debug.LogWarning($"Call to setListener(IBannerListener bannerViewListener) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setLoggingEnabled(bool logging)
+        public void Destroy()
         {
-            Debug.LogWarning($"Call to setLoggingEnabled(bool logging) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setStoreSubCategories(string[] storeSubCategories)
+        public void Hide()
         {
-            Debug.LogWarning($"Call to setStoreSubCategories(string[] storeSubCategories) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setStoreId(string storeId)
+        public void Initialize(string sellerId)
         {
-            Debug.LogWarning($"Call to setStoreId(string storeId) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setFramework(string framework)
+        public bool IsInitialized()
         {
-            Debug.LogWarning($"Call to setFramework(string framework) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setPaid(bool paid)
+        public void Load(IRewardedRequest request)
         {
-            Debug.LogWarning($"Call to setPaid(bool paid) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setPriceFloorParams(PriceFloorParams priceFloorParameters)
+        public void Load(IInterstitialRequest request)
         {
-            Debug.LogWarning($"Call to setPriceFloorParams(PriceFloorParams priceFloorParameters) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setStoreUrl(string storeUrl)
+        public void Load(IBannerRequest request)
         {
-            Debug.LogWarning($"Call to setStoreUrl(string storeUrl) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setStoreCategory(string storeCategory)
+        public void RequestAndroidPermissions()
         {
-            Debug.LogWarning($"Call to setStoreCategory(string storeCategory) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setSubjectToGDPR(bool subjectToGDPR)
+        public void SetAdContentType(AdContentType contentType)
         {
-            Debug.LogWarning($"Call to setSubjectToGDPR(bool subjectToGDPR) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setAdContentType(AdContentType contentType)
+        public void SetBidPayload(string bidPayload)
         {
-            Debug.LogWarning($"Call to setAdContentType(AdContentType contentType) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setMediaAssetTypes(NativeAdParams nativeAdParams)
+        public void SetConsentConfig(bool consent, string consentConfig)
         {
-            Debug.LogWarning($"Call to setMediaAssetTypes(NativeAdParams nativeAdParams) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setTargetingParams(TargetingParams targetingParams)
+        public void SetCoppa(bool coppa)
         {
-            Debug.LogWarning($"Call to setTargetingParams(TargetingParams targetingParams) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setTestMode(bool test)
+        public void SetEndpoint(string url)
         {
-            Debug.LogWarning($"Call to setTestMode(bool test) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setUserId(string id)
+        public void SetGPP(string gppString, int[] gppIds)
         {
-            Debug.LogWarning($"Call to setUserId(string id) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setZip(string zip)
+        public void SetListener(IAdRequestListener<IRewardedRequest, string, BMError> listener)
         {
-            Debug.LogWarning($"Call to setZip(string zip) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void show()
+        public void SetListener(IRewardedlListener listener)
         {
-            Debug.LogWarning($"Call to show() {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public bool showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize)
+        public void SetListener(IAdRequestListener<IInterstitialRequest, string, BMError> listener)
         {
-            Debug.LogWarning($"Call to showBannerView(int YAxis, int XAxis, BannerView bannerView, BannerSize bannerSize) {DUMMY_MESSAGE}");
-            return false;
+            throw new System.NotImplementedException();
         }
 
-        IInterstitialRequest IInterstitialRequestBuilder.build()
+        public void SetListener(IInterstitialListener listener)
         {
-            Debug.LogWarning($"Call to IInterstitialRequestBuilder.build() {DUMMY_MESSAGE}");
-            return null;
+            throw new System.NotImplementedException();
         }
 
-        IBannerRequest IBannerRequestBuilder.build()
+        public void SetListener(IAdRequestListener<IBannerRequest, string, BMError> listener)
         {
-            Debug.LogWarning($"Call to IBannerRequestBuilder.build() {DUMMY_MESSAGE}");
-            return null;
+            throw new System.NotImplementedException();
         }
 
-        IRewardedRequest IRewardedRequestBuilder.build()
+        public void SetListener(IBannerListener listener)
         {
-            Debug.LogWarning($"Call to IRewardedRequestBuilder.build() {DUMMY_MESSAGE}");
-            return null;
+            throw new System.NotImplementedException();
         }
 
-        public void addPriceFloor(double priceFloor)
+        public void SetLoadingTimeOut(int loadingTimeout)
         {
-            Debug.LogWarning($"Call to addPriceFloor(double priceFloor) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void addPriceFloor(string uniqueFloorId, double priceFloor)
+        public void SetLoggingEnabled(bool logging)
         {
-            Debug.LogWarning($"Call to addPriceFloor(string uniqueFloorId, double priceFloor) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setSessionDuration(int value)
+        public void SetNetworks(string networks)
         {
-            Debug.LogWarning($"Call to setSessionDuration(int value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setImpressionCount(int value)
+        public void SetPlacementId(string placementId)
         {
-            Debug.LogWarning($"Call to setImpressionCount(int value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setClickRate(float value)
+        public void SetPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            Debug.LogWarning($"Call to setClickRate(float value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setIsUserClickedOnLastAd(bool value)
+        public void SetPublisher(Publisher publisher)
         {
-            Debug.LogWarning($"Call to setIsUserClickedOnLastAd(bool value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setCompletionRate(float value)
+        public void SetSessionAdParams(SessionAdParams sessionAdParams)
         {
-            Debug.LogWarning($"Call to setCompletionRate(float value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setLastBundle(string value)
+        public void SetSize(BannerSize size)
         {
-            Debug.LogWarning($"Call to setLastBundle(string value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setLastAdDomain(string value)
+        public void SetSubjectToGDPR(bool subjectToGDPR)
         {
-            Debug.LogWarning($"Call to setLastAdDomain(string value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setClickCount(int value)
+        public void SetTargetingParams(TargetingParams targetingParams)
         {
-            Debug.LogWarning($"Call to setClickCount(int value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setVideoImpressionCount(int value)
+        public void SetTestMode(bool test)
         {
-            Debug.LogWarning($"Call to setVideoImpressionCount(int value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public void setCompletedVideosCount(int value)
+        public void SetUSPrivacyString(string usPrivacyString)
         {
-            Debug.LogWarning($"Call to setCompletedVideosCount(int value) {DUMMY_MESSAGE}");
+            throw new System.NotImplementedException();
         }
 
-        public BannerSize? getSize()
+        public void Show()
         {
-            Debug.LogWarning($"Call to getSize() {DUMMY_MESSAGE}");
-            return null;
+            throw new System.NotImplementedException();
         }
 
-        public string getAuctionResult()
+        public bool Show(int YAxis, int XAxis, IBannerAd ad, BannerSize size)
         {
-            Debug.LogWarning($"Call to getAuctionResult() {DUMMY_MESSAGE}");
-            return string.Empty;
+            throw new System.NotImplementedException();
         }
 
-        public bool isDestroyed()
+        IInterstitialRequest IAdRequestBuilder<IInterstitialRequest>.Build()
         {
-            Debug.LogWarning($"Call to isDestroyed() {DUMMY_MESSAGE}");
-            return false;
+            throw new System.NotImplementedException();
         }
 
-        public bool isExpired()
+        IBannerRequest IAdRequestBuilder<IBannerRequest>.Build()
         {
-            Debug.LogWarning($"Call to isExpired() {DUMMY_MESSAGE}");
-            return false;
+            throw new System.NotImplementedException();
         }
     }
 }

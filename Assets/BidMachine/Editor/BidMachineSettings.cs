@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace BidMachine.Unity.Editor.Utils
+namespace BidMachineAds.Unity.Editor.Utils
 {
 	public class BidMachineSettings : ScriptableObject
 	{
