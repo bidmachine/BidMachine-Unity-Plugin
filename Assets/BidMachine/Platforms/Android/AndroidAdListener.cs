@@ -5,55 +5,55 @@ using UnityEngine;
 
 namespace BidMachineAds.Unity.Android
 {
-    internal class AndroidAdListener<TAdType, TAdListener>
+    internal class AndroidAdListener<TAd, TAdListener>
 #if UNITY_ANDROID
         : AndroidJavaProxy,
-            IAdListener<AndroidJavaObject, AndroidJavaObject>
-        where TAdListener : IAdListener<TAdType, BMError>
+            ICommonAdListener<AndroidJavaObject, AndroidJavaObject>
+        where TAdListener : ICommonAdListener<TAd, BMError>
     {
         protected readonly TAdListener listener;
 
-        protected readonly Func<AndroidJavaObject, TAdType> factory;
+        protected readonly Func<AndroidJavaObject, TAd> adProvider;
 
         internal AndroidAdListener(
             string className,
             TAdListener listener,
-            Func<AndroidJavaObject, TAdType> factory
+            Func<AndroidJavaObject, TAd> adProvider
         )
             : base(className)
         {
             this.listener = listener;
-            this.factory = factory;
+            this.adProvider = adProvider;
         }
 
-        public void OnAdExpired(AndroidJavaObject ad)
+        public void onAdExpired(AndroidJavaObject ad)
         {
-            listener.OnAdExpired(factory(ad));
+            listener.onAdExpired(adProvider(ad));
         }
 
-        public void OnAdImpression(AndroidJavaObject ad)
+        public void onAdImpression(AndroidJavaObject ad)
         {
-            listener.OnAdImpression(factory(ad));
+            listener.onAdImpression(adProvider(ad));
         }
 
-        public void OnAdLoaded(AndroidJavaObject ad)
+        public void onAdLoaded(AndroidJavaObject ad)
         {
-            listener.OnAdLoaded(factory(ad));
+            listener.onAdLoaded(adProvider(ad));
         }
 
-        public void OnAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
+        public void onAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            listener.OnAdLoadFailed(factory(ad), AndroidUtils.GetError(error));
+            listener.onAdLoadFailed(adProvider(ad), AndroidUtils.GetError(error));
         }
 
-        public void OnAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
+        public void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            listener.OnAdShowFailed(factory(ad), AndroidUtils.GetError(error));
+            listener.onAdShowFailed(adProvider(ad), AndroidUtils.GetError(error));
         }
 
-        public void OnAdShown(AndroidJavaObject ad)
+        public void onAdShown(AndroidJavaObject ad)
         {
-            listener.OnAdShown(factory(ad));
+            listener.onAdShown(adProvider(ad));
         }
     }
 #else
@@ -61,7 +61,7 @@ namespace BidMachineAds.Unity.Android
         public AndroidAdListener(
             string listenerClassName,
             IAdListener<TAdType, TRequestType, BMError> listener,
-            Func<AndroidJavaObject, TAdType> adFactory
+            Func<AndroidJavaObject, TAdType> adProvider
         ) { }
     }
 #endif

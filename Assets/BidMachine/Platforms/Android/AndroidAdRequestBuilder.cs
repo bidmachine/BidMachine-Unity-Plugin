@@ -6,149 +6,143 @@ using System;
 
 namespace BidMachineAds.Unity.Android
 {
-    internal class AndroidAdRequestBuilder<TAdRequest> : IAdRequestBuilder<TAdRequest>
+    internal class AndroidAdRequestBuilder : IAdRequestBuilder
     {
-        private readonly AndroidJavaObject javaObject;
+        private readonly AndroidJavaObject jObject;
 
-        private readonly Func<AndroidJavaObject, TAdRequest> factory;
+        private readonly string listenerClassName;
 
-        public AndroidJavaObject JavaObject => javaObject;
+        private readonly Func<AndroidJavaObject, IAdRequest> factory;
+
+        public AndroidJavaObject JavaObject => jObject;
 
         public AndroidAdRequestBuilder(
             string className,
-            Func<AndroidJavaObject, TAdRequest> factory
+            string listenerClassName,
+            Func<AndroidJavaObject, IAdRequest> factory
         )
         {
-            javaObject = new AndroidJavaObject(className);
+            jObject = new AndroidJavaObject(className);
+            this.listenerClassName = listenerClassName;
             this.factory = factory;
         }
 
-        public void SetAdContentType(AdContentType adContentType)
+        public IAdRequestBuilder SetAdContentType(AdContentType adContentType)
         {
-            string contentTypeString = adContentType.ToString();
-
-            // Handle the default case
+            var contentTypeString = adContentType.ToString();
             if (!Enum.IsDefined(typeof(AdContentType), adContentType))
             {
                 contentTypeString = AdContentType.All.ToString();
             }
 
-            AndroidJavaClass adContentTypeClass = new AndroidJavaClass(
-                "io.bidmachine.AdContentType"
-            );
-            AndroidJavaObject javaAdContentType = adContentTypeClass.GetStatic<AndroidJavaObject>(
-                contentTypeString
-            );
+            var jcAdContentType = new AndroidJavaClass("io.bidmachine.AdContentType");
+            var jAdContentType = jcAdContentType.GetStatic<AndroidJavaObject>(contentTypeString);
 
-            javaObject.Call<AndroidJavaObject>("setAdContentType", javaAdContentType);
+            jObject.Call<AndroidJavaObject>("setAdContentType", jAdContentType);
+
+            return this;
         }
 
-        public void SetBidPayload(string bidPayLoad)
+        public IAdRequestBuilder SetBidPayload(string bidPayLoad)
         {
             if (string.IsNullOrEmpty(bidPayLoad))
             {
-                return;
+                return this;
             }
 
-            javaObject.Call<AndroidJavaObject>(
-                "setBidPayload",
-                AndroidUtils.GetJavaPrimitiveObject(bidPayLoad)
-            );
+            jObject.Call<AndroidJavaObject>("setBidPayload", AndroidUtils.GetPrimitive(bidPayLoad));
+
+            return this;
         }
 
-        public void SetListener(IAdRequestListener<TAdRequest, string, BMError> listener)
+        public IAdRequestBuilder SetListener(IAdRequestListener listener)
         {
             if (listener == null)
             {
-                return;
+                return this;
             }
 
-            javaObject.Call<AndroidJavaObject>(
+            jObject.Call<AndroidJavaObject>(
                 "setListener",
-                new AndroidAdRequestListener<TAdRequest>(
-                    AndroidUtils.BannerListenerClassName,
-                    listener,
-                    factory
-                )
+                new AndroidAdRequestListener(listenerClassName, listener, factory)
             );
+
+            return this;
         }
 
-        public void SetLoadingTimeOut(int loadingTimeout)
+        public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
-            javaObject.Call<AndroidJavaObject>(
+            jObject.Call<AndroidJavaObject>(
                 "setLoadingTimeOut",
-                AndroidUtils.GetJavaPrimitiveObject(loadingTimeout)
+                AndroidUtils.GetPrimitive(loadingTimeout)
             );
+
+            return this;
         }
 
-        public void SetNetworks(string jsonNetworksData)
+        public IAdRequestBuilder SetNetworks(string jsonNetworksData)
         {
             if (string.IsNullOrEmpty(jsonNetworksData))
             {
-                return;
+                return this;
             }
 
-            javaObject.Call<AndroidJavaObject>(
+            jObject.Call<AndroidJavaObject>(
                 "setNetworks",
-                AndroidUtils.GetJavaPrimitiveObject(jsonNetworksData)
+                AndroidUtils.GetPrimitive(jsonNetworksData)
             );
+
+            return this;
         }
 
-        public void SetPlacementId(string placementId)
+        public IAdRequestBuilder SetPlacementId(string placementId)
         {
             if (string.IsNullOrEmpty(placementId))
             {
-                return;
+                return this;
             }
 
-            javaObject.Call<AndroidJavaObject>(
+            jObject.Call<AndroidJavaObject>(
                 "setPlacementId",
-                AndroidUtils.GetJavaPrimitiveObject(placementId)
+                AndroidUtils.GetPrimitive(placementId)
             );
+
+            return this;
         }
 
-        public void SetPriceFloorParams(PriceFloorParams priceFloorParams)
+        public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
         {
             if (priceFloorParams == null)
             {
-                return;
+                return this;
             }
 
-            javaObject.Call<AndroidJavaObject>(
+            jObject.Call<AndroidJavaObject>(
                 "setPriceFloorParams",
-                new AndroidPriceFloorParams(priceFloorParams)
+                AndroidUtils.GetPriceFloorParams(priceFloorParams)
             );
+
+            return this;
         }
 
-        public void SetSessionAdParams(SessionAdParams sessionAdParams)
-        {
-            if (sessionAdParams == null)
-            {
-                return;
-            }
-
-            javaObject.Call<AndroidJavaObject>(
-                "setSessionAdParams",
-                new AndroidSessionAdParams(sessionAdParams)
-            );
-        }
-
-        public void SetTargetingParams(TargetingParams targetingParams)
+        public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
             if (targetingParams == null)
             {
-                return;
+                return this;
             }
 
-            javaObject.Call<AndroidJavaObject>(
+            jObject.Call<AndroidJavaObject>(
                 "setTargetingParams",
-                new AndroidTargetingParams(targetingParams).JavaObject
+                AndroidUtils.GetTargetingParams(targetingParams)
             );
+
+            return this;
         }
 
-        public TAdRequest Build()
+        public IAdRequest Build()
         {
-            return factory(javaObject.Call<AndroidJavaObject>("build"));
+            return factory(jObject.Call<AndroidJavaObject>("build"));
         }
     }
 }

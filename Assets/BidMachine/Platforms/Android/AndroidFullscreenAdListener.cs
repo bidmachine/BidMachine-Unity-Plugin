@@ -1,34 +1,32 @@
 using System;
-using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using UnityEngine;
 
 namespace BidMachineAds.Unity.Android
 {
-    internal class AndroidFullscreenAdListener<TAd, TAdListener>
+    internal class AndroidFullscreenAdListener
 #if UNITY_ANDROID
-        : AndroidAdListener<TAd, TAdListener>,
-            ICloseableAdListener<AndroidJavaObject>
-        where TAdListener : IAdListener<TAd, BMError>, IFullscreenAdListener<TAd, BMError>
+        : AndroidAdListener<IFullscreenAd, IFullscreenAdListener<IFullscreenAd>>,
+            ICommonFullscreenAdListener<AndroidJavaObject, AndroidJavaObject>
     {
         internal AndroidFullscreenAdListener(
             string className,
-            TAdListener listener,
-            Func<AndroidJavaObject, TAd> factory
+            IFullscreenAdListener<IFullscreenAd> listener,
+            Func<AndroidJavaObject, IFullscreenAd> adProvider
         )
-            : base(className, listener, factory) { }
+            : base(className, listener, adProvider) { }
 
-        public void OnAdClosed(AndroidJavaObject ad, bool finished)
+        public void onAdClosed(AndroidJavaObject ad, bool finished)
         {
-            listener.OnAdClosed(factory(ad), finished);
+            listener.onAdClosed(adProvider(ad), finished);
         }
     }
 #else
     {
         public AndroidAdListener(
             string listenerClassName,
-            IAdListener<TAdType, TRequestType, BMError> listener,
-            Func<AndroidJavaObject, TAdType> adFactory
+            TAdListener listener,
+            Func<AndroidJavaObject, Ad> adFactory
         ) { }
     }
 #endif

@@ -2,11 +2,11 @@
 
 namespace BidMachineAds.Unity.Api
 {
-    public sealed class RewardedRequest : IRewardedRequest
+    public sealed class RewardedRequest : IAdRequest
     {
-        private readonly IRewardedRequest client;
+        private readonly IAdRequest client;
 
-        public RewardedRequest(IRewardedRequest client)
+        public RewardedRequest(IAdRequest client)
         {
             this.client = client;
         }
@@ -26,61 +26,64 @@ namespace BidMachineAds.Unity.Api
             return client.IsExpired();
         }
 
-        public sealed class Builder : IRewardedRequestBuilder
+        public sealed class Builder : IAdRequestBuilder
         {
-            private readonly IRewardedRequestBuilder client;
+            private readonly IAdRequestBuilder client;
 
             public Builder()
             {
                 client = BidMachineClientFactory.GetRewardedRequestBuilder();
             }
 
-            public void SetAdContentType(AdContentType contentType)
+            public IAdRequestBuilder SetAdContentType(AdContentType contentType)
             {
                 client.SetAdContentType(contentType);
+                return this;
             }
 
-            public void SetTargetingParams(TargetingParams targetingParams)
+            public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
             {
                 client.SetTargetingParams(targetingParams);
+                return this;
             }
 
-            public void SetPriceFloorParams(PriceFloorParams priceFloorParameters)
+            public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParameters)
             {
                 client.SetPriceFloorParams(priceFloorParameters);
+                return this;
             }
 
-            public void SetListener(IAdRequestListener<IRewardedRequest, string, BMError> listener)
+            public IAdRequestBuilder SetListener(IAdRequestListener listener)
             {
                 client.SetListener(listener);
+                return this;
             }
 
-            public void SetSessionAdParams(SessionAdParams sessionAdParams)
-            {
-                client.SetSessionAdParams(sessionAdParams);
-            }
-
-            public void SetLoadingTimeOut(int loadingTimeout)
+            public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
             {
                 client.SetLoadingTimeOut(loadingTimeout);
+                return this;
             }
 
-            public void SetPlacementId(string placementId)
+            public IAdRequestBuilder SetPlacementId(string placementId)
             {
                 client.SetPlacementId(placementId);
+                return this;
             }
 
-            public void SetBidPayload(string bidPayLoad)
+            public IAdRequestBuilder SetBidPayload(string bidPayLoad)
             {
                 client.SetBidPayload(bidPayLoad);
+                return this;
             }
 
-            public void SetNetworks(string jsonNetworksData)
+            public IAdRequestBuilder SetNetworks(string jsonNetworksData)
             {
                 client.SetNetworks(jsonNetworksData);
+                return this;
             }
 
-            public IRewardedRequest Build()
+            public IAdRequest Build()
             {
                 return client.Build();
             }

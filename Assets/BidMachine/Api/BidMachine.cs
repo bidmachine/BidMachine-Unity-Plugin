@@ -139,25 +139,6 @@ namespace BidMachineAds.Unity.Api
         }
 
         /// <summary>
-        /// Check CoarseLocation and FineLocation permission.
-        /// See <see cref="BidMachine.CheckAndroidPermissions"/> for resulting triggered event.
-        /// <param name="permission">Permission.CoarseLocation or Permission.CoarseLocation</param>
-        /// </summary>
-        public static bool CheckAndroidPermissions(string permission)
-        {
-            return GetInstance().CheckAndroidPermissions(permission);
-        }
-
-        /// <summary>
-        /// Request CoarseLocation and FineLocation permissions.
-        /// See <see cref="BidMachine.RequestAndroidPermissions"/> for resulting triggered event.
-        /// </summary>
-        public static void RequestAndroidPermissions()
-        {
-            GetInstance().RequestAndroidPermissions();
-        }
-
-        /// <summary>
         /// Sets publisher information.
         /// See <see cref="BidMachine.SetPublisher"/> for resulting triggered event.
         /// <param name="publisher">Publisher object which contains all information about publisher.</param>

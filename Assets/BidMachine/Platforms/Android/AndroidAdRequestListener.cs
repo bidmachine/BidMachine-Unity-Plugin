@@ -5,19 +5,19 @@ using UnityEngine;
 
 namespace BidMachineAds.Unity.Android
 {
-    internal class AndroidAdRequestListener<TAdRequest>
+    internal class AndroidAdRequestListener
 #if UNITY_ANDROID
         : AndroidJavaProxy,
-            IAdRequestListener<AndroidJavaObject, AndroidJavaObject, AndroidJavaObject>
+            ICommonAdRequestListener<AndroidJavaObject, AndroidJavaObject, AndroidJavaObject>
     {
-        private readonly IAdRequestListener<TAdRequest, string, BMError> listener;
+        private readonly IAdRequestListener listener;
 
-        private readonly Func<AndroidJavaObject, TAdRequest> factory;
+        private readonly Func<AndroidJavaObject, IAdRequest> factory;
 
         internal AndroidAdRequestListener(
             string className,
-            IAdRequestListener<TAdRequest, string, BMError> listener,
-            Func<AndroidJavaObject, TAdRequest> factory
+            IAdRequestListener listener,
+            Func<AndroidJavaObject, IAdRequest> factory
         )
             : base(className)
         {
@@ -25,22 +25,22 @@ namespace BidMachineAds.Unity.Android
             this.factory = factory;
         }
 
-        public void OnAdRequestSuccess(AndroidJavaObject request, AndroidJavaObject auctionResult)
+        public void onRequestSuccess(AndroidJavaObject request, AndroidJavaObject auctionResult)
         {
-            listener.OnAdRequestSuccess(
+            listener.onRequestSuccess(
                 factory(request),
                 AndroidUtils.BuildAuctionResultString(auctionResult)
             );
         }
 
-        public void OnAdRequestFailed(AndroidJavaObject request, AndroidJavaObject error)
+        public void onRequestFailed(AndroidJavaObject request, AndroidJavaObject error)
         {
-            listener.OnAdRequestFailed(factory(request), AndroidUtils.GetError(error));
+            listener.onRequestFailed(factory(request), AndroidUtils.GetError(error));
         }
 
-        public void OnAdRequestExpired(AndroidJavaObject request)
+        public void onRequestExpired(AndroidJavaObject request)
         {
-            listener.OnAdRequestExpired(factory(request));
+            listener.onRequestExpired(factory(request));
         }
     }
 #else

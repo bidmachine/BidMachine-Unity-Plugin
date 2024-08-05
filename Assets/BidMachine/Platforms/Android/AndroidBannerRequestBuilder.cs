@@ -8,12 +8,13 @@ namespace BidMachineAds.Unity.Android
 {
     internal class AndroidBannerRequestBuilder : IBannerRequestBuilder
     {
-        private readonly AndroidAdRequestBuilder<IBannerRequest> requestBuilder;
+        private readonly AndroidAdRequestBuilder requestBuilder;
 
         public AndroidBannerRequestBuilder()
         {
-            requestBuilder = new AndroidAdRequestBuilder<IBannerRequest>(
+            requestBuilder = new AndroidAdRequestBuilder(
                 AndroidUtils.BannerRequestBuilderClassName,
+                AndroidUtils.BannerRequestListenerClassName,
                 delegate(AndroidJavaObject request)
                 {
                     return new AndroidBannerRequest(request);
@@ -21,72 +22,57 @@ namespace BidMachineAds.Unity.Android
             );
         }
 
-        public void SetSize(BannerSize size)
+        public IAdRequestBuilder SetSize(BannerSize size)
         {
-            string sizeString = size.ToString();
-
-            // Handle the default case
-            if (!Enum.IsDefined(typeof(BannerSize), size))
-            {
-                sizeString = BannerSize.Size_320x50.ToString();
-            }
-
-            AndroidJavaClass bannerSizeClass = new AndroidJavaClass(
-                "io.bidmachine.banner.BannerSize"
-            );
-            AndroidJavaObject javaBannerSize = bannerSizeClass.GetStatic<AndroidJavaObject>(
-                sizeString
+            requestBuilder.JavaObject.Call<AndroidJavaObject>(
+                "setSize",
+                AndroidUtils.GetBannerSize(size)
             );
 
-            requestBuilder.JavaObject.Call<AndroidJavaObject>("setSize", javaBannerSize);
+            return this;
         }
 
-        public void SetAdContentType(AdContentType contentType)
+        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
         {
-            requestBuilder.SetAdContentType(contentType);
+            return requestBuilder.SetAdContentType(contentType);
         }
 
-        public void SetTargetingParams(TargetingParams targetingParams)
+        public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
-            requestBuilder.SetTargetingParams(targetingParams);
+            return requestBuilder.SetTargetingParams(targetingParams);
         }
 
-        public void SetPriceFloorParams(PriceFloorParams priceFloorParams)
+        public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            requestBuilder.SetPriceFloorParams(priceFloorParams);
+            return requestBuilder.SetPriceFloorParams(priceFloorParams);
         }
 
-        public void SetListener(IAdRequestListener<IBannerRequest, string, BMError> listener)
+        public IAdRequestBuilder SetListener(IAdRequestListener listener)
         {
-            requestBuilder.SetListener(listener);
+            return requestBuilder.SetListener(listener);
         }
 
-        public void SetSessionAdParams(SessionAdParams sessionAdParams)
+        public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
-            requestBuilder.SetSessionAdParams(sessionAdParams);
+            return requestBuilder.SetLoadingTimeOut(loadingTimeout);
         }
 
-        public void SetLoadingTimeOut(int loadingTimeout)
+        public IAdRequestBuilder SetPlacementId(string placementId)
         {
-            requestBuilder.SetLoadingTimeOut(loadingTimeout);
+            return requestBuilder.SetPlacementId(placementId);
         }
 
-        public void SetPlacementId(string placementId)
+        public IAdRequestBuilder SetBidPayload(string bidPayload)
         {
-            requestBuilder.SetPlacementId(placementId);
+            return requestBuilder.SetBidPayload(bidPayload);
         }
 
-        public void SetBidPayload(string bidPayload)
+        public IAdRequestBuilder SetNetworks(string networks)
         {
-            requestBuilder.SetBidPayload(bidPayload);
+            return requestBuilder.SetNetworks(networks);
         }
 
-        public void SetNetworks(string networks)
-        {
-            requestBuilder.SetNetworks(networks);
-        }
-
-        public IBannerRequest Build()
+        public IAdRequest Build()
         {
             return requestBuilder.Build();
         }

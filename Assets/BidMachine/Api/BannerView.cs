@@ -2,23 +2,25 @@
 
 namespace BidMachineAds.Unity.Api
 {
-    public sealed class BannerAd : IBannerAd
+    public sealed class BannerView : IBannerView
     {
-        private readonly IBannerAd client;
+        private readonly IBannerView client;
 
-        public BannerAd()
+        public IBannerView Client => client;
+
+        public BannerView()
         {
-            client = BidMachineClientFactory.GetBannerAd();
+            client = BidMachineClientFactory.GetBannerView();
         }
 
-        public BannerAd(IBannerAd client)
+        public BannerView(IBannerView client)
         {
             this.client = client;
         }
 
-        public bool Show(int YAxis, int XAxis, IBannerAd ad, BannerSize size)
+        public bool Show(int yAxis, int xAxis, IBannerView view, BannerSize size)
         {
-            return client.Show(YAxis, XAxis, ad, size);
+            return client.Show(yAxis, xAxis, view, size);
         }
 
         public void Hide()
@@ -36,12 +38,12 @@ namespace BidMachineAds.Unity.Api
             client.Destroy();
         }
 
-        public void SetListener(IBannerListener listener)
+        public void SetListener(IAdListener<IBannerView> listener)
         {
             client.SetListener(listener);
         }
 
-        public void Load(IBannerRequest request)
+        public void Load(IAdRequest request)
         {
             client.Load(request);
         }

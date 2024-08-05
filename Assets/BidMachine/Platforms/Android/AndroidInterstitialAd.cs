@@ -5,65 +5,35 @@ using BidMachineAds.Unity.Api;
 
 namespace BidMachineAds.Unity.Android
 {
-    internal class AndroidInterstitialAd : IInterstitialAd
+    internal class AndroidInterstitialAd : AndroidFullscreenAd
     {
-        private readonly AndroidJavaObject javaObject;
-
         public AndroidInterstitialAd()
-        {
-            javaObject = new AndroidJavaObject(
+            : base(
                 AndroidUtils.InterstitialAdClassName,
-                AndroidUtils.GetActivity()
-            );
-        }
+                AndroidUtils.InterstitialListenerClassName,
+                delegate(AndroidJavaObject ad)
+                {
+                    return new InterstitialAd(new AndroidInterstitialAd(ad));
+                },
+                delegate(IAdRequest request)
+                {
+                    return ((AndroidInterstitialRequest)request).JavaObject;
+                }
+            ) { }
 
-        public AndroidInterstitialAd(AndroidJavaObject javaObject) => this.javaObject = javaObject;
-
-        public void Show()
-        {
-            javaObject.Call("show");
-        }
-
-        public bool CanShow()
-        {
-            return javaObject.Call<bool>("canShow");
-        }
-
-        public void Destroy()
-        {
-            javaObject.Call("destroy");
-        }
-
-        public void Load(IInterstitialRequest request)
-        {
-            if (request == null)
-            {
-                return;
-            }
-            javaObject.Call<AndroidJavaObject>(
-                "load",
-                ((AndroidInterstitialRequest)request).JavaObject
-            );
-        }
-
-        public void SetListener(IInterstitialListener listener)
-        {
-            if (listener == null)
-            {
-                return;
-            }
-            javaObject.Call<AndroidJavaObject>(
-                "setListener",
-                new AndroidFullscreenAdListener<IInterstitialAd, IInterstitialListener>(
-                    AndroidUtils.InterstitialListenerClassName,
-                    listener,
-                    delegate(AndroidJavaObject ad)
-                    {
-                        return new InterstitialAd(new AndroidInterstitialAd(ad));
-                    }
-                )
-            );
-        }
+        public AndroidInterstitialAd(AndroidJavaObject javaObject)
+            : base(
+                javaObject,
+                AndroidUtils.InterstitialListenerClassName,
+                delegate(AndroidJavaObject ad)
+                {
+                    return new InterstitialAd(new AndroidInterstitialAd(ad));
+                },
+                delegate(IAdRequest request)
+                {
+                    return ((AndroidInterstitialRequest)request).JavaObject;
+                }
+            ) { }
     }
 }
 #endif

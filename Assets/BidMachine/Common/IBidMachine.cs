@@ -27,9 +27,5 @@ namespace BidMachineAds.Unity.Common
         void SetGPP(string gppString, int[] gppIds);
 
         void SetPublisher(Publisher publisher);
-
-        bool CheckAndroidPermissions(string permission);
-
-        void RequestAndroidPermissions();
     }
 }

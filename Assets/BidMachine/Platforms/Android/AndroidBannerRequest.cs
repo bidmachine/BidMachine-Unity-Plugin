@@ -7,42 +7,35 @@ namespace BidMachineAds.Unity.Android
 {
     internal class AndroidBannerRequest : IBannerRequest
     {
-        private readonly AndroidJavaObject javaObject;
+        private readonly AndroidJavaObject jObject;
 
-        public AndroidJavaObject Client => javaObject;
+        public AndroidJavaObject JavaObject => jObject;
 
-        public AndroidBannerRequest(AndroidJavaObject javaObject)
+        public AndroidBannerRequest(AndroidJavaObject jObject)
         {
-            this.javaObject = javaObject;
+            this.jObject = jObject;
         }
 
         public BannerSize GetSize()
         {
-            var size = javaObject.Call<AndroidJavaObject>("getSize").Call<string>("toString");
-            return size switch
-            {
-                "Size_320x50" => BannerSize.Size_320x50,
-                "Size_300x250" => BannerSize.Size_300x250,
-                "Size_728x90" => BannerSize.Size_728x90,
-                _ => BannerSize.Size_320x50 // Default case
-            };
+            return AndroidUtils.GetBannerSize(jObject.Call<AndroidJavaObject>("getSize"));
         }
 
         public string GetAuctionResult()
         {
             return AndroidUtils.BuildAuctionResultString(
-                javaObject.Call<AndroidJavaObject>("getAuctionResult")
+                jObject.Call<AndroidJavaObject>("getAuctionResult")
             );
         }
 
         public bool IsDestroyed()
         {
-            return javaObject.Call<bool>("isDestroyed");
+            return jObject.Call<bool>("isDestroyed");
         }
 
         public bool IsExpired()
         {
-            return javaObject.Call<bool>("isExpired");
+            return jObject.Call<bool>("isExpired");
         }
     }
 }

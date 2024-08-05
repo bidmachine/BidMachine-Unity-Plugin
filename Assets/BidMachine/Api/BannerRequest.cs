@@ -40,57 +40,61 @@ namespace BidMachineAds.Unity.Api
                 client = BidMachineClientFactory.GetBannerRequestBuilder();
             }
 
-            public void SetSize(BannerSize size)
+            public IAdRequestBuilder SetSize(BannerSize size)
             {
                 client.SetSize(size);
+                return this;
             }
 
-            public void SetAdContentType(AdContentType contentType)
+            public IAdRequestBuilder SetAdContentType(AdContentType contentType)
             {
                 client.SetAdContentType(contentType);
+                return this;
             }
 
-            public void SetTargetingParams(TargetingParams targetingParams)
+            public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
             {
                 client.SetTargetingParams(targetingParams);
+                return this;
             }
 
-            public void SetPriceFloorParams(PriceFloorParams priceFloorParameters)
+            public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParameters)
             {
                 client.SetPriceFloorParams(priceFloorParameters);
+                return this;
             }
 
-            public void SetListener(IAdRequestListener<IBannerRequest, string, BMError> listener)
+            public IAdRequestBuilder SetListener(IAdRequestListener listener)
             {
                 client.SetListener(listener);
+                return this;
             }
 
-            public void SetSessionAdParams(SessionAdParams sessionAdParams)
-            {
-                client.SetSessionAdParams(sessionAdParams);
-            }
-
-            public void SetLoadingTimeOut(int value)
+            public IAdRequestBuilder SetLoadingTimeOut(int value)
             {
                 client.SetLoadingTimeOut(value);
+                return this;
             }
 
-            public void SetPlacementId(string placementId)
+            public IAdRequestBuilder SetPlacementId(string placementId)
             {
                 client.SetPlacementId(placementId);
+                return this;
             }
 
-            public void SetBidPayload(string bidPayLoad)
+            public IAdRequestBuilder SetBidPayload(string bidPayLoad)
             {
                 client.SetBidPayload(bidPayLoad);
+                return this;
             }
 
-            public void SetNetworks(string jsonNetworksData)
+            public IAdRequestBuilder SetNetworks(string jsonNetworksData)
             {
                 client.SetNetworks(jsonNetworksData);
+                return this;
             }
 
-            public IBannerRequest Build()
+            public IAdRequest Build()
             {
                 return client.Build();
             }

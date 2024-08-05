@@ -8,7 +8,7 @@ namespace BidMachineAds.Unity
         internal static IBidMachine GetBidMachine()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            return new BidMachineAds.Unity.Android.AndroidBidMachine();
+            return new Android.AndroidBidMachine();
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return BidMachineAds.Unity.iOS.iOSBidMachine.Instance;
 #else
@@ -16,69 +16,78 @@ namespace BidMachineAds.Unity
 #endif
         }
 
-        internal static IBannerAd GetBannerAd()
+        internal static IBannerView GetBannerView()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            return new BidMachineAds.Unity.Android.AndroidBannerAd();
+            return new Android.AndroidBannerView();
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new BidMachineAds.Unity.iOS.iOSBannerView();
 #else
-            return new DummyBidMachine();
+            return new DummuBannerAd();
 #endif
         }
 
         internal static IBannerRequestBuilder GetBannerRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            return new BidMachineAds.Unity.Android.AndroidBannerRequestBuilder();
+            return new Android.AndroidBannerRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new BidMachineAds.Unity.iOS.iOSBannerViewRequestBuilder();
 #else
-            return new DummyBidMachine();
+            return new DummuBannerRequestBuilder();
 #endif
         }
 
-        internal static IInterstitialAd GetInterstitialAd()
+        internal static IFullscreenAd GetInterstitialAd()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            return new BidMachineAds.Unity.Android.AndroidInterstitialAd();
+            return new Android.AndroidInterstitialAd();
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new BidMachineAds.Unity.iOS.iOSInterstitialAd();
 #else
-            return new DummyBidMachine();
+            return new DummuInterstitialAd();
 #endif
         }
 
-        internal static IInterstitialRequestBuilder GetInterstitialRequestBuilder()
+        internal static IAdRequestBuilder GetInterstitialRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            return new BidMachineAds.Unity.Android.AndroidInterstitialRequestBuilder();
+            return new Android.AndroidInterstitialRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder();
 #else
-            return new DummyBidMachine();
+            return new DummuInterstitialRequestBuilder();
 #endif
         }
 
-        internal static IRewardedAd GetRewardedAd()
+        internal static IFullscreenAd GetRewardedAd()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            return new BidMachineAds.Unity.Android.AndroidRewardedAd();
+            return new Android.AndroidRewardedAd();
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new BidMachineAds.Unity.iOS.iOSRewardedAd();
 #else
-            return new DummyBidMachine();
+            return new DummuRewardedAd();
 #endif
         }
 
-        internal static IRewardedRequestBuilder GetRewardedRequestBuilder()
+        internal static IAdRequestBuilder GetRewardedRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            return new BidMachineAds.Unity.Android.AndroidRewardedRequestBuilder();
+            return new Android.AndroidRewardedRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new BidMachineAds.Unity.iOS.iOSRewardedRequestBuilder();
 #else
-            return new DummyBidMachine();
+            return new DummuRewardedRequestBuilder();
+#endif
+        }
+
+        internal static IUserPermissions GetUserPermissions()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new BidMachineAds.Unity.Android.AndroidUserPermissions();
+#else
+            return new DummuUserPermissions();
 #endif
         }
     }

@@ -4,32 +4,32 @@ using BidMachineAds.Unity.Common;
 
 namespace BidMachineAds.Unity.Android
 {
-    internal class AndroidRewardedRequest : IRewardedRequest
+    internal class AndroidRewardedRequest : IAdRequest
     {
-        private readonly AndroidJavaObject javaObject;
+        private readonly AndroidJavaObject jObject;
 
-        public AndroidJavaObject JavaObject => javaObject;
+        public AndroidJavaObject JavaObject => jObject;
 
         public AndroidRewardedRequest(AndroidJavaObject javaObject)
         {
-            this.javaObject = javaObject;
+            this.jObject = javaObject;
         }
 
         public string GetAuctionResult()
         {
             return AndroidUtils.BuildAuctionResultString(
-                javaObject.Call<AndroidJavaObject>("getAuctionResult")
+                jObject.Call<AndroidJavaObject>("getAuctionResult")
             );
         }
 
         public bool IsDestroyed()
         {
-            return javaObject.Call<bool>("isDestroyed");
+            return jObject.Call<bool>("isDestroyed");
         }
 
         public bool IsExpired()
         {
-            return javaObject.Call<bool>("isExpired");
+            return jObject.Call<bool>("isExpired");
         }
     }
 }

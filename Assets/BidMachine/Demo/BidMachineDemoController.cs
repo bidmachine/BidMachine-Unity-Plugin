@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using UnityEngine;
@@ -10,37 +10,34 @@ using UnityEngine.UI;
 
 public class BidMachineDemoController : MonoBehaviour
 {
-    [SerializeField]
     public Toggle tgTesting;
 
-    [SerializeField]
     public Toggle tgLogging;
 
     private TargetingParams targetingParams;
     private PriceFloorParams priceFloorParams;
-    private SessionAdParams sessionAdParams;
 
     // Banner Ad fields
-    private BannerAd bannerAd;
-    private IBannerListener bannerListener = new BannerListener();
-    private IBannerRequest bannerRequest;
-    private BannerRequest.Builder bannerRequestBuilder;
-    private BannerRequestListener bannerRequestListener = new BannerRequestListener();
+    private BannerView bannerView;
+    private readonly IAdListener<IBannerView> bannerListener = new BannerListener();
+    private IAdRequest bannerRequest;
+    private readonly IAdRequestListener bannerRequestListener = new BannerRequestListener();
 
     // Interstitial Ad fields
     private InterstitialAd interstitialAd;
-    private IInterstitialListener interstitialListener = new InterstitialListener();
-    private IInterstitialRequest interstitialRequest;
-    private InterstitialRequest.Builder interstitialRequestBuilder;
-    private InterstitialRequestListener interstitialRequestListener =
+    private readonly IFullscreenAdListener<IFullscreenAd> interstitialListener =
+        new InterstitialListener();
+    private IAdRequest interstitialRequest;
+    private readonly IAdRequestListener interstitialRequestListener =
         new InterstitialRequestListener();
 
     // Existing Rewarded Ad fields
     private RewardedAd rewardedAd;
-    private IRewardedlListener rewardedListener = new RewardedListener();
-    private IRewardedRequest rewardedRequest;
-    private RewardedRequest.Builder rewardedRequestBuilder;
-    private RewardedRequestListener rewardedRequestListener = new RewardedRequestListener();
+    private readonly IFullscreenAdListener<IFullscreenAd> rewardedListener = new RewardedListener();
+    private IAdRequest rewardedRequest;
+    private readonly IAdRequestListener rewardedRequestListener = new RewardedRequestListener();
+
+    private readonly UserPermissions userPermissions = new();
 
     private void Start()
     {
@@ -48,86 +45,66 @@ public class BidMachineDemoController : MonoBehaviour
         tgLogging.isOn = true;
 
         priceFloorParams = new PriceFloorParams();
-        priceFloorParams.AddPriceFloor("123", 1.2d);
+        priceFloorParams.AddPriceFloor(Guid.NewGuid().ToString(), 0.01);
 
-        sessionAdParams = new SessionAdParams { SessionDuration = 123 };
+        targetingParams = new TargetingParams
+        {
+            UserId = "user123",
+            gender = TargetingParams.Gender.Female,
+            BirthdayYear = 1990,
+            Keywords = new string[] { "gaming", "sports", "technology" },
+            DeviceLocation = new TargetingParams.Location
+            {
+                Provider = "GPS",
+                Latitude = 43.9006,
+                Longitude = 27.5590
+            },
+            Country = "Ireland",
+            City = "Dublin",
+            Zip = "D22 YD82",
+            StoreUrl = "https://play.google.com/store/apps/details?id=com.example.app",
+            StoreCategory = "Games",
+            StoreSubCategories = new string[] { "Puzzle", "Strategy" },
+            Framework = "Unity",
+            IsPaid = true,
+            externalUserIds = new ExternalUserId[]
+            {
+                new() { SourceId = "adnetwork1", Value = "abc123" },
+                new() { SourceId = "adnetwork2", Value = "xyz789" }
+            },
+            BlockedDomains = new HashSet<string> { "example.com", "spam.com" },
+            BlockedCategories = new HashSet<string> { "IAB-26", "IAB-25" },
+            BlockedApplications = new HashSet<string> { "com.unwanted.app1", "com.unwanted.app2" }
+        };
     }
 
     public void BidMachineInitialize()
     {
-        BidMachine.SetTargetingParams(
-            new TargetingParams
-            {
-                UserId = "user123",
-                gender = TargetingParams.Gender.Female,
-                BirthdayYear = 1990,
-                Keywords = new string[] { "gaming", "sports", "technology" },
-                DeviceLocation = new TargetingParams.Location
-                {
-                    Provider = "GPS",
-                    Latitude = 43.9006,
-                    Longitude = 27.5590
-                },
-                Country = "Ireland",
-                City = "Dublin",
-                Zip = "D22 YD82",
-                StoreUrl = "https://play.google.com/store/apps/details?id=com.example.app",
-                StoreCategory = "Games",
-                StoreSubCategories = new string[] { "Puzzle", "Strategy" },
-                Framework = "Unity",
-                IsPaid = true,
-                externalUserIds = new ExternalUserId[]
-                {
-                    new() { SourceId = "adnetwork1", Value = "abc123" },
-                    new() { SourceId = "adnetwork2", Value = "xyz789" }
-                },
-                BlockedDomains = new HashSet<string> { "example.com", "spam.com" },
-                BlockedCategories = new HashSet<string> { "IAB-26", "IAB-25" },
-                BlockedApplications = new HashSet<string>
-                {
-                    "com.unwanted.app1",
-                    "com.unwanted.app2"
-                }
-            }
-        );
-        BidMachine.SetPublisher(
-            new Publisher
-            {
-                Id = "1",
-                Name = "AdTest",
-                Domain = "us",
-                Categories = new[] { "sports", "technology" }
-            }
-        );
+        userPermissions.Check(Permission.CoarseLocation);
+
+        // BidMachine.SetTargetingParams(targetingParams);
+        // BidMachine.SetPublisher(
+        //     new Publisher
+        //     {
+        //         Id = "1",
+        //         Name = "AdTest",
+        //         Domain = "us",
+        //         Categories = new[] { "sports", "technology" }
+        //     }
+        // );
         // BidMachine.SetEndpoint("https://test.com");
         BidMachine.SetSubjectToGDPR(true);
         BidMachine.SetCoppa(true);
         BidMachine.SetConsentConfig(true, "test consent string");
         BidMachine.SetUSPrivacyString("test_string");
-        BidMachine.CheckAndroidPermissions(Permission.CoarseLocation);
         BidMachine.SetLoggingEnabled(tgLogging.isOn);
         BidMachine.SetTestMode(tgTesting.isOn);
-        BidMachine.Initialize("122");
+        BidMachine.Initialize("1");
     }
 
     public void IsInitialized()
     {
         Debug.Log($"isInitialized - {BidMachine.IsInitialized()}");
-    }
-
-    public void CheckPermissions()
-    {
-        Debug.Log(
-            $"Permission.CoarseLocation - {BidMachine.CheckAndroidPermissions(Permission.CoarseLocation)}"
-        );
-        Debug.Log(
-            $"Permission.FineLocation - {BidMachine.CheckAndroidPermissions(Permission.FineLocation)}"
-        );
-    }
-
-    public void RequestPermissions()
-    {
-        BidMachine.RequestAndroidPermissions();
     }
 
     #region Banner & MREC Ads
@@ -144,47 +121,56 @@ public class BidMachineDemoController : MonoBehaviour
 
     public void LoadBanner(BannerSize bannerSize)
     {
-        if (bannerRequest == null)
+        if (bannerRequest != null)
         {
-            bannerRequest = new BannerRequest.Builder()
-            // .setSize(bannerSize)
-            // .setTargetingParams(targetingParams)
+            return;
+        }
+
+        bannerRequest = new BannerRequest.Builder()
+            .SetSize(bannerSize)
             // .setPriceFloorParams(priceFloorParams)
-            // .setSessionAdParams(sessionAdParams)
+            // .setTargetingParams(targetingParams)
             // .setPlacementId("placement_bannerRequest")
-            // .setLoadingTimeOut(123)
+            .SetLoadingTimeOut(10 * 1000)
             // .setBidPayload("123")
             // .setNetworks("admob")
-            // .setListener(bannerListener)
+            .SetListener(bannerRequestListener)
             .Build();
 
-            if (bannerAd == null)
-            {
-                bannerAd = new BannerAd();
-                bannerAd.SetListener(bannerListener);
-                bannerAd.Load(bannerRequest);
-            }
+        if (bannerView != null)
+        {
+            bannerView.SetListener(null);
+            bannerView.Destroy();
+            bannerView = null;
         }
+
+        bannerView = new BannerView();
+        bannerView.SetListener(bannerListener);
+        bannerView.Load(bannerRequest);
     }
 
     public void ShowBannerView()
     {
-        bannerAd?.Show(
+        var size = ((IBannerRequest)bannerRequest).GetSize();
+        bannerView?.Show(
             BidMachine.BANNER_VERTICAL_BOTTOM,
             BidMachine.BANNER_HORIZONTAL_CENTER,
-            bannerAd,
-            bannerRequest.GetSize()
+            bannerView,
+            size
         );
     }
 
     public void DestroyBanner()
     {
-        if (bannerAd != null)
+        if (bannerView == null)
         {
-            bannerAd.Destroy();
-            bannerAd = null;
-            bannerRequest = null;
+            return;
         }
+
+        bannerView.SetListener(null);
+        bannerView.Destroy();
+        bannerView = null;
+        bannerRequest = null;
     }
 
     #endregion
@@ -193,49 +179,55 @@ public class BidMachineDemoController : MonoBehaviour
 
     public void LoadInterstitialAd()
     {
-        if (interstitialRequest == null)
+        if (interstitialRequest != null)
         {
-            interstitialRequest = new InterstitialRequest.Builder()
-            // .setAdContentType(AdContentType.All)
-            // .setTargetingParams(targetingParams)
+            return;
+        }
+
+        interstitialRequest = new InterstitialRequest.Builder()
+            .SetAdContentType(AdContentType.All)
             // .setPriceFloorParams(priceParam)
-            // .setSessionAdParams(sessionAdParams)
+            // .setTargetingParams(targetingParams)
             // .setPlacementId("placement_interstitialRequest")
-            // .setLoadingTimeOut(30000)
+            .SetLoadingTimeOut(10 * 1000)
             // .setBidPayload("123")
             // .setNetworks("admob")
-            // .setListener(this)
+            .SetListener(interstitialRequestListener)
             .Build();
 
-            if (interstitialAd == null)
-            {
-                interstitialAd = new InterstitialAd();
-                interstitialAd.SetListener(interstitialListener);
-                interstitialAd.Load(interstitialRequest);
-            }
+        if (interstitialAd != null)
+        {
+            interstitialAd.SetListener(null);
+            interstitialAd.Destroy();
+            interstitialAd = null;
         }
+
+        interstitialAd = new InterstitialAd();
+        interstitialAd.SetListener(interstitialListener);
+        interstitialAd.Load(interstitialRequest);
     }
 
     public void ShowInterstitialAd()
     {
-        if (interstitialAd != null)
+        if (interstitialAd == null || !interstitialAd.CanShow())
         {
-            if (interstitialAd.CanShow())
-            {
-                interstitialAd.Show();
-            }
+            return;
         }
+
+        interstitialAd.Show();
     }
 
     public void DestroyInterstitial()
     {
         if (interstitialAd == null)
-            return;
         {
-            interstitialAd.Destroy();
-            interstitialAd = null;
-            interstitialRequest = null;
+            return;
         }
+
+        interstitialAd.SetListener(null);
+        interstitialAd.Destroy();
+        interstitialAd = null;
+        interstitialRequest = null;
     }
 
     #endregion
@@ -244,43 +236,51 @@ public class BidMachineDemoController : MonoBehaviour
 
     public void LoadRewardedAd()
     {
-        if (rewardedRequest == null)
+        if (rewardedRequest != null)
         {
-            rewardedRequest = new RewardedRequest.Builder()
-            // .setTargetingParams(targetingParams)
+            return;
+        }
+
+        rewardedRequest = new RewardedRequest.Builder()
             // .setPriceFloorParams(priceFloorParams)
-            // .setSessionAdParams(sessionAdParams)
+            // .setTargetingParams(targetingParams)
             // .setPlacementId("placement_rewardedRequest")
-            // .setLoadingTimeOut(123)
+            .SetLoadingTimeOut(10 * 1000)
             // .setBidPayload("123")
             // .setNetworks("admob")
-            // .setListener(this)
+            .SetListener(rewardedRequestListener)
             .Build();
 
-            if (rewardedAd == null)
-            {
-                rewardedAd = new RewardedAd();
-                rewardedAd.SetListener(rewardedListener);
-                rewardedAd.Load(rewardedRequest);
-            }
+        if (rewardedAd != null)
+        {
+            rewardedAd.SetListener(null);
+            rewardedAd.Destroy();
+            rewardedAd = null;
         }
+
+        rewardedAd = new RewardedAd();
+        rewardedAd.SetListener(rewardedListener);
+        rewardedAd.Load(rewardedRequest);
     }
 
     public void ShowRewardedAd()
     {
-        if (rewardedAd != null)
+        if (rewardedAd == null || !rewardedAd.CanShow())
         {
-            if (rewardedAd.CanShow())
-            {
-                rewardedAd.Show();
-            }
+            return;
         }
+
+        rewardedAd.Show();
     }
 
     public void DestroyRewardedVideo()
     {
         if (rewardedAd == null)
+        {
             return;
+        }
+
+        rewardedAd.SetListener(null);
         rewardedAd.Destroy();
         rewardedAd = null;
         rewardedRequest = null;
@@ -288,167 +288,169 @@ public class BidMachineDemoController : MonoBehaviour
 
     #endregion
 
-    private class BannerListener : IBannerListener
+    #region Listeners
+
+    private class BannerListener : IAdListener<IBannerView>
     {
-        public void OnAdExpired(IBannerAd ad)
+        public void onAdExpired(IBannerView ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: BannerAd - OnAdExpired");
         }
 
-        public void OnAdImpression(IBannerAd ad)
+        public void onAdImpression(IBannerView ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: BannerAd - OnAdImpression");
         }
 
-        public void OnAdLoaded(IBannerAd ad)
+        public void onAdLoaded(IBannerView ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: BannerAd - OnAdLoaded");
         }
 
-        public void OnAdLoadFailed(IBannerAd ad, BMError error)
+        public void onAdLoadFailed(IBannerView ad, BMError error)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: BannerAd - OnAdLoadFailed");
         }
 
-        public void OnAdShowFailed(IBannerAd ad, BMError error)
+        public void onAdShowFailed(IBannerView ad, BMError error)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: BannerAd - OnAdShowFailed");
         }
 
-        public void OnAdShown(IBannerAd ad)
+        public void onAdShown(IBannerView ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: BannerAd - OnAdShown");
         }
     }
 
-    private class BannerRequestListener : IAdRequestListener<BannerRequest, string, BMError>
+    private class BannerRequestListener : IAdRequestListener
     {
-        public void OnAdRequestExpired(BannerRequest request)
+        public void onRequestExpired(IAdRequest request)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: BannerRequest - OnAdRequestExpired");
         }
 
-        public void OnAdRequestFailed(BannerRequest request, BMError error)
+        public void onRequestFailed(IAdRequest request, BMError error)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: BannerRequest - OnAdRequestFailed");
         }
 
-        public void OnAdRequestSuccess(BannerRequest request, string auctionResult)
+        public void onRequestSuccess(IAdRequest request, string auctionResult)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: BannerRequest - OnAdRequestSuccess");
         }
     }
 
-    private class InterstitialListener : IInterstitialListener
+    private class InterstitialListener : IFullscreenAdListener<IFullscreenAd>
     {
-        public void OnAdClosed(IInterstitialAd ad, bool finished)
+        public void onAdClosed(IFullscreenAd ad, bool finished)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: InterstitialAd - OnAdClosed");
         }
 
-        public void OnAdExpired(IInterstitialAd ad)
+        public void onAdExpired(IFullscreenAd ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: InterstitialAd - OnAdExpired");
         }
 
-        public void OnAdImpression(IInterstitialAd ad)
+        public void onAdImpression(IFullscreenAd ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: InterstitialAd - OnAdImpression");
         }
 
-        public void OnAdLoaded(IInterstitialAd ad)
+        public void onAdLoaded(IFullscreenAd ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: InterstitialAd - OnAdLoaded");
         }
 
-        public void OnAdLoadFailed(IInterstitialAd ad, BMError error)
+        public void onAdLoadFailed(IFullscreenAd ad, BMError error)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: InterstitialAd - OnAdLoadFailed");
         }
 
-        public void OnAdShowFailed(IInterstitialAd ad, BMError error)
+        public void onAdShowFailed(IFullscreenAd ad, BMError error)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: InterstitialAd - OnAdShowFailed");
         }
 
-        public void OnAdShown(IInterstitialAd ad)
+        public void onAdShown(IFullscreenAd ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: InterstitialAd - OnAdShown");
         }
     }
 
-    private class InterstitialRequestListener
-        : IAdRequestListener<InterstitialRequest, string, BMError>
+    private class InterstitialRequestListener : IAdRequestListener
     {
-        public void OnAdRequestExpired(InterstitialRequest request)
+        public void onRequestExpired(IAdRequest request)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: InterstitialRequest - OnAdRequestExpired");
         }
 
-        public void OnAdRequestFailed(InterstitialRequest request, BMError error)
+        public void onRequestFailed(IAdRequest request, BMError error)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: InterstitialRequest - OnAdRequestFailed");
         }
 
-        public void OnAdRequestSuccess(InterstitialRequest request, string auctionResult)
+        public void onRequestSuccess(IAdRequest request, string auctionResult)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: InterstitialRequest - OnAdRequestSuccess");
         }
     }
 
-    private class RewardedListener : IRewardedlListener
+    private class RewardedListener : IFullscreenAdListener<IFullscreenAd>
     {
-        public void OnAdClosed(IRewardedAd ad, bool finished)
+        public void onAdClosed(IFullscreenAd ad, bool finished)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: RewardedAd - OnAdClosed");
         }
 
-        public void OnAdExpired(IRewardedAd ad)
+        public void onAdExpired(IFullscreenAd ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: RewardedAd - OnAdExpired");
         }
 
-        public void OnAdImpression(IRewardedAd ad)
+        public void onAdImpression(IFullscreenAd ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: RewardedAd - OnAdImpression");
         }
 
-        public void OnAdLoaded(IRewardedAd ad)
+        public void onAdLoaded(IFullscreenAd ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: RewardedAd - OnAdLoaded");
         }
 
-        public void OnAdLoadFailed(IRewardedAd ad, BMError error)
+        public void onAdLoadFailed(IFullscreenAd ad, BMError error)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: RewardedAd - OnAdLoadFailed");
         }
 
-        public void OnAdShowFailed(IRewardedAd ad, BMError error)
+        public void onAdShowFailed(IFullscreenAd ad, BMError error)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: RewardedAd - OnAdShowFailed");
         }
 
-        public void OnAdShown(IRewardedAd ad)
+        public void onAdShown(IFullscreenAd ad)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: RewardedAd - OnAdShown");
         }
     }
 
-    private class RewardedRequestListener : IAdRequestListener<RewardedRequest, string, BMError>
+    private class RewardedRequestListener : IAdRequestListener
     {
-        public void OnAdRequestExpired(RewardedRequest request)
+        public void onRequestExpired(IAdRequest request)
         {
-            throw new System.NotImplementedException();
+            Debug.Log("BidMachine: RewardedRequest - OnAdRequestExpired");
         }
 
-        public void OnAdRequestFailed(RewardedRequest request, BMError error)
+        public void onRequestFailed(IAdRequest request, BMError error)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: RewardedRequest - OnAdRequestFailed");
         }
 
-        public void OnAdRequestSuccess(RewardedRequest request, string auctionResult)
+        public void onRequestSuccess(IAdRequest request, string auctionResult)
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"BidMachine: RewardedRequest - OnAdRequestSuccess");
         }
     }
+    #endregion
 }

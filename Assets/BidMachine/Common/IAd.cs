@@ -2,7 +2,7 @@
 
 namespace BidMachineAds.Unity.Common
 {
-    public interface IAd<TAd, TAdListener, TAdRequest>
+    public interface IAd<TAdListener>
     {
         bool CanShow();
 
@@ -10,39 +10,27 @@ namespace BidMachineAds.Unity.Common
 
         void SetListener(TAdListener listener);
 
-        void Load(TAdRequest request);
+        void Load(IAdRequest request);
     }
 
-    public interface IShowableAd<TAd, TAdRequrst>
+    public interface ICommonAdListener<TAd, TAdError>
     {
-        void Show();
+        void onAdLoaded(TAd ad) { }
+
+        void onAdLoadFailed(TAd ad, TAdError error) { }
+
+        void onAdShown(TAd ad) { }
+
+        void onAdShowFailed(TAd ad, TAdError error) { }
+
+        void onAdImpression(TAd ad) { }
+
+        void onAdExpired(TAd ad) { }
     }
 
-    public interface IAdListener<TAd, TAdError>
-    {
-        void OnAdLoaded(TAd ad);
+    public interface IAdListener<TAd> : ICommonAdListener<TAd, BMError> { }
 
-        void OnAdLoadFailed(TAd ad, TAdError error);
-
-        void OnAdShown(TAd ad);
-
-        void OnAdShowFailed(TAd ad, TAdError error);
-
-        void OnAdImpression(TAd ad);
-
-        void OnAdExpired(TAd ad);
-    }
-
-    public interface ICloseableAdListener<TAd>
-    {
-        void OnAdClosed(TAd ad, bool finished);
-    }
-
-    public interface IFullscreenAdListener<TAd, TAdError>
-        : IAdListener<TAd, TAdError>,
-            ICloseableAdListener<TAd> { }
-
-    public interface IAdRequest<TAdRequest>
+    public interface IAdRequest
     {
         string GetAuctionResult();
 
@@ -51,35 +39,35 @@ namespace BidMachineAds.Unity.Common
         bool IsExpired();
     }
 
-    public interface IAdRequestBuilder<TAdRequest>
+    public interface IAdRequestBuilder
     {
-        void SetAdContentType(AdContentType contentType);
+        IAdRequestBuilder SetAdContentType(AdContentType contentType);
 
-        void SetTargetingParams(TargetingParams targetingParams);
+        IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams);
 
-        void SetPriceFloorParams(PriceFloorParams priceFloorParams);
+        IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams);
 
-        void SetListener(IAdRequestListener<TAdRequest, string, BMError> listener);
+        IAdRequestBuilder SetListener(IAdRequestListener listener);
 
-        void SetSessionAdParams(SessionAdParams sessionAdParams);
+        IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout);
 
-        void SetLoadingTimeOut(int loadingTimeout);
+        IAdRequestBuilder SetPlacementId(string placementId);
 
-        void SetPlacementId(string placementId);
+        IAdRequestBuilder SetBidPayload(string bidPayload);
 
-        void SetBidPayload(string bidPayload);
+        IAdRequestBuilder SetNetworks(string networks);
 
-        void SetNetworks(string networks);
-
-        TAdRequest Build();
+        IAdRequest Build();
     }
 
-    public interface IAdRequestListener<TAdRequest, TResult, TAdError>
+    public interface ICommonAdRequestListener<TAdRequest, TResult, TAdError>
     {
-        void OnAdRequestSuccess(TAdRequest request, TResult auctionResult);
+        void onRequestSuccess(TAdRequest request, TResult auctionResult) { }
 
-        void OnAdRequestFailed(TAdRequest request, TAdError error);
+        void onRequestFailed(TAdRequest request, TAdError error) { }
 
-        void OnAdRequestExpired(TAdRequest request);
+        void onRequestExpired(TAdRequest request) { }
     }
+
+    public interface IAdRequestListener : ICommonAdRequestListener<IAdRequest, string, BMError> { }
 }

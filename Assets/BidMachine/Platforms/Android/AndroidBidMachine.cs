@@ -8,12 +8,11 @@ namespace BidMachineAds.Unity.Android
 {
     internal class AndroidBidMachine : IBidMachine
     {
-        private AndroidJavaClass JavaBidMachineClass;
+        private AndroidJavaClass jClass;
 
-        private AndroidJavaClass getBidMachineClass()
+        private AndroidJavaClass GetBidMachineClass()
         {
-            return JavaBidMachineClass
-                ?? (JavaBidMachineClass = new AndroidJavaClass("io.bidmachine.BidMachine"));
+            return jClass ??= new AndroidJavaClass("io.bidmachine.BidMachine");
         }
 
         public void Initialize(string sellerId)
@@ -23,17 +22,12 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            getBidMachineClass()
-                .CallStatic(
-                    "initialize",
-                    AndroidUtils.GetActivity(),
-                    AndroidUtils.GetJavaPrimitiveObject(sellerId)
-                );
+            GetBidMachineClass().CallStatic("initialize", AndroidUtils.GetActivity(), sellerId);
         }
 
         public bool IsInitialized()
         {
-            return getBidMachineClass().CallStatic<bool>("isInitialized");
+            return GetBidMachineClass().CallStatic<bool>("isInitialized");
         }
 
         public void SetEndpoint(string url)
@@ -43,18 +37,17 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            getBidMachineClass()
-                .CallStatic("setEndpoint", AndroidUtils.GetJavaPrimitiveObject(url));
+            GetBidMachineClass().CallStatic("setEndpoint", url);
         }
 
         public void SetLoggingEnabled(bool logging)
         {
-            getBidMachineClass().CallStatic("setLoggingEnabled", logging);
+            GetBidMachineClass().CallStatic("setLoggingEnabled", logging);
         }
 
         public void SetTestMode(bool testMode)
         {
-            getBidMachineClass().CallStatic("setTestMode", testMode);
+            GetBidMachineClass().CallStatic("setTestMode", testMode);
         }
 
         public void SetTargetingParams(TargetingParams targetingParams)
@@ -64,11 +57,8 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            getBidMachineClass()
-                .CallStatic(
-                    "setTargetingParams",
-                    new AndroidTargetingParams(targetingParams).JavaObject
-                );
+            GetBidMachineClass()
+                .CallStatic("setTargetingParams", AndroidUtils.GetTargetingParams(targetingParams));
         }
 
         public void SetConsentConfig(bool consent, string consentConfig)
@@ -78,23 +68,18 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            getBidMachineClass()
-                .CallStatic(
-                    "setConsentConfig",
-                    consent,
-                    AndroidUtils.GetJavaPrimitiveObject(consentConfig)
-                );
+            GetBidMachineClass().CallStatic("setConsentConfig", consent, consentConfig);
         }
 
         public void SetSubjectToGDPR(bool subjectToGDPR)
         {
-            getBidMachineClass()
-                .CallStatic("setSubjectToGDPR", AndroidUtils.GetJavaPrimitiveObject(subjectToGDPR));
+            GetBidMachineClass()
+                .CallStatic("setSubjectToGDPR", AndroidUtils.GetPrimitive(subjectToGDPR));
         }
 
         public void SetCoppa(bool coppa)
         {
-            getBidMachineClass().CallStatic("setCoppa", AndroidUtils.GetJavaPrimitiveObject(coppa));
+            GetBidMachineClass().CallStatic("setCoppa", AndroidUtils.GetPrimitive(coppa));
         }
 
         public void SetUSPrivacyString(string usPrivacyString)
@@ -104,11 +89,7 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            getBidMachineClass()
-                .CallStatic(
-                    "setUSPrivacyString",
-                    AndroidUtils.GetJavaPrimitiveObject(usPrivacyString)
-                );
+            GetBidMachineClass().CallStatic("setUSPrivacyString", usPrivacyString);
         }
 
         public void SetGPP(string gppString, int[] gppIds)
@@ -118,10 +99,9 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            var clientGppIds = AndroidUtils.GetJavaListObject(gppIds);
+            var clientGppIds = AndroidUtils.GetArrayList(gppIds);
 
-            getBidMachineClass()
-                .CallStatic("setGPP", AndroidUtils.GetJavaPrimitiveObject(gppString), clientGppIds);
+            GetBidMachineClass().CallStatic("setGPP", gppString, clientGppIds);
         }
 
         public void SetPublisher(Publisher publisher)
@@ -131,71 +111,7 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            var publisherBuilder = new AndroidJavaObject("io.bidmachine.Publisher$Builder");
-            publisherBuilder.Call<AndroidJavaObject>(
-                "setId",
-                AndroidUtils.GetJavaPrimitiveObject(publisher.Id)
-            );
-            publisherBuilder.Call<AndroidJavaObject>(
-                "setName",
-                AndroidUtils.GetJavaPrimitiveObject(publisher.Name)
-            );
-            publisherBuilder.Call<AndroidJavaObject>(
-                "setDomain",
-                AndroidUtils.GetJavaPrimitiveObject(publisher.Domain)
-            );
-            var categories = AndroidUtils.GetJavaListObject(publisher.Categories);
-            publisherBuilder.Call<AndroidJavaObject>("addCategories", categories);
-            var androidPublisher = publisherBuilder.Call<AndroidJavaObject>("build");
-
-            getBidMachineClass().CallStatic("setPublisher", androidPublisher);
-        }
-
-        public bool CheckAndroidPermissions(string permission)
-        {
-            if (string.IsNullOrEmpty(permission))
-            {
-                return false;
-            }
-
-            var flag = false;
-            switch (permission)
-            {
-                case Permission.CoarseLocation:
-                    if (!Permission.HasUserAuthorizedPermission(permission))
-                    {
-                        Debug.Log(permission + " - wasn't granded");
-                        flag = false;
-                    }
-                    else
-                    {
-                        Debug.Log(permission + " - was granded");
-                        flag = true;
-                    }
-
-                    break;
-                case Permission.FineLocation:
-                    if (!Permission.HasUserAuthorizedPermission(permission))
-                    {
-                        Debug.Log(permission + " - wasn't granded");
-                        flag = false;
-                    }
-                    else
-                    {
-                        Debug.Log(permission + " - was granded");
-                        flag = true;
-                    }
-
-                    break;
-            }
-
-            return flag;
-        }
-
-        public void RequestAndroidPermissions()
-        {
-            Permission.RequestUserPermission(Permission.CoarseLocation);
-            Permission.RequestUserPermission(Permission.FineLocation);
+            GetBidMachineClass().CallStatic("setPublisher", AndroidUtils.GetPublisher(publisher));
         }
     }
 }

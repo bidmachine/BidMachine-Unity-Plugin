@@ -1,213 +1,380 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using BidMachineAds.Unity.Api;
+﻿using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using UnityEngine;
 
 namespace BidMachineAds.Unity.Dummy
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class DummyBidMachine
-        : IBidMachine,
-            IBannerAd,
-            IBannerRequestBuilder,
-            IInterstitialAd,
-            IInterstitialRequestBuilder,
-            IRewardedAd,
-            IRewardedRequestBuilder
+    public class DummyBidMachine : IBidMachine
     {
-        public IRewardedRequest Build()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool CanShow()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool CheckAndroidPermissions(string permission)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Destroy()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Hide()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void Initialize(string sellerId)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to Initialize(string) {Const.DUMMY_MESSAGE}");
         }
 
         public bool IsInitialized()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Load(IRewardedRequest request)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Load(IInterstitialRequest request)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Load(IBannerRequest request)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void RequestAndroidPermissions()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetAdContentType(AdContentType contentType)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetBidPayload(string bidPayload)
-        {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to IsInitialized() {Const.DUMMY_MESSAGE}");
+            return false;
         }
 
         public void SetConsentConfig(bool consent, string consentConfig)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to SetConsentConfig(bool, string) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetCoppa(bool coppa)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to SetCoppa(bool) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetEndpoint(string url)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to SetEndpoint(string) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetGPP(string gppString, int[] gppIds)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetListener(IAdRequestListener<IRewardedRequest, string, BMError> listener)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetListener(IRewardedlListener listener)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetListener(IAdRequestListener<IInterstitialRequest, string, BMError> listener)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetListener(IInterstitialListener listener)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetListener(IAdRequestListener<IBannerRequest, string, BMError> listener)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetListener(IBannerListener listener)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetLoadingTimeOut(int loadingTimeout)
-        {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to SetGPP(string, int[]) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetLoggingEnabled(bool logging)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetNetworks(string networks)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetPlacementId(string placementId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetPriceFloorParams(PriceFloorParams priceFloorParams)
-        {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to SetLoggingEnabled(bool) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetPublisher(Publisher publisher)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetSessionAdParams(SessionAdParams sessionAdParams)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetSize(BannerSize size)
-        {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to SetPublisher(Publisher) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetSubjectToGDPR(bool subjectToGDPR)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to SetSubjectToGDPR(bool) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetTargetingParams(TargetingParams targetingParams)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetTestMode(bool test)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to SetTestMode(bool) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetUSPrivacyString(string usPrivacyString)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to SetUSPrivacyString(string) {Const.DUMMY_MESSAGE}");
+        }
+    }
+
+    internal class DummuBannerAd : IBannerView
+    {
+        public bool CanShow()
+        {
+            Debug.LogWarning($"Call to canShow() {Const.DUMMY_MESSAGE}");
+            return false;
+        }
+
+        public void Destroy()
+        {
+            Debug.LogWarning($"Call to destroy() {Const.DUMMY_MESSAGE}");
+        }
+
+        public void Hide()
+        {
+            Debug.LogWarning($"Call to Hide() {Const.DUMMY_MESSAGE}");
+        }
+
+        public void Load(IAdRequest request)
+        {
+            Debug.LogWarning($"Call to load(IBannerRequest) {Const.DUMMY_MESSAGE}");
+        }
+
+        public void SetListener(IAdListener<IBannerView> listener)
+        {
+            Debug.LogWarning($"Call to setListener(IBannerListener) {Const.DUMMY_MESSAGE}");
+        }
+
+        public bool Show(int YAxis, int XAxis, IBannerView ad, BannerSize size)
+        {
+            Debug.LogWarning(
+                $"Call to Show(int, int, IBannerAd, BannerSize) {Const.DUMMY_MESSAGE}"
+            );
+            return false;
+        }
+    }
+
+    internal class DummuBannerRequestBuilder : IBannerRequestBuilder
+    {
+        public IAdRequest Build()
+        {
+            Debug.LogWarning($"Call to build() {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
+        {
+            Debug.LogWarning($"Call to setAdContentType(AdContentType) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetBidPayload(string bidPayload)
+        {
+            Debug.LogWarning($"Call to setBidPayload(string) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetListener(IAdRequestListener listener)
+        {
+            Debug.LogWarning(
+                $"Call to setListener(IAdRequestListener<IBannerRequest, string, BMError>) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
+        public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
+        {
+            Debug.LogWarning($"Call to setLoadingTimeOut(int) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetNetworks(string networks)
+        {
+            Debug.LogWarning($"Call to setNetworks(string) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetPlacementId(string placementId)
+        {
+            Debug.LogWarning($"Call to setPlacementId(string) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
+        {
+            Debug.LogWarning(
+                $"Call to setPriceFloorParams(PriceFloorParams) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
+        public IBannerRequestBuilder setSize(BannerSize size)
+        {
+            Debug.LogWarning($"Call to SetSize(BannerSize) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetSize(BannerSize size)
+        {
+            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
+        {
+            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+    }
+
+    internal class DummuInterstitialAd : IFullscreenAd
+    {
+        public bool CanShow()
+        {
+            Debug.LogWarning($"Call to canShow() {Const.DUMMY_MESSAGE}");
+            return false;
+        }
+
+        public void Destroy()
+        {
+            Debug.LogWarning($"Call to destroy() {Const.DUMMY_MESSAGE}");
+        }
+
+        public void Load(IAdRequest request)
+        {
+            Debug.LogWarning($"Call to load(IInterstitialRequest) {Const.DUMMY_MESSAGE}");
+        }
+
+        public void SetListener(IFullscreenAdListener<IFullscreenAd> listener)
+        {
+            Debug.LogWarning($"Call to setListener(IInterstitialListener) {Const.DUMMY_MESSAGE}");
         }
 
         public void Show()
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to show() {Const.DUMMY_MESSAGE}");
+        }
+    }
+
+    internal class DummuInterstitialRequestBuilder : IAdRequestBuilder
+    {
+        public IAdRequest Build()
+        {
+            Debug.LogWarning($"Call to build() {Const.DUMMY_MESSAGE}");
+            return null;
         }
 
-        public bool Show(int YAxis, int XAxis, IBannerAd ad, BannerSize size)
+        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to setAdContentType(AdContentType) {Const.DUMMY_MESSAGE}");
+            return null;
         }
 
-        IInterstitialRequest IAdRequestBuilder<IInterstitialRequest>.Build()
+        public IAdRequestBuilder SetBidPayload(string bidPayload)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning($"Call to setBidPayload(string) {Const.DUMMY_MESSAGE}");
+            return null;
         }
 
-        IBannerRequest IAdRequestBuilder<IBannerRequest>.Build()
+        public IAdRequestBuilder SetListener(IAdRequestListener listener)
         {
-            throw new System.NotImplementedException();
+            Debug.LogWarning(
+                $"Call to setListener(IAdRequestListener<IInterstitialRequest, string, BMError>) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
         }
+
+        public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
+        {
+            Debug.LogWarning($"Call to setLoadingTimeOut(int) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetNetworks(string networks)
+        {
+            Debug.LogWarning($"Call to setNetworks(string) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetPlacementId(string placementId)
+        {
+            Debug.LogWarning($"Call to setPlacementId(string) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
+        {
+            Debug.LogWarning(
+                $"Call to setPriceFloorParams(PriceFloorParams) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
+        public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
+        {
+            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+    }
+
+    internal class DummuRewardedAd : IFullscreenAd
+    {
+        public bool CanShow()
+        {
+            Debug.LogWarning($"Call to canShow() {Const.DUMMY_MESSAGE}");
+            return false;
+        }
+
+        public void Destroy()
+        {
+            Debug.LogWarning($"Call to destroy() {Const.DUMMY_MESSAGE}");
+        }
+
+        public void Load(IAdRequest request)
+        {
+            Debug.LogWarning($"Call to load(IRewardedRequest) {Const.DUMMY_MESSAGE}");
+        }
+
+        public void SetListener(IFullscreenAdListener<IFullscreenAd> listener)
+        {
+            Debug.LogWarning($"Call to setListener(IRewardedlListener) {Const.DUMMY_MESSAGE}");
+        }
+
+        public void Show()
+        {
+            Debug.LogWarning($"Call to show() {Const.DUMMY_MESSAGE}");
+        }
+    }
+
+    internal class DummuRewardedRequestBuilder : IAdRequestBuilder
+    {
+        public IAdRequest Build()
+        {
+            Debug.LogWarning($"Call to build() {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
+        {
+            Debug.LogWarning($"Call to setAdContentType(AdContentType) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetBidPayload(string bidPayload)
+        {
+            Debug.LogWarning($"Call to setBidPayload(string) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetListener(IAdRequestListener listener)
+        {
+            Debug.LogWarning(
+                $"Call to setListener(IAdRequestListener<IRewardedRequest, string, BMError>) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
+        public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
+        {
+            Debug.LogWarning($"Call to setLoadingTimeOut(int) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetNetworks(string networks)
+        {
+            Debug.LogWarning($"Call to setNetworks(string) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetPlacementId(string placementId)
+        {
+            Debug.LogWarning($"Call to setPlacementId(string) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
+        {
+            Debug.LogWarning(
+                $"Call to setPriceFloorParams(PriceFloorParams) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
+        public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
+        {
+            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+    }
+
+    internal class DummuUserPermissions : IUserPermissions
+    {
+        public bool Check(string permission)
+        {
+            Debug.LogWarning($"Call to CheckAndroidPermissions(string) {Const.DUMMY_MESSAGE}");
+            return false;
+        }
+
+        public void Request()
+        {
+            Debug.LogWarning($"Call to RequestAndroidPermissions() {Const.DUMMY_MESSAGE}");
+        }
+    }
+
+    class Const
+    {
+        internal const string DUMMY_MESSAGE =
+            "on not supported platform. To test advertising, install your application on the Android/iOS device.";
     }
 }

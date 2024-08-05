@@ -10,7 +10,7 @@ namespace BidMachineAds.Unity.Android
     internal class AndroidUtils
     {
         // Banner Ad constants
-        public const string BannerAdClassName = "io.bidmachine.banner.BannerView";
+        public const string BannerViewClassName = "io.bidmachine.banner.BannerView";
         public const string BannerListenerClassName = "io.bidmachine.banner.BannerListener";
         public const string BannerRequestBuilderClassName =
             "io.bidmachine.banner.BannerRequest$Builder";
@@ -34,40 +34,31 @@ namespace BidMachineAds.Unity.Android
         public const string RewardedRequestListenerClassName =
             "io.bidmachine.rewarded.RewardedRequest$AdRequestListener";
 
-        public static BMError GetError(AndroidJavaObject obj)
+        public static object GetPrimitive(object obj)
         {
-            return new BMError
+            return obj switch
             {
-                Code = obj.Call<int>("getCode"),
-                Message = obj.Call<string>("getMessage")
+                char => new AndroidJavaObject("java.lang.Character", obj),
+                bool => new AndroidJavaObject("java.lang.Boolean", obj),
+                int => new AndroidJavaObject("java.lang.Integer", obj),
+                long => new AndroidJavaObject("java.lang.Long", obj),
+                float => new AndroidJavaObject("java.lang.Float", obj),
+                double => new AndroidJavaObject("java.lang.Double", obj),
+                _ => obj,
             };
         }
 
-        public static object GetJavaPrimitiveObject(object value)
+        public static AndroidJavaObject GetArrayList<T>(T[] objs)
         {
-            return value switch
+            var jArrayList = new AndroidJavaObject("java.util.ArrayList");
+            foreach (var obj in objs)
             {
-                char => new AndroidJavaObject("java.lang.Character", value),
-                bool => new AndroidJavaObject("java.lang.Boolean", value),
-                int => new AndroidJavaObject("java.lang.Integer", value),
-                long => new AndroidJavaObject("java.lang.Long", value),
-                float => new AndroidJavaObject("java.lang.Float", value),
-                double => new AndroidJavaObject("java.lang.Double", value),
-                _ => value,
-            };
-        }
-
-        public static AndroidJavaObject GetJavaListObject<T>(T[] items)
-        {
-            AndroidJavaObject javaTypeArrayList = new AndroidJavaObject("java.util.ArrayList");
-            foreach (T item in items)
-            {
-                javaTypeArrayList.Call<bool>("add", GetJavaPrimitiveObject(item));
+                jArrayList.Call<bool>("add", GetPrimitive(obj));
             }
-            return javaTypeArrayList;
+            return jArrayList;
         }
 
-        public static Dictionary<string, string> GetCsDictionary(AndroidJavaObject obj)
+        public static Dictionary<string, string> GetCsDictionary(AndroidJavaObject jObj)
         {
             var mapClazz = new AndroidJavaObject("java.util.HashMap");
             var setClazz = new AndroidJavaObject("java.util.HashSet");
@@ -78,7 +69,7 @@ namespace BidMachineAds.Unity.Android
                 "()Ljava/util/Set;"
             );
             IntPtr set = AndroidJNI.CallObjectMethod(
-                obj.GetRawObject(),
+                jObj.GetRawObject(),
                 keySetMethod,
                 new jvalue[] { }
             );
@@ -100,15 +91,174 @@ namespace BidMachineAds.Unity.Android
 
             foreach (var k in keys)
             {
-                string v = AndroidJNI.CallStringMethod(
-                    obj.GetRawObject(),
+                var v = AndroidJNI.CallStringMethod(
+                    jObj.GetRawObject(),
                     getMethod,
-                    new jvalue[] { new jvalue() { l = AndroidJNI.NewStringUTF(k) } }
+                    new jvalue[] { new() { l = AndroidJNI.NewStringUTF(k) } }
                 );
                 dict.Add($"\"{k}\"", $"\"{v}\"");
             }
 
             return dict;
+        }
+
+        public static AndroidJavaObject GetBannerSize(BannerSize bannerSize)
+        {
+            return bannerSize switch
+            {
+                BannerSize.Size_300x250 => GetBannerSize("Size_300x250"),
+                BannerSize.Size_728x90 => GetBannerSize("Size_728x90"),
+                _ => GetBannerSize("Size_320x50"),
+            };
+        }
+
+        public static BannerSize GetBannerSize(AndroidJavaObject jBannerSize)
+        {
+            var size = jBannerSize.Call<string>("toString");
+            return size switch
+            {
+                "Size_320x50" => BannerSize.Size_320x50,
+                "Size_300x250" => BannerSize.Size_300x250,
+                "Size_728x90" => BannerSize.Size_728x90,
+                _ => BannerSize.Size_320x50 // Default case
+            };
+        }
+
+        private static AndroidJavaObject GetBannerSize(string sizeName)
+        {
+            var jcBannerSize = new AndroidJavaClass("io.bidmachine.banner.BannerSize");
+            return jcBannerSize.GetStatic<AndroidJavaObject>(sizeName);
+        }
+
+        public static BMError GetError(AndroidJavaObject jObject)
+        {
+            return new BMError
+            {
+                Code = jObject.Call<int>("getCode"),
+                Message = jObject.Call<string>("getMessage")
+            };
+        }
+
+        public static AndroidJavaObject GetPriceFloorParams(PriceFloorParams priceFloorParams)
+        {
+            var jObject = new AndroidJavaObject("io.bidmachine.PriceFloorParams");
+
+            if (priceFloorParams != null && priceFloorParams.PriceFloors != null)
+            {
+                foreach (KeyValuePair<string, double> priceFloor in priceFloorParams.PriceFloors)
+                {
+                    jObject.Call(
+                        "addPriceFloor",
+                        GetPrimitive(priceFloor.Key),
+                        GetPrimitive(priceFloor.Value)
+                    );
+                }
+            }
+
+            return jObject;
+        }
+
+        public static AndroidJavaObject GetPublisher(Publisher publisher)
+        {
+            var jObject = new AndroidJavaObject("io.bidmachine.Publisher$Builder");
+            jObject.Call("setId", publisher.Id);
+            jObject.Call("setName", publisher.Name);
+            jObject.Call("setDomain", publisher.Domain);
+            jObject.Call("addCategories", GetArrayList(publisher.Categories));
+
+            return jObject.Call<AndroidJavaObject>("build");
+        }
+
+        public static AndroidJavaObject GetTargetingParams(TargetingParams targetingParams)
+        {
+            var jObject = new AndroidJavaObject("io.bidmachine.TargetingParams");
+
+            if (targetingParams != null)
+            {
+                jObject.Call("setUserId", targetingParams.UserId);
+
+                var jcGender = new AndroidJavaClass("io.bidmachine.utils.Gender");
+                var jGender = jcGender.GetStatic<AndroidJavaObject>(
+                    targetingParams.UserId.ToString()
+                );
+                jObject.Call("setGender", jGender);
+
+                jObject.Call("setBirthdayYear", GetPrimitive(targetingParams.BirthdayYear));
+                jObject.Call("setKeywords", (object)targetingParams.Keywords);
+
+                var location = targetingParams.DeviceLocation;
+                if (location != null)
+                {
+                    var jLocation = new AndroidJavaObject(
+                        "android.location.Location",
+                        location.Provider
+                    );
+                    jLocation.Call("setLatitude", location.Latitude);
+                    jLocation.Call("setLongitude", location.Longitude);
+                    jObject.Call("setDeviceLocation", jLocation);
+                }
+
+                jObject.Call("setCountry", targetingParams.Country);
+
+                jObject.Call("setCity", targetingParams.City);
+
+                jObject.Call("setZip", targetingParams.Zip);
+
+                jObject.Call("setStoreUrl", targetingParams.StoreUrl);
+
+                jObject.Call("setStoreCategory", targetingParams.StoreCategory);
+
+                jObject.Call("setStoreSubCategories", (object)targetingParams.StoreSubCategories);
+
+                jObject.Call("setFramework", targetingParams.Framework);
+
+                jObject.Call("setPaid", AndroidUtils.GetPrimitive(targetingParams.IsPaid));
+
+                var externalUserIds = targetingParams.externalUserIds;
+                if (externalUserIds != null)
+                {
+                    var jArrayList = new AndroidJavaObject("java.util.ArrayList");
+                    foreach (var externalUserId in externalUserIds)
+                    {
+                        var jExternalUserId = new AndroidJavaObject(
+                            "io.bidmachine.ExternalUserId",
+                            externalUserId.SourceId,
+                            externalUserId.Value
+                        );
+                        jArrayList.Call<bool>("add", jExternalUserId);
+                    }
+                    jObject.Call("setExternalUserIds", jArrayList);
+                }
+
+                var blockedApplications = targetingParams.BlockedApplications;
+                if (blockedApplications != null)
+                {
+                    foreach (var app in blockedApplications)
+                    {
+                        jObject.Call("addBlockedApplication", app);
+                    }
+                }
+
+                var blockedCategories = targetingParams.BlockedCategories;
+                if (blockedCategories != null)
+                {
+                    foreach (var category in blockedCategories)
+                    {
+                        jObject.Call("addBlockedAdvertiserIABCategory", category);
+                    }
+                }
+
+                var blockedDomains = targetingParams.BlockedDomains;
+                if (blockedDomains != null)
+                {
+                    foreach (var domain in blockedDomains)
+                    {
+                        jObject.Call("addBlockedAdvertiserDomain", domain);
+                    }
+                }
+            }
+
+            return jObject;
         }
 
         public static string BuildAuctionResultString(AndroidJavaObject obj)
@@ -159,8 +309,8 @@ namespace BidMachineAds.Unity.Android
 
         public static AndroidJavaObject GetActivity()
         {
-            var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            return unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            var jcUnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            return jcUnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
         }
     }
 }
