@@ -23,11 +23,7 @@ namespace BidMachineAds.Unity.Android
     }
 #else
     {
-        public AndroidAdListener(
-            string listenerClassName,
-            TAdListener listener,
-            Func<AndroidJavaObject, Ad> adFactory
-        ) { }
+        internal AndroidFullscreenAdListener() { }
     }
 #endif
 }

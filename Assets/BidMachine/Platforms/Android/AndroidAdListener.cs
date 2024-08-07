@@ -58,11 +58,7 @@ namespace BidMachineAds.Unity.Android
     }
 #else
     {
-        public AndroidAdListener(
-            string listenerClassName,
-            IAdListener<TAdType, TRequestType, BMError> listener,
-            Func<AndroidJavaObject, TAdType> adProvider
-        ) { }
+        public AndroidAdListener() { }
     }
 #endif
 }

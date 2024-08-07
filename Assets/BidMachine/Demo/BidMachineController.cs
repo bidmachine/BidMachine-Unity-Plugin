@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 #pragma warning disable 649
 
-public class BidMachineDemoController : MonoBehaviour
+public class BidMachineController : MonoBehaviour
 {
     public Toggle tgTesting;
 
@@ -17,13 +17,11 @@ public class BidMachineDemoController : MonoBehaviour
     private TargetingParams targetingParams;
     private PriceFloorParams priceFloorParams;
 
-    // Banner Ad fields
     private BannerView bannerView;
     private readonly IAdListener<IBannerView> bannerListener = new BannerListener();
     private IAdRequest bannerRequest;
     private readonly IAdRequestListener bannerRequestListener = new BannerRequestListener();
 
-    // Interstitial Ad fields
     private InterstitialAd interstitialAd;
     private readonly IFullscreenAdListener<IFullscreenAd> interstitialListener =
         new InterstitialListener();
@@ -31,7 +29,6 @@ public class BidMachineDemoController : MonoBehaviour
     private readonly IAdRequestListener interstitialRequestListener =
         new InterstitialRequestListener();
 
-    // Existing Rewarded Ad fields
     private RewardedAd rewardedAd;
     private readonly IFullscreenAdListener<IFullscreenAd> rewardedListener = new RewardedListener();
     private IAdRequest rewardedRequest;
@@ -49,31 +46,31 @@ public class BidMachineDemoController : MonoBehaviour
 
         targetingParams = new TargetingParams
         {
-            UserId = "user123",
+            UserId = "UserId",
             gender = TargetingParams.Gender.Female,
             BirthdayYear = 1990,
-            Keywords = new string[] { "gaming", "sports", "technology" },
+            Keywords = new string[] { "keyword1", "keyword1" },
             DeviceLocation = new TargetingParams.Location
             {
                 Provider = "GPS",
                 Latitude = 43.9006,
                 Longitude = 27.5590
             },
-            Country = "Ireland",
-            City = "Dublin",
-            Zip = "D22 YD82",
+            Country = "Country",
+            City = "City",
+            Zip = "zip_code",
             StoreUrl = "https://play.google.com/store/apps/details?id=com.example.app",
-            StoreCategory = "Games",
-            StoreSubCategories = new string[] { "Puzzle", "Strategy" },
-            Framework = "Unity",
+            StoreCategory = "Category",
+            StoreSubCategories = new string[] { "SubCategory1", "SubCategory2" },
+            Framework = "unity",
             IsPaid = true,
             externalUserIds = new ExternalUserId[]
             {
-                new() { SourceId = "adnetwork1", Value = "abc123" },
-                new() { SourceId = "adnetwork2", Value = "xyz789" }
+                new() { SourceId = "ad_network_1", Value = "value_1" },
+                new() { SourceId = "ad_network_2", Value = "value_2" }
             },
-            BlockedDomains = new HashSet<string> { "example.com", "spam.com" },
-            BlockedCategories = new HashSet<string> { "IAB-26", "IAB-25" },
+            BlockedDomains = new HashSet<string> { "domain1.com", "domain2.com" },
+            BlockedCategories = new HashSet<string> { "category1", "category2" },
             BlockedApplications = new HashSet<string> { "com.unwanted.app1", "com.unwanted.app2" }
         };
     }
@@ -99,12 +96,12 @@ public class BidMachineDemoController : MonoBehaviour
         BidMachine.SetUSPrivacyString("test_string");
         BidMachine.SetLoggingEnabled(tgLogging.isOn);
         BidMachine.SetTestMode(tgTesting.isOn);
-        BidMachine.Initialize("1");
+        BidMachine.Initialize("YOUR_SELLER_ID");
     }
 
     public void IsInitialized()
     {
-        Debug.Log($"isInitialized - {BidMachine.IsInitialized()}");
+        Debug.Log($"isInitialized: {BidMachine.IsInitialized()}");
     }
 
     #region Banner & MREC Ads
@@ -131,7 +128,7 @@ public class BidMachineDemoController : MonoBehaviour
             // .setPriceFloorParams(priceFloorParams)
             // .setTargetingParams(targetingParams)
             // .setPlacementId("placement_bannerRequest")
-            .SetLoadingTimeOut(10 * 1000)
+            // .SetLoadingTimeOut(10 * 1000)
             // .setBidPayload("123")
             // .setNetworks("admob")
             .SetListener(bannerRequestListener)
@@ -189,7 +186,7 @@ public class BidMachineDemoController : MonoBehaviour
             // .setPriceFloorParams(priceParam)
             // .setTargetingParams(targetingParams)
             // .setPlacementId("placement_interstitialRequest")
-            .SetLoadingTimeOut(10 * 1000)
+            // .SetLoadingTimeOut(10 * 1000)
             // .setBidPayload("123")
             // .setNetworks("admob")
             .SetListener(interstitialRequestListener)
@@ -304,22 +301,22 @@ public class BidMachineDemoController : MonoBehaviour
 
         public void onAdLoaded(IBannerView ad)
         {
-            Debug.Log("BidMachine: BannerAd - OnAdLoaded");
+            Debug.Log("BidMachine: BannerView: OnAdLoaded");
         }
 
         public void onAdLoadFailed(IBannerView ad, BMError error)
         {
-            Debug.Log($"BidMachine: BannerAd - OnAdLoadFailed");
+            Debug.Log($"BidMachine: BannerView: OnAdLoadFailed");
         }
 
         public void onAdShowFailed(IBannerView ad, BMError error)
         {
-            Debug.Log($"BidMachine: BannerAd - OnAdShowFailed");
+            Debug.Log($"BidMachine: BannerView: OnAdShowFailed");
         }
 
         public void onAdShown(IBannerView ad)
         {
-            Debug.Log("BidMachine: BannerAd - OnAdShown");
+            Debug.Log("BidMachine: BannerView: OnAdShown");
         }
     }
 
@@ -327,17 +324,17 @@ public class BidMachineDemoController : MonoBehaviour
     {
         public void onRequestExpired(IAdRequest request)
         {
-            Debug.Log("BidMachine: BannerRequest - OnAdRequestExpired");
+            Debug.Log("BidMachine: BannerRequest: OnAdRequestExpired");
         }
 
         public void onRequestFailed(IAdRequest request, BMError error)
         {
-            Debug.Log($"BidMachine: BannerRequest - OnAdRequestFailed");
+            Debug.Log($"BidMachine: BannerRequest: OnAdRequestFailed");
         }
 
         public void onRequestSuccess(IAdRequest request, string auctionResult)
         {
-            Debug.Log($"BidMachine: BannerRequest - OnAdRequestSuccess");
+            Debug.Log($"BidMachine: BannerRequest: OnAdRequestSuccess");
         }
     }
 
@@ -345,37 +342,37 @@ public class BidMachineDemoController : MonoBehaviour
     {
         public void onAdClosed(IFullscreenAd ad, bool finished)
         {
-            Debug.Log($"BidMachine: InterstitialAd - OnAdClosed");
+            Debug.Log($"BidMachine: InterstitialAd: OnAdClosed");
         }
 
         public void onAdExpired(IFullscreenAd ad)
         {
-            Debug.Log("BidMachine: InterstitialAd - OnAdExpired");
+            Debug.Log("BidMachine: InterstitialAd: OnAdExpired");
         }
 
         public void onAdImpression(IFullscreenAd ad)
         {
-            Debug.Log("BidMachine: InterstitialAd - OnAdImpression");
+            Debug.Log("BidMachine: InterstitialAd: OnAdImpression");
         }
 
         public void onAdLoaded(IFullscreenAd ad)
         {
-            Debug.Log("BidMachine: InterstitialAd - OnAdLoaded");
+            Debug.Log("BidMachine: InterstitialAd: OnAdLoaded");
         }
 
         public void onAdLoadFailed(IFullscreenAd ad, BMError error)
         {
-            Debug.Log($"BidMachine: InterstitialAd - OnAdLoadFailed");
+            Debug.Log($"BidMachine: InterstitialAd: OnAdLoadFailed");
         }
 
         public void onAdShowFailed(IFullscreenAd ad, BMError error)
         {
-            Debug.Log($"BidMachine: InterstitialAd - OnAdShowFailed");
+            Debug.Log($"BidMachine: InterstitialAd: OnAdShowFailed");
         }
 
         public void onAdShown(IFullscreenAd ad)
         {
-            Debug.Log("BidMachine: InterstitialAd - OnAdShown");
+            Debug.Log("BidMachine: InterstitialAd: OnAdShown");
         }
     }
 
@@ -383,17 +380,17 @@ public class BidMachineDemoController : MonoBehaviour
     {
         public void onRequestExpired(IAdRequest request)
         {
-            Debug.Log("BidMachine: InterstitialRequest - OnAdRequestExpired");
+            Debug.Log("BidMachine: InterstitialRequest: OnAdRequestExpired");
         }
 
         public void onRequestFailed(IAdRequest request, BMError error)
         {
-            Debug.Log($"BidMachine: InterstitialRequest - OnAdRequestFailed");
+            Debug.Log($"BidMachine: InterstitialRequest: OnAdRequestFailed");
         }
 
         public void onRequestSuccess(IAdRequest request, string auctionResult)
         {
-            Debug.Log($"BidMachine: InterstitialRequest - OnAdRequestSuccess");
+            Debug.Log($"BidMachine: InterstitialRequest: OnAdRequestSuccess");
         }
     }
 
@@ -401,37 +398,37 @@ public class BidMachineDemoController : MonoBehaviour
     {
         public void onAdClosed(IFullscreenAd ad, bool finished)
         {
-            Debug.Log($"BidMachine: RewardedAd - OnAdClosed");
+            Debug.Log($"BidMachine: RewardedAd: OnAdClosed");
         }
 
         public void onAdExpired(IFullscreenAd ad)
         {
-            Debug.Log("BidMachine: RewardedAd - OnAdExpired");
+            Debug.Log("BidMachine: RewardedAd: OnAdExpired");
         }
 
         public void onAdImpression(IFullscreenAd ad)
         {
-            Debug.Log("BidMachine: RewardedAd - OnAdImpression");
+            Debug.Log("BidMachine: RewardedAd: OnAdImpression");
         }
 
         public void onAdLoaded(IFullscreenAd ad)
         {
-            Debug.Log("BidMachine: RewardedAd - OnAdLoaded");
+            Debug.Log("BidMachine: RewardedAd: OnAdLoaded");
         }
 
         public void onAdLoadFailed(IFullscreenAd ad, BMError error)
         {
-            Debug.Log($"BidMachine: RewardedAd - OnAdLoadFailed");
+            Debug.Log($"BidMachine: RewardedAd: OnAdLoadFailed");
         }
 
         public void onAdShowFailed(IFullscreenAd ad, BMError error)
         {
-            Debug.Log($"BidMachine: RewardedAd - OnAdShowFailed");
+            Debug.Log($"BidMachine: RewardedAd: OnAdShowFailed");
         }
 
         public void onAdShown(IFullscreenAd ad)
         {
-            Debug.Log("BidMachine: RewardedAd - OnAdShown");
+            Debug.Log("BidMachine: RewardedAd: OnAdShown");
         }
     }
 
@@ -439,18 +436,19 @@ public class BidMachineDemoController : MonoBehaviour
     {
         public void onRequestExpired(IAdRequest request)
         {
-            Debug.Log("BidMachine: RewardedRequest - OnAdRequestExpired");
+            Debug.Log("BidMachine: RewardedRequest: OnAdRequestExpired");
         }
 
         public void onRequestFailed(IAdRequest request, BMError error)
         {
-            Debug.Log($"BidMachine: RewardedRequest - OnAdRequestFailed");
+            Debug.Log($"BidMachine: RewardedRequest: OnAdRequestFailed");
         }
 
         public void onRequestSuccess(IAdRequest request, string auctionResult)
         {
-            Debug.Log($"BidMachine: RewardedRequest - OnAdRequestSuccess");
+            Debug.Log($"BidMachine: RewardedRequest: OnAdRequestSuccess");
         }
     }
+
     #endregion
 }
