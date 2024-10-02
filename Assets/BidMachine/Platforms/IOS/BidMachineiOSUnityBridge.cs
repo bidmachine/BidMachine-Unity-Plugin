@@ -39,62 +39,62 @@ public class BidMachineiOSUnityBridge : MonoBehaviour
     [DllImport("__Internal")]
     public static extern void BidMachineSetPublisher(string jsonString);
 
-    public static void Initialize(string sellerId)
+    public void Initialize(string sellerId)
     {
         BidMachineInitialize(sellerId);
     }
 
-    public static bool IsInitialized()
+    public bool IsInitialized()
     {
         return BidMachineIsInitialized();
     }
 
-    public static void SetEndpoint(string url)
+    public void SetEndpoint(string url)
     {
         BidMachineSetEndpoint(url);
     }
 
-    public static void SetLoggingEnabled(bool logging)
+    public void SetLoggingEnabled(bool logging)
     {
         BidMachineSetLoggingEnabled(logging);
     }
 
-    public static void SetTestMode(bool test)
+    public void SetTestMode(bool test)
     {
         BidMachineSetTestEnabled(test);
     }
 
-    public static void SetTargetingParams(string jsonString)
+    public void SetTargetingParams(string jsonString)
     {
         BidMachineSetTargetingParams(jsonString);
     }
 
-    public static void SetConsentConfig(bool consent, string consentConfig)
+    public void SetConsentConfig(bool consent, string consentConfig)
     {
         BidMachineSetConsentConfig(consentConfig, consent);
     }
 
-    public static void SetSubjectToGDPR(bool subjectToGDPR)
+    public void SetSubjectToGDPR(bool subjectToGDPR)
     {
         BidMachineSetSubjectToGDPR(subjectToGDPR);
     }
 
-    public static void SetCoppa(bool coppa)
+    public void SetCoppa(bool coppa)
     {
         BidMachineSetCoppa(coppa);
     }
 
-    public static void SetUSPrivacyString(string usPrivacyString)
+    public void SetUSPrivacyString(string usPrivacyString)
     {
         BidMachineSetUSPrivacyString(usPrivacyString);
     }
 
-    public static void SetGPP(string gppString, int[] gppIds)
+    public void SetGPP(string gppString, int[] gppIds)
     {
         BidMachineSetGPP(gppString, gppIds, gppIds.Length);
     } 
 
-    public static void SetPublisher(string jsonString)
+    public void SetPublisher(string jsonString)
     {
         BidMachineSetPublisher(jsonString);
     }    
