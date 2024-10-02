@@ -1,5 +1,5 @@
 //
-//  BidMachineRewardedAdDelegate.swift
+//  BidMachineRewardedAdHandler.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 27/09/2024.
@@ -9,11 +9,9 @@ import Foundation
 import BidMachine
 
 final class BidMachineRewardedAdHandler: NSObject {
-    typealias SuccessCallback = (BidMachineRewarded) -> Void
-    typealias FailureCallback = (BidMachineRewarded?, Error?) -> Void
-    typealias ClosedCallback = (BidMachineRewarded) -> Void
-    
-    private var rewarded: BidMachineRewarded?
+    typealias SuccessCallback = (_ ad: BidMachineRewarded, _ auctionResult: String) -> Void
+    typealias FailureCallback = (_ ad: BidMachineRewarded? ,_ error: Error?) -> Void
+    typealias ClosedCallback = (_ ad: BidMachineRewarded) -> Void
     
     // MARK: - Success
     
@@ -39,7 +37,7 @@ extension BidMachineRewardedAdHandler: BidMachineAdDelegate {
         guard let onAdShowFailed else {
             return
         }
-        self.rewarded = ad as? BidMachineRewarded
+        let rewarded = ad as? BidMachineRewarded
         onAdShowFailed(rewarded, error)
     }
     
@@ -47,7 +45,7 @@ extension BidMachineRewardedAdHandler: BidMachineAdDelegate {
         guard let onAdLoadFailed else {
             return
         }
-        self.rewarded = ad as? BidMachineRewarded
+        let rewarded = ad as? BidMachineRewarded
         onAdLoadFailed(rewarded, error)
     }
 
@@ -55,15 +53,16 @@ extension BidMachineRewardedAdHandler: BidMachineAdDelegate {
         guard let onAdLoaded, let rewarded = ad as? BidMachineRewarded else {
             return
         }
-        self.rewarded = rewarded
-        onAdLoaded(rewarded)
+        #warning("what is auction result")
+        let bidId = rewarded.auctionInfo.bidId
+        onAdLoaded(rewarded, bidId)
+        
     }
     
     func didDismissAd(_ ad: any BidMachineAdProtocol) {
         guard let onAdClosed, let rewarded = ad as? BidMachineRewarded  else {
             return
         }
-        self.rewarded = rewarded
         onAdClosed(rewarded)
     }
     
@@ -79,3 +78,7 @@ extension BidMachineRewardedAdHandler: BidMachineAdDelegate {
     func didTrackImpression(_ ad: any BidMachineAdProtocol) {
     }
 }
+
+public typealias RewardedCallbackSuccess = @convention(c) (UnsafeMutableRawPointer, UnsafePointer<CChar>?) -> Void
+public typealias RewardedCallbackFailure = @convention(c) (UnsafeMutableRawPointer?, UnsafePointer<CChar>) -> Void
+public typealias RewardedCallbackClose = @convention(c) (UnsafeMutableRawPointer?, UnsafePointer<CChar>) -> Void

@@ -8,14 +8,10 @@
 import Foundation
 import BidMachine
 
-private enum Constant {
-    static let endpointKey = "overrideSessionUrl"
-}
+let iOSBridge = BidMachineUnityBridge(instance: .shared)
 
-fileprivate let bridge = BidMachineUnityBridge(instance: .shared)
-
-private final class BidMachineUnityBridge {
-    private let rewardedHandler = BidMachineRewardedAdHandler()
+final class BidMachineUnityBridge {
+    let rewardedBridge: RewardedAdBridge
 
     var isInitialized: Bool {
         instance.isInitialized
@@ -25,6 +21,7 @@ private final class BidMachineUnityBridge {
     
     init(instance: BidMachineSdk) {
         self.instance = instance
+        self.rewardedBridge = RewardedAdBridge(instance: instance)
     }
     
     func initialize(with sourceId: String) {
@@ -111,106 +108,5 @@ private final class BidMachineUnityBridge {
             $0.withName(publisher.name)
             $0.withDomain(publisher.domain)
         }
-    }
-}
-
-@_cdecl("BidMachineInitialize")
-public func initialize(_ sellerId: UnsafePointer<CChar>?) {
-    guard let sellerId else {
-        return
-    }
-    let sourceId = String(cString: sellerId)
-    bridge.initialize(with: sourceId)
-}
-
-@_cdecl("BidMachineIsInitialized")
-public func isInitialized() -> Bool {
-    return bridge.isInitialized
-}
-
-@_cdecl("BidMachineSetEndpoint")
-public func setEndpoint(url: UnsafePointer<CChar>?) {
-    guard let url else {
-        return
-    }
-    let urlString = String(cString: url)
-    bridge.setEndpoint(url: urlString)
-}
-
-@_cdecl("BidMachineSetLoggingEnabled")
-public func setLoggingEnabled(_ enabled: Bool) {
-    bridge.setLoggingEnabled(enabled)
-}
-
-@_cdecl("BidMachineSetTestEnabled")
-public func setTestEnabled(_ enabled: Bool) {
-    bridge.setTestEnabled(enabled)
-}
-
-@_cdecl("BidMachineSetTargetingParams")
-public func setTargetingParams(_ json: UnsafePointer<CChar>) {
-    let jsonString = String(cString: json)
-    
-    guard let data = jsonString.data(using: .utf8) else {
-        return
-    }
-    do {
-        let parameters = try JSONDecoder().decode(
-            TargetingParameters.self,
-            from: data
-        )
-        bridge.setTargeting(parameters: parameters)
-    } catch let error {
-        // FIXME: add error handling
-        print("[DEBUG]: error \(error.localizedDescription)")
-    }
-}
-
-@_cdecl("BidMachineSetConsentConfig")
-public func setConsentConfig(_ configString: UnsafePointer<CChar>, consent: Bool) {
-    let config = String(cString: configString)
-    bridge.setConsentConfig(config, consent: consent)
-}
-
-@_cdecl("BidMachineSetSubjectToGDPR")
-public func setSetSubjectToGDPR(_ flag: Bool) {
-    bridge.setGDPRZone(flag)
-}
-
-@_cdecl("BidMachineSetCoppa")
-public func setCoppa(_ flag: Bool) {
-    bridge.setCoppa(flag)
-}
-
-@_cdecl("BidMachineSetUSPrivacyString")
-public func setUSPrivacyText(_ string: UnsafePointer<CChar>?) {
-    guard let string else {
-        return
-    }
-    let privacyText = String(cString: string)
-    bridge.setUSPrivacy(privacyText)
-}
-
-@_cdecl("BidMachineSetGPP")
-public func setGPP(gppString: UnsafePointer<CChar>, gppIds: UnsafePointer<UInt32>, length: UInt32) {
-    let gppString = String(cString: gppString)
-    let ids = Array(
-        UnsafeBufferPointer(start: gppIds, count: Int(length))
-    )
-    bridge.setGPP(gppString, ids: ids)
-}
-
-@_cdecl("BidMachineSetPublisher")
-public func setPublisher(_ json: UnsafePointer<CChar>) {
-    let jsonString = String(cString: json)
-    
-    guard let data = jsonString.data(using: .utf8) else {
-        return
-    }
-    do {
-        let publisher = try JSONDecoder().decode(Publisher.self, from: data)
-        bridge.setPublisher(publisher)
-    } catch let error {
-        print("Error parsing publisher: \(error)")
     }
 }
