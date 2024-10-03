@@ -12,22 +12,22 @@ import BidMachine
 
 @_cdecl("BidMachineRewardedCanShow")
 public func rewardedCanShow() -> Bool {
-    iOSBridge.rewardedBridge.canShowAd
+    iOSUnityBridge.rewardedBridge.canShowAd
 }
 
 @_cdecl("BidMachineRewardedDestroy")
 public func rewardedDestroy() {
-    iOSBridge.rewardedBridge.destroy()
+    iOSUnityBridge.rewardedBridge.destroy()
 }
 
 @_cdecl("BidMachineRewardedLoad")
 public func rewardedLoad() {
-    iOSBridge.rewardedBridge.load()
+    iOSUnityBridge.rewardedBridge.load()
 }
 
 @_cdecl("BidMachineRewardedShow")
 public func rewardedShow() {
-    iOSBridge.rewardedBridge.show()
+    iOSUnityBridge.rewardedBridge.show()
 }
 
 // MARK: - Builder
@@ -38,7 +38,7 @@ public func rewardedSetPriceFloorParams(jsonString: UnsafePointer<CChar>?) {
         return
     }
     let paramsString = String(cString: jsonString)
-    iOSBridge.rewardedBridge.setPriceFloorParams(paramsString)
+    iOSUnityBridge.rewardedBridge.setPriceFloorParams(paramsString)
 }
 
 @_cdecl("BidMachineRewardedSetPlacementId")
@@ -47,7 +47,7 @@ public func rewardedSetPlacementID(_ id: UnsafePointer<CChar>?) {
         return
     }
     let idString = String(cString: id)
-    iOSBridge.rewardedBridge.setPlacementID(idString)
+    iOSUnityBridge.rewardedBridge.setPlacementID(idString)
 }
 
 @_cdecl("BidMachineRewardedSetBidPayload")
@@ -56,47 +56,52 @@ public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>?) {
         return
     }
     let payloadString = String(cString: payload)
-    iOSBridge.rewardedBridge.setBidPayload(payloadString)
+    iOSUnityBridge.rewardedBridge.setBidPayload(payloadString)
 }
 
 @_cdecl("BidMachineRewardedSetLoadingTimeOut")
 public func rewardedSetLoadingTimeout(_ interval: Int) {
     #warning("ask about measurement here")
-    iOSBridge.rewardedBridge.setTimeout(TimeInterval(interval))
+    iOSUnityBridge.rewardedBridge.setTimeout(TimeInterval(interval))
 }
 
 @_cdecl("BidMachineRewardedBuildRequest")
 public func rewardedBuildRequest() {
-    iOSBridge.rewardedBridge.buildRequest()
+    iOSUnityBridge.rewardedBridge.loadRequest()
 }
 
 @_cdecl("BidMachineSetRewardedRequestDelegate")
-public func setRewardedCallbacks(
-    onSuccess: @escaping RewardedCallbackSuccess,
-    onFailure: @escaping RewardedCallbackFailure,
-    onClose: @escaping RewardedCallbackClose
+public func setRewardedRequestCallbacks(
+    onSuccess: @escaping RequestSuccessCallback,
+    onFailure: @escaping RequestFailureCallback,
+    onExpired: @escaping RequestExpiredCallback
 ) {
-    iOSBridge.rewardedBridge.setCallbacks(
+    iOSUnityBridge.rewardedBridge.setRequestCallbacks(
         onSuccess: onSuccess,
         onFailure: onFailure,
-        onClose: onClose
+        onExpired: onExpired
     )
 }
 
 // MARK: - Request
 
 @_cdecl("BidMachineRewardedGetAuctionResult")
-public func rewardedAuctionResult() {
-//    iOSBridge.rewardedBridge
+public func rewardedAuctionResult() -> UnsafePointer<CChar> {
+    (iOSUnityBridge.rewardedBridge.auctionResult ?? "unknown").cString
 }
 
 @_cdecl("BidMachineRewardedIsExpired")
 public func rewardedIsExpired() -> Bool {
-    return true
+    iOSUnityBridge.rewardedBridge.isExpired
 }
 
 @_cdecl("BidMachineRewardedIsDestroyed")
 public func rewardedIsDestroyed() -> Bool {
-    return true
+    iOSUnityBridge.rewardedBridge.isDestroyed
 }
 
+extension String {
+    var cString: UnsafePointer<CChar> {
+        self.withCString { $0 }
+    }
+}

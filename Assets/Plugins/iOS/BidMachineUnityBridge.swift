@@ -8,7 +8,7 @@
 import Foundation
 import BidMachine
 
-let iOSBridge = BidMachineUnityBridge(instance: .shared)
+let iOSUnityBridge = BidMachineUnityBridge(instance: .shared)
 
 final class BidMachineUnityBridge {
     let rewardedBridge: RewardedAdBridge

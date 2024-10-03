@@ -7,66 +7,92 @@
 
 import Foundation
 import BidMachine
+import Combine
 
 final class BidMachineRewardedAdHandler: NSObject {
     typealias SuccessCallback = (_ ad: BidMachineRewarded, _ auctionResult: String) -> Void
     typealias FailureCallback = (_ ad: BidMachineRewarded? ,_ error: Error?) -> Void
     typealias ClosedCallback = (_ ad: BidMachineRewarded) -> Void
     
+    private let adRequestEventsManager: AdRequestEventsManager
+    
+    init(adRequestEventsManager: AdRequestEventsManager) {
+        self.adRequestEventsManager = adRequestEventsManager
+    }
+    
     // MARK: - Success
     
-    var onAdLoaded: SuccessCallback?
-    var onAdShown: SuccessCallback?
-    var onAdImpression: SuccessCallback?
-    var onAdClicked: SuccessCallback?
-    var onAdRewarded: SuccessCallback?
+    struct LoadResult {
+        let ad: BidMachineRewarded
+        let auctionResult: String
+    }
+    
+    struct LoadError: Error {
+        let ad: BidMachineRewarded?
+        let error: Error
+    }
+    
+    var loadingPublisher: AnyPublisher<LoadResult, LoadError> {
+        loadSubject.eraseToAnyPublisher()
+    }
+    
+    private let loadSubject = PassthroughSubject<LoadResult, LoadError>()
+    
+    var didLoadClosure: SuccessCallback?
+    var didShownClosure: SuccessCallback?
+    var didReceiveImpressionClosure: SuccessCallback?
+    var didClickedClosure: SuccessCallback?
+    var didRewardedClosure: SuccessCallback?
     
     // MARK: - Failure
     
-    var onAdLoadFailed: FailureCallback?
-    var onAdShowFailed: FailureCallback?
+    var didFailLoadClosure: FailureCallback?
+    var didFailShowClosure: FailureCallback?
     
     // MARK: - Close
 
-    var onAdClosed: ClosedCallback?
-    var onAdExpired: ClosedCallback?
+    var didClosedClosure: ClosedCallback?
+    var didExpiredClosure: ClosedCallback?
 }
 
 extension BidMachineRewardedAdHandler: BidMachineAdDelegate {
     func didFailPresentAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
-        guard let onAdShowFailed else {
-            return
-        }
         let rewarded = ad as? BidMachineRewarded
-        onAdShowFailed(rewarded, error)
+        didFailShowClosure?(rewarded, error)
     }
     
     func didFailLoadAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
-        guard let onAdLoadFailed else {
-            return
-        }
         let rewarded = ad as? BidMachineRewarded
-        onAdLoadFailed(rewarded, error)
+        didFailLoadClosure?(rewarded, error)
+        
+        let error = LoadError(ad: rewarded, error: error)
+        
+        loadSubject.send(completion: .failure(error))
     }
 
     func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
-        guard let onAdLoaded, let rewarded = ad as? BidMachineRewarded else {
+        guard let rewarded = ad as? BidMachineRewarded else {
             return
         }
-        #warning("what is auction result")
+        #warning("what is auction result?")
         let bidId = rewarded.auctionInfo.bidId
-        onAdLoaded(rewarded, bidId)
-        
+        let result = LoadResult(ad: rewarded, auctionResult: bidId)
+
+        loadSubject.send(result)
     }
     
     func didDismissAd(_ ad: any BidMachineAdProtocol) {
-        guard let onAdClosed, let rewarded = ad as? BidMachineRewarded  else {
+        guard let rewarded = ad as? BidMachineRewarded  else {
             return
         }
-        onAdClosed(rewarded)
+        didClosedClosure?(rewarded)
     }
     
     func didUserInteraction(_ ad: any BidMachineAdProtocol) {
+        guard let rewarded = ad as? BidMachineRewarded  else {
+            return
+        }
+//        didReceiveImpressionClosure?(rewarded, "")
     }
     
     func willPresentScreen(_ ad: any BidMachineAdProtocol) {
@@ -77,8 +103,8 @@ extension BidMachineRewardedAdHandler: BidMachineAdDelegate {
     
     func didTrackImpression(_ ad: any BidMachineAdProtocol) {
     }
+    
+    func didExpired(_ ad: any BidMachineAdProtocol) {
+        adRequestEventsManager.handle(.adExpired(ad))
+    }
 }
-
-public typealias RewardedCallbackSuccess = @convention(c) (UnsafeMutableRawPointer, UnsafePointer<CChar>?) -> Void
-public typealias RewardedCallbackFailure = @convention(c) (UnsafeMutableRawPointer?, UnsafePointer<CChar>) -> Void
-public typealias RewardedCallbackClose = @convention(c) (UnsafeMutableRawPointer?, UnsafePointer<CChar>) -> Void
