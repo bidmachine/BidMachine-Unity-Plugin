@@ -3,13 +3,15 @@ using System;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using AOT;
 
 namespace BidMachineAds.Unity.iOS
 {
     public class iOSRewardedRequestBuilder : IAdRequestBuilder {
-        public const string DUMMY_MESSAGE = "method doesn't support on iOS platform";
 
-        RewardedRequestBuilderiOSUnityBridge bridge;
+        private static IAdRequestListener requestListener;
+        private RewardedRequestBuilderiOSUnityBridge bridge;
 
         private RewardedRequestBuilderiOSUnityBridge Bridge()
         {
@@ -30,11 +32,6 @@ namespace BidMachineAds.Unity.iOS
         public IAdRequestBuilder SetBidPayload(string bidPayload)
         {
             Bridge().SetBidPayload(bidPayload);
-            return this;
-        }
-
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
             return this;
         }
 
@@ -67,7 +64,47 @@ namespace BidMachineAds.Unity.iOS
 
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
+            // Delete from interface?
             return this;
+        }
+
+        public IAdRequestBuilder SetListener(IAdRequestListener listener)
+        {
+            iOSRewardedRequestBuilder.requestListener = listener;
+
+            Bridge().SetRewardedRequestDelegate(
+                didLoadRequest, 
+                didFailRequest,
+                didExpiredRequest
+            );
+            return this;
+        }
+
+       [MonoPInvokeCallback(typeof(RewardedRequestSuccessCallback))]
+        private static void didLoadRequest(IntPtr ad, string auctionResult)
+        {
+            if (iOSRewardedRequestBuilder.requestListener != null) 
+            {
+                iOSRewardedRequestBuilder.requestListener.onRequestSuccess(new iOSRewardedRequest(), auctionResult);
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(RewardedRequestFailedCallback))]
+        private static void didFailRequest(IntPtr ad, IntPtr error)
+        {
+            if (iOSRewardedRequestBuilder.requestListener != null) 
+            {
+                // FIXME
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(RewardedRequestExpiredCallback))]
+        private static void didExpiredRequest(IntPtr ad)
+        {
+            if (iOSRewardedRequestBuilder.requestListener != null) 
+            {
+                iOSRewardedRequestBuilder.requestListener.onRequestExpired(new iOSRewardedRequest(), auctionResult);
+            }
         }
     }
 }

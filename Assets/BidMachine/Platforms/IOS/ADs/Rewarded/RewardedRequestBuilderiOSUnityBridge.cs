@@ -63,5 +63,18 @@ namespace BidMachineAds.Unity.iOS {
         {
             BidMachineRewardedSetNetworks(networks);
         }
+
+         public void SetRewardedRequestDelegate(
+            RewardedRequestSuccessCallback onSuccess,
+            RewardedRequestFailedCallback onFailed,
+            RewardedRequestExpiredCallback onExpired
+         )
+         {
+            BidMachineSetRewardedRequestDelegate(
+                onSuccess,
+                onFailed,
+                onExpired
+            );
+         }
     }
 }
