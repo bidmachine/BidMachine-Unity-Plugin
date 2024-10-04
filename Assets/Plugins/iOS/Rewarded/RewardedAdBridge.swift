@@ -8,9 +8,23 @@
 import Foundation
 import BidMachine
 
-public typealias RequestSuccessCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ result: UnsafePointer<CChar>?) -> Void
-public typealias RequestFailureCallback = @convention(c) (_ ad: UnsafeMutableRawPointer?, _ error: UnsafePointer<CChar>) -> Void
-public typealias RequestExpiredCallback = @convention(c) (_ ad: UnsafeMutableRawPointer) -> Void
+public typealias CRequestSuccessCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ result: UnsafePointer<CChar>?) -> Void
+public typealias CRequestFailureCallback = @convention(c) (_ ad: UnsafeMutableRawPointer?, _ error: UnsafePointer<CChar>) -> Void
+public typealias CRequestExpiredCallback = @convention(c) (_ ad: UnsafeMutableRawPointer) -> Void
+
+public typealias CAdCallback = @convention(c) (_ ad: UnsafeMutableRawPointer) -> Void
+public typealias CAdFailureCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ error: UnsafePointer<CChar>) -> Void
+public typealias CAdClosedCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ finished: Bool) -> Void
+
+enum AdRequestEvent {
+    case adLoaded(_ ad: BidMachineAdProtocol)
+    case adExpired(_ ad: BidMachineAdProtocol)
+    case adLoadFailed(error: Error)
+}
+
+protocol AdRequestsEventsHandlerProtocol {
+    func handle(_ event: AdRequestEvent)
+}
 
 final class RewardedAdBridge {
     var canShowAd: Bool {
@@ -20,7 +34,7 @@ final class RewardedAdBridge {
     private var builder: AdRequestBuider?
     private var adRequestEventsManager: AdRequestEventsManager?
     private var loadedRewarded: BidMachineRewarded?
-    private var adCallbacksHandler: BidMachineRewardedAdHandler?
+    private var adCallbacksHandler = BidMachineRewardedAdHandler()
     
     private let instance: BidMachineSdk
     private let requestLoader: AdRequestLoader<BidMachineRewarded>
@@ -34,7 +48,7 @@ final class RewardedAdBridge {
         builder = nil
         loadedRewarded = nil
         adRequestEventsManager = nil
-        adCallbacksHandler = nil
+        adCallbacksHandler.reset()
     }
     
     func load() {
@@ -47,20 +61,35 @@ final class RewardedAdBridge {
     }
 
     func setRequestCallbacks(
-        onSuccess: @escaping RequestSuccessCallback,
-        onFailure: @escaping RequestFailureCallback,
-        onExpired: @escaping RequestExpiredCallback
+        onSuccess: @escaping CRequestSuccessCallback,
+        onFailure: @escaping CRequestFailureCallback,
+        onExpired: @escaping CRequestExpiredCallback
     ) {
         let adRequestEventsManager = AdRequestEventsManager(
             onSuccess: onSuccess,
             onFailure: onFailure,
             onExpired: onExpired
         )
-        
-        self.adCallbacksHandler = BidMachineRewardedAdHandler(
-            adRequestEventsManager: adRequestEventsManager
-        )
         self.adRequestEventsManager = adRequestEventsManager
+        self.adCallbacksHandler.setRequestEventsHandler(adRequestEventsManager)
+    }
+    
+    func setAdCallbacks(
+        onLoad: @escaping CAdCallback,
+        onFailedToLoad: @escaping CAdFailureCallback,
+        onPresent: @escaping CAdCallback,
+        onFailedToPresent: @escaping CAdFailureCallback,
+        onImpression: @escaping CAdCallback,
+        onExpired: @escaping CAdCallback,
+        onClose: @escaping CAdClosedCallback
+    ) {
+        adCallbacksHandler.setLoadCallback(onLoad)
+        adCallbacksHandler.setLoadFailedCallback(onFailedToLoad)
+        adCallbacksHandler.setPresentCallback(onPresent)
+        adCallbacksHandler.setFailToPresentCallback(onFailedToPresent)
+        adCallbacksHandler.setImpressionReceivedCallback(onImpression)
+        adCallbacksHandler.setExpirationCallback(onExpired)
+        adCallbacksHandler.setCloseCallback(onClose)
     }
     
     func setTimeout(_ interval: TimeInterval) {

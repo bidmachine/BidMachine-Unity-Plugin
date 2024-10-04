@@ -30,6 +30,27 @@ public func rewardedShow() {
     iOSUnityBridge.rewardedBridge.show()
 }
 
+@_cdecl("BidMachineSetRewardedAdDelegate")
+public func setRewardedAdCallbacks(
+    onLoad: @escaping CAdCallback,
+    onFailedToLoad: @escaping CAdFailureCallback,
+    onPresent: @escaping CAdCallback,
+    onFailedToPresent: @escaping CAdFailureCallback,
+    onImpression: @escaping CAdCallback,
+    onExpired: @escaping CAdCallback,
+    onClose: @escaping CAdClosedCallback
+) {
+    iOSUnityBridge.rewardedBridge.setAdCallbacks(
+        onLoad: onLoad,
+        onFailedToLoad: onFailedToLoad,
+        onPresent: onPresent,
+        onFailedToPresent: onFailedToPresent,
+        onImpression: onImpression,
+        onExpired: onExpired,
+        onClose: onClose
+    )
+}
+
 // MARK: - Builder
 
 @_cdecl("BidMachineRewardedSetPriceFloorParams")
@@ -61,8 +82,11 @@ public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>?) {
 
 @_cdecl("BidMachineRewardedSetLoadingTimeOut")
 public func rewardedSetLoadingTimeout(_ interval: Int) {
-    #warning("ask about measurement here")
-    iOSUnityBridge.rewardedBridge.setTimeout(TimeInterval(interval))
+    #warning("unity provides interval in milliseconds, but we need seconds")
+    let measurement = Measurement(value: Double(interval), unit: UnitDuration.milliseconds)
+    let seconds = measurement.converted(to: .seconds).value
+
+    iOSUnityBridge.rewardedBridge.setTimeout(seconds)
 }
 
 @_cdecl("BidMachineRewardedBuildRequest")
@@ -72,9 +96,9 @@ public func rewardedBuildRequest() {
 
 @_cdecl("BidMachineSetRewardedRequestDelegate")
 public func setRewardedRequestCallbacks(
-    onSuccess: @escaping RequestSuccessCallback,
-    onFailure: @escaping RequestFailureCallback,
-    onExpired: @escaping RequestExpiredCallback
+    onSuccess: @escaping CRequestSuccessCallback,
+    onFailure: @escaping CRequestFailureCallback,
+    onExpired: @escaping CRequestExpiredCallback
 ) {
     iOSUnityBridge.rewardedBridge.setRequestCallbacks(
         onSuccess: onSuccess,

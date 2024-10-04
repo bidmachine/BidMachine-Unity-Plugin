@@ -10,101 +10,139 @@ import BidMachine
 import Combine
 
 final class BidMachineRewardedAdHandler: NSObject {
-    typealias SuccessCallback = (_ ad: BidMachineRewarded, _ auctionResult: String) -> Void
-    typealias FailureCallback = (_ ad: BidMachineRewarded? ,_ error: Error?) -> Void
-    typealias ClosedCallback = (_ ad: BidMachineRewarded) -> Void
+    typealias AdCallback = (_ ad: BidMachineAdProtocol) -> Void
+    typealias FailureCallback = (_ ad: BidMachineAdProtocol,_ error: Error?) -> Void
+    typealias ClosedCallback = (_ ad: BidMachineAdProtocol, _ finished: Bool) -> Void
     
-    private let adRequestEventsManager: AdRequestEventsManager
+    private var adRequestEventsManager: AdRequestsEventsHandlerProtocol?
+    private var finished = false
     
-    init(adRequestEventsManager: AdRequestEventsManager) {
-        self.adRequestEventsManager = adRequestEventsManager
+    private var didLoadBridge: CAdCallbackBridge?
+    private var didFailToLoadBridge: CAdFailureCallbackBridge?
+    private var didPresentBridge: CAdCallbackBridge?
+    private var didFailToPresentBridge: CAdFailureCallbackBridge?
+    private var didReceiveImpressionBridge: CAdCallbackBridge?
+    private var didExpireBridge: CAdCallbackBridge?
+    private var didCloseBridge: CAdCallbackClosedBridge?
+    
+    func reset() {
+        adRequestEventsManager = nil
+        
+        didLoadBridge = nil
+        didFailToLoadBridge = nil
+        didPresentBridge = nil
+        didFailToPresentBridge = nil
+        didReceiveImpressionBridge = nil
+        didExpireBridge = nil
+        didCloseBridge = nil
     }
     
-    // MARK: - Success
-    
-    struct LoadResult {
-        let ad: BidMachineRewarded
-        let auctionResult: String
+    func setRequestEventsHandler(_ handler: AdRequestsEventsHandlerProtocol) {
+        self.adRequestEventsManager = handler
     }
     
-    struct LoadError: Error {
-        let ad: BidMachineRewarded?
-        let error: Error
+    func setLoadCallback(_ closure: @escaping CAdCallback) {
+        didLoadBridge = CAdCallbackBridge(cCallback: closure)
     }
     
-    var loadingPublisher: AnyPublisher<LoadResult, LoadError> {
-        loadSubject.eraseToAnyPublisher()
+    func setLoadFailedCallback(_ closure: @escaping CAdFailureCallback) {
+        didFailToLoadBridge = CAdFailureCallbackBridge(cCallback: closure)
     }
     
-    private let loadSubject = PassthroughSubject<LoadResult, LoadError>()
+    func setPresentCallback(_ closure: @escaping CAdCallback) {
+        didPresentBridge = CAdCallbackBridge(cCallback: closure)
+    }
     
-    var didLoadClosure: SuccessCallback?
-    var didShownClosure: SuccessCallback?
-    var didReceiveImpressionClosure: SuccessCallback?
-    var didClickedClosure: SuccessCallback?
-    var didRewardedClosure: SuccessCallback?
+    func setFailToPresentCallback(_ closure: @escaping CAdFailureCallback) {
+        didFailToPresentBridge = CAdFailureCallbackBridge(cCallback: closure)
+    }
     
-    // MARK: - Failure
+    func setImpressionReceivedCallback(_ closure: @escaping CAdCallback) {
+        didReceiveImpressionBridge = CAdCallbackBridge(cCallback: closure)
+    }
     
-    var didFailLoadClosure: FailureCallback?
-    var didFailShowClosure: FailureCallback?
+    func setExpirationCallback(_ closure: @escaping CAdCallback) {
+        didExpireBridge = CAdCallbackBridge(cCallback: closure)
+    }
     
-    // MARK: - Close
-
-    var didClosedClosure: ClosedCallback?
-    var didExpiredClosure: ClosedCallback?
+    func setCloseCallback(_ closure: @escaping CAdClosedCallback) {
+        didCloseBridge = CAdCallbackClosedBridge(cCallback: closure)
+    }
 }
 
 extension BidMachineRewardedAdHandler: BidMachineAdDelegate {
-    func didFailPresentAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
-        let rewarded = ad as? BidMachineRewarded
-        didFailShowClosure?(rewarded, error)
+    func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
+        didLoadBridge?.call(with: ad)
     }
     
     func didFailLoadAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
-        let rewarded = ad as? BidMachineRewarded
-        didFailLoadClosure?(rewarded, error)
-        
-        let error = LoadError(ad: rewarded, error: error)
-        
-        loadSubject.send(completion: .failure(error))
-    }
-
-    func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
-        guard let rewarded = ad as? BidMachineRewarded else {
-            return
-        }
-        #warning("what is auction result?")
-        let bidId = rewarded.auctionInfo.bidId
-        let result = LoadResult(ad: rewarded, auctionResult: bidId)
-
-        loadSubject.send(result)
+        didFailToLoadBridge?.call(with: ad, error: error)
     }
     
-    func didDismissAd(_ ad: any BidMachineAdProtocol) {
-        guard let rewarded = ad as? BidMachineRewarded  else {
-            return
-        }
-        didClosedClosure?(rewarded)
+    func didPresentAd(_ ad: any BidMachineAdProtocol) {
+        didPresentBridge?.call(with: ad)
     }
     
-    func didUserInteraction(_ ad: any BidMachineAdProtocol) {
-        guard let rewarded = ad as? BidMachineRewarded  else {
-            return
-        }
-//        didReceiveImpressionClosure?(rewarded, "")
-    }
-    
-    func willPresentScreen(_ ad: any BidMachineAdProtocol) {
-    }
-    
-    func didReceiveReward(_ ad: any BidMachineAdProtocol) {
+    func didFailPresentAd(_ ad: any BidMachine.BidMachineAdProtocol, _ error: any Error) {
+        didFailToPresentBridge?.call(with: ad, error: error)
     }
     
     func didTrackImpression(_ ad: any BidMachineAdProtocol) {
+        didReceiveImpressionBridge?.call(with: ad)
     }
     
     func didExpired(_ ad: any BidMachineAdProtocol) {
-        adRequestEventsManager.handle(.adExpired(ad))
+        adRequestEventsManager?.handle(.adExpired(ad))
+        didExpireBridge?.call(with: ad)
+    }
+    
+    func didDismissAd(_ ad: any BidMachineAdProtocol) {
+        didCloseBridge?.call(with: ad, finished: finished)
+    }
+    
+    func didReceiveReward(_ ad: any BidMachineAdProtocol) {
+        finished = true
+    }
+}
+
+private extension BidMachineRewardedAdHandler {
+    final class CAdCallbackBridge {
+        private let cCallback: CAdCallback
+        
+        init(cCallback: @escaping CAdCallback) {
+            self.cCallback = cCallback
+        }
+        
+        func call(with ad: BidMachineAdProtocol) {
+            let adPtr = Unmanaged.passUnretained(ad).toOpaque()
+            cCallback(adPtr)
+        }
+    }
+    
+    final class CAdFailureCallbackBridge {
+        private let cCallback: CAdFailureCallback
+        
+        init(cCallback: @escaping CAdFailureCallback) {
+            self.cCallback = cCallback
+        }
+        
+        func call(with ad: BidMachineAdProtocol, error: Error) {
+            let adPtr = Unmanaged.passUnretained(ad).toOpaque()
+            #warning("convert to _ error: UnsafePointer<CChar>")
+            //        cCallback(adPtr, error)
+        }
+    }
+    
+    final class CAdCallbackClosedBridge {
+        private let cCallback: CAdClosedCallback
+        
+        init(cCallback: @escaping CAdClosedCallback) {
+            self.cCallback = cCallback
+        }
+        
+        func call(with ad: BidMachineAdProtocol, finished: Bool) {
+            let adPtr = Unmanaged.passUnretained(ad).toOpaque()
+            cCallback(adPtr, finished)
+        }
     }
 }

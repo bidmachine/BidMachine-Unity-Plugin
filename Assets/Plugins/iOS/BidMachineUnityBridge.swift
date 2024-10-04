@@ -49,7 +49,7 @@ final class BidMachineUnityBridge {
             info.withUserId(parameters.userId)
             info.withUserGender(parameters.gender.asBMGender)
             info.withUserYOB(UInt32(parameters.birthdayYear))
-            info.withKeywords(parameters.keywords.first ?? "") // FIXME: how to handle array?
+            info.withKeywords(parameters.keywords.first ?? "") // FIXME: how to transform array of keywords?
             info.withUserLocation(parameters.location.coordinates)
             info.withCountry(parameters.country)
             info.withCity(parameters.city)
@@ -57,11 +57,11 @@ final class BidMachineUnityBridge {
             info.withStoreURL(parameters.storeURL)
             info.withStoreCategory(parameters.storeCategory)
             info.withStoreSubCategories(parameters.storeSubCategories)
-            info.withFrameworkName(parameters.framework.asBMFrameworkName) // FIXME: insert proper value here
+            info.withFrameworkName(parameters.framework.asBMFrameworkName)
             info.withPaid(parameters.isPaid)
 
             parameters.externalUserIDs.forEach {
-                info.appendExternalId($0.sourceId, $0.value) // FIXME: insert proper value here
+                info.appendExternalId($0.sourceId, $0.value)
             }
 
             info.withBlockedAdvertisers(parameters.blockedDomains)

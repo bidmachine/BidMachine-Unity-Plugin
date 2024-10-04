@@ -3,6 +3,10 @@ using System;
 using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS {
+    public delegate void AdCallback(IntPtr ad);
+    public delegate void AdFailureCallback(IntPtr ad, IntPtr error);
+    public delegate void AdClosedCallback(IntPtr ad, bool finished);
+
     public class RewardedAdiOSUnityBridge : MonoBehaviour
     {
          [DllImport("__Internal")]
@@ -16,6 +20,17 @@ namespace BidMachineAds.Unity.iOS {
 
          [DllImport("__Internal")]
          private static extern void BidMachineRewardedLoad();
+
+         [DllImport("__Internal")]
+        private static extern void BidMachineSetRewardedAdDelegate(
+            AdCallback onLoad,
+            AdFailureCallback onFailedToLoad,
+            AdCallback onPresent,
+            AdFailureCallback onFailedToPresent,
+            AdCallback onImpression,
+            AdCallback onExpired,
+            AdClosedCallback onClosed
+        );
 
          public bool CanShow() 
          {
@@ -35,6 +50,27 @@ namespace BidMachineAds.Unity.iOS {
          public void Load() 
          {
             BidMachineRewardedLoad();
+         }
+
+         public void SetAdDelegate(
+            AdCallback onLoad,
+            AdFailureCallback onFailedToLoad,
+            AdCallback onPresent,
+            AdFailureCallback onFailedToPresent,
+            AdCallback onImpression,
+            AdCallback onExpired,
+            AdClosedCallback onClosed
+         )
+         {
+            BidMachineSetRewardedAdDelegate(
+               onLoad,
+               onFailedToLoad,
+               onPresent,
+               onFailedToPresent,
+               onImpression,
+               onExpired,
+               onClosed
+            );
          }
     }
 }

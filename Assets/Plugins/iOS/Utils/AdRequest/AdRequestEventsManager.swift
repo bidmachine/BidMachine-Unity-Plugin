@@ -8,30 +8,24 @@
 import Foundation
 import BidMachine
 
-final class AdRequestEventsManager {
-    enum Event {
-        case adLoaded(_ ad: BidMachineAdProtocol)
-        case adExpired(_ ad: BidMachineAdProtocol)
-        case adLoadFailed(error: Error)
-    }
-    
+final class AdRequestEventsManager: AdRequestsEventsHandlerProtocol {
     private(set) var adIsExpired: Bool = false
 
-    private var requestSuccessClosure: RequestSuccessCallback?
-    private var requestFailureClosure: RequestFailureCallback?
-    private var requestExpiredClosure: RequestExpiredCallback?
+    private var requestSuccessClosure: CRequestSuccessCallback?
+    private var requestFailureClosure: CRequestFailureCallback?
+    private var requestExpiredClosure: CRequestExpiredCallback?
     
     init(
-        onSuccess: @escaping RequestSuccessCallback,
-        onFailure: @escaping RequestFailureCallback,
-        onExpired: @escaping RequestExpiredCallback
+        onSuccess: @escaping CRequestSuccessCallback,
+        onFailure: @escaping CRequestFailureCallback,
+        onExpired: @escaping CRequestExpiredCallback
     ) {
         self.requestExpiredClosure = onExpired
         self.requestFailureClosure = onFailure
         self.requestSuccessClosure = onSuccess
     }
     
-    func handle(_ event: Event) {
+    func handle(_ event: AdRequestEvent) {
         switch event {
         case let .adLoaded(ad):
             notifyRequestSuccess(ad)

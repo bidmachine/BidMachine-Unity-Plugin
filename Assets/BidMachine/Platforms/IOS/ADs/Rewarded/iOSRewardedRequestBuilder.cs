@@ -3,7 +3,6 @@ using System;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using AOT;
 
 namespace BidMachineAds.Unity.iOS
@@ -103,7 +102,7 @@ namespace BidMachineAds.Unity.iOS
         {
             if (iOSRewardedRequestBuilder.requestListener != null) 
             {
-                iOSRewardedRequestBuilder.requestListener.onRequestExpired(new iOSRewardedRequest(), auctionResult);
+                iOSRewardedRequestBuilder.requestListener.onRequestExpired(new iOSRewardedRequest());
             }
         }
     }
