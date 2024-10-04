@@ -128,8 +128,10 @@ private extension BidMachineRewardedAdHandler {
         
         func call(with ad: BidMachineAdProtocol, error: Error) {
             let adPtr = Unmanaged.passUnretained(ad).toOpaque()
-            #warning("convert to _ error: UnsafePointer<CChar>")
-            //        cCallback(adPtr, error)
+            let nsError = (error as NSError)
+            let errorPtr = Unmanaged.passUnretained(nsError).toOpaque()
+
+            cCallback(adPtr, errorPtr)
         }
     }
     

@@ -89,7 +89,7 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [MonoPInvokeCallback(typeof(RewardedRequestFailedCallback))]
-        private static void didFailRequest(IntPtr ad, IntPtr error)
+        private static void didFailRequest(IntPtr error)
         {
             if (iOSRewardedRequestBuilder.requestListener != null) 
             {

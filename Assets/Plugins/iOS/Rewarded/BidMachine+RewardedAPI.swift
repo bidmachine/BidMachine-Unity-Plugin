@@ -82,7 +82,6 @@ public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>?) {
 
 @_cdecl("BidMachineRewardedSetLoadingTimeOut")
 public func rewardedSetLoadingTimeout(_ interval: Int) {
-    #warning("unity provides interval in milliseconds, but we need seconds")
     let measurement = Measurement(value: Double(interval), unit: UnitDuration.milliseconds)
     let seconds = measurement.converted(to: .seconds).value
 

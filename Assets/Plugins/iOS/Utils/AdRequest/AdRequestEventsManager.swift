@@ -45,8 +45,10 @@ final class AdRequestEventsManager: AdRequestsEventsHandlerProtocol {
     }
 
     private func notifyRequestFailed(with error: Error) {
-        #warning("Add logic")
-        print(error.localizedDescription)
+        let nsError = error as NSError
+        let errorPtr = Unmanaged.passUnretained(nsError).toOpaque()
+
+        requestFailureClosure?(errorPtr)
     }
     
     private func notifyRequestSuccess(_ ad: BidMachineAdProtocol) {
@@ -54,7 +56,7 @@ final class AdRequestEventsManager: AdRequestsEventsHandlerProtocol {
         let result = ad.auctionInfo.bidId
         let adPtr = Unmanaged.passUnretained(ad).toOpaque()
         let resultCString = result.cString
-        
+
         requestSuccessClosure?(adPtr, resultCString)
     }
 }

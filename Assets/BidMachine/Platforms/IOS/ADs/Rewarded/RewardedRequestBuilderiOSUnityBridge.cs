@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS {
     public delegate void RewardedRequestSuccessCallback(IntPtr ad, string auctionResult);
-    public delegate void RewardedRequestFailedCallback(IntPtr ad, IntPtr error);
+    public delegate void RewardedRequestFailedCallback(IntPtr error);
     public delegate void RewardedRequestExpiredCallback(IntPtr ad);
 
     public class RewardedRequestBuilderiOSUnityBridge : MonoBehaviour

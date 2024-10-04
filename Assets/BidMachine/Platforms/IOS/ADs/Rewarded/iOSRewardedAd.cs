@@ -10,6 +10,7 @@ namespace BidMachineAds.Unity.iOS
     public class iOSRewardedAd : IFullscreenAd {
         private static IFullscreenAdListener<IFullscreenAd> listener;
         private RewardedAdiOSUnityBridge bridge;
+        private iOSErrorBridge errorBridge;
 
         private RewardedAdiOSUnityBridge Bridge() 
         {
@@ -63,7 +64,15 @@ namespace BidMachineAds.Unity.iOS
         [MonoPInvokeCallback(typeof(AdFailureCallback))]
         private static void didFailLoadAd(IntPtr ad, IntPtr error)
         {
-
+            if (iOSRewardedAd.listener != null) 
+            {
+                var bmError = new BMError
+                {
+                    Code = iOSErrorBridge.GetErrorCode(error),
+                    Message = iOSErrorBridge.GetErrorMessage(error)
+                };
+                iOSRewardedAd.listener.onAdLoadFailed(new iOSRewardedAd(), bmError);
+            }
         }
 
         [MonoPInvokeCallback(typeof(AdCallback))]
@@ -78,7 +87,15 @@ namespace BidMachineAds.Unity.iOS
         [MonoPInvokeCallback(typeof(AdFailureCallback))]
         private static void didFailPresentAd(IntPtr ad, IntPtr error)
         {
-
+            if (iOSRewardedAd.listener != null) 
+            {
+                var bmError = new BMError
+                {
+                    Code = iOSErrorBridge.GetErrorCode(error),
+                    Message = iOSErrorBridge.GetErrorMessage(error)
+                };
+                iOSRewardedAd.listener.onAdShowFailed(new iOSRewardedAd(), bmError);
+            }
         }
 
         [MonoPInvokeCallback(typeof(AdCallback))]

@@ -9,11 +9,11 @@ import Foundation
 import BidMachine
 
 public typealias CRequestSuccessCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ result: UnsafePointer<CChar>?) -> Void
-public typealias CRequestFailureCallback = @convention(c) (_ ad: UnsafeMutableRawPointer?, _ error: UnsafePointer<CChar>) -> Void
+public typealias CRequestFailureCallback = @convention(c) (_ error: UnsafeMutableRawPointer) -> Void
 public typealias CRequestExpiredCallback = @convention(c) (_ ad: UnsafeMutableRawPointer) -> Void
 
 public typealias CAdCallback = @convention(c) (_ ad: UnsafeMutableRawPointer) -> Void
-public typealias CAdFailureCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ error: UnsafePointer<CChar>) -> Void
+public typealias CAdFailureCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ error: UnsafeMutableRawPointer) -> Void
 public typealias CAdClosedCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ finished: Bool) -> Void
 
 enum AdRequestEvent {
