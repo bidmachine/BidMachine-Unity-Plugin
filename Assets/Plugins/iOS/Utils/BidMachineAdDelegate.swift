@@ -1,15 +1,14 @@
 //
-//  BidMachineRewardedAdHandler.swift
+//  BidMachineAdDelegate.swift
 //  UnityFramework
 //
-//  Created by Dzmitry on 27/09/2024.
+//  Created by Dzmitry on 04/10/2024.
 //
 
 import Foundation
 import BidMachine
-import Combine
 
-final class BidMachineRewardedAdHandler: NSObject {
+class BidMachineAdHandler: NSObject {
     typealias AdCallback = (_ ad: BidMachineAdProtocol) -> Void
     typealias FailureCallback = (_ ad: BidMachineAdProtocol,_ error: Error?) -> Void
     typealias ClosedCallback = (_ ad: BidMachineAdProtocol, _ finished: Bool) -> Void
@@ -70,7 +69,7 @@ final class BidMachineRewardedAdHandler: NSObject {
     }
 }
 
-extension BidMachineRewardedAdHandler: BidMachineAdDelegate {
+extension BidMachineAdHandler: BidMachineAdDelegate {
     func didLoadAd(_ ad: any BidMachine.BidMachineAdProtocol) {
         didLoadBridge?.call(with: ad)
     }
@@ -105,7 +104,7 @@ extension BidMachineRewardedAdHandler: BidMachineAdDelegate {
     }
 }
 
-private extension BidMachineRewardedAdHandler {
+private extension BidMachineAdHandler {
     final class CAdCallbackBridge {
         private let cCallback: CAdCallback
         

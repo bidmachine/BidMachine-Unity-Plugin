@@ -113,13 +113,13 @@ namespace BidMachineAds.Unity.iOS
     [Serializable]
     public class KeyValue
     {
-        public string key;
-        public double value;
+        public string Key;
+        public double Value;
 
         public KeyValue(string key, double value)
         {
-            this.key = key;
-            this.value = value;
+            this.Key = key;
+            this.Value = value;
         }
     }
 

@@ -103,7 +103,7 @@ namespace BidMachineAds.Unity.iOS
         {
             if (iOSRewardedAd.listener != null) 
             {
-                iOSRewardedAd.listener.onAdShown(new iOSRewardedAd());
+                iOSRewardedAd.listener.onAdImpression(new iOSRewardedAd());
             }
         }
 

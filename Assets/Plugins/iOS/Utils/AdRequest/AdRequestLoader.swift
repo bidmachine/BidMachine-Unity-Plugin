@@ -56,6 +56,9 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
         config.populate { builder in
             builder.withUnitConfigurations(adRequest.configurations)
 
+            adRequest.priceFloors.forEach {
+                builder.appendPriceFloor($0.value, $0.key)
+            }
             adRequest.payload.apply { builder.withPayload($0) }
             adRequest.placementId.apply { builder.withPlacementId($0) }
             adRequest.timeout.apply { builder.withTimeout($0) }

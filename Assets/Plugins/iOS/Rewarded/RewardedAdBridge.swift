@@ -34,7 +34,7 @@ final class RewardedAdBridge {
     private var builder: AdRequestBuider?
     private var adRequestEventsManager: AdRequestEventsManager?
     private var loadedRewarded: BidMachineRewarded?
-    private var adCallbacksHandler = BidMachineRewardedAdHandler()
+    private var adCallbacksHandler = BidMachineAdHandler()
     
     private let instance: BidMachineSdk
     private let requestLoader: AdRequestLoader<BidMachineRewarded>
@@ -100,8 +100,8 @@ final class RewardedAdBridge {
         getRequestBuilder().setPlacementID(id)
     }
     
-    func setPriceFloorParams(_ id: String) {
-        // FIXME: add logic
+    func setPriceFloorParams(_ parameters: [PriceFloorParameter]) {
+        getRequestBuilder().setPriceFloorParameters(parameters)
     }
     
     func setBidPayload(_ payload: String) {

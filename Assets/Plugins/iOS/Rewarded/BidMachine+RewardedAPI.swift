@@ -53,13 +53,25 @@ public func setRewardedAdCallbacks(
 
 // MARK: - Builder
 
+typealias PriceFloorParameter = KeyValueBox<String, Double>
+typealias PriceFloorParameters = KeyValueList<String, Double>
+
 @_cdecl("BidMachineRewardedSetPriceFloorParams")
-public func rewardedSetPriceFloorParams(jsonString: UnsafePointer<CChar>?) {
-    guard let jsonString else {
+public func rewardedSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
+    let paramsString = String(cString: jsonString)
+
+    guard let data = paramsString.data(using: .utf8) else {
         return
     }
-    let paramsString = String(cString: jsonString)
-    iOSUnityBridge.rewardedBridge.setPriceFloorParams(paramsString)
+    do {
+        let parametersList = try JSONDecoder().decode(
+            PriceFloorParameters.self,
+            from: data
+        )
+        iOSUnityBridge.rewardedBridge.setPriceFloorParams(parametersList.items)
+    } catch let error {
+        print("Error parsing price floor params: \(error.localizedDescription)")
+    }
 }
 
 @_cdecl("BidMachineRewardedSetPlacementId")
