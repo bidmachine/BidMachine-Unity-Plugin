@@ -83,6 +83,17 @@ public func rewardedSetPlacementID(_ id: UnsafePointer<CChar>?) {
     iOSUnityBridge.rewardedBridge.setPlacementID(idString)
 }
 
+@_cdecl("BidMachineRewardedSetAdContentType")
+public func rewardedSetAdContentType(_ type: UnsafePointer<CChar>) {
+    let adTypeString = String(cString: type)
+    guard let contentType = UnityAdContentType(rawValue: adTypeString) else {
+        return
+    }
+    iOSUnityBridge.rewardedBridge.setPlacementFormat(
+        contentType.asRewardedPlacement
+    )
+}
+
 @_cdecl("BidMachineRewardedSetBidPayload")
 public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>?) {
     guard let payload else {
@@ -138,5 +149,15 @@ public func rewardedIsDestroyed() -> Bool {
 extension String {
     var cString: UnsafePointer<CChar> {
         self.withCString { $0 }
+    }
+}
+
+private extension UnityAdContentType {
+    var asRewardedPlacement: PlacementFormat {
+        switch self {
+        case .static: .rewardedStatic
+        case .video: .rewardedVideo
+        case .all: .rewarded
+        }
     }
 }

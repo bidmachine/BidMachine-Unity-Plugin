@@ -9,12 +9,12 @@ import Foundation
 import BidMachine
 
 struct AdRequest {
-    var format: PlacementFormat
-    var payload: String?
-    var placementId: String?
-    var timeout: TimeInterval?
-    var configurations: [BidMachineBiddingUnitConfiguration]
-    var priceFloors: [PriceFloorParameter]
+    let format: PlacementFormat
+    let payload: String?
+    let placementId: String?
+    let timeout: TimeInterval?
+    let configurations: [BidMachineBiddingUnitConfiguration]
+    let priceFloors: [PriceFloorParameter]
 }
 
 final class AdRequestBuider {
@@ -57,5 +57,9 @@ final class AdRequestBuider {
     
     func setPriceFloorParameters(_ parameters: [PriceFloorParameter]) {
         self.priceFloors = parameters
+    }
+    
+    func setPlacementFormat(_ format: PlacementFormat) {
+        self.format = format
     }
 }

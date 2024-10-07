@@ -32,7 +32,7 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
             callback(.failure(.unableToGetConfig))
             return
         }
-        bidMachine.ad(config) {ad, error in
+        bidMachine.ad(config) { ad, error in
             if let error {
                 callback(.failure(.underlying(error)))
                 return

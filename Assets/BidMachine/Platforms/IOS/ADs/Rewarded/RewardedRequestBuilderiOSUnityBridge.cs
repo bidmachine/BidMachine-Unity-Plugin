@@ -34,6 +34,9 @@ namespace BidMachineAds.Unity.iOS {
         [DllImport("__Internal")]
         private static extern void BidMachineRewardedSetNetworks(string networks);
 
+        [DllImport("__Internal")]
+        private static extern void BidMachineRewardedSetAdContentType(string type);
+
         public void Build()
         {
             BidMachineRewardedBuildRequest();
@@ -62,6 +65,11 @@ namespace BidMachineAds.Unity.iOS {
         public void SetNetworks(string networks)
         {
             BidMachineRewardedSetNetworks(networks);
+        }
+
+        public void SetAdContentType(string contentType)
+        {
+            BidMachineRewardedSetAdContentType(contentType);
         }
 
          public void SetRewardedRequestDelegate(

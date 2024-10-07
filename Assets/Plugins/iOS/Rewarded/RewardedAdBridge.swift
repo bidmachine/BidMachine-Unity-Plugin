@@ -108,6 +108,10 @@ final class RewardedAdBridge {
         getRequestBuilder().setBidPayload(payload)
     }
     
+    func setPlacementFormat(_ format: PlacementFormat) {
+        getRequestBuilder().setPlacementFormat(format)
+    }
+    
     func loadRequest() {
         let adRequest = getRequestBuilder().build()
 

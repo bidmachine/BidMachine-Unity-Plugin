@@ -25,6 +25,12 @@ namespace BidMachineAds.Unity.iOS
 
         public IAdRequestBuilder SetAdContentType(AdContentType contentType)
         {
+            var contentTypeString = contentType.ToString();
+            if (!Enum.IsDefined(typeof(AdContentType), contentType))
+            {
+                contentTypeString = AdContentType.All.ToString();
+            }
+            Bridge().SetAdContentType(contentTypeString);
             return this;
         }
 
@@ -93,7 +99,12 @@ namespace BidMachineAds.Unity.iOS
         {
             if (iOSRewardedRequestBuilder.requestListener != null) 
             {
-                // FIXME
+                var bmError = new BMError
+                {
+                    Code = iOSErrorBridge.GetErrorCode(error),
+                    Message = iOSErrorBridge.GetErrorMessage(error)
+                };
+                iOSRewardedRequestBuilder.requestListener.onRequestFailed(new iOSRewardedRequest(), bmError);
             }
         }
 
