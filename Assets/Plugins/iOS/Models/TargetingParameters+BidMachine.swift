@@ -9,19 +9,18 @@ import Foundation
 import BidMachine
 import CoreLocation
 
-extension TargetingParameters.Gender {
-    var asBMGender: BidMachine.UserGender {
-        switch self {
-        case .female: return .female
-        case .male: return .male
-        case .omitted: return .unknown
+extension BidMachine.UserGender {
+    init(_ targetingGender: TargetingParameters.Gender) {
+        switch targetingGender {
+        case .female: self = .female
+        case .male: self = .male
+        case .omitted: self = .unknown
         }
     }
 }
 
 extension TargetingParameters.Location {
     var coordinates: CLLocation {
-        #warning("check if location is valid")
         return CLLocation(latitude: latitude, longitude: longitude)
     }
 }

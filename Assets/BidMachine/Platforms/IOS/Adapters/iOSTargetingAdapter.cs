@@ -89,9 +89,9 @@ namespace BidMachineAds.Unity.iOS
     }
 }
 
-public static class HashSetExtensions
+internal static class HashSetExtensions
 {
-    public static T[] AsArray<T>(this HashSet<T> hashSet)
+    internal static T[] AsArray<T>(this HashSet<T> hashSet)
     {
         T[] array = new T[hashSet.Count];
         hashSet.CopyTo(array);
