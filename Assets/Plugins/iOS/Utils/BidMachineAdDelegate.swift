@@ -8,10 +8,12 @@
 import Foundation
 import BidMachine
 
-class BidMachineAdHandler: NSObject {
+final class BidMachineAdHandler: NSObject {
     typealias AdCallback = (_ ad: BidMachineAdProtocol) -> Void
     typealias FailureCallback = (_ ad: BidMachineAdProtocol,_ error: Error?) -> Void
     typealias ClosedCallback = (_ ad: BidMachineAdProtocol, _ finished: Bool) -> Void
+    
+    var forceCloseFinished: Bool = false
     
     private var adRequestEventsManager: AdRequestsEventsHandlerProtocol?
     private var finished = false
@@ -96,7 +98,9 @@ extension BidMachineAdHandler: BidMachineAdDelegate {
     }
     
     func didDismissAd(_ ad: any BidMachineAdProtocol) {
-        didCloseBridge?.call(with: ad, finished: finished)
+        let closeFinished = forceCloseFinished || finished
+
+        didCloseBridge?.call(with: ad, finished: closeFinished)
     }
     
     func didReceiveReward(_ ad: any BidMachineAdProtocol) {

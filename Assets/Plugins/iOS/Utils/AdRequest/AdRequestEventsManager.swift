@@ -52,11 +52,12 @@ final class AdRequestEventsManager: AdRequestsEventsHandlerProtocol {
     }
     
     private func notifyRequestSuccess(_ ad: BidMachineAdProtocol) {
-        #warning("What is result?")
-        let result = ad.auctionInfo.bidId
+        guard let result = ad.auctionInfo.resultJsonString else {
+            return
+        }
+        let resultPtr = result.utf8UnmanagedPtrCopy
         let adPtr = Unmanaged.passUnretained(ad).toOpaque()
-        let resultCString = result.cString
 
-        requestSuccessClosure?(adPtr, resultCString)
+        requestSuccessClosure?(adPtr, resultPtr)
     }
 }

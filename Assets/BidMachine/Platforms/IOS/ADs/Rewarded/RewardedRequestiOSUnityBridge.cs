@@ -6,7 +6,7 @@ namespace BidMachineAds.Unity.iOS {
     public class RewardedRequestiOSUnityBridge : MonoBehaviour
     {
         [DllImport("__Internal")]
-        public static extern IntPtr BidMachineRewardedGetAuctionResult();
+        public static extern IntPtr BidMachineRewardedGetAuctionResultUnmanagedPointer();
 
         [DllImport("__Internal")]
         public static extern bool BidMachineRewardedIsExpired();
@@ -16,8 +16,12 @@ namespace BidMachineAds.Unity.iOS {
 
         public string GetAuctionResult() 
         {
-            IntPtr resultPtr = BidMachineRewardedGetAuctionResult();
-            return Marshal.PtrToStringAuto(resultPtr);
+            IntPtr resultPtr = BidMachineRewardedGetAuctionResultUnmanagedPointer();
+
+            string result = Marshal.PtrToStringAuto(resultPtr);
+            Marshal.FreeHGlobal(resultPtr);
+
+            return result;
         }
 
         public bool IsExpired()

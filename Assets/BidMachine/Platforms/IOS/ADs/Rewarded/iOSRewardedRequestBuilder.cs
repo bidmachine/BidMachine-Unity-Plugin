@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
+using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using AOT;
 
@@ -85,12 +86,18 @@ namespace BidMachineAds.Unity.iOS
             return this;
         }
 
-       [MonoPInvokeCallback(typeof(RewardedRequestSuccessCallback))]
-        private static void didLoadRequest(IntPtr ad, string auctionResult)
+        [MonoPInvokeCallback(typeof(RewardedRequestSuccessCallback))]
+        private static void didLoadRequest(IntPtr ad, IntPtr auctionResultUnamagedPointer)
         {
+            string auctionString = Marshal.PtrToStringAuto(auctionResultUnamagedPointer);
+            Marshal.FreeHGlobal(auctionResultUnamagedPointer);
+
             if (iOSRewardedRequestBuilder.requestListener != null) 
             {
-                iOSRewardedRequestBuilder.requestListener.onRequestSuccess(new iOSRewardedRequest(), auctionResult);
+                iOSRewardedRequestBuilder.requestListener.onRequestSuccess(
+                    new iOSRewardedRequest(),
+                    auctionString
+                );
             }
         }
 

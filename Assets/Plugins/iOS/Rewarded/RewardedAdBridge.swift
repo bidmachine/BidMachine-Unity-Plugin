@@ -8,7 +8,7 @@
 import Foundation
 import BidMachine
 
-public typealias CRequestSuccessCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ result: UnsafePointer<CChar>?) -> Void
+public typealias CRequestSuccessCallback = @convention(c) (_ ad: UnsafeMutableRawPointer, _ resultUnmanagedPtr: UnsafeMutablePointer<CChar>?) -> Void
 public typealias CRequestFailureCallback = @convention(c) (_ error: UnsafeMutableRawPointer) -> Void
 public typealias CRequestExpiredCallback = @convention(c) (_ ad: UnsafeMutableRawPointer) -> Void
 
@@ -34,10 +34,10 @@ final class RewardedAdBridge {
     private var builder: AdRequestBuider?
     private var adRequestEventsManager: AdRequestEventsManager?
     private var loadedRewarded: BidMachineRewarded?
-    private var adCallbacksHandler = BidMachineAdHandler()
     
     private let instance: BidMachineSdk
     private let requestLoader: AdRequestLoader<BidMachineRewarded>
+    private let adCallbacksHandler = BidMachineAdHandler()
     
     init(instance: BidMachineSdk) {
         self.instance = instance
@@ -145,8 +145,7 @@ final class RewardedAdBridge {
 
 extension RewardedAdBridge: RewardedRequestProtocol {
     var auctionResult: String? {
-        #warning("what is auction result string?")
-        return loadedRewarded?.auctionInfo.demandSource
+        return loadedRewarded?.auctionInfo.resultJsonString
     }
 
     var isExpired: Bool {

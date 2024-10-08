@@ -131,9 +131,10 @@ public func setRewardedRequestCallbacks(
 
 // MARK: - Request
 
-@_cdecl("BidMachineRewardedGetAuctionResult")
-public func rewardedAuctionResult() -> UnsafePointer<CChar> {
-    (iOSUnityBridge.rewardedBridge.auctionResult ?? "unknown").cString
+@_cdecl("BidMachineRewardedGetAuctionResultUnmanagedPointer")
+public func rewardedAuctionResult() -> UnsafeMutablePointer<CChar>? {
+    let result = iOSUnityBridge.rewardedBridge.auctionResult ?? "unknown"
+    return result.utf8UnmanagedPtrCopy
 }
 
 @_cdecl("BidMachineRewardedIsExpired")
@@ -144,12 +145,6 @@ public func rewardedIsExpired() -> Bool {
 @_cdecl("BidMachineRewardedIsDestroyed")
 public func rewardedIsDestroyed() -> Bool {
     iOSUnityBridge.rewardedBridge.isDestroyed
-}
-
-extension String {
-    var cString: UnsafePointer<CChar> {
-        self.withCString { $0 }
-    }
 }
 
 private extension UnityAdContentType {

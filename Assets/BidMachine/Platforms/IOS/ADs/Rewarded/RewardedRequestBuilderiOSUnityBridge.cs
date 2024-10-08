@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS {
-    public delegate void RewardedRequestSuccessCallback(IntPtr ad, string auctionResult);
+    public delegate void RewardedRequestSuccessCallback(IntPtr ad, IntPtr auctionResultUnamagedPointer);
     public delegate void RewardedRequestFailedCallback(IntPtr error);
     public delegate void RewardedRequestExpiredCallback(IntPtr ad);
 

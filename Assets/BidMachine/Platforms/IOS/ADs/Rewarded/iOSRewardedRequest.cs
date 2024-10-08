@@ -15,7 +15,15 @@ namespace BidMachineAds.Unity.iOS
 
         public string GetAuctionResult()
         {
-            return Bridge().GetAuctionResult();
+            string auctionResult = Bridge().GetAuctionResult();
+            if (string.IsNullOrEmpty(auctionResult))
+            {
+                return "unknown";
+            }
+            else 
+            {
+                return auctionResult;
+            }
         }
 
         public bool IsDestroyed()

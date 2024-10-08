@@ -9,10 +9,10 @@ namespace BidMachineAds.Unity.iOS
         public static extern int BidMachineGetErrorCode(IntPtr error);
 
         [DllImport("__Internal")]
-        public static extern string BidMachineGetErrorMessage(IntPtr error);
+        public static extern IntPtr BidMachineGetErrorMessageUnmanagedPointer(IntPtr error);
 
         [DllImport("__Internal")]
-        public static extern string BidMachineGetErrorBrief(IntPtr error);
+        public static extern IntPtr BidMachineGetErrorBriefUnmanagedPointer(IntPtr error);
 
         public static int GetErrorCode(IntPtr error)
         {
@@ -21,12 +21,22 @@ namespace BidMachineAds.Unity.iOS
 
         public static string GetErrorMessage(IntPtr error)
         {
-            return BidMachineGetErrorMessage(error);
+            IntPtr messagePtr = BidMachineGetErrorMessageUnmanagedPointer(error);
+
+            string errorString = Marshal.PtrToStringAuto(messagePtr);
+            Marshal.FreeHGlobal(messagePtr);
+
+            return errorString;
         }
 
         public static string GetErrorBrief(IntPtr error)
         {
-            return BidMachineGetErrorBrief(error);
+            IntPtr briefPtr = BidMachineGetErrorBriefUnmanagedPointer(error);
+
+            string briefString = Marshal.PtrToStringAuto(briefPtr);
+            Marshal.FreeHGlobal(briefPtr);
+
+            return briefString;
         }
     }
 }

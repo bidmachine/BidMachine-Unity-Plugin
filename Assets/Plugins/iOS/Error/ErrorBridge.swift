@@ -12,12 +12,12 @@ public func getErrorCode(of error: NSError) -> Int {
     error.code
 }
 
-@_cdecl("BidMachineGetErrorBrief")
-public func getBriefDescription(of error: NSError) -> UnsafePointer<CChar> {
-    error.localizedDescription.cString
+@_cdecl("BidMachineGetErrorBriefUnmanagedPointer")
+public func getBriefDescription(of error: NSError) -> UnsafeMutablePointer<CChar>? {
+    error.localizedDescription.utf8UnmanagedPtrCopy
 }
 
-@_cdecl("BidMachineGetErrorMessage")
-public func getErrorMessage(of error: NSError) -> UnsafePointer<CChar>? {
-    error.localizedFailureReason?.cString
+@_cdecl("BidMachineGetErrorMessageUnmanagedPointer")
+public func getErrorMessage(of error: NSError) -> UnsafeMutablePointer<CChar>? {
+    error.localizedFailureReason?.utf8UnmanagedPtrCopy
 }
