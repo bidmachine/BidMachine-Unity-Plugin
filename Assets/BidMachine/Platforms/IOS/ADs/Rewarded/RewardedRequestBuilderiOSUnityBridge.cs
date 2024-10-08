@@ -3,17 +3,17 @@ using System;
 using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS {
-    public delegate void RewardedRequestSuccessCallback(IntPtr ad, IntPtr auctionResultUnamagedPointer);
-    public delegate void RewardedRequestFailedCallback(IntPtr error);
-    public delegate void RewardedRequestExpiredCallback(IntPtr ad);
+    public delegate void AdRequestSuccessCallback(IntPtr ad, IntPtr auctionResultUnamagedPointer);
+    public delegate void AdRequestFailedCallback(IntPtr error);
+    public delegate void AdRequestExpiredCallback(IntPtr ad);
 
-    public class RewardedRequestBuilderiOSUnityBridge : MonoBehaviour
+    public class RewardedRequestBuilderiOSUnityBridge : MonoBehaviour, IiOSAdRequestBuilderBridge
     {
         [DllImport("__Internal")]
         private static extern void BidMachineSetRewardedRequestDelegate(
-            RewardedRequestSuccessCallback onSuccess,
-            RewardedRequestFailedCallback onFailed,
-            RewardedRequestExpiredCallback onExpired
+            AdRequestSuccessCallback onSuccess,
+            AdRequestFailedCallback onFailed,
+            AdRequestExpiredCallback onExpired
         );
 
         [DllImport("__Internal")]
@@ -73,9 +73,9 @@ namespace BidMachineAds.Unity.iOS {
         }
 
          public void SetRewardedRequestDelegate(
-            RewardedRequestSuccessCallback onSuccess,
-            RewardedRequestFailedCallback onFailed,
-            RewardedRequestExpiredCallback onExpired
+            AdRequestSuccessCallback onSuccess,
+            AdRequestFailedCallback onFailed,
+            AdRequestExpiredCallback onExpired
          )
          {
             BidMachineSetRewardedRequestDelegate(

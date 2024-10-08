@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS {
-    public class RewardedRequestiOSUnityBridge : MonoBehaviour
+    public class RewardedRequestiOSUnityBridge : MonoBehaviour, IiOSAdRequestBridge
     {
         [DllImport("__Internal")]
         public static extern IntPtr BidMachineRewardedGetAuctionResultUnmanagedPointer();
