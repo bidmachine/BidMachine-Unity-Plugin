@@ -17,25 +17,38 @@ final class BidMachineUnityBridge {
 
     lazy var rewardedBridge = RewardedAdBridge(
         instance: instance,
-        presenter: fullscreenAdPresenter
+        adPresenter: fullscreenAdPresenter
     )
 
     lazy var interstitialBridge = {
         let bridge = InterstitialAdBridge(
             instance: instance,
-            presenter: fullscreenAdPresenter
+            adPresenter: fullscreenAdPresenter
         )
         bridge.forceMarkAdAsFinishedOnClose = true
         return bridge
     }()
+    
+    lazy var bannerBridge = BannerAdBridge(
+        instance: instance,
+        adPresenter: bannerPresenter
+    )
 
     private let instance: BidMachineSdk
-    private let fullscreenAdPresenter: FullscreenAdPresenter
+
+    private let fullscreenAdPresenter: FullscreenAdPresenterProtocol
+    private let bannerPresenter: BannerPresenterProtocol
     
     init(instance: BidMachineSdk) {
         self.instance = instance
+
+        let rootViewController = UIApplication.unityRootViewController
+        
         self.fullscreenAdPresenter = FullscreenAdPresenter(
-            rootViewController: UIApplication.unityRootViewController
+            rootViewController: rootViewController
+        )
+        self.bannerPresenter = BannerPresenter(
+            viewController: rootViewController
         )
     }
     

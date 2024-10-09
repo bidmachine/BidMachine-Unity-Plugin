@@ -50,7 +50,7 @@ public func setInterstitialAdCallbacks(
         onClose: onClose
     )
 }
-//
+
 // MARK: - Builder
 
 @_cdecl("BidMachineInterstitialSetPriceFloorParams")

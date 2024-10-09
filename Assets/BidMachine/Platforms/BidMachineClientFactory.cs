@@ -20,8 +20,8 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidBannerView();
-// #elif UNITY_IPHONE && !UNITY_EDITOR
-        //     return new iOS.iOSBannerView();
+#elif UNITY_IPHONE && !UNITY_EDITOR
+            return new iOS.iOSBannerAd();
 #else
             return new DummuBannerAd();
 #endif
@@ -31,8 +31,8 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidBannerRequestBuilder();
-// #elif UNITY_IPHONE && !UNITY_EDITOR
-//             return new BidMachineAds.Unity.iOS.iOSBannerViewRequestBuilder();
+#elif UNITY_IPHONE && !UNITY_EDITOR
+            return new iOS.iOSBannerRequestBuilder();
 #else
             return new DummuBannerRequestBuilder();
 #endif

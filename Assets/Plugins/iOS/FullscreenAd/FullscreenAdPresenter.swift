@@ -12,10 +12,11 @@ protocol PresentingAd: BidMachineAdProtocol {
     func presentAd()
 }
 
-extension BidMachineRewarded: PresentingAd {}
-extension BidMachineInterstitial: PresentingAd {}
+protocol FullscreenAdPresenterProtocol {
+    func present(ad: PresentingAd)
+}
 
-final class FullscreenAdPresenter {
+final class FullscreenAdPresenter: FullscreenAdPresenterProtocol {
     private let viewController: UIViewController?
 
     init(rootViewController: UIViewController?) {
