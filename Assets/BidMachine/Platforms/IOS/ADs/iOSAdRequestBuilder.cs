@@ -23,7 +23,7 @@ namespace BidMachineAds.Unity.iOS
 
         public void SetAdContentType(string contentType);
 
-        public void SetRewardedRequestDelegate(
+        public void SetAdRequestDelegate(
             AdRequestSuccessCallback onSuccess,
             AdRequestFailedCallback onFailed,
             AdRequestExpiredCallback onExpired
@@ -102,7 +102,7 @@ namespace BidMachineAds.Unity.iOS
         {
             iOSAdRequestBuilder<Bridge, Request>.requestListener = listener;
 
-            requestBuilderBridge.SetRewardedRequestDelegate(
+            requestBuilderBridge.SetAdRequestDelegate(
                 didLoadRequest, 
                 didFailRequest,
                 didExpiredRequest

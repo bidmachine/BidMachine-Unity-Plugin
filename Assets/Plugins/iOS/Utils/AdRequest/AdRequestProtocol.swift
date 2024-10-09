@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol RewardedRequestProtocol {
+protocol AdRequestProtocol {
     var auctionResult: String? { get }
     var isExpired: Bool { get }
     var isDestroyed: Bool { get }

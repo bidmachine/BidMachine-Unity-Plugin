@@ -42,8 +42,8 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidInterstitialAd();
-// #elif UNITY_IPHONE && !UNITY_EDITOR
-//             return new BidMachineAds.Unity.iOS.iOSInterstitialAd();
+#elif UNITY_IPHONE && !UNITY_EDITOR
+            return new iOS.iOSInterstitialAd();
 #else
             return new DummuInterstitialAd();
 #endif
@@ -53,8 +53,8 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidInterstitialRequestBuilder();
-// #elif UNITY_IPHONE && !UNITY_EDITOR
-//             return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder();
+#elif UNITY_IPHONE && !UNITY_EDITOR
+            return new iOS.iOSInterstitialRequestBuilder();
 #else
             return new DummuInterstitialRequestBuilder();
 #endif

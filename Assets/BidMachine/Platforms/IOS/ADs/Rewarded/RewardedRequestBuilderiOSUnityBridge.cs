@@ -72,7 +72,7 @@ namespace BidMachineAds.Unity.iOS {
             BidMachineRewardedSetAdContentType(contentType);
         }
 
-         public void SetRewardedRequestDelegate(
+         public void SetAdRequestDelegate(
             AdRequestSuccessCallback onSuccess,
             AdRequestFailedCallback onFailed,
             AdRequestExpiredCallback onExpired

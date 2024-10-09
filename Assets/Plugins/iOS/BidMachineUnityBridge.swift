@@ -11,17 +11,32 @@ import BidMachine
 let iOSUnityBridge = BidMachineUnityBridge(instance: .shared)
 
 final class BidMachineUnityBridge {
-    let rewardedBridge: RewardedAdBridge
-
     var isInitialized: Bool {
         instance.isInitialized
     }
-    
+
+    lazy var rewardedBridge = RewardedAdBridge(
+        instance: instance,
+        presenter: fullscreenAdPresenter
+    )
+
+    lazy var interstitialBridge = {
+        let bridge = InterstitialAdBridge(
+            instance: instance,
+            presenter: fullscreenAdPresenter
+        )
+        bridge.forceMarkAdAsFinishedOnClose = true
+        return bridge
+    }()
+
     private let instance: BidMachineSdk
+    private let fullscreenAdPresenter: FullscreenAdPresenter
     
     init(instance: BidMachineSdk) {
         self.instance = instance
-        self.rewardedBridge = RewardedAdBridge(instance: instance)
+        self.fullscreenAdPresenter = FullscreenAdPresenter(
+            rootViewController: UIApplication.unityRootViewController
+        )
     }
     
     func initialize(with sourceId: String) {
