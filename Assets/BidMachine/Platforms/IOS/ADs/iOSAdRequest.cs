@@ -14,7 +14,7 @@ namespace BidMachineAds.Unity.iOS
     }
 
     public class iOSAdRequest<Bridge> : IAdRequest where Bridge : IiOSAdRequestBridge, new() {
-        private readonly Bridge requestBridge;
+        public readonly Bridge requestBridge;
 
         public iOSAdRequest() {
            requestBridge = new Bridge();

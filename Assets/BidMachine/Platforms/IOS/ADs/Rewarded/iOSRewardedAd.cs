@@ -2,7 +2,7 @@ using System;
 
 namespace BidMachineAds.Unity.iOS
 {
-    public class iOSRewardedAd : iOSAd<RewardedAdiOSUnityBridge> {
+    public class iOSRewardedAd : iOSFullscreenAd<RewardedAdiOSUnityBridge> {
         public iOSRewardedAd() : base() { }
     }
 }

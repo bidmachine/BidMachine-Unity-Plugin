@@ -36,7 +36,7 @@ namespace BidMachineAds.Unity.iOS
     {
 
         private static IAdRequestListener requestListener;
-        private readonly Bridge requestBuilderBridge;
+        public readonly Bridge requestBuilderBridge;
 
         public iOSAdRequestBuilder() {
            requestBuilderBridge = new Bridge();

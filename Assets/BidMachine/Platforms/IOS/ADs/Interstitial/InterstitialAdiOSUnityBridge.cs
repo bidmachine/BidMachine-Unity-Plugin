@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS {
-    public class InterstitialAdiOSUnityBridge : MonoBehaviour, IiOSAdBridge
+    public class InterstitialAdiOSUnityBridge : MonoBehaviour, IiOSFullscreenAdBridge
     {
          [DllImport("__Internal")]
          private static extern bool BidMachineInterstitialCanShow();

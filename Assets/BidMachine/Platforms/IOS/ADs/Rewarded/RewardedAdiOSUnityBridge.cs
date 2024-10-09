@@ -7,7 +7,7 @@ namespace BidMachineAds.Unity.iOS {
     public delegate void AdFailureCallback(IntPtr ad, IntPtr error);
     public delegate void AdClosedCallback(IntPtr ad, bool finished);
 
-    public class RewardedAdiOSUnityBridge : MonoBehaviour, IiOSAdBridge
+    public class RewardedAdiOSUnityBridge : MonoBehaviour, IiOSFullscreenAdBridge
     {
          [DllImport("__Internal")]
          private static extern bool BidMachineRewardedCanShow();
