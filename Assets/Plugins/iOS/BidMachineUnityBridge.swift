@@ -15,29 +15,25 @@ final class BidMachineUnityBridge {
         instance.isInitialized
     }
 
-    lazy var rewardedBridge = RewardedAdBridge(
-        instance: instance,
-        adPresenter: fullscreenAdPresenter
+    lazy var rewardedBridge = AdBridgeFactory.rewarded(
+        bidmachine: instance,
+        presenter: fullscreenAdPresenter
     )
 
-    lazy var interstitialBridge = {
-        let bridge = InterstitialAdBridge(
-            instance: instance,
-            adPresenter: fullscreenAdPresenter
-        )
-        bridge.forceMarkAdAsFinishedOnClose = true
-        return bridge
-    }()
+    lazy var interstitialBridge = AdBridgeFactory.interstitial(
+        bidmachine: instance,
+        presenter: fullscreenAdPresenter
+    )
     
-    lazy var bannerBridge = BannerAdBridge(
-        instance: instance,
-        adPresenter: bannerPresenter
+    lazy var bannerBridge = AdBridgeFactory.banner(
+        bidmachine: instance,
+        presenter: bannerPresenter
     )
 
     private let instance: BidMachineSdk
 
-    private let fullscreenAdPresenter: FullscreenAdPresenterProtocol
-    private let bannerPresenter: BannerPresenterProtocol
+    private let fullscreenAdPresenter: FullscreenAdPresenter
+    private let bannerPresenter: BannerPresenter
     
     init(instance: BidMachineSdk) {
         self.instance = instance

@@ -37,7 +37,7 @@ namespace BidMachineAds.Unity.iOS
         private static extern void BidMachineBannerSetAdContentType(string type);
 
         [DllImport("__Internal")]
-        private static extern void BidMachineBannerSetSize(string size);
+        private static extern void BidMachineBannerSetSize(int size);
 
         public void Build()
         {
@@ -89,7 +89,8 @@ namespace BidMachineAds.Unity.iOS
 
          public void SetSize(BannerSize size) 
          {
-
+            int raw = (int)size;
+            BidMachineBannerSetSize(raw);
          }
     }
 }

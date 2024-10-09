@@ -26,9 +26,15 @@ public func bannerLoad() {
 }
 
 @_cdecl("BidMachineBannerShow")
-public func bannerShow() {
-    // FIXME: add size logic
-    iOSUnityBridge.bannerBridge.show(in: .zero)
+public func bannerShow(y: Int, x: Int) -> Bool {
+    #warning("Is it OK to use default values here?")
+    let adLayout = AdLayout(
+        verticalPin: .init(rawValue: y) ?? .bottom,
+        horizontalPin: .init(rawValue: x) ?? .center
+    )
+    let shown = iOSUnityBridge.bannerBridge.show(with: adLayout)
+
+    return shown
 }
 
 @_cdecl("BidMachineBannerHide")
@@ -117,9 +123,12 @@ public func bannerBuildRequest() {
 }
 
 @_cdecl("BidMachineBannerSetSize")
-public func bannerSetSize(_ size: UnsafePointer<CChar>) {
-    _ = String(cString: size)
-    // FIXME: add logic
+public func bannerSetSize(_ size: Int) {
+    guard let bannerSize = BannerAdBridge.BannerSize(rawValue: size) else {
+        return
+    }
+    iOSUnityBridge.bannerBridge.setSize(bannerSize)
+    iOSUnityBridge.bannerBridge.setPlacementFormat(bannerSize.placementFormat)
 }
 
 @_cdecl("BidMachineSetBannerRequestDelegate")
@@ -133,4 +142,17 @@ public func setBannerRequestCallbacks(
         onFailure: onFailure,
         onExpired: onExpired
     )
+}
+
+private extension BannerAdBridge.BannerSize {
+    var placementFormat: PlacementFormat {
+        switch self {
+        case .size_320x50:
+            return .banner320x50
+        case .size_300x250:
+            return .banner300x250
+        case .size_728x90:
+            return .banner728x90
+        }
+    }
 }

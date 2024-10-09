@@ -5,7 +5,7 @@ using BidMachineAds.Unity.Api;
 using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS {
-    public class BannerAdiOSUnityBridge : MonoBehaviour, IiOSAdBridge
+    public class BannerAdiOSUnityBridge : MonoBehaviour, IiOSBannerAdBridge
     {
          [DllImport("__Internal")]
          private static extern bool BidMachineBannerCanShow();
@@ -14,7 +14,7 @@ namespace BidMachineAds.Unity.iOS {
          private static extern void BidMachineBannerDestroy();
 
          [DllImport("__Internal")]
-         private static extern bool BidMachineBannerShow();
+         private static extern bool BidMachineBannerShow(int y, int x);
 
          [DllImport("__Internal")]
          private static extern void BidMachineBannerLoad();
@@ -42,9 +42,9 @@ namespace BidMachineAds.Unity.iOS {
             BidMachineBannerDestroy();
         }
 
-        public bool Show(int YAxis, int XAxis, IBannerView ad, BannerSize size) 
+        public bool Show(int YAxis, int XAxis) 
         {
-            return BidMachineBannerShow();
+            return BidMachineBannerShow(YAxis, XAxis);
         }
 
         public void Hide()

@@ -13,10 +13,15 @@ final class FullscreenAdBridge<T: PresentingAd>: AdBridge<T> {
     
     init(
         instance: BidMachineSdk,
+        defaultPlacementFormat: PlacementFormat,
         adPresenter: FullscreenAdPresenterProtocol
     ) {
         self.adPresenter = adPresenter
-        super.init(instance: instance)
+
+        super.init(
+            instance: instance,
+            defaultPlacementFormat: defaultPlacementFormat
+        )
     }
 
     func show() {
@@ -26,6 +31,3 @@ final class FullscreenAdBridge<T: PresentingAd>: AdBridge<T> {
         adPresenter.present(ad: loadedAd)
     }
 }
-
-typealias RewardedAdBridge = FullscreenAdBridge<BidMachineRewarded>
-typealias InterstitialAdBridge = FullscreenAdBridge<BidMachineInterstitial>

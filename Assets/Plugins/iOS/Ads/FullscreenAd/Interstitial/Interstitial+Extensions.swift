@@ -9,3 +9,5 @@ import Foundation
 import BidMachine
 
 extension BidMachineInterstitial: PresentingAd {}
+
+typealias RewardedAdBridge = FullscreenAdBridge<BidMachineRewarded>

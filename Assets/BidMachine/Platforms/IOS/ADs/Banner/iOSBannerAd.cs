@@ -9,7 +9,7 @@ namespace BidMachineAds.Unity.iOS
 {
     public interface IiOSBannerAdBridge : IiOSAdBridge
     {
-        public bool Show(int yAxis, int xAxis, IBannerView view, BannerSize size);
+        public bool Show(int YAxis, int XAxis);
 
         public void Hide();
 
@@ -32,11 +32,20 @@ namespace BidMachineAds.Unity.iOS
         public void SetListener(IAdListener<IBannerView> listener) 
         {
             iOSBannerAd.listener = listener;
+
+            adBridge.SetAdDelegate(
+                didLoadAd,
+                didFailLoadAd,
+                didPresentAd,
+                didFailPresentAd,
+                didReceiveAdImpression,
+                didExpire
+            );
         }
 
         public bool Show(int YAxis, int XAxis, IBannerView ad, BannerSize size)
         {
-            return adBridge.Show(YAxis, XAxis, ad, size);
+            return adBridge.Show(YAxis, XAxis);
         }
 
         public void Hide()

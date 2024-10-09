@@ -33,9 +33,14 @@ class AdBridge<Ad: BidMachineAdProtocol> {
     private let instance: BidMachineSdk
     private let requestLoader: AdRequestLoader<Ad>
     private let adCallbacksHandler = BidMachineAdHandler()
+    private let defaultPlacementFormat: PlacementFormat
     
-    init(instance: BidMachineSdk) {
+    init(
+        instance: BidMachineSdk,
+        defaultPlacementFormat: PlacementFormat
+    ) {
         self.instance = instance
+        self.defaultPlacementFormat = defaultPlacementFormat
         self.requestLoader = AdRequestLoader(bidMachine: instance)
     }
 
@@ -47,7 +52,7 @@ class AdBridge<Ad: BidMachineAdProtocol> {
     }
     
     func load() {
-        loadedAd?.loadAd()
+        //
     }
 
     func setRequestCallbacks(
@@ -110,8 +115,8 @@ class AdBridge<Ad: BidMachineAdProtocol> {
 
         requestLoader.load(request: adRequest) { [weak self] result in
             switch result {
-            case let .success(rewarded):
-                self?.handleAdRequestSuccess(rewarded)
+            case let .success(ad):
+                self?.handleAdRequestSuccess(ad)
 
             case let .failure(error):
                 self?.adRequestEventsManager?.handle(.adLoadFailed(error: error))
@@ -119,20 +124,26 @@ class AdBridge<Ad: BidMachineAdProtocol> {
         }
     }
     
+    func didReceiveAd() {
+        loadedAd?.loadAd()
+    }
+    
     private func getRequestBuilder() -> AdRequestBuider {
         if let builder {
             return builder
         }
         let builder = AdRequestBuider()
+        builder.setPlacementFormat(defaultPlacementFormat)
         self.builder = builder
         return builder
     }
     
     private func handleAdRequestSuccess(_ ad: Ad) {
-        ad.delegate = adCallbacksHandler
         loadedAd = ad
+        ad.delegate = adCallbacksHandler
 
         adRequestEventsManager?.handle(.adLoaded(ad))
+        didReceiveAd()
     }
 }
 

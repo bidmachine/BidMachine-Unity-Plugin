@@ -26,8 +26,10 @@ final class AdRequestBuider {
     private var priceFloors: [PriceFloorParameter]?
 
     func build() -> AdRequest {
-        let adFormat = format ?? .rewarded
-        let configurations = networks?.map { BidMachineBiddingUnitConfiguration($0, adFormat) }
+        let adFormat = format ?? .unknown
+        let configurations = networks?.map {
+            BidMachineBiddingUnitConfiguration($0, adFormat)
+        }
 
         return AdRequest(
             format: adFormat,
