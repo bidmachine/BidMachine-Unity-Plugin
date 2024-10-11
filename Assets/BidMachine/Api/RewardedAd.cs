@@ -2,16 +2,16 @@
 
 namespace BidMachineAds.Unity.Api
 {
-    public sealed class RewardedAd : IFullscreenAd
+    public sealed class RewardedAd : IRewardedAd
     {
-        private readonly IFullscreenAd client;
+        private readonly IRewardedAd client;
 
         public RewardedAd()
         {
             this.client = BidMachineClientFactory.GetRewardedAd();
         }
 
-        public RewardedAd(IFullscreenAd client)
+        public RewardedAd(IRewardedAd client)
         {
             this.client = client;
         }
@@ -31,7 +31,7 @@ namespace BidMachineAds.Unity.Api
             client.Destroy();
         }
 
-        public void SetListener(IFullscreenAdListener<IFullscreenAd> listener)
+        public void SetListener(IRewardedAdListener listener)
         {
             client.SetListener(listener);
         }

@@ -5,8 +5,8 @@ using AOT;
 
 namespace BidMachineAds.Unity.iOS
 {
-    public class iOSRewardedAd : iOSAd<RewardedAdiOSUnityBridge>, IFullscreenAd {
-        private static IFullscreenAdListener<IFullscreenAd> listener;
+    public class iOSRewardedAd : iOSAd<RewardedAdiOSUnityBridge>, IRewardedAd {
+        private static IRewardedAdListener listener;
         public iOSRewardedAd() : base() { }
 
         public void Show()
@@ -14,7 +14,7 @@ namespace BidMachineAds.Unity.iOS
             adBridge.Show();
         }
 
-        public void SetListener(IFullscreenAdListener<IFullscreenAd> listener)
+        public void SetListener(IRewardedAdListener listener)
         {
             iOSRewardedAd.listener = listener;
 
@@ -25,6 +25,7 @@ namespace BidMachineAds.Unity.iOS
             adBridge.SetImpressionCallback(didReceiveAdImpression);
             adBridge.SetExpiredCallback(didExpire);
             adBridge.SetClosedCallback(didClose);
+            adBridge.SetRewardedCallback(didReward);
         }
 
         [MonoPInvokeCallback(typeof(AdCallback))]
@@ -101,11 +102,11 @@ namespace BidMachineAds.Unity.iOS
         }
 
         [MonoPInvokeCallback(typeof(AdClosedCallback))]
-        private static void didReward(IntPtr ad, bool finished)
+        private static void didReward(IntPtr ad)
         {
             if (listener != null) 
             {
-                // listener.onRewarded(new iOSRewardedAd(), finished);
+                listener.onAdRewarded(new iOSRewardedAd());
             }
         }
     }

@@ -268,7 +268,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummyRewardedAd : IFullscreenAd
+    internal class DummyRewardedAd : IRewardedAd
     {
         public bool CanShow()
         {
@@ -286,7 +286,7 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to load(IRewardedRequest) {Const.DUMMY_MESSAGE}");
         }
 
-        public void SetListener(IFullscreenAdListener<IFullscreenAd> listener)
+        public void SetListener(IRewardedAdListener listener)
         {
             Debug.LogWarning($"Call to setListener(IRewardedlListener) {Const.DUMMY_MESSAGE}");
         }

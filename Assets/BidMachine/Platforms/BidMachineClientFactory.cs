@@ -60,7 +60,7 @@ namespace BidMachineAds.Unity
 #endif
         }
 
-        internal static IFullscreenAd GetRewardedAd()
+        internal static IRewardedAd GetRewardedAd()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidRewardedAd();
