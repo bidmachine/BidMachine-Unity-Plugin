@@ -12,3 +12,7 @@ protocol AdRequestProtocol {
     var isExpired: Bool { get }
     var isDestroyed: Bool { get }
 }
+
+protocol BannerRequestProtocol: AdRequestProtocol {
+    var bannerSize: Int { get }
+}

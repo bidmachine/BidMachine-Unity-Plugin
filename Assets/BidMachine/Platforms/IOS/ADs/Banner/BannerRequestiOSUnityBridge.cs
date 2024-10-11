@@ -17,7 +17,7 @@ namespace BidMachineAds.Unity.iOS {
         public static extern bool BidMachineBannerIsDestroyed();
 
         [DllImport("__Internal")]
-        public static extern string BidMachineBannerGetSize();
+        public static extern int BidMachineBannerGetSize();
 
         public string GetAuctionResult() 
         {
@@ -41,7 +41,15 @@ namespace BidMachineAds.Unity.iOS {
 
         public BannerSize GetSize()
         {
-            return BannerSize.Size_300x250;
+            int rawValue = BidMachineBannerGetSize();
+
+            return rawValue switch
+            {
+                0 => BannerSize.Size_320x50,
+                1 => BannerSize.Size_300x250,
+                2 => BannerSize.Size_728x90,
+                _ => BannerSize.Size_320x50 // Default case
+            };
         }
     }
 }

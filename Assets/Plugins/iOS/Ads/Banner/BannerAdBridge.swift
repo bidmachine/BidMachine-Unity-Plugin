@@ -52,6 +52,12 @@ final class BannerAdBridge: AdBridge<BidMachineBanner> {
     }
 }
 
+extension BannerAdBridge: BannerRequestProtocol {
+    var bannerSize: Int {
+        size.rawValue
+    }
+}
+
 private extension BannerAdBridge.BannerSize {
     var cgSize: CGSize {
         switch self {
