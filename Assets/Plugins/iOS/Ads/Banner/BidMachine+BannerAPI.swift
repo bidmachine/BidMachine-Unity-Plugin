@@ -115,6 +115,12 @@ public func bannerSetBidPayload(_ payload: UnsafePointer<CChar>) {
     iOSUnityBridge.bannerBridge.setBidPayload(payloadString)
 }
 
+@_cdecl("BidMachineBannerSetNetworks")
+public func bannerSetNetworks(_ networks: UnsafePointer<CChar>) {
+    let networks = String(cString: networks)
+    iOSUnityBridge.bannerBridge.setNetworks([networks])
+}
+
 @_cdecl("BidMachineBannerSetLoadingTimeOut")
 public func bannerSetLoadingTimeout(_ interval: Int) {
     let measurement = Measurement(value: Double(interval), unit: UnitDuration.milliseconds)

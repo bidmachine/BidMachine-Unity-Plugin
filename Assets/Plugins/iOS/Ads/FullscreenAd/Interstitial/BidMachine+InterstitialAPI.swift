@@ -110,6 +110,12 @@ public func interstitialSetBidPayload(_ payload: UnsafePointer<CChar>) {
     iOSUnityBridge.interstitialBridge.setBidPayload(payloadString)
 }
 
+@_cdecl("BidMachineInterstitialSetNetworks")
+public func interstitialSetNetworks(_ networks: UnsafePointer<CChar>) {
+    let networks = String(cString: networks)
+    iOSUnityBridge.interstitialBridge.setNetworks([networks])
+}
+
 @_cdecl("BidMachineInterstitialSetLoadingTimeOut")
 public func interstitialSetLoadingTimeout(_ interval: Int) {
     let measurement = Measurement(value: Double(interval), unit: UnitDuration.milliseconds)

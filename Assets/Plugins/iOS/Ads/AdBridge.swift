@@ -121,6 +121,10 @@ class AdBridge<Ad: BidMachineAdProtocol> {
         getRequestBuilder().setPlacementFormat(format)
     }
     
+    func setNetworks(_ networks: [String]) {
+        getRequestBuilder().setNetworks(networks)
+    }
+    
     func loadRequest() {
         let adRequest = getRequestBuilder().build()
 
