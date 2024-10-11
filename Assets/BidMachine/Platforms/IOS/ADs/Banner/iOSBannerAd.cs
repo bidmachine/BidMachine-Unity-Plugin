@@ -7,7 +7,7 @@ using AOT;
 
 namespace BidMachineAds.Unity.iOS
 {
-    public class iOSBannerAd : iOSAd<BannerAdiOSUnityBridge> , IBannerView
+    public class iOSBannerAd : iOSAd<BannerAdiOSUnityBridge>, IBannerView
     {
         private static IAdListener<IBannerView> listener;
         public iOSBannerAd() : base() { }
