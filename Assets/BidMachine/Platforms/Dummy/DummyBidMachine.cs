@@ -178,7 +178,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummyInterstitialAd : IFullscreenAd
+    internal class DummyInterstitialAd : IInterstitialAd
     {
         public bool CanShow()
         {
@@ -196,7 +196,7 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to load(IInterstitialRequest) {Const.DUMMY_MESSAGE}");
         }
 
-        public void SetListener(IFullscreenAdListener<IFullscreenAd> listener)
+        public void SetListener(IInterstitialListener listener)
         {
             Debug.LogWarning($"Call to setListener(IInterstitialListener) {Const.DUMMY_MESSAGE}");
         }

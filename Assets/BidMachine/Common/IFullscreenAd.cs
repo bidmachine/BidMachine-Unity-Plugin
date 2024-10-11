@@ -2,7 +2,7 @@ using BidMachineAds.Unity.Api;
 
 namespace BidMachineAds.Unity.Common
 {
-    public interface IFullscreenAd : IAd<IFullscreenAdListener<IFullscreenAd>>
+    public interface IInterstitialAd : IAd<IInterstitialListener>
     {
         void Show();
     }
@@ -13,4 +13,5 @@ namespace BidMachineAds.Unity.Common
     }
 
     public interface IFullscreenAdListener<TAd> : ICommonFullscreenAdListener<TAd, BMError> { }
+    public interface IInterstitialListener : IFullscreenAdListener<IInterstitialAd> { }
 }

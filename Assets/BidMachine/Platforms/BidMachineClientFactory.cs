@@ -38,7 +38,7 @@ namespace BidMachineAds.Unity
 #endif
         }
 
-        internal static IFullscreenAd GetInterstitialAd()
+        internal static IInterstitialAd GetInterstitialAd()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidInterstitialAd();

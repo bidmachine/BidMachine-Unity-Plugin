@@ -5,8 +5,8 @@ using AOT;
 
 namespace BidMachineAds.Unity.iOS
 {
-    public class iOSInterstitialAd : iOSAd<InterstitialAdiOSUnityBridge>, IFullscreenAd {
-        private static IFullscreenAdListener<IFullscreenAd> listener;
+    public class iOSInterstitialAd : iOSAd<InterstitialAdiOSUnityBridge>, IInterstitialAd {
+        private static IInterstitialListener listener;
         public iOSInterstitialAd() : base() { }
 
         public void Show()
@@ -14,7 +14,7 @@ namespace BidMachineAds.Unity.iOS
             adBridge.Show();
         }
 
-        public void SetListener(IFullscreenAdListener<IFullscreenAd> listener)
+        public void SetListener(IInterstitialListener listener)
         {
             iOSInterstitialAd.listener = listener;
 

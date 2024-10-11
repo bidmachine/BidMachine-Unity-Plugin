@@ -23,7 +23,7 @@ public class BidMachineController : MonoBehaviour
     private readonly IAdRequestListener bannerRequestListener = new BannerRequestListener();
 
     private InterstitialAd interstitialAd;
-    private readonly IFullscreenAdListener<IFullscreenAd> interstitialListener =
+    private readonly IInterstitialListener interstitialListener =
         new InterstitialListener();
     private IAdRequest interstitialRequest;
     private readonly IAdRequestListener interstitialRequestListener =
@@ -339,39 +339,39 @@ public class BidMachineController : MonoBehaviour
         }
     }
 
-    private class InterstitialListener : IFullscreenAdListener<IFullscreenAd>
+    private class InterstitialListener : IInterstitialListener
     {
-        public void onAdClosed(IFullscreenAd ad, bool finished)
+        public void onAdClosed(IInterstitialAd ad, bool finished)
         {
             Debug.Log($"BidMachine: InterstitialAd: OnAdClosed");
         }
 
-        public void onAdExpired(IFullscreenAd ad)
+        public void onAdExpired(IInterstitialAd ad)
         {
             Debug.Log("BidMachine: InterstitialAd: OnAdExpired");
         }
 
-        public void onAdImpression(IFullscreenAd ad)
+        public void onAdImpression(IInterstitialAd ad)
         {
             Debug.Log("BidMachine: InterstitialAd: OnAdImpression");
         }
 
-        public void onAdLoaded(IFullscreenAd ad)
+        public void onAdLoaded(IInterstitialAd ad)
         {
             Debug.Log("BidMachine: InterstitialAd: OnAdLoaded");
         }
 
-        public void onAdLoadFailed(IFullscreenAd ad, BMError error)
+        public void onAdLoadFailed(IInterstitialAd ad, BMError error)
         {
             Debug.Log($"BidMachine: InterstitialAd: OnAdLoadFailed");
         }
 
-        public void onAdShowFailed(IFullscreenAd ad, BMError error)
+        public void onAdShowFailed(IInterstitialAd ad, BMError error)
         {
             Debug.Log($"BidMachine: InterstitialAd: OnAdShowFailed");
         }
 
-        public void onAdShown(IFullscreenAd ad)
+        public void onAdShown(IInterstitialAd ad)
         {
             Debug.Log("BidMachine: InterstitialAd: OnAdShown");
         }
