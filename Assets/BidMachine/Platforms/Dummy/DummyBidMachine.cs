@@ -68,7 +68,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummuBannerAd : IBannerView
+    internal class DummyBannerAd : IBannerView
     {
         public bool CanShow()
         {
@@ -105,7 +105,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummuBannerRequestBuilder : IBannerRequestBuilder
+    internal class DummyBannerRequestBuilder : IBannerRequestBuilder
     {
         public IAdRequest Build()
         {
@@ -178,7 +178,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummuInterstitialAd : IFullscreenAd
+    internal class DummyInterstitialAd : IFullscreenAd
     {
         public bool CanShow()
         {
@@ -207,7 +207,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummuInterstitialRequestBuilder : IAdRequestBuilder
+    internal class DummyInterstitialRequestBuilder : IAdRequestBuilder
     {
         public IAdRequest Build()
         {
@@ -268,7 +268,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummuRewardedAd : IFullscreenAd
+    internal class DummyRewardedAd : IFullscreenAd
     {
         public bool CanShow()
         {
@@ -297,7 +297,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummuRewardedRequestBuilder : IAdRequestBuilder
+    internal class DummyRewardedRequestBuilder : IAdRequestBuilder
     {
         public IAdRequest Build()
         {
@@ -358,7 +358,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummuUserPermissions : IUserPermissions
+    internal class DummyUserPermissions : IUserPermissions
     {
         public bool Check(string permission)
         {

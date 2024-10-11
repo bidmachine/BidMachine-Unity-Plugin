@@ -23,7 +23,7 @@ namespace BidMachineAds.Unity
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new iOS.iOSBannerAd();
 #else
-            return new DummuBannerAd();
+            return new DummyBannerAd();
 #endif
         }
 
@@ -34,7 +34,7 @@ namespace BidMachineAds.Unity
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new iOS.iOSBannerRequestBuilder();
 #else
-            return new DummuBannerRequestBuilder();
+            return new DummyBannerRequestBuilder();
 #endif
         }
 
@@ -45,7 +45,7 @@ namespace BidMachineAds.Unity
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new iOS.iOSInterstitialAd();
 #else
-            return new DummuInterstitialAd();
+            return new DummyInterstitialAd();
 #endif
         }
 
@@ -56,7 +56,7 @@ namespace BidMachineAds.Unity
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new iOS.iOSInterstitialRequestBuilder();
 #else
-            return new DummuInterstitialRequestBuilder();
+            return new DummyInterstitialRequestBuilder();
 #endif
         }
 
@@ -67,7 +67,7 @@ namespace BidMachineAds.Unity
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new iOS.iOSRewardedAd();
 #else
-            return new DummuRewardedAd();
+            return new DummyRewardedAd();
 #endif
         }
 
@@ -78,7 +78,7 @@ namespace BidMachineAds.Unity
 #elif UNITY_IPHONE && !UNITY_EDITOR
             return new iOS.iOSRewardedRequestBuilder();
 #else
-            return new DummuRewardedRequestBuilder();
+            return new DummyRewardedRequestBuilder();
 #endif
         }
 
@@ -87,7 +87,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new BidMachineAds.Unity.Android.AndroidUserPermissions();
 #else
-            return new DummuUserPermissions();
+            return new DummyUserPermissions();
 #endif
         }
     }
