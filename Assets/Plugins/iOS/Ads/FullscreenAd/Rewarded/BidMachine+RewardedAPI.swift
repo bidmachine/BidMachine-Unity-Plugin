@@ -118,6 +118,12 @@ public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>) {
     iOSUnityBridge.rewardedBridge.setBidPayload(payloadString)
 }
 
+@_cdecl("BidMachineRewardedSetNetworks")
+public func rewardedSetNetworks(_ networks: UnsafePointer<CChar>) {
+    let networks = String(cString: networks)
+    iOSUnityBridge.rewardedBridge.setNetworks([networks])
+}
+
 @_cdecl("BidMachineRewardedSetLoadingTimeOut")
 public func rewardedSetLoadingTimeout(_ interval: Int) {
     let measurement = Measurement(value: Double(interval), unit: UnitDuration.milliseconds)
