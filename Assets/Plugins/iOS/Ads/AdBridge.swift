@@ -1,5 +1,5 @@
 //
-//  FullscreenAdBridge.swift
+//  AdBridge.swift
 //  Unity-iPhone
 //
 //  Created by Dzmitry on 08/10/2024.
@@ -69,25 +69,36 @@ class AdBridge<Ad: BidMachineAdProtocol> {
         self.adCallbacksHandler.setRequestEventsHandler(adRequestEventsManager)
     }
     
-    func setAdCallbacks(
-        onLoad: @escaping CAdCallback,
-        onFailedToLoad: @escaping CAdFailureCallback,
-        onPresent: @escaping CAdCallback,
-        onFailedToPresent: @escaping CAdFailureCallback,
-        onImpression: @escaping CAdCallback,
-        onExpired: @escaping CAdCallback,
-        onClose: CAdClosedCallback?
-    ) {
-        adCallbacksHandler.setLoadCallback(onLoad)
-        adCallbacksHandler.setLoadFailedCallback(onFailedToLoad)
-        adCallbacksHandler.setPresentCallback(onPresent)
-        adCallbacksHandler.setFailToPresentCallback(onFailedToPresent)
-        adCallbacksHandler.setImpressionReceivedCallback(onImpression)
-        adCallbacksHandler.setExpirationCallback(onExpired)
-        
-        if let onClose {
-            adCallbacksHandler.setCloseCallback(onClose)
-        }
+    func setLoadCallback(_ callback: @escaping CAdCallback) {
+        adCallbacksHandler.setLoadCallback(callback)
+    }
+    
+    func setLoadFailedCallback(_ callback: @escaping CAdFailureCallback) {
+        adCallbacksHandler.setLoadFailedCallback(callback)
+    }
+    
+    func setPresentCallback(_ callback: @escaping CAdCallback) {
+        adCallbacksHandler.setPresentCallback(callback)
+    }
+    
+    func setPresentFailedCallback(_ callback: @escaping CAdFailureCallback) {
+        adCallbacksHandler.setFailToPresentCallback(callback)
+    }
+    
+    func setImpressionCallback(_ callback: @escaping CAdCallback) {
+        adCallbacksHandler.setImpressionReceivedCallback(callback)
+    }
+    
+    func setExpiredCallback(_ callback: @escaping CAdCallback) {
+        adCallbacksHandler.setExpirationCallback(callback)
+    }
+    
+    func setClosedCallback(_ callback: @escaping CAdClosedCallback) {
+        adCallbacksHandler.setCloseCallback(callback)
+    }
+    
+    func setRewardedCallback(_ callback: @escaping CAdCallback) {
+        adCallbacksHandler.setRewardedCallback(callback)
     }
     
     func setTimeout(_ interval: TimeInterval) {

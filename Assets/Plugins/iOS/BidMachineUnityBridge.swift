@@ -1,5 +1,5 @@
 //
-//  BidMachineiOSBridge.swift
+//  BidMachineUnityBridge.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 27/09/2024.

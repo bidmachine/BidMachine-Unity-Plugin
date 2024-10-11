@@ -19,17 +19,17 @@ extension BidMachine.UserGender {
     }
 }
 
-extension TargetingParameters.Location {
-    var coordinates: CLLocation {
-        return CLLocation(latitude: latitude, longitude: longitude)
+extension BidMachine.FrameworkName {
+    init(_ targetingFramework: TargetingParameters.Framework) {
+        switch targetingFramework {
+        case .native: self = .native
+        case .unity: self = .unity
+        }
     }
 }
 
-extension TargetingParameters.Framework {
-    var asBMFrameworkName: BidMachine.FrameworkName {
-        switch self {
-        case .unity: return .unity
-        case .native: return .native
-        }
+extension TargetingParameters.Location {
+    var coordinates: CLLocation {
+        return CLLocation(latitude: latitude, longitude: longitude)
     }
 }

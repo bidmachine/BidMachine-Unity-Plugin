@@ -34,8 +34,8 @@ final class BannerAdBridge: AdBridge<BidMachineBanner> {
     override func didReceiveAd() {
         if let loadedAd {
             presenter.prepareForPresentation(loadedAd)
-            loadedAd.loadAd()
         }
+        super.didReceiveAd()
     }
 
     @discardableResult

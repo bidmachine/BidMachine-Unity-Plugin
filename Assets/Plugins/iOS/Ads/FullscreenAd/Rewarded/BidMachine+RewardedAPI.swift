@@ -30,25 +30,46 @@ public func rewardedShow() {
     iOSUnityBridge.rewardedBridge.show()
 }
 
-@_cdecl("BidMachineSetRewardedAdDelegate")
-public func setRewardedAdCallbacks(
-    onLoad: @escaping CAdCallback,
-    onFailedToLoad: @escaping CAdFailureCallback,
-    onPresent: @escaping CAdCallback,
-    onFailedToPresent: @escaping CAdFailureCallback,
-    onImpression: @escaping CAdCallback,
-    onExpired: @escaping CAdCallback,
-    onClose: @escaping CAdClosedCallback
-) {
-    iOSUnityBridge.rewardedBridge.setAdCallbacks(
-        onLoad: onLoad,
-        onFailedToLoad: onFailedToLoad,
-        onPresent: onPresent,
-        onFailedToPresent: onFailedToPresent,
-        onImpression: onImpression,
-        onExpired: onExpired,
-        onClose: onClose
-    )
+// MARK: - Ad Callbacks
+
+@_cdecl("BidMachineRewardedSetLoadCallback")
+public func setRewardedLoadCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.rewardedBridge.setLoadCallback(callback)
+}
+
+@_cdecl("BidMachineRewardedSetLoadFailedCallback")
+public func setRewardedLoadFailedCallback(_ callback: @escaping CAdFailureCallback) {
+    iOSUnityBridge.rewardedBridge.setLoadFailedCallback(callback)
+}
+
+@_cdecl("BidMachineRewardedSetPresentCallback")
+public func setRewardedPresentCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.rewardedBridge.setPresentCallback(callback)
+}
+
+@_cdecl("BidMachineRewardedSetPresentFailedCallback")
+public func setRewardedPresentFailedCallback(_ callback: @escaping CAdFailureCallback) {
+    iOSUnityBridge.rewardedBridge.setPresentFailedCallback(callback)
+}
+
+@_cdecl("BidMachineRewardedSetImpressionCallback")
+public func setRewardedImpressionCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.rewardedBridge.setImpressionCallback(callback)
+}
+
+@_cdecl("BidMachineRewardedSetExpiredCallback")
+public func setRewardedExpiredCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.rewardedBridge.setExpiredCallback(callback)
+}
+
+@_cdecl("BidMachineRewardedSetClosedCallback")
+public func setRewardedClosedCallback(_ callback: @escaping CAdClosedCallback) {
+    iOSUnityBridge.rewardedBridge.setClosedCallback(callback)
+}
+
+@_cdecl("BidMachineRewardedSetRewardedCallback")
+public func setRewardedRewardCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.rewardedBridge.setRewardedCallback(callback)
 }
 
 // MARK: - Builder
@@ -75,10 +96,7 @@ public func rewardedSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
 }
 
 @_cdecl("BidMachineRewardedSetPlacementId")
-public func rewardedSetPlacementID(_ id: UnsafePointer<CChar>?) {
-    guard let id else {
-        return
-    }
+public func rewardedSetPlacementID(_ id: UnsafePointer<CChar>) {
     let idString = String(cString: id)
     iOSUnityBridge.rewardedBridge.setPlacementID(idString)
 }
@@ -95,10 +113,7 @@ public func rewardedSetAdContentType(_ type: UnsafePointer<CChar>) {
 }
 
 @_cdecl("BidMachineRewardedSetBidPayload")
-public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>?) {
-    guard let payload else {
-        return
-    }
+public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>) {
     let payloadString = String(cString: payload)
     iOSUnityBridge.rewardedBridge.setBidPayload(payloadString)
 }

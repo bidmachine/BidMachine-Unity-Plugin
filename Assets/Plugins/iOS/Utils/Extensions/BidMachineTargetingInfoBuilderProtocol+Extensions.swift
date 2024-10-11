@@ -27,13 +27,15 @@ extension BidMachineTargetingInfoBuilderProtocol {
         self.withStoreURL(parameters.storeURL)
         self.withStoreCategory(parameters.storeCategory)
         self.withStoreSubCategories(parameters.storeSubCategories)
-        self.withFrameworkName(parameters.framework.asBMFrameworkName)
-        self.withPaid(parameters.isPaid)
+        
+        let frameworkName = BidMachine.FrameworkName(parameters.framework)
+        self.withFrameworkName(frameworkName)
 
         parameters.externalUserIDs.forEach {
             self.appendExternalId($0.sourceId, $0.value)
         }
 
+        self.withPaid(parameters.isPaid)
         self.withBlockedAdvertisers(parameters.blockedDomains)
         self.withBlockedCategories(parameters.blockedCategories)
         self.withBlockedApps(parameters.blockedApplications)

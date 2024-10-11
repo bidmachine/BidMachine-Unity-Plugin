@@ -1,5 +1,5 @@
 //
-//  BidMachineInterstitial+Extensions.swift
+//  Interstitial+Extensions.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 09/10/2024.

@@ -42,24 +42,36 @@ public func bannerHide() {
     iOSUnityBridge.bannerBridge.hide()
 }
 
-@_cdecl("BidMachineSetBannerAdDelegate")
-public func setBannerAdCallbacks(
-    onLoad: @escaping CAdCallback,
-    onFailedToLoad: @escaping CAdFailureCallback,
-    onPresent: @escaping CAdCallback,
-    onFailedToPresent: @escaping CAdFailureCallback,
-    onImpression: @escaping CAdCallback,
-    onExpired: @escaping CAdCallback
-) {
-    iOSUnityBridge.bannerBridge.setAdCallbacks(
-        onLoad: onLoad,
-        onFailedToLoad: onFailedToLoad,
-        onPresent: onPresent,
-        onFailedToPresent: onFailedToPresent,
-        onImpression: onImpression,
-        onExpired: onExpired,
-        onClose: nil
-    )
+// MARK: - Ad Callbacks
+
+@_cdecl("BidMachineBannerSetLoadCallback")
+public func setBannerLoadCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.bannerBridge.setLoadCallback(callback)
+}
+
+@_cdecl("BidMachineBannerSetLoadFailedCallback")
+public func setBannerLoadFailedCallback(_ callback: @escaping CAdFailureCallback) {
+    iOSUnityBridge.bannerBridge.setLoadFailedCallback(callback)
+}
+
+@_cdecl("BidMachineBannerSetPresentCallback")
+public func setBannerPresentCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.bannerBridge.setPresentCallback(callback)
+}
+
+@_cdecl("BidMachineBannerSetPresentFailedCallback")
+public func setBannerPresentFailedCallback(_ callback: @escaping CAdFailureCallback) {
+    iOSUnityBridge.bannerBridge.setPresentFailedCallback(callback)
+}
+
+@_cdecl("BidMachineBannerSetImpressionCallback")
+public func setBannerImpressionCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.bannerBridge.setImpressionCallback(callback)
+}
+
+@_cdecl("BidMachineBannerSetExpiredCallback")
+public func setBannerExpiredCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.bannerBridge.setExpiredCallback(callback)
 }
 
 // MARK: - Builder
@@ -83,10 +95,7 @@ public func bannerSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
 }
 
 @_cdecl("BidMachineBannerSetPlacementId")
-public func bannerSetPlacementID(_ id: UnsafePointer<CChar>?) {
-    guard let id else {
-        return
-    }
+public func bannerSetPlacementID(_ id: UnsafePointer<CChar>) {
     let idString = String(cString: id)
     iOSUnityBridge.bannerBridge.setPlacementID(idString)
 }
@@ -101,10 +110,7 @@ public func bannerSetAdContentType(_ type: UnsafePointer<CChar>) {
 }
 
 @_cdecl("BidMachineBannerSetBidPayload")
-public func bannerSetBidPayload(_ payload: UnsafePointer<CChar>?) {
-    guard let payload else {
-        return
-    }
+public func bannerSetBidPayload(_ payload: UnsafePointer<CChar>) {
     let payloadString = String(cString: payload)
     iOSUnityBridge.bannerBridge.setBidPayload(payloadString)
 }

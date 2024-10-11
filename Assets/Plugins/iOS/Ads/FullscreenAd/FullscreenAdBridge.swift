@@ -1,5 +1,5 @@
 //
-//  RewardedAdBridge.swift
+//  FullscreenAdBridge.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 08/10/2024.

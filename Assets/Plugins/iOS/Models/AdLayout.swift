@@ -1,5 +1,5 @@
 //
-//  AdLayoutPosition.swift
+//  AdLayout.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 09/10/2024.

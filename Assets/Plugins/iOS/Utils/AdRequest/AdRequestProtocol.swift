@@ -1,5 +1,5 @@
 //
-//  RewardedRequestProtocol.swift
+//  AdRequestProtocol.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 03/10/2024.

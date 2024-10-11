@@ -54,7 +54,6 @@ public func setTargetingParams(_ json: UnsafePointer<CChar>) {
         )
         iOSUnityBridge.setTargeting(parameters: parameters)
     } catch let error {
-        // FIXME: add error handling
         print("[DEBUG]: error \(error.localizedDescription)")
     }
 }

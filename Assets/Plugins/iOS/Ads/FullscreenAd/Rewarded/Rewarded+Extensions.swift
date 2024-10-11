@@ -1,5 +1,5 @@
 //
-//  BidMachineRewarded+Extensions.swift
+//  Rewarded+Extensions.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 09/10/2024.

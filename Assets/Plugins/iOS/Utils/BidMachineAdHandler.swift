@@ -1,5 +1,5 @@
 //
-//  BidMachineAdDelegate.swift
+//  BidMachineAdHandler.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 04/10/2024.
@@ -25,6 +25,7 @@ final class BidMachineAdHandler: NSObject {
     private var didReceiveImpressionBridge: CAdCallbackBridge?
     private var didExpireBridge: CAdCallbackBridge?
     private var didCloseBridge: CAdCallbackClosedBridge?
+    private var didRewardBridge: CAdCallbackBridge?
     
     func reset() {
         adRequestEventsManager = nil
@@ -36,6 +37,7 @@ final class BidMachineAdHandler: NSObject {
         didReceiveImpressionBridge = nil
         didExpireBridge = nil
         didCloseBridge = nil
+        didRewardBridge = nil
     }
     
     func setRequestEventsHandler(_ handler: AdRequestsEventsHandlerProtocol) {
@@ -68,6 +70,10 @@ final class BidMachineAdHandler: NSObject {
     
     func setCloseCallback(_ closure: @escaping CAdClosedCallback) {
         didCloseBridge = CAdCallbackClosedBridge(cCallback: closure)
+    }
+    
+    func setRewardedCallback(_ closure: @escaping CAdCallback) {
+        didRewardBridge = CAdCallbackBridge(cCallback: closure)
     }
 }
 
@@ -105,6 +111,7 @@ extension BidMachineAdHandler: BidMachineAdDelegate {
     
     func didReceiveReward(_ ad: any BidMachineAdProtocol) {
         finished = true
+        didRewardBridge?.call(with: ad)
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  BidMachine+RewardedAPI.swift
+//  BidMachine+InterstitialAPI.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 02/10/2024.
@@ -30,25 +30,41 @@ public func interstitialShow() {
     iOSUnityBridge.interstitialBridge.show()
 }
 
-@_cdecl("BidMachineSetInterstitialAdDelegate")
-public func setInterstitialAdCallbacks(
-    onLoad: @escaping CAdCallback,
-    onFailedToLoad: @escaping CAdFailureCallback,
-    onPresent: @escaping CAdCallback,
-    onFailedToPresent: @escaping CAdFailureCallback,
-    onImpression: @escaping CAdCallback,
-    onExpired: @escaping CAdCallback,
-    onClose: @escaping CAdClosedCallback
-) {
-    iOSUnityBridge.interstitialBridge.setAdCallbacks(
-        onLoad: onLoad,
-        onFailedToLoad: onFailedToLoad,
-        onPresent: onPresent,
-        onFailedToPresent: onFailedToPresent,
-        onImpression: onImpression,
-        onExpired: onExpired,
-        onClose: onClose
-    )
+// MARK: - Ad Callbacks
+
+@_cdecl("BidMachineInterstitialSetLoadCallback")
+public func setInterstitialLoadCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.interstitialBridge.setLoadCallback(callback)
+}
+
+@_cdecl("BidMachineInterstitialSetLoadFailedCallback")
+public func setInterstitialLoadFailedCallback(_ callback: @escaping CAdFailureCallback) {
+    iOSUnityBridge.interstitialBridge.setLoadFailedCallback(callback)
+}
+
+@_cdecl("BidMachineInterstitialSetPresentCallback")
+public func setInterstitialPresentCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.interstitialBridge.setPresentCallback(callback)
+}
+
+@_cdecl("BidMachineInterstitialSetPresentFailedCallback")
+public func setInterstitialPresentFailedCallback(_ callback: @escaping CAdFailureCallback) {
+    iOSUnityBridge.interstitialBridge.setPresentFailedCallback(callback)
+}
+
+@_cdecl("BidMachineInterstitialSetImpressionCallback")
+public func setInterstitialImpressionCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.interstitialBridge.setImpressionCallback(callback)
+}
+
+@_cdecl("BidMachineInterstitialSetExpiredCallback")
+public func setInterstitialExpiredCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.interstitialBridge.setExpiredCallback(callback)
+}
+
+@_cdecl("BidMachineInterstitialSetClosedCallback")
+public func setInterstitialClosedCallback(_ callback: @escaping CAdClosedCallback) {
+    iOSUnityBridge.interstitialBridge.setClosedCallback(callback)
 }
 
 // MARK: - Builder
@@ -72,10 +88,7 @@ public func interstitialSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
 }
 
 @_cdecl("BidMachineInterstitialSetPlacementId")
-public func interstitialSetPlacementID(_ id: UnsafePointer<CChar>?) {
-    guard let id else {
-        return
-    }
+public func interstitialSetPlacementID(_ id: UnsafePointer<CChar>) {
     let idString = String(cString: id)
     iOSUnityBridge.interstitialBridge.setPlacementID(idString)
 }
@@ -92,10 +105,7 @@ public func interstitialSetAdContentType(_ type: UnsafePointer<CChar>) {
 }
 
 @_cdecl("BidMachineInterstitialSetBidPayload")
-public func interstitialSetBidPayload(_ payload: UnsafePointer<CChar>?) {
-    guard let payload else {
-        return
-    }
+public func interstitialSetBidPayload(_ payload: UnsafePointer<CChar>) {
     let payloadString = String(cString: payload)
     iOSUnityBridge.interstitialBridge.setBidPayload(payloadString)
 }
