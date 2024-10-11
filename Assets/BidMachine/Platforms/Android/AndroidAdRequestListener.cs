@@ -45,12 +45,7 @@ namespace BidMachineAds.Unity.Android
     }
 #else
     {
-        internal AndroidAdRequestListener(
-            string className,
-            IAdRequestListener listener,
-            Func<AndroidJavaObject, IAdRequest> factory
-        )
-            : base(className) { }
+        internal AndroidAdRequestListener() { }
     }
 #endif
 }
