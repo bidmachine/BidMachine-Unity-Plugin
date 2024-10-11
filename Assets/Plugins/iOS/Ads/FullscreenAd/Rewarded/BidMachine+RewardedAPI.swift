@@ -118,10 +118,13 @@ public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>) {
     iOSUnityBridge.rewardedBridge.setBidPayload(payloadString)
 }
 
+#warning("seems like networks is raw json string, add parsing logic")
 @_cdecl("BidMachineRewardedSetNetworks")
 public func rewardedSetNetworks(_ networks: UnsafePointer<CChar>) {
     let networks = String(cString: networks)
-    iOSUnityBridge.rewardedBridge.setNetworks([networks])
+    let networksArray = networks.components(separatedBy: "")
+
+    iOSUnityBridge.rewardedBridge.setNetworks(networksArray)
 }
 
 @_cdecl("BidMachineRewardedSetLoadingTimeOut")

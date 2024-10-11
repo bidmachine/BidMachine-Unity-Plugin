@@ -115,6 +115,7 @@ public func bannerSetBidPayload(_ payload: UnsafePointer<CChar>) {
     iOSUnityBridge.bannerBridge.setBidPayload(payloadString)
 }
 
+#warning("seems like networks is raw json string, add parsing logic")
 @_cdecl("BidMachineBannerSetNetworks")
 public func bannerSetNetworks(_ networks: UnsafePointer<CChar>) {
     let networks = String(cString: networks)

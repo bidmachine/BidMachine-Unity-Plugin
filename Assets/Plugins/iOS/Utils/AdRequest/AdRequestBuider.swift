@@ -54,7 +54,6 @@ final class AdRequestBuider {
     }
     
     func setNetworks(_ networks: [String]) {
-        #warning("No networks support on iOS side yet")
         self.networks = networks
     }
     

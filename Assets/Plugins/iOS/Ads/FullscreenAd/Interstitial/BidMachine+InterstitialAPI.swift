@@ -110,10 +110,13 @@ public func interstitialSetBidPayload(_ payload: UnsafePointer<CChar>) {
     iOSUnityBridge.interstitialBridge.setBidPayload(payloadString)
 }
 
+#warning("seems like networks is raw json string, add parsing logic")
 @_cdecl("BidMachineInterstitialSetNetworks")
 public func interstitialSetNetworks(_ networks: UnsafePointer<CChar>) {
     let networks = String(cString: networks)
-    iOSUnityBridge.interstitialBridge.setNetworks([networks])
+    let networksArray = networks.components(separatedBy: ",")
+
+    iOSUnityBridge.interstitialBridge.setNetworks(networksArray)
 }
 
 @_cdecl("BidMachineInterstitialSetLoadingTimeOut")
