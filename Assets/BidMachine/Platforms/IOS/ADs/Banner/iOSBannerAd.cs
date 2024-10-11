@@ -7,40 +7,21 @@ using AOT;
 
 namespace BidMachineAds.Unity.iOS
 {
-    public interface IiOSBannerAdBridge : IiOSAdBridge
-    {
-        public bool Show(int YAxis, int XAxis);
-
-        public void Hide();
-
-        public void SetAdDelegate(
-            AdCallback onLoad,
-            AdFailureCallback onFailedToLoad,
-            AdCallback onPresent,
-            AdFailureCallback onFailedToPresent,
-            AdCallback onImpression,
-            AdCallback onExpired
-        );
-    }
-
     public class iOSBannerAd : iOSAd<BannerAdiOSUnityBridge> , IBannerView
     {
-        public iOSBannerAd() : base() { }
-
         private static IAdListener<IBannerView> listener;
+        public iOSBannerAd() : base() { }
 
         public void SetListener(IAdListener<IBannerView> listener) 
         {
             iOSBannerAd.listener = listener;
 
-            adBridge.SetAdDelegate(
-                didLoadAd,
-                didFailLoadAd,
-                didPresentAd,
-                didFailPresentAd,
-                didReceiveAdImpression,
-                didExpire
-            );
+            adBridge.SetLoadCallback(didLoadAd);
+            adBridge.SetLoadFailedCallback(didFailLoadAd);
+            adBridge.SetPresentCallback(didPresentAd);
+            adBridge.SetPresentFailedCallback(didFailPresentAd);
+            adBridge.SetImpressionCallback(didReceiveAdImpression);
+            adBridge.SetExpiredCallback(didExpire);
         }
 
         public bool Show(int YAxis, int XAxis, IBannerView ad, BannerSize size)

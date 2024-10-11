@@ -3,70 +3,93 @@ using System;
 using UnityEngine;
 
 namespace BidMachineAds.Unity.iOS {
-    public class InterstitialAdiOSUnityBridge : MonoBehaviour, IiOSFullscreenAdBridge
-    {
-         [DllImport("__Internal")]
-         private static extern bool BidMachineInterstitialCanShow();
+   public class InterstitialAdiOSUnityBridge : MonoBehaviour, IiOSFullscreenAdBridge
+   {
+      [DllImport("__Internal")]
+      private static extern bool BidMachineInterstitialCanShow();    
 
-         [DllImport("__Internal")]
-         private static extern void BidMachineInterstitialDestroy();
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialDestroy();      
 
-         [DllImport("__Internal")]
-         private static extern void BidMachineInterstitialShow();
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialShow();      
 
-         [DllImport("__Internal")]
-         private static extern void BidMachineInterstitialLoad();
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialLoad();      
 
-         [DllImport("__Internal")]
-        private static extern void BidMachineSetInterstitialAdDelegate(
-            AdCallback onLoad,
-            AdFailureCallback onFailedToLoad,
-            AdCallback onPresent,
-            AdFailureCallback onFailedToPresent,
-            AdCallback onImpression,
-            AdCallback onExpired,
-            AdClosedCallback onClosed
-        );
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialSetLoadCallback(AdCallback onLoad);
 
-         public bool CanShow() 
-         {
-            return BidMachineInterstitialCanShow();
-         }
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialSetLoadFailedCallback(AdFailureCallback onFailedToLoad);
 
-         public void Destroy() 
-         {
-            BidMachineInterstitialDestroy();
-         }
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialSetPresentCallback(AdCallback onPresent);
 
-         public void Show() 
-         {
-            BidMachineInterstitialShow();
-         }
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialSetPresentFailedCallback(AdFailureCallback onFailedToPresent);
 
-         public void Load() 
-         {
-            BidMachineInterstitialLoad();
-         }
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialSetImpressionCallback(AdCallback onImpression);
 
-         public void SetAdDelegate(
-            AdCallback onLoad,
-            AdFailureCallback onFailedToLoad,
-            AdCallback onPresent,
-            AdFailureCallback onFailedToPresent,
-            AdCallback onImpression,
-            AdCallback onExpired,
-            AdClosedCallback onClosed
-         )
-         {
-            BidMachineSetInterstitialAdDelegate(
-               onLoad,
-               onFailedToLoad,
-               onPresent,
-               onFailedToPresent,
-               onImpression,
-               onExpired,
-               onClosed
-            );
-         }
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialSetExpiredCallback(AdCallback onExpired);
+
+      [DllImport("__Internal")]
+      private static extern void BidMachineInterstitialSetClosedCallback(AdClosedCallback onClosed);
+   
+      public bool CanShow() 
+      {
+         return BidMachineInterstitialCanShow();
+      }
+
+      public void Destroy() 
+      {
+         BidMachineInterstitialDestroy();
+      }
+
+      public void Show() 
+      {
+         BidMachineInterstitialShow();
+      }
+
+      public void Load() 
+      {
+         BidMachineInterstitialLoad();
+      }
+
+      public void SetLoadCallback(AdCallback onLoad) {
+         BidMachineInterstitialSetLoadCallback(onLoad);
+      }
+
+      public void SetLoadFailedCallback(AdFailureCallback onFailedToLoad) 
+      {
+         BidMachineInterstitialSetLoadFailedCallback(onFailedToLoad);
+      }
+
+      public void SetPresentCallback(AdCallback onPresent)
+      {
+         BidMachineInterstitialSetPresentCallback(onPresent);
+      }
+
+      public void SetPresentFailedCallback(AdFailureCallback onFailedToPresent)
+      {
+         BidMachineInterstitialSetPresentFailedCallback(onFailedToPresent);
+      }
+
+      public void SetImpressionCallback(AdCallback onImpression)
+      {
+         BidMachineInterstitialSetImpressionCallback(onImpression);
+      }
+
+      public void SetExpiredCallback(AdCallback onExpired)
+      {
+         BidMachineInterstitialSetExpiredCallback(onExpired);
+      }
+
+      public void SetClosedCallback(AdClosedCallback onClosed)
+      {
+         BidMachineInterstitialSetClosedCallback(onClosed);
+      }
     }
 }
