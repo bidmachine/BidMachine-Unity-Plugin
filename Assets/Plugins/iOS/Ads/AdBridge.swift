@@ -52,7 +52,7 @@ class AdBridge<Ad: BidMachineAdProtocol> {
     }
     
     func load() {
-        //
+        // No additional logic required in this implementation. Added to match unity interface
     }
 
     func setRequestCallbacks(
