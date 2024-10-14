@@ -1,3 +1,4 @@
+#if UNITY_IOS
 using System.Runtime.InteropServices;
 using System;
 using BidMachineAds.Unity.Common;
@@ -53,3 +54,4 @@ namespace BidMachineAds.Unity.iOS {
         }
     }
 }
+#endif

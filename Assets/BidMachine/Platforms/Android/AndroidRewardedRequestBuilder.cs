@@ -12,8 +12,8 @@ namespace BidMachineAds.Unity.Android
         public AndroidRewardedRequestBuilder()
         {
             requestBuilder = new AndroidAdRequestBuilder(
-                AndroidUtils.RewardedRequestBuilderClassName,
-                AndroidUtils.RewardedRequestListenerClassName,
+                AndroidConsts.RewardedRequestBuilderClassName,
+                AndroidConsts.RewardedRequestListenerClassName,
                 delegate(AndroidJavaObject request)
                 {
                     return new AndroidRewardedRequest(request);

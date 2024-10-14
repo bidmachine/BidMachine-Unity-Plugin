@@ -196,9 +196,9 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to load(IInterstitialRequest) {Const.DUMMY_MESSAGE}");
         }
 
-        public void SetListener(IInterstitialListener listener)
+        public void SetListener(IInterstitialAdListener listener)
         {
-            Debug.LogWarning($"Call to setListener(IInterstitialListener) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to setListener(IInterstitialAdListener) {Const.DUMMY_MESSAGE}");
         }
 
         public void Show()

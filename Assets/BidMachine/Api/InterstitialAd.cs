@@ -31,7 +31,7 @@ namespace BidMachineAds.Unity.Api
             client.Destroy();
         }
 
-        public void SetListener(IInterstitialListener listener)
+        public void SetListener(IInterstitialAdListener listener)
         {
             client.SetListener(listener);
         }

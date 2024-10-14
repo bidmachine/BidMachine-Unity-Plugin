@@ -1,3 +1,4 @@
+#if PLATFORM_ANDROID
 using System;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
@@ -6,7 +7,6 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Android
 {
     internal class AndroidAdRequestListener
-#if UNITY_ANDROID
         : AndroidJavaProxy,
             ICommonAdRequestListener<AndroidJavaObject, AndroidJavaObject, AndroidJavaObject>
     {
@@ -29,13 +29,13 @@ namespace BidMachineAds.Unity.Android
         {
             listener.onRequestSuccess(
                 factory(request),
-                AndroidUtils.BuildAuctionResultString(auctionResult)
+                AndroidUnityConverter.GetAuctionResult(auctionResult)
             );
         }
 
         public void onRequestFailed(AndroidJavaObject request, AndroidJavaObject error)
         {
-            listener.onRequestFailed(factory(request), AndroidUtils.GetError(error));
+            listener.onRequestFailed(factory(request), AndroidUnityConverter.GetError(error));
         }
 
         public void onRequestExpired(AndroidJavaObject request)
@@ -43,9 +43,5 @@ namespace BidMachineAds.Unity.Android
             listener.onRequestExpired(factory(request));
         }
     }
-#else
-    {
-        internal AndroidAdRequestListener() { }
-    }
-#endif
 }
+#endif

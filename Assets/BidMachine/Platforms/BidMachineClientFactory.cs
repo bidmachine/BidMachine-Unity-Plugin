@@ -9,7 +9,7 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidBidMachine();
-#elif UNITY_IPHONE && !UNITY_EDITOR
+#elif UNITY_IOS && !UNITY_EDITOR
             return new iOS.iOSBidMachine();
 #else
             return new DummyBidMachine();
@@ -20,7 +20,7 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidBannerView();
-#elif UNITY_IPHONE && !UNITY_EDITOR
+#elif UNITY_IOS && !UNITY_EDITOR
             return new iOS.iOSBannerAd();
 #else
             return new DummyBannerAd();
@@ -31,7 +31,7 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidBannerRequestBuilder();
-#elif UNITY_IPHONE && !UNITY_EDITOR
+#elif UNITY_IOS && !UNITY_EDITOR
             return new iOS.iOSBannerRequestBuilder();
 #else
             return new DummyBannerRequestBuilder();
@@ -42,7 +42,7 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidInterstitialAd();
-#elif UNITY_IPHONE && !UNITY_EDITOR
+#elif UNITY_IOS && !UNITY_EDITOR
             return new iOS.iOSInterstitialAd();
 #else
             return new DummyInterstitialAd();
@@ -53,7 +53,7 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidInterstitialRequestBuilder();
-#elif UNITY_IPHONE && !UNITY_EDITOR
+#elif UNITY_IOS && !UNITY_EDITOR
             return new iOS.iOSInterstitialRequestBuilder();
 #else
             return new DummyInterstitialRequestBuilder();
@@ -64,7 +64,7 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidRewardedAd();
-#elif UNITY_IPHONE && !UNITY_EDITOR
+#elif UNITY_IOS && !UNITY_EDITOR
             return new iOS.iOSRewardedAd();
 #else
             return new DummyRewardedAd();
@@ -75,7 +75,7 @@ namespace BidMachineAds.Unity
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidRewardedRequestBuilder();
-#elif UNITY_IPHONE && !UNITY_EDITOR
+#elif UNITY_IOS && !UNITY_EDITOR
             return new iOS.iOSRewardedRequestBuilder();
 #else
             return new DummyRewardedRequestBuilder();

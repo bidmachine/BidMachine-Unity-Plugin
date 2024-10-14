@@ -2,38 +2,77 @@
 using UnityEngine;
 using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Api;
+using System;
 
 namespace BidMachineAds.Unity.Android
 {
-    internal class AndroidInterstitialAd : AndroidFullscreenAd
+    internal class AndroidInterstitialAd : IInterstitialAd
     {
+        private readonly AndroidJavaObject jObject;
+
+        private readonly Func<AndroidJavaObject, IInterstitialAd> adFactory;
+
         public AndroidInterstitialAd()
-            : base(
-                AndroidUtils.InterstitialAdClassName,
-                AndroidUtils.InterstitialListenerClassName,
-                delegate(AndroidJavaObject ad)
-                {
-                    return new InterstitialAd(new AndroidInterstitialAd(ad));
-                },
-                delegate(IAdRequest request)
-                {
-                    return ((AndroidInterstitialRequest)request).JavaObject;
-                }
+            : this(
+                new AndroidJavaObject(
+                    AndroidConsts.InterstitialAdClassName,
+                    AndroidNativeConverter.GetActivity()
+                )
             ) { }
 
         public AndroidInterstitialAd(AndroidJavaObject javaObject)
-            : base(
-                javaObject,
-                AndroidUtils.InterstitialListenerClassName,
-                delegate(AndroidJavaObject ad)
-                {
-                    return new InterstitialAd(new AndroidInterstitialAd(ad));
-                },
-                delegate(IAdRequest request)
-                {
-                    return ((AndroidInterstitialRequest)request).JavaObject;
-                }
-            ) { }
+        {
+            jObject = javaObject;
+            adFactory = delegate(AndroidJavaObject ad)
+            {
+                return new InterstitialAd(new AndroidInterstitialAd(ad));
+            };
+        }
+
+        public void Show()
+        {
+            jObject.Call("show");
+        }
+
+        public bool CanShow()
+        {
+            return jObject.Call<bool>("canShow");
+        }
+
+        public void Destroy()
+        {
+            jObject.Call("destroy");
+        }
+
+        public void Load(IAdRequest request)
+        {
+            if (request == null)
+            {
+                return;
+            }
+
+            jObject.Call<AndroidJavaObject>(
+                "load",
+                ((AndroidInterstitialRequest)request).JavaObject
+            );
+        }
+
+        public void SetListener(IInterstitialAdListener listener)
+        {
+            if (listener == null)
+            {
+                return;
+            }
+
+            jObject.Call<AndroidJavaObject>(
+                "setListener",
+                new AndroidInterstitialAdListener(
+                    AndroidConsts.InterstitialListenerClassName,
+                    listener,
+                    adFactory
+                )
+            );
+        }
     }
 }
 #endif

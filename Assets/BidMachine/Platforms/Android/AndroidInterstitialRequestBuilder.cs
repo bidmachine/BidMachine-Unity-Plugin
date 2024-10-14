@@ -12,8 +12,8 @@ namespace BidMachineAds.Unity.Android
         public AndroidInterstitialRequestBuilder()
         {
             requestBuilder = new AndroidAdRequestBuilder(
-                AndroidUtils.InterstitialRequestBuilderClassName,
-                AndroidUtils.InterstitialRequestListenerClassName,
+                AndroidConsts.InterstitialRequestBuilderClassName,
+                AndroidConsts.InterstitialRequestListenerClassName,
                 delegate(AndroidJavaObject request)
                 {
                     return new AndroidInterstitialRequest(request);

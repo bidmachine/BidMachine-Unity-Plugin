@@ -1,3 +1,5 @@
+#if UNITY_IOS
+
 using UnityEngine;
 using System;
 using BidMachineAds.Unity.Api;
@@ -99,3 +101,4 @@ namespace BidMachineAds.Unity.iOS
         }
     }
 }
+#endif

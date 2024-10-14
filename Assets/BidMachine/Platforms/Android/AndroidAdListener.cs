@@ -1,3 +1,4 @@
+#if PLATFORM_ANDROID
 using System;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
@@ -6,7 +7,6 @@ using UnityEngine;
 namespace BidMachineAds.Unity.Android
 {
     internal class AndroidAdListener<TAd, TAdListener>
-#if UNITY_ANDROID
         : AndroidJavaProxy,
             ICommonAdListener<AndroidJavaObject, AndroidJavaObject>
         where TAdListener : ICommonAdListener<TAd, BMError>
@@ -43,12 +43,12 @@ namespace BidMachineAds.Unity.Android
 
         public void onAdLoadFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            listener.onAdLoadFailed(adProvider(ad), AndroidUtils.GetError(error));
+            listener.onAdLoadFailed(adProvider(ad), AndroidUnityConverter.GetError(error));
         }
 
         public void onAdShowFailed(AndroidJavaObject ad, AndroidJavaObject error)
         {
-            listener.onAdShowFailed(adProvider(ad), AndroidUtils.GetError(error));
+            listener.onAdShowFailed(adProvider(ad), AndroidUnityConverter.GetError(error));
         }
 
         public void onAdShown(AndroidJavaObject ad)
@@ -56,9 +56,5 @@ namespace BidMachineAds.Unity.Android
             listener.onAdShown(adProvider(ad));
         }
     }
-#else
-    {
-        public AndroidAdListener() { }
-    }
-#endif
 }
+#endif
