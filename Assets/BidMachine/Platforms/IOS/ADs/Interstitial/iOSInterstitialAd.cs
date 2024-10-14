@@ -6,7 +6,7 @@ using AOT;
 namespace BidMachineAds.Unity.iOS
 {
     public class iOSInterstitialAd : iOSAd<InterstitialAdiOSUnityBridge>, IInterstitialAd {
-        private static IInterstitialListener listener;
+        private static IInterstitialAdListener listener;
         public iOSInterstitialAd() : base() { }
 
         public void Show()
@@ -14,7 +14,7 @@ namespace BidMachineAds.Unity.iOS
             adBridge.Show();
         }
 
-        public void SetListener(IInterstitialListener listener)
+        public void SetListener(IInterstitialAdListener listener)
         {
             iOSInterstitialAd.listener = listener;
 

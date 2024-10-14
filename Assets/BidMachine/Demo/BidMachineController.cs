@@ -23,7 +23,7 @@ public class BidMachineController : MonoBehaviour
     private readonly IAdRequestListener bannerRequestListener = new BannerRequestListener();
 
     private InterstitialAd interstitialAd;
-    private readonly IInterstitialListener interstitialListener =
+    private readonly IInterstitialAdListener interstitialListener =
         new InterstitialListener();
     private IAdRequest interstitialRequest;
     private readonly IAdRequestListener interstitialRequestListener =
@@ -339,7 +339,7 @@ public class BidMachineController : MonoBehaviour
         }
     }
 
-    private class InterstitialListener : IInterstitialListener
+    private class InterstitialListener : IInterstitialAdListener
     {
         public void onAdClosed(IInterstitialAd ad, bool finished)
         {

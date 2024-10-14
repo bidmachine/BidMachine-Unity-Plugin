@@ -8,10 +8,7 @@
 import Foundation
 
 @_cdecl("BidMachineInitialize")
-public func initialize(_ sellerId: UnsafePointer<CChar>?) {
-    guard let sellerId else {
-        return
-    }
+public func initialize(_ sellerId: UnsafePointer<CChar>) {
     let sourceId = String(cString: sellerId)
     iOSUnityBridge.initialize(with: sourceId)
 }
@@ -22,10 +19,7 @@ public func isInitialized() -> Bool {
 }
 
 @_cdecl("BidMachineSetEndpoint")
-public func setEndpoint(url: UnsafePointer<CChar>?) {
-    guard let url else {
-        return
-    }
+public func setEndpoint(url: UnsafePointer<CChar>) {
     let urlString = String(cString: url)
     iOSUnityBridge.setEndpoint(url: urlString)
 }
@@ -75,10 +69,7 @@ public func setCoppa(_ flag: Bool) {
 }
 
 @_cdecl("BidMachineSetUSPrivacyString")
-public func setUSPrivacyText(_ string: UnsafePointer<CChar>?) {
-    guard let string else {
-        return
-    }
+public func setUSPrivacyText(_ string: UnsafePointer<CChar>) {
     let privacyText = String(cString: string)
     iOSUnityBridge.setUSPrivacy(privacyText)
 }
