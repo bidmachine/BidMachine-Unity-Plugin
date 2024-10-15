@@ -79,16 +79,10 @@ typealias PriceFloorParameters = KeyValueList<String, Double>
 
 @_cdecl("BidMachineRewardedSetPriceFloorParams")
 public func rewardedSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
-    let paramsString = String(cString: jsonString)
+    let jsonString = String(cString: jsonString)
 
-    guard let data = paramsString.data(using: .utf8) else {
-        return
-    }
     do {
-        let parametersList = try JSONDecoder().decode(
-            PriceFloorParameters.self,
-            from: data
-        )
+        let parametersList = try PriceFloorParamsDecoder.decode(from: jsonString)
         iOSUnityBridge.rewardedBridge.setPriceFloorParams(parametersList.items)
     } catch let error {
         print("Error parsing price floor params: \(error.localizedDescription)")
@@ -118,19 +112,17 @@ public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>) {
     iOSUnityBridge.rewardedBridge.setBidPayload(payloadString)
 }
 
-#warning("seems like networks is raw json string, add parsing logic")
 @_cdecl("BidMachineRewardedSetNetworks")
 public func rewardedSetNetworks(_ networks: UnsafePointer<CChar>) {
-    let networks = String(cString: networks)
-    let networksArray = networks.components(separatedBy: "")
+    let networksString = String(cString: networks)
+    let networksNames = NetworksNamesDecoder.decode(from: networksString)
 
-    iOSUnityBridge.rewardedBridge.setNetworks(networksArray)
+    iOSUnityBridge.rewardedBridge.setNetworks(networksNames)
 }
 
 @_cdecl("BidMachineRewardedSetLoadingTimeOut")
 public func rewardedSetLoadingTimeout(_ interval: Int) {
-    let measurement = Measurement(value: Double(interval), unit: UnitDuration.milliseconds)
-    let seconds = measurement.converted(to: .seconds).value
+    let seconds = MillisecondsConverter.toSeconds(interval)
 
     iOSUnityBridge.rewardedBridge.setTimeout(seconds)
 }

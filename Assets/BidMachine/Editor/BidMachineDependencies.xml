@@ -1,6 +1,9 @@
 <dependencies>
     <iosPods>
         <iosPod name='BidMachine' version='3.0.1' minTargetSdk='12.0'/>
+        <sources>
+			<source>https://github.com/bidmachine/CocoaPods-Specs.git</source>
+		</sources>
     </iosPods>
     <androidPackages>
         <androidPackage spec='io.bidmachine:ads:3.0.0'/>
