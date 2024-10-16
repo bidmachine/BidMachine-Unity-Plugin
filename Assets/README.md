@@ -2,7 +2,7 @@
 
 1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS BidMachine SDK with major improvements.
 
-1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.1.2-01.09.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
+1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.2.1-27.03.2023.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
 
 # Step 2. Project configuration 
 

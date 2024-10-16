@@ -1,15 +1,18 @@
-# Step 1. Import SDK
+# BidMachine Unity Plugin
+
+## Step 1. Import SDK
 
 1.1 Download BidMachine Unity Plugin that includes the newest Android and iOS BidMachine SDK with major improvements.
 
-1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.1.2-01.09.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import .
+1.2 To import the BidMachine Unity plugin, double-click on the BidMachine-Unity-Plugin-1.1.2-01.09.2022.unitypackage , or go to Assets → Import Package → Custom Package . Keep all the files in the Importing Package window selected, and click Import.
 
-# Step 2. Project configuration 
+## Step 2. Project configuration
 
-2.1 Android 
+2.1 Android
 
 Requirements:
-- Min Android SDK version - 15 (4.0.3 - 4.0.4, Ice Cream Sandwich).
+
+- Min Android SDK version - 21.
 
 2.1.1 External Dependency Manager (Play Services Resolver)
 BidMachine Unity Plugin includes External Dependency Manager package.  You need to complete these following steps to resolve BidMachine's dependencies:
@@ -26,14 +29,16 @@ BidMachine Unity Plugin includes External Dependency Manager package.  You need 
 SDK can automatically track user device location in order to serve better ads. To make it work for Android 6.0, you should request "android.permission.ACCESS_COARSE_LOCATION" and "android.permission.ACCESS_FINE_LOCATION":
 
 To check permission use a method:
-```c# 
-BidMachine.checkAndroidPermissions(Permission.CoarseLocation));
-BidMachine.checkAndroidPermissions(Permission.FineLocation));
+
+```c#
+UserPermissions.Check(Permission.CoarseLocation));
+UserPermissions.Check(Permission.FineLocation));
 ```
 
-To request permissions you should use this method:<br> 
-```c# 
- BidMachine.requestAndroidPermissions();
+To request permissions you should use this method:<br>
+
+```c#
+ UserPermissions.Request();
 ```
 
 2.1.3 Multidex support
@@ -41,10 +46,10 @@ To request permissions you should use this method:<br>
 - If you are using Unity 2019.2 and versions below you need to add Multidex support to your project. Follow this guide to add Multidex.
 - If you are using Unity 2019.3 or higher go to Player Settings → Publishing Settings → Other Settings and change Minimum API Level to 21 or higher.
 
-
-2.2 iOS 
+2.2 iOS
 
 Requirements:
+
 - iOS 10.0+
 - Xcode: 13.3+
 
@@ -59,24 +64,33 @@ BidMachine Unity Plugin includes External Dependency Manager package. You need t
 
 Initialize SDK, and set your SellerId. (To get your SELLER_ID, visit our website or contact the support.)
 To initialize SDK and set your SellerId you should use this method:
-```c# 
-BidMachine.initialize("YOUR_SELLER_ID");
+
+```c#
+BidMachine.Initialize("YOUR_SELLER_ID");
 ```
+
 To enable logs use this method:
-```c# 
-BidMachine.setLoggingEnabled(Boolean);
+
+```c#
+BidMachine.SetLoggingEnabled(Boolean);
 ```
+
 To enable test mode:
-```c# 
-BidMachine.setTestMode(Boolean);
+
+```c#
+BidMachine.SetTestMode(Boolean);
 ```
+
 To Set your endpoint if required:
-```c# 
-BidMachine.setEndpoint(Boolean);
+
+```c#
+BidMachine.SetEndpoint(Boolean);
 ```
+
 To check if BidMachine SDK was initialized:
-```c# 
-BidMachine.isInitialized();
+
+```c#
+BidMachine.IsInitialized();
 ```
 
 # Request parameters
@@ -84,36 +98,42 @@ BidMachine.isInitialized();
 Global Parameters
 
 Set default Targeting params:
-```c# 
-BidMachine.setTargetingParams(TargetingParams);
+
+```c#
+BidMachine.SetTargetingParams(TargetingParams);
 ```
 
 Set consent config:
-```c# 
-BidMachine.setConsentConfig(bool, string);
+
+```c#
+BidMachine.SetConsentConfig(bool, string);
 ```
 
 Set subject to GDPR:
-```c# 
-BidMachine.setSubjectToGDPR(bool);
+
+```c#
+BidMachine.SetSubjectToGDPR(bool);
 ```
 
 Set COPPA:
-```c# 
-BidMachine.setCoppa(bool);
+
+```c#
+BidMachine.SetCoppa(bool);
 ```
 
 Set CCPA U.S. Privacy String:
-```c# 
-BidMachine.setUSPrivacyString(string);
+
+```c#
+BidMachine.SetUSPrivacyString(string);
 ```
 
 Sets publisher information:
-```c# 
-BidMachine.setPublisher(Publisher);
+
+```c#
+BidMachine.SetPublisher(Publisher);
 ```
 
-# User Restriction Parameters 
+## User Restriction Parameters
 
 Param | Type | Description
 ------------ | ------------- | -------------
@@ -122,183 +142,165 @@ Subject to GDPR | Boolean | Flag indicating if GDPR regulations apply [The Gener
 Coppa | Boolean | Flag indicating if COPPA regulations apply. [The Children's Online Privacy Protection Act (COPPA)](https://wikipedia.org/wiki/Children%27s_Online_Privacy_Protection_Act) was established by the U.S. Federal Trade Commission.
 US Privacy String | String | CCPA string if applicable, compliant with the IAB standard [CCPA String Format](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md)
 
-
-# TARGETING PARAMS
+## TARGETING PARAMS
 
 Param | Type | Description
 ------------ | ------------- | -------------
 User Id | String | Vendor-specific ID for the user.
-Gender | Enum |	Gender, one of the following: Female, Male, Omitted.
+Gender | Enum | Gender, one of the following: Female, Male, Omitted.
 Year of Birth | Integer | Year of birth as a 4-digit integer (e.g. - 1990).
 Keywords | String[] | List of keywords, interests, or intents (separated by comma if you use .xml).
 Device Location| string, double, double | Location of the device. It may not be the location sent to the server, as it is compared to the current device location at the time, when it was received.
 Country | String | Country of the user's domicile (i.e. not necessarily their current location).
 City | String | City of the user's domicile (i.e. not necessarily their current location).
 Zip | String | Zip of the user's domicile (i.e. not necessarily their current location).
-Store Url |	String | App store URL for an installed app; for IQG 2.1 compliance.
+Store Url | String | App store URL for an installed app; for IQG 2.1 compliance.
 Store Category | String | Sets App store category definitions (e.g. - "games").
 Store Sub Category | String[] | Sets App Store Subcategory definitions. The array is always capped at 3 strings.
 Framework Name | String | Sets app framework definitions.
 Paid | Boolean | Determines, if the app version is free or paid version of the app.
-External User Ids |	ExternalUserId[] | Set external user ID list.
+External User Ids | ExternalUserId[] | Set external user ID list.
 Blocked Advertiser IAB Category | String[] | Block list of content categories by IDs.
-Blocked Advertiser Domain |	String[] | Block list of advertisers by their domains (e.g., “example.com”).
+Blocked Advertiser Domain | String[] | Block list of advertisers by their domains (e.g., “example.com”).
 Blocked Application | String[] | Block list of apps where ads are disallowed. These should be bundle or package names (e.g., “com.foo.mygame”) and should NOT be app store IDs (e.g., not iTunes store IDs).
 
 Code Example:
 
 ```c#
- BidMachine.setTargetingParams(
-             new TargetingParams()
-                 .setUserId("UserId")
-                 .setStoreId("StoreId")
-                 .setGender(TargetingParams.Gender.Female)
-                 .setBirthdayYear(1991)
-                 .setKeyWords(new[] { "key_1, key_2" })
-                 .setCountry("Country")
-                 .setCity("City")
-                 .setZip("zip")
-                 .setStoreUrl("StoreUrl")
-                 .setStoreCategory("StoreCategory")
-                 .setStoreSubCategories(new[] { "sub_category_1", "sub_category_2" })
-                 .setFramework("unity")
-                 .setPaid(true)
-                 .setDeviceLocation("", 22.0d, 22.0d)
-                 .addBlockedApplication("BlockedApplication")
-                 .addBlockedAdvertiserIABCategory("BlockedAdvertiserIABCategory")
-                 .addBlockedAdvertiserDomain("BlockedAdvertiserDomain")
-                 .setExternalUserIds(new[]
-                     {
-                         new ExternalUserId("sourceId_1", "1"),
-                         new ExternalUserId("sourceId_2", "2")
-                     }
-                 ));
+BidMachine.SetTargetingParams(
+    new TargetingParams
+    {
+        UserId = "UserId",
+        gender = TargetingParams.Gender.Female,
+        BirthdayYear = 1990,
+        Keywords = new string[] { "keyword1", "keyword1" },
+        DeviceLocation = new TargetingParams.Location
+        {
+            Provider = "GPS",
+            Latitude = 43.9006,
+            Longitude = 27.5590
+        },
+        Country = "Country",
+        City = "City",
+        Zip = "zip_code",
+        StoreUrl = "https://play.google.com/store/apps/details?id=com.example.app",
+        StoreCategory = "Category",
+        StoreSubCategories = new string[] { "SubCategory1", "SubCategory2" },
+        Framework = "unity",
+        IsPaid = true,
+        externalUserIds = new ExternalUserId[]
+        {
+            new() { SourceId = "ad_network_1", Value = "1" },
+            new() { SourceId = "ad_network_2", Value = "2" }
+        },
+        BlockedDomains = new HashSet<string> { "domain1.com", "domain2.com" },
+        BlockedCategories = new HashSet<string> { "category1", "category2" },
+        BlockedApplications = new HashSet<string>
+        {
+            "com.unwanted.app1",
+            "com.unwanted.app2"
+        }
+    }
+);
 ```
 
-
-# PRICE FLOOR PARAMETRS
+## PRICE FLOOR PARAMETRS
 
 Param | Type | Description
 ------------ | ------------- | -------------
 Id | String | Unique floor identifier.
-Price |	double | Floor price
+Price | double | Floor price
 
-Code example: 
+Code example:
+
 ```c#
-PriceFloorParams priceFloorParams = new PriceFloorParams();
-priceFloorParams.addPriceFloor("123", 1.2d);
+priceFloorParams = new PriceFloorParams();
+priceFloorParams.AddPriceFloor(Guid.NewGuid().ToString(), 0.01);
 ```
 
-# Session Ad Parameters
+## BANNER / MREC
 
-Param | Type | Description
------------- | ------------- | -------------
-Session Duration | Integer | The total duration of time a user has spent so far in a specific app session expressed in seconds.
-Impression Count | Integer | The count of impressions for a specific placement type in a given app session.
-Click Rate | Float | The percentage of clicks/impressions per user per placement type over a given number of impressions.
-Is User Clicked On Last Ad | Boolean | A boolean value indicating if the user clicked on the last impression in a given session per placement type.
-Completion Rate | Float | The percentage of successful completions/impressions per user per placement type for a given number of impressions. This only applies to Rewarded and Video placement types.
-
-Code example: 
-```c#
-SessionAdParams sessionAdParams = new SessionAdParams()
-            .setSessionDuration(123)
-            .setImpressionCount(123)
-            .setClickRate(1.2f)
-            .setIsUserClickedOnLastAd(true)
-            .setCompletionRate(1.3f)
-            .setLastBundle("LastBundle")
-            .setLastAdomain("LastAdomain");
-```
-
-# BANNER / MREC
-
-BannerSize 
+BannerSize
 
 Type | Size | Description
 ------------ | ------------- | -------------
 Size_320x50 | width: 320 height: 50 | Regular banner size.
 Size_728x90 | width: 728 height: 90 | Banner size for tablets.
-Size_300x250 | width: 300 height: 250 | MREC banner size. 
-
+Size_300x250 | width: 300 height: 250 | MREC banner size.
 
 To set Banner ads events listener:
+
 ```c#
-bannerView.setListener(this);
+bannerView.SetListener(this);
 ```
 
 To load banners:
+
 ```c#
-bannerView.load(bannerRequest);
+bannerView.Load(bannerRequest);
 ```
 
 To show banner or mrec:
-```c#
-bannerView.showBannerView(
-            BidMachine.BANNER_VERTICAL_BOTTOM,
-            BidMachine.BANNER_HORIZONTAL_CENTER,
-            bannerView, bannerRequest.getSize());
-```
 
-To destroy banner or mrec (you should destroy request each time before new request):
 ```c#
-bannerView.destroy();
+bannerView?.Show(
+    BidMachine.BANNER_VERTICAL_BOTTOM,
+    BidMachine.BANNER_HORIZONTAL_CENTER,
+    bannerView,
+    size
+);
 ```
 
 To hide banner or mrec:
+
 ```c#
-bannerView.hideBannerView();
+bannerView.Hide();
+```
+
+To destroy banner or mrec (you should destroy request each time before new request):
+
+```c#
+bannerView.Destroy();
 ```
 
 Code example:
+
  ```c#
-
-public class BidMachineController : MonoBehaviour, IBannerRequestListener, IBannerListener {
-
-     BannerRequest bannerRequest = new BannerRequestBuilder()
-        .setSize(...) // Set BannerSize. Required
-        .setTargetingParams(...) // Set TargatingParams instance
-        .setPriceFloorParams(...) // Set price floor parameters
-        .setSessionAdParams(...) // Set SessionAdParams instance
-        .setPlacementId("placement") // Set placement id
-        .setLoadingTimeOut(123) // Set loading timeout in milliseconds
-        .setListener(this) // Set banner request listener
-        .build();
+public class BidMachineController : MonoBehaviour, IAdRequestListener, IAdListener<IBannerView>
+{
+    BannerRequest bannerRequest = new BannerRequest.Builder()
+        .SetSize(...) // Set BannerSize. Required
+        .SetTargetingParams(...) // Set targeting params
+        .SetPriceFloorParams(...) // Set price floor params
+        .SetPlacementId(...) // Set placement id
+        .SetLoadingTimeOut(10 * 1000) // Set loading timeout in milliseconds
+        .SetListener(this) // Set request listener
+        .Build();
 
     BannerView bannerView = new BannerView();
-    bannerView.setListener(this); // Set banner listener       
-    bannerView.load(bannerRequest); // Load banner ad
+    bannerView.SetListener(this); // Set listener       
+    bannerView.Load(bannerRequest); // Load ad
 
-    #region BannerRequestListener
-    public void onBannerRequestSuccess(BannerRequest request, string auctionResult) { 
-        Debug.Log("BidMachineUnity: onBannerRequestSuccess"); }
-    public void onBannerRequestFailed(BannerRequest request, BMError error) { 
-        Debug.Log("BannerRequestListener - onBannerRequestFailed" + $" - {error.code} - {error.message}"); }
-    public void onBannerRequestExpired(BannerRequest request) { 
-        Debug.Log("BannerRequestListener - onBannerRequestExpired"); }
-    #endregion
-
-    #region BannerListener
-    public void onBannerAdLoaded(BannerView ad) { 
-        Debug.Log("BidMachineUnity: BannerView - onAdLoaded"); }
-    public void onBannerAdLoadFailed(BannerView ad, BMError error) { 
-        Debug.Log("BidMachineUnity: BannerView - onAdLoadFailed"); }
-    public void onBannerAdShown(BannerView ad) {  
-        Debug.Log("BidMachineUnity: BannerView - onAdShown");}
-    public void onBannerAdImpression(BannerView ad) {
-         Debug.Log("BidMachineUnity: BannerView - onAdImpression"); }
-    public void onBannerAdClicked(BannerView ad) { 
-        Debug.Log("BidMachineUnity: BannerView - onAdClicked"); }
-    public void onBannerAdExpired(BannerView ad) { 
-        Debug.Log("BidMachineUnity: BannerView - onAdExpired"); }
-    #endregion
-
+    public void onRequestExpired(IAdRequest request)
+    {
+        Debug.Log("BannerRequest: OnAdRequestExpired");
     }
+
+    public void onRequestFailed(IAdRequest request, BMError error)
+    {
+        Debug.Log($"BannerRequest: OnAdRequestFailed");
+    }
+
+    public void onRequestSuccess(IAdRequest request, string auctionResult)
+    {
+        Debug.Log($"BannerRequest: OnAdRequestSuccess");
+    }
+}
  ```
 
 # INTERSTITIAL AD
 
-AdContentType 
+AdContentType
 
 By default AdContentType is AdContentType.All
 
@@ -309,353 +311,202 @@ AdContentType.Static | Flag to request Static ad content type only.
 AdContentType.Video | Flag to request Video ad content type only.
 
 To set Interstitial Ad listeners:
+
 ```c#
-interstitialAd.setListener(this);
+interstitialAd.SetListener(this);
 ```
 
 To check if Interstitial ad can show:
+
 ```c#
-interstitialAd.canShow();
+interstitialAd.CanShow();
 ```
 
 To load interstitial:
+
 ```c#
-interstitialAd.load(interstitialRequest);
+interstitialAd.Load(interstitialRequest);
 ```
 
 To show interstitial:
+
 ```c#
-interstitialAd.show();
+interstitialAd.Show();
 ```
 
 To destroy interstitial (you should destroy request each time before new request):
+
 ```c#
-interstitialAd.destroy();
+interstitialAd.Destroy();
 ```
 
-Example code: 
-```c#
-public class BidMachineController : MonoBehaviour, IInterstitialAdListener, IInterstitialRequestListener {
+Example code:
 
-     InterstitialRequest interstitialRequest = new InterstitialRequestBuilder()
-        .setAdContentType(AdContentType.All)
-        .setTargetingParams(...) // Set TargatingParams instance
-        .setPriceFloorParams(...) // Set price floor parameters
-        .setSessionAdParams(...) // Set SessionAdParams instance
-        .setPlacementId("placement") // Set placement id
-        .setLoadingTimeOut(123) // Set loading timeout in milliseconds
-        .setListener(this) // Set interstitial request listener
-        .build();
+```c#
+public class BidMachineController : MonoBehaviour, IInterstitialAdListener, IFullscreenAdListener<IFullscreenAd>
+{
+    InterstitialRequest interstitialRequest = new InterstitialRequest.Builder()
+        .SetAdContentType(AdContentType.All)
+        .SetTargetingParams(...) // Set targeting params
+        .SetPriceFloorParams(...) // Set price floor params
+        .SetPlacementId(...) // Set placement id
+        .SetLoadingTimeOut(10 * 1000) // Set loading timeout in milliseconds
+        .SetListener(this) // Set request listener
+        .Build();
 
     InterstitialAd interstitialAd = new InterstitialAd();
-    interstitialAd.setListener(this); // Set interstitial listener       
-    interstitialAd.load(interstitialRequest); // Load interstitial ad
+    interstitialAd.setListener(this); // Set listener       
+    interstitialAd.load(interstitialRequest); // Load ad
     
-    #region InterstitialRequestListener
-    public void onInterstitialRequestSuccess(InterstitialRequest request, string auctionResult) {
-        Debug.Log($"onInterstitialRequestSuccess");
-    }
-
-    public void onInterstitialRequestFailed(InterstitialRequest request, BMError error){
-        Debug.Log($"onInterstitialRequestFailed" +
-                  $" {error.code} - {error.message}");
-    }
-    public void onInterstitialRequestExpired(InterstitialRequest request) {
-        Debug.Log($"onInterstitialRequestExpired");
-    }
-    #endregion
-
-
-    #region InterstitialAd Callbacks
-
-    public void onInterstitialAdLoaded(InterstitialAd ad)
+    public void onRequestExpired(IAdRequest request)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdLoaded");
+        Debug.Log("InterstitialRequest: OnAdRequestExpired");
     }
 
-    public void onInterstitialAdLoadFailed(InterstitialAd ad, BMError error)
+    public void onRequestFailed(IAdRequest request, BMError error)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdLoadFailed");
+        Debug.Log($"InterstitialRequest: OnAdRequestFailed");
     }
 
-    public void onInterstitialAdShown(InterstitialAd ad)
+    public void onRequestSuccess(IAdRequest request, string auctionResult)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdShown");
+        Debug.Log($"InterstitialRequest: OnAdRequestSuccess");
     }
 
-    public void onInterstitialAdImpression(InterstitialAd ad)
+    public void onAdClosed(IFullscreenAd ad, bool finished)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdImpression");
+        Debug.Log($"InterstitialAd: OnAdClosed");
     }
 
-    public void onInterstitialAdClosed(InterstitialAd ad)
+    public void onAdExpired(IFullscreenAd ad)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdClicked");
+        Debug.Log("InterstitialAd: OnAdExpired");
     }
 
-    public void onInterstitialAdExpired(InterstitialAd ad)
+    public void onAdImpression(IFullscreenAd ad)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdExpired");
+        Debug.Log("InterstitialAd: OnAdImpression");
     }
 
-    public void onInterstitialAdShowFailed(InterstitialAd ad, BMError error)
+    public void onAdLoaded(IFullscreenAd ad)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdShowFailed");
+        Debug.Log("InterstitialAd: OnAdLoaded");
     }
 
-    public void onInterstitialAdClosed(InterstitialAd ad, bool finished)
+    public void onAdLoadFailed(IFullscreenAd ad, BMError error)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdClosed");
+        Debug.Log($"InterstitialAd: OnAdLoadFailed");
     }
 
-    public void onInterstitialAdClicked(InterstitialAd ad)
+    public void onAdShowFailed(IFullscreenAd ad, BMError error)
     {
-        Debug.Log("BidMachineUnity: InterstitialAd - onAdClicked");
+        Debug.Log($"InterstitialAd: OnAdShowFailed");
     }
 
-    #endregion
-
-
+    public void onAdShown(IFullscreenAd ad)
+    {
+        Debug.Log("InterstitialAd: OnAdShown");
     }
+}
 ```
+
 # REWARDED AD
 
 To set Rewarded Ad listeners:
+
 ```c#
-rewardedAd.setListener(this);
+rewardedAd.SetListener(this);
 ```
 
 To check if Rewarded ad can show:
+
 ```c#
-rewardedAd.canShow();
+rewardedAd.CanShow();
 ```
 
 To load rewarded ad:
+
 ```c#
-rewardedAd.load(interstitialRequest);
+rewardedAd.Load(rewardedRequest);
 ```
 
 To show rewarded ad:
+
 ```c#
-rewardedAd.show();
+rewardedAd.Show();
 ```
 
 To destroy rewarded ad (you should destroy request each time before new request):
+
 ```c#
-rewardedAd.destroy();
+rewardedAd.Destroy();
 ```
 
-Example code: 
-```c#
-public class BidMachineController : MonoBehaviour, IRewardedAdListener, IRewardedRequestListener {
+Example code:
 
-     RewardedRequest rewardedRequest = new InterstitialRequestBuilder()
-        .setTargetingParams(...) // Set TargatingParams instance
-        .setPriceFloorParams(...) // Set price floor parameters
-        .setSessionAdParams(...) // Set SessionAdParams instance
-        .setPlacementId("placement") // Set placement id
-        .setLoadingTimeOut(123) // Set loading timeout in milliseconds
-        .setListener(this) // Set rewarded request listener
-        .build();
+```c#
+public class BidMachineController : MonoBehaviour
+{
+    RewardedRequest rewardedRequest = new RewardedRequest.Builder()
+        .SetTargetingParams(...) // Set targeting params
+        .SetPriceFloorParams(...) // Set price floor params
+        .SetPlacementId(...) // Set placement id
+        .SetLoadingTimeOut(10 * 1000) // Set loading timeout in milliseconds
+        .SetListener(this) // Set request listener
+        .Build();
 
     RewardedAd rewardedAd = new RewardedAd();
     rewardedAd.setListener(this); // Set rewarded listener       
     rewardedAd.load(rewardedRequest); // Load rewarded ad
     
-    #region RewardedAd Callbacks
-
-    public void onRewardedAdLoaded(RewardedAd ad) {
-        Debug.Log("BidMachineUnity: onRewardedAdLoaded");
-    }
-
-    public void onRewardedAdLoadFailed(RewardedAd ad, BMError error){
-        Debug.Log("BidMachineUnity: onRewardedAdLoadFailed");
-    }
-
-    public void onRewardedAdShown(RewardedAd ad){
-        Debug.Log("BidMachineUnity: onRewardedAdShown");
-    }
-
-    public void onRewardedAdImpression(RewardedAd ad) {
-        Debug.Log("BidMachineUnity: onRewardedAdImpression");
-    }
-
-    public void onRewardedAdClicked(RewardedAd ad)  {
-        Debug.Log("BidMachineUnity: onRewardedAdClicked");
-    }
-
-    public void onRewardedAdExpired(RewardedAd ad) {
-        Debug.Log("BidMachineUnity: onRewardedAdExpired");
-    }
-
-    public void onRewardedAdShowFailed(RewardedAd ad, BMError error) {
-        Debug.Log("BidMachineUnity: onRewardedAdShowFailed");
-    }
-
-    public void onRewardedAdClosed(RewardedAd ad, bool finished)  {
-        Debug.Log("$BidMachineUnity: onRewardedAdClosed {finished}");
-    }
-
-    public void onRewardedAdRewarded(RewardedAd ad){
-        Debug.Log("BidMachineUnity: onRewardedAdRewarded");
-    }
-
-    public void onRewardedAdClosed(RewardedAd ad)
+    public void onRequestExpired(IAdRequest request)
     {
-        Debug.Log("BidMachineUnity: onRewardedAdClosed");
+        Debug.Log("RewardedRequest: OnAdRequestExpired");
     }
 
-    #endregion
-
-    #region RewardedRequestListener
-
-    public void onRewardedRequestSuccess(RewardedRequest request, string auctionResult)
+    public void onRequestFailed(IAdRequest request, BMError error)
     {
-        Debug.Log($"onRewardedRequestSuccess");
+        Debug.Log($"RewardedRequest: OnAdRequestFailed");
     }
 
-    public void onRewardedRequestFailed(RewardedRequest request, BMError error)
+    public void onRequestSuccess(IAdRequest request, string auctionResult)
     {
-        Debug.Log($"onRewardedRequestFailed");
+        Debug.Log($"RewardedRequest: OnAdRequestSuccess");
     }
 
-    public void onRewardedRequestExpired(RewardedRequest request)
+    public void onAdClosed(IFullscreenAd ad, bool finished)
     {
-         Debug.Log($"onRewardedRequestExpired");
+        Debug.Log($"RewardedAd: OnAdClosed");
     }
 
-    #endregion
-
-
-    }
-```
-
-# NATIVE AD
-
-NativeAdParams 
-
-Type  | Description
------------- | -------------
-MediaAssetType.Icon | Only icon assets will be downloaded and displayed
-MediaAssetType.Image | Only image assets will be downloaded and displayed
-
-- Add RawImage to scene Canvas (should be active in hierarchy)
-- Add these following UI elements to your RawImage as children:
-  - Text nativeAdViewTitle
-  - Text nativeAdViewDescription
-  - Text nativeAdViewSponsored
-  - RawImage nativeAdViewIcon
-  - Text nativeAdViewRatting
-  - RawImage nativeAdViewImage
-  - Button callToAction
-- Add NativeAdView.cs to your RawImage via Add component Button.
-- Pass the following your native ad components to NativeAdView script: 
-  - Text nativeAdViewTitle
-  - Text nativeAdViewDescription
-  - Text nativeAdViewSponsored
-  - RawImage nativeAdViewIcon
-  - Text nativeAdViewRatting
-  - RawImage nativeAdViewImage
-  - Button callToAction
-
-To set Native Ad listeners:
-```c#
-nativeAd.setListener(this);
-```
-
-To load Native Ad:
-```c#
-nativeAd.load(nativeRequest);
-```
-
-To show Native Ad:
-```c#
-nativeAdView.setNativeAd(ad);
-```
-
-To destroy Native Ad (you should destroy request each time before new request):
-```c#
-nativeAd.destroy();
-```
-
-Example code: 
-```c#
-public class BidMachineController : MonoBehaviour, INativeAdListener, INativeRequestListener {
-
-    [SerializeField] public NativeAdView nativeAdView;
-
-    NativeAdParams nativeAdParams = new NativeAdParams();
-        nativeAdParams.setMediaAssetTypes(NativeAdParams.MediaAssetType.Icon, NativeAdParams.MediaAssetType.Image);
-
-     NativeRequest nativeRequest = new NativeRequestBuilder()
-        .setMediaAssetTypes(nativeAdParams)
-        .setTargetingParams(...) // Set TargatingParams instance
-        .setPriceFloorParams(...) // Set price floor parameters
-        .setSessionAdParams(...) // Set SessionAdParams instance
-        .setPlacementId("placement") // Set placement id
-        .setLoadingTimeOut(123) // Set loading timeout in milliseconds
-        .setListener(this) // Set native request listener
-        .build();
-
-    NativeAd nativeAd = new NativeAd();
-    nativeAd.setListener(this); // Set native listener       
-    nativeAd.load(nativeRequest); // Load native ad
-    
-    #region NativeRequestListener
-
-    public void onNativeRequestSuccess(NativeRequest request, string auctionResult)
+    public void onAdExpired(IFullscreenAd ad)
     {
-         Debug.Log($"onNativeRequestSuccess");
+        Debug.Log("RewardedAd: OnAdExpired");
     }
 
-    public void onNativeRequestFailed(NativeRequest request, BMError error)
+    public void onAdImpression(IFullscreenAd ad)
     {
-        Debug.Log($"onNativeRequestFailed");
+        Debug.Log("RewardedAd: OnAdImpression");
     }
 
-    public void onNativeRequestExpired(NativeRequest request)
+    public void onAdLoaded(IFullscreenAd ad)
     {
-        Debug.Log($"onNativeRequestExpired");
+        Debug.Log("RewardedAd: OnAdLoaded");
     }
 
-    #endregion
-
-        #region NativeAdListener
-
-    public void onNativeAdLoaded(NativeAd ad)
+    public void onAdLoadFailed(IFullscreenAd ad, BMError error)
     {
-        if (nativeAdView)
-        {
-            nativeAdView.setNativeAd(ad);
-        }
+        Debug.Log($"RewardedAd: OnAdLoadFailed");
     }
 
-    public void onNativeAdLoadFailed(NativeAd ad, BMError error)
+    public void onAdShowFailed(IFullscreenAd ad, BMError error)
     {
-        Debug.Log($"onNativeAdLoadFailed - {error.message} - {error.code} ");
+        Debug.Log($"RewardedAd: OnAdShowFailed");
     }
 
-    public void onNativeAdShown(NativeAd ad)
+    public void onAdShown(IFullscreenAd ad)
     {
-        Debug.Log("onNativeAdShown");
+        Debug.Log("RewardedAd: OnAdShown");
     }
-
-    public void onNativeAdImpression(NativeAd ad)
-    {
-        Debug.Log("onNativeAdImpression");
-    }
-
-    public void onNativeAdClicked(NativeAd ad)
-    {
-        Debug.Log("onNativeAdClicked");
-    }
-
-    public void onNativeAdExpired(NativeAd ad)
-    {
-        Debug.Log("onNativeAdExpired");
-    }
-
-    #endregion
-
-    }
+}
 ```
