@@ -1,3 +1,4 @@
+#if UNITY_IOS
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -99,3 +100,4 @@ public class BidMachineiOSUnityBridge : MonoBehaviour
         BidMachineSetPublisher(jsonString);
     }    
 }
+#endif

@@ -48,7 +48,6 @@ namespace BidMachineAds.Unity.Api
 
             public IAdRequestBuilder SetAdContentType(AdContentType contentType)
             {
-                client.SetAdContentType(contentType);
                 return this;
             }
 
@@ -88,9 +87,9 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
-            public IAdRequestBuilder SetNetworks(string jsonNetworksData)
+            public IAdRequestBuilder SetNetworks(string networks)
             {
-                client.SetNetworks(jsonNetworksData);
+                client.SetNetworks(networks);
                 return this;
             }
 

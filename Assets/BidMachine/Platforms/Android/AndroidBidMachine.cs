@@ -22,7 +22,8 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            GetBidMachineClass().CallStatic("initialize", AndroidUtils.GetActivity(), sellerId);
+            GetBidMachineClass()
+                .CallStatic("initialize", AndroidNativeConverter.GetActivity(), sellerId);
         }
 
         public bool IsInitialized()
@@ -58,7 +59,10 @@ namespace BidMachineAds.Unity.Android
             }
 
             GetBidMachineClass()
-                .CallStatic("setTargetingParams", AndroidUtils.GetTargetingParams(targetingParams));
+                .CallStatic(
+                    "setTargetingParams",
+                    AndroidNativeConverter.GetTargetingParams(targetingParams)
+                );
         }
 
         public void SetConsentConfig(bool consent, string consentConfig)
@@ -74,12 +78,12 @@ namespace BidMachineAds.Unity.Android
         public void SetSubjectToGDPR(bool subjectToGDPR)
         {
             GetBidMachineClass()
-                .CallStatic("setSubjectToGDPR", AndroidUtils.GetPrimitive(subjectToGDPR));
+                .CallStatic("setSubjectToGDPR", AndroidNativeConverter.GetObject(subjectToGDPR));
         }
 
         public void SetCoppa(bool coppa)
         {
-            GetBidMachineClass().CallStatic("setCoppa", AndroidUtils.GetPrimitive(coppa));
+            GetBidMachineClass().CallStatic("setCoppa", AndroidNativeConverter.GetObject(coppa));
         }
 
         public void SetUSPrivacyString(string usPrivacyString)
@@ -99,7 +103,7 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            var clientGppIds = AndroidUtils.GetArrayList(gppIds);
+            var clientGppIds = AndroidNativeConverter.GetArrayList(gppIds);
 
             GetBidMachineClass().CallStatic("setGPP", gppString, clientGppIds);
         }
@@ -111,9 +115,9 @@ namespace BidMachineAds.Unity.Android
                 return;
             }
 
-            GetBidMachineClass().CallStatic("setPublisher", AndroidUtils.GetPublisher(publisher));
+            GetBidMachineClass()
+                .CallStatic("setPublisher", AndroidNativeConverter.GetPublisher(publisher));
         }
     }
 }
-
 #endif

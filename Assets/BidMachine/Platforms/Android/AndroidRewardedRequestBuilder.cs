@@ -12,18 +12,13 @@ namespace BidMachineAds.Unity.Android
         public AndroidRewardedRequestBuilder()
         {
             requestBuilder = new AndroidAdRequestBuilder(
-                AndroidUtils.RewardedRequestBuilderClassName,
-                AndroidUtils.RewardedRequestListenerClassName,
+                AndroidConsts.RewardedRequestBuilderClassName,
+                AndroidConsts.RewardedRequestListenerClassName,
                 delegate(AndroidJavaObject request)
                 {
                     return new AndroidRewardedRequest(request);
                 }
             );
-        }
-
-        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
-        {
-            return requestBuilder.SetAdContentType(contentType);
         }
 
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
@@ -59,6 +54,11 @@ namespace BidMachineAds.Unity.Android
         public IAdRequestBuilder SetNetworks(string networks)
         {
             return requestBuilder.SetNetworks(networks);
+        }
+
+        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
+        {
+            return requestBuilder.SetAdContentType(contentType);
         }
 
         public IAdRequest Build()

@@ -30,7 +30,7 @@ public class BidMachineController : MonoBehaviour
         new InterstitialRequestListener();
 
     private RewardedAd rewardedAd;
-    private readonly IRewardedAdListener rewardedListener = new RewardedListener();
+    private readonly IRewardedAdListener rewardedListener = new RewardedAdListener();
     private IAdRequest rewardedRequest;
     private readonly IAdRequestListener rewardedRequestListener = new RewardedRequestListener();
 
@@ -395,7 +395,7 @@ public class BidMachineController : MonoBehaviour
         }
     }
 
-    private class RewardedListener : IRewardedAdListener
+    private class RewardedAdListener : IRewardedAdListener
     {
         public void onAdClosed(IRewardedAd ad, bool finished)
         {

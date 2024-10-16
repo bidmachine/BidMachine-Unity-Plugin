@@ -56,5 +56,4 @@ namespace BidMachineAds.Unity.Android
         }
     }
 }
-
 #endif

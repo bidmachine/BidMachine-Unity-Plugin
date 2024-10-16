@@ -1,3 +1,4 @@
+#if UNITY_IOS
 using System;
 using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Api;
@@ -98,3 +99,4 @@ internal static class HashSetExtensions
         return array;
     }
 }
+#endif

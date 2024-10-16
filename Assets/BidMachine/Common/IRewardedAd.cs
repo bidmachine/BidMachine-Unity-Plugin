@@ -2,12 +2,16 @@ using BidMachineAds.Unity.Api;
 
 namespace BidMachineAds.Unity.Common
 {
-    public interface IRewardedAd : IAd<IRewardedAdListener> { 
+    public interface IRewardedAd : IAd<IRewardedAdListener>
+    {
         void Show();
     }
 
-    public interface IRewardedAdListener : IFullscreenAdListener<IRewardedAd>
+    public interface ICommonRewardedAdListener<TAd, TAdError>
+        : ICommonFullscreenAdListener<TAd, TAdError>
     {
-        void onAdRewarded(IRewardedAd ad) { }
+        void onAdRewarded(TAd ad) { }
     }
+
+    public interface IRewardedAdListener : ICommonRewardedAdListener<IRewardedAd, BMError> { }
 }

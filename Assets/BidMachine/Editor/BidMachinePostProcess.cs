@@ -1,4 +1,4 @@
-﻿#if UNITY_IPHONE
+﻿#if UNITY_IOS
 using System.Diagnostics.CodeAnalysis;
 using BidMachineAds.Unity.Editor.iOS;
 using UnityEditor;

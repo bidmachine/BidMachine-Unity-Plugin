@@ -13,8 +13,8 @@ namespace BidMachineAds.Unity.Android
         public AndroidBannerRequestBuilder()
         {
             requestBuilder = new AndroidAdRequestBuilder(
-                AndroidUtils.BannerRequestBuilderClassName,
-                AndroidUtils.BannerRequestListenerClassName,
+                AndroidConsts.BannerRequestBuilderClassName,
+                AndroidConsts.BannerRequestListenerClassName,
                 delegate(AndroidJavaObject request)
                 {
                     return new AndroidBannerRequest(request);
@@ -26,7 +26,7 @@ namespace BidMachineAds.Unity.Android
         {
             requestBuilder.JavaObject.Call<AndroidJavaObject>(
                 "setSize",
-                AndroidUtils.GetBannerSize(size)
+                AndroidNativeConverter.GetBannerSize(size)
             );
 
             return this;

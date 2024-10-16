@@ -50,7 +50,10 @@ namespace BidMachineAds.Unity.Android
                 return this;
             }
 
-            jObject.Call<AndroidJavaObject>("setBidPayload", AndroidUtils.GetPrimitive(bidPayLoad));
+            jObject.Call<AndroidJavaObject>(
+                "setBidPayload",
+                AndroidNativeConverter.GetObject(bidPayLoad)
+            );
 
             return this;
         }
@@ -74,22 +77,34 @@ namespace BidMachineAds.Unity.Android
         {
             jObject.Call<AndroidJavaObject>(
                 "setLoadingTimeOut",
-                AndroidUtils.GetPrimitive(loadingTimeout)
+                AndroidNativeConverter.GetObject(loadingTimeout)
             );
 
             return this;
         }
 
-        public IAdRequestBuilder SetNetworks(string jsonNetworksData)
+        public IAdRequestBuilder SetNetworks(string networks)
         {
-            if (string.IsNullOrEmpty(jsonNetworksData))
+            if (string.IsNullOrEmpty(networks))
+            {
+                return this;
+            }
+
+            var networksArray = networks.Split(',');
+            if (networksArray.Length == 0)
+            {
+                return this;
+            }
+
+            var networksJson = JsonUtility.ToJson(networksArray);
+            if (string.IsNullOrEmpty(networksJson))
             {
                 return this;
             }
 
             jObject.Call<AndroidJavaObject>(
                 "setNetworks",
-                AndroidUtils.GetPrimitive(jsonNetworksData)
+                AndroidNativeConverter.GetObject(networksJson)
             );
 
             return this;
@@ -104,7 +119,7 @@ namespace BidMachineAds.Unity.Android
 
             jObject.Call<AndroidJavaObject>(
                 "setPlacementId",
-                AndroidUtils.GetPrimitive(placementId)
+                AndroidNativeConverter.GetObject(placementId)
             );
 
             return this;
@@ -119,7 +134,7 @@ namespace BidMachineAds.Unity.Android
 
             jObject.Call<AndroidJavaObject>(
                 "setPriceFloorParams",
-                AndroidUtils.GetPriceFloorParams(priceFloorParams)
+                AndroidNativeConverter.GetPriceFloorParams(priceFloorParams)
             );
 
             return this;
@@ -134,7 +149,7 @@ namespace BidMachineAds.Unity.Android
 
             jObject.Call<AndroidJavaObject>(
                 "setTargetingParams",
-                AndroidUtils.GetTargetingParams(targetingParams)
+                AndroidNativeConverter.GetTargetingParams(targetingParams)
             );
 
             return this;

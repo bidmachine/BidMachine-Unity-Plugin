@@ -7,5 +7,9 @@ namespace BidMachineAds.Unity.Common
         void Show();
     }
 
-    public interface IInterstitialAdListener : IFullscreenAdListener<IInterstitialAd> { }
+    public interface ICommonInterstitialAdListener<TAd, TAdError>
+        : ICommonFullscreenAdListener<TAd, TAdError> { }
+
+    public interface IInterstitialAdListener
+        : ICommonInterstitialAdListener<IInterstitialAd, BMError> { }
 }

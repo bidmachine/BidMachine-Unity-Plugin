@@ -15,7 +15,7 @@ namespace BidMachineAds.Unity.Android
 
         public string GetAuctionResult()
         {
-            return AndroidUtils.BuildAuctionResultString(
+            return AndroidUnityConverter.GetAuctionResult(
                 jObject.Call<AndroidJavaObject>("getAuctionResult")
             );
         }
