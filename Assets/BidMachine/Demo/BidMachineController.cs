@@ -23,14 +23,14 @@ public class BidMachineController : MonoBehaviour
     private readonly IAdRequestListener bannerRequestListener = new BannerRequestListener();
 
     private InterstitialAd interstitialAd;
-    private readonly IFullscreenAdListener<IFullscreenAd> interstitialListener =
+    private readonly IInterstitialAdListener interstitialListener =
         new InterstitialListener();
     private IAdRequest interstitialRequest;
     private readonly IAdRequestListener interstitialRequestListener =
         new InterstitialRequestListener();
 
     private RewardedAd rewardedAd;
-    private readonly IFullscreenAdListener<IFullscreenAd> rewardedListener = new RewardedListener();
+    private readonly IRewardedAdListener rewardedListener = new RewardedListener();
     private IAdRequest rewardedRequest;
     private readonly IAdRequestListener rewardedRequestListener = new RewardedRequestListener();
 
@@ -125,12 +125,12 @@ public class BidMachineController : MonoBehaviour
 
         bannerRequest = new BannerRequest.Builder()
             .SetSize(bannerSize)
-            // .setPriceFloorParams(priceFloorParams)
-            // .setTargetingParams(targetingParams)
-            // .setPlacementId("placement_bannerRequest")
+            .SetPriceFloorParams(priceFloorParams)
+            // .SetTargetingParams(targetingParams)
+            // .SetPlacementId("placement_bannerRequest")
             // .SetLoadingTimeOut(10 * 1000)
-            // .setBidPayload("123")
-            // .setNetworks("admob")
+            // .SetBidPayload("123")
+            // .SetNetworks("admob")
             .SetListener(bannerRequestListener)
             .Build();
 
@@ -183,12 +183,12 @@ public class BidMachineController : MonoBehaviour
 
         interstitialRequest = new InterstitialRequest.Builder()
             .SetAdContentType(AdContentType.All)
-            // .setPriceFloorParams(priceParam)
-            // .setTargetingParams(targetingParams)
-            // .setPlacementId("placement_interstitialRequest")
+            // .SetPriceFloorParams(priceParam)
+            // .SetTargetingParams(targetingParams)
+            // .SetPlacementId("placement_interstitialRequest")
             // .SetLoadingTimeOut(10 * 1000)
-            // .setBidPayload("123")
-            // .setNetworks("admob")
+            // .SetBidPayload("123")
+            // .SetNetworks("admob")
             .SetListener(interstitialRequestListener)
             .Build();
 
@@ -239,12 +239,13 @@ public class BidMachineController : MonoBehaviour
         }
 
         rewardedRequest = new RewardedRequest.Builder()
-            // .setPriceFloorParams(priceFloorParams)
-            // .setTargetingParams(targetingParams)
-            // .setPlacementId("placement_rewardedRequest")
+            // .SetPriceFloorParams(priceFloorParams)
+            // .SetTargetingParams(targetingParams)
+            // .SetPlacementId("placement_rewardedRequest")
             .SetLoadingTimeOut(10 * 1000)
-            // .setBidPayload("123")
-            // .setNetworks("admob")
+            // .SetBidPayload("123")
+            // .SetNetworks("admob")
+            // .SetAdContentType(AdContentType.Video)
             .SetListener(rewardedRequestListener)
             .Build();
 
@@ -338,39 +339,39 @@ public class BidMachineController : MonoBehaviour
         }
     }
 
-    private class InterstitialListener : IFullscreenAdListener<IFullscreenAd>
+    private class InterstitialListener : IInterstitialAdListener
     {
-        public void onAdClosed(IFullscreenAd ad, bool finished)
+        public void onAdClosed(IInterstitialAd ad, bool finished)
         {
             Debug.Log($"BidMachine: InterstitialAd: OnAdClosed");
         }
 
-        public void onAdExpired(IFullscreenAd ad)
+        public void onAdExpired(IInterstitialAd ad)
         {
             Debug.Log("BidMachine: InterstitialAd: OnAdExpired");
         }
 
-        public void onAdImpression(IFullscreenAd ad)
+        public void onAdImpression(IInterstitialAd ad)
         {
             Debug.Log("BidMachine: InterstitialAd: OnAdImpression");
         }
 
-        public void onAdLoaded(IFullscreenAd ad)
+        public void onAdLoaded(IInterstitialAd ad)
         {
             Debug.Log("BidMachine: InterstitialAd: OnAdLoaded");
         }
 
-        public void onAdLoadFailed(IFullscreenAd ad, BMError error)
+        public void onAdLoadFailed(IInterstitialAd ad, BMError error)
         {
             Debug.Log($"BidMachine: InterstitialAd: OnAdLoadFailed");
         }
 
-        public void onAdShowFailed(IFullscreenAd ad, BMError error)
+        public void onAdShowFailed(IInterstitialAd ad, BMError error)
         {
             Debug.Log($"BidMachine: InterstitialAd: OnAdShowFailed");
         }
 
-        public void onAdShown(IFullscreenAd ad)
+        public void onAdShown(IInterstitialAd ad)
         {
             Debug.Log("BidMachine: InterstitialAd: OnAdShown");
         }
@@ -394,41 +395,46 @@ public class BidMachineController : MonoBehaviour
         }
     }
 
-    private class RewardedListener : IFullscreenAdListener<IFullscreenAd>
+    private class RewardedListener : IRewardedAdListener
     {
-        public void onAdClosed(IFullscreenAd ad, bool finished)
+        public void onAdClosed(IRewardedAd ad, bool finished)
         {
             Debug.Log($"BidMachine: RewardedAd: OnAdClosed");
         }
 
-        public void onAdExpired(IFullscreenAd ad)
+        public void onAdExpired(IRewardedAd ad)
         {
             Debug.Log("BidMachine: RewardedAd: OnAdExpired");
         }
 
-        public void onAdImpression(IFullscreenAd ad)
+        public void onAdImpression(IRewardedAd ad)
         {
             Debug.Log("BidMachine: RewardedAd: OnAdImpression");
         }
 
-        public void onAdLoaded(IFullscreenAd ad)
+        public void onAdLoaded(IRewardedAd ad)
         {
             Debug.Log("BidMachine: RewardedAd: OnAdLoaded");
         }
 
-        public void onAdLoadFailed(IFullscreenAd ad, BMError error)
+        public void onAdLoadFailed(IRewardedAd ad, BMError error)
         {
             Debug.Log($"BidMachine: RewardedAd: OnAdLoadFailed");
         }
 
-        public void onAdShowFailed(IFullscreenAd ad, BMError error)
+        public void onAdShowFailed(IRewardedAd ad, BMError error)
         {
             Debug.Log($"BidMachine: RewardedAd: OnAdShowFailed");
         }
 
-        public void onAdShown(IFullscreenAd ad)
+        public void onAdShown(IRewardedAd ad)
         {
             Debug.Log("BidMachine: RewardedAd: OnAdShown");
+        }
+
+        public void onAdRewarded(IRewardedAd ad) 
+        {
+            Debug.Log($"BidMachine: RewardedAd: OnAdRewarded");
         }
     }
 

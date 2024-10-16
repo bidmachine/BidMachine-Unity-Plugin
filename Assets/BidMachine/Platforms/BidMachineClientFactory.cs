@@ -10,7 +10,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidBidMachine();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-            return BidMachineAds.Unity.iOS.iOSBidMachine.Instance;
+            return new iOS.iOSBidMachine();
 #else
             return new DummyBidMachine();
 #endif
@@ -21,9 +21,9 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidBannerView();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-            return new BidMachineAds.Unity.iOS.iOSBannerView();
+            return new iOS.iOSBannerAd();
 #else
-            return new DummuBannerAd();
+            return new DummyBannerAd();
 #endif
         }
 
@@ -32,20 +32,20 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidBannerRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-            return new BidMachineAds.Unity.iOS.iOSBannerViewRequestBuilder();
+            return new iOS.iOSBannerRequestBuilder();
 #else
-            return new DummuBannerRequestBuilder();
+            return new DummyBannerRequestBuilder();
 #endif
         }
 
-        internal static IFullscreenAd GetInterstitialAd()
+        internal static IInterstitialAd GetInterstitialAd()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidInterstitialAd();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-            return new BidMachineAds.Unity.iOS.iOSInterstitialAd();
+            return new iOS.iOSInterstitialAd();
 #else
-            return new DummuInterstitialAd();
+            return new DummyInterstitialAd();
 #endif
         }
 
@@ -54,20 +54,20 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidInterstitialRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-            return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder();
+            return new iOS.iOSInterstitialRequestBuilder();
 #else
-            return new DummuInterstitialRequestBuilder();
+            return new DummyInterstitialRequestBuilder();
 #endif
         }
 
-        internal static IFullscreenAd GetRewardedAd()
+        internal static IRewardedAd GetRewardedAd()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidRewardedAd();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-            return new BidMachineAds.Unity.iOS.iOSRewardedAd();
+            return new iOS.iOSRewardedAd();
 #else
-            return new DummuRewardedAd();
+            return new DummyRewardedAd();
 #endif
         }
 
@@ -76,9 +76,9 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidRewardedRequestBuilder();
 #elif UNITY_IPHONE && !UNITY_EDITOR
-            return new BidMachineAds.Unity.iOS.iOSRewardedRequestBuilder();
+            return new iOS.iOSRewardedRequestBuilder();
 #else
-            return new DummuRewardedRequestBuilder();
+            return new DummyRewardedRequestBuilder();
 #endif
         }
 
@@ -87,7 +87,7 @@ namespace BidMachineAds.Unity
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new BidMachineAds.Unity.Android.AndroidUserPermissions();
 #else
-            return new DummuUserPermissions();
+            return new DummyUserPermissions();
 #endif
         }
     }

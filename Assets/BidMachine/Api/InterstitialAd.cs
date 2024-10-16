@@ -2,16 +2,16 @@
 
 namespace BidMachineAds.Unity.Api
 {
-    public sealed class InterstitialAd : IFullscreenAd
+    public sealed class InterstitialAd : IInterstitialAd
     {
-        private readonly IFullscreenAd client;
+        private readonly IInterstitialAd client;
 
         public InterstitialAd()
         {
             client = BidMachineClientFactory.GetInterstitialAd();
         }
 
-        public InterstitialAd(IFullscreenAd client)
+        public InterstitialAd(IInterstitialAd client)
         {
             this.client = client;
         }
@@ -31,7 +31,7 @@ namespace BidMachineAds.Unity.Api
             client.Destroy();
         }
 
-        public void SetListener(IFullscreenAdListener<IFullscreenAd> listener)
+        public void SetListener(IInterstitialAdListener listener)
         {
             client.SetListener(listener);
         }
