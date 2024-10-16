@@ -2,13 +2,18 @@
 
 namespace BidMachineAds.Unity.Api
 {
-    public sealed class RewardedRequest : IAdRequest
+    public sealed class RewardedRequest : IFullscreenRequest
     {
-        private readonly IAdRequest client;
+        private readonly IFullscreenRequest client;
 
-        public RewardedRequest(IAdRequest client)
+        public RewardedRequest(IFullscreenRequest client)
         {
             this.client = client;
+        }
+
+        public AdContentType GetAdContentType()
+        {
+            return client.GetAdContentType();
         }
 
         public string GetAuctionResult()
@@ -26,13 +31,19 @@ namespace BidMachineAds.Unity.Api
             return client.IsExpired();
         }
 
-        public sealed class Builder : IAdRequestBuilder
+        public sealed class Builder : IFullscreenAdRequestBuilder
         {
-            private readonly IAdRequestBuilder client;
+            private readonly IFullscreenAdRequestBuilder client;
 
             public Builder()
             {
                 client = BidMachineClientFactory.GetRewardedRequestBuilder();
+            }
+
+            public IAdRequestBuilder SetAdContentType(AdContentType contentType)
+            {
+                client.SetAdContentType(contentType);
+                return this;
             }
 
             public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)

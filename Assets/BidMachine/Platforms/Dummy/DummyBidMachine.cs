@@ -201,7 +201,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummyInterstitialRequestBuilder : IInterstitialRequestBuilder
+    internal class DummyInterstitialRequestBuilder : IFullscreenAdRequestBuilder
     {
         public IAdRequest Build()
         {
@@ -291,11 +291,17 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummyRewardedRequestBuilder : IAdRequestBuilder
+    internal class DummyRewardedRequestBuilder : IFullscreenAdRequestBuilder
     {
         public IAdRequest Build()
         {
             Debug.LogWarning($"Call to build() {Const.DUMMY_MESSAGE}");
+            return null;
+        }
+
+        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
+        {
+            Debug.LogWarning($"Call to setAdContentType(AdContentType) {Const.DUMMY_MESSAGE}");
             return null;
         }
 

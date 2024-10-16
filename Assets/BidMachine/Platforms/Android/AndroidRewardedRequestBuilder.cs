@@ -5,7 +5,7 @@ using BidMachineAds.Unity.Common;
 
 namespace BidMachineAds.Unity.Android
 {
-    internal class AndroidRewardedRequestBuilder : IAdRequestBuilder
+    internal class AndroidRewardedRequestBuilder : IFullscreenAdRequestBuilder
     {
         private readonly AndroidAdRequestBuilder requestBuilder;
 
@@ -19,11 +19,6 @@ namespace BidMachineAds.Unity.Android
                     return new AndroidRewardedRequest(request);
                 }
             );
-        }
-
-        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
-        {
-            return requestBuilder.SetAdContentType(contentType);
         }
 
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
@@ -59,6 +54,11 @@ namespace BidMachineAds.Unity.Android
         public IAdRequestBuilder SetNetworks(string networks)
         {
             return requestBuilder.SetNetworks(networks);
+        }
+
+        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
+        {
+            return requestBuilder.SetAdContentType(contentType);
         }
 
         public IAdRequest Build()

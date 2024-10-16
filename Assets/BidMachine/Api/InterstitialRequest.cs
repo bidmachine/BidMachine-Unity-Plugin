@@ -2,13 +2,18 @@
 
 namespace BidMachineAds.Unity.Api
 {
-    public sealed class InterstitialRequest : IAdRequest
+    public sealed class InterstitialRequest : IFullscreenRequest
     {
-        private readonly IAdRequest client;
+        private readonly IFullscreenRequest client;
 
-        public InterstitialRequest(IAdRequest client)
+        public InterstitialRequest(IFullscreenRequest client)
         {
             this.client = client;
+        }
+
+        public AdContentType GetAdContentType()
+        {
+            return client.GetAdContentType();
         }
 
         public string GetAuctionResult()
@@ -26,9 +31,9 @@ namespace BidMachineAds.Unity.Api
             return client.IsExpired();
         }
 
-        public class Builder : IInterstitialRequestBuilder
+        public class Builder : IFullscreenAdRequestBuilder
         {
-            private readonly IInterstitialRequestBuilder client;
+            private readonly IFullscreenAdRequestBuilder client;
 
             public Builder()
             {
