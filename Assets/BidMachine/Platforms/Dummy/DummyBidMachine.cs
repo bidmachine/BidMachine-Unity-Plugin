@@ -113,12 +113,6 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
-        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
-        {
-            Debug.LogWarning($"Call to setAdContentType(AdContentType) {Const.DUMMY_MESSAGE}");
-            return null;
-        }
-
         public IAdRequestBuilder SetBidPayload(string bidPayload)
         {
             Debug.LogWarning($"Call to setBidPayload(string) {Const.DUMMY_MESSAGE}");
@@ -207,7 +201,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummyInterstitialRequestBuilder : IAdRequestBuilder
+    internal class DummyInterstitialRequestBuilder : IInterstitialRequestBuilder
     {
         public IAdRequest Build()
         {
@@ -302,12 +296,6 @@ namespace BidMachineAds.Unity.Dummy
         public IAdRequest Build()
         {
             Debug.LogWarning($"Call to build() {Const.DUMMY_MESSAGE}");
-            return null;
-        }
-
-        public IAdRequestBuilder SetAdContentType(AdContentType contentType)
-        {
-            Debug.LogWarning($"Call to setAdContentType(AdContentType) {Const.DUMMY_MESSAGE}");
             return null;
         }
 

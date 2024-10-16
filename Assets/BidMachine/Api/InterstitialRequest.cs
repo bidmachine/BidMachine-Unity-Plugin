@@ -26,9 +26,9 @@ namespace BidMachineAds.Unity.Api
             return client.IsExpired();
         }
 
-        public class Builder : IAdRequestBuilder
+        public class Builder : IInterstitialRequestBuilder
         {
-            private readonly IAdRequestBuilder client;
+            private readonly IInterstitialRequestBuilder client;
 
             public Builder()
             {

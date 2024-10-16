@@ -46,12 +46,6 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
-            public IAdRequestBuilder SetAdContentType(AdContentType contentType)
-            {
-                client.SetAdContentType(contentType);
-                return this;
-            }
-
             public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
             {
                 client.SetTargetingParams(targetingParams);

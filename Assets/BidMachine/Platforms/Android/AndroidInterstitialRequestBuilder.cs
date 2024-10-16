@@ -5,7 +5,7 @@ using BidMachineAds.Unity.Common;
 
 namespace BidMachineAds.Unity.Android
 {
-    internal class AndroidInterstitialRequestBuilder : IAdRequestBuilder
+    internal class AndroidInterstitialRequestBuilder : IInterstitialRequestBuilder
     {
         private readonly AndroidAdRequestBuilder requestBuilder;
 

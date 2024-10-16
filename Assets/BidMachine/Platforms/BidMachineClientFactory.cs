@@ -49,7 +49,7 @@ namespace BidMachineAds.Unity
 #endif
         }
 
-        internal static IAdRequestBuilder GetInterstitialRequestBuilder()
+        internal static IInterstitialRequestBuilder GetInterstitialRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidInterstitialRequestBuilder();

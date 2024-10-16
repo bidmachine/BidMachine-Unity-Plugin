@@ -12,4 +12,9 @@ namespace BidMachineAds.Unity.Common
 
     public interface IInterstitialAdListener
         : ICommonInterstitialAdListener<IInterstitialAd, BMError> { }
+
+    public interface IInterstitialRequestBuilder : IAdRequestBuilder
+    {
+        IAdRequestBuilder SetAdContentType(AdContentType contentType);
+    }
 }
