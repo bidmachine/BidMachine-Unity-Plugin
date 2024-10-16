@@ -49,7 +49,7 @@ namespace BidMachineAds.Unity
 #endif
         }
 
-        internal static IFullscreenAdRequestBuilder GetInterstitialRequestBuilder()
+        internal static IAdRequestBuilder GetInterstitialRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidInterstitialRequestBuilder();
@@ -71,7 +71,7 @@ namespace BidMachineAds.Unity
 #endif
         }
 
-        internal static IFullscreenAdRequestBuilder GetRewardedRequestBuilder()
+        internal static IAdRequestBuilder GetRewardedRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             return new Android.AndroidRewardedRequestBuilder();

@@ -31,9 +31,9 @@ namespace BidMachineAds.Unity.Api
             return client.IsExpired();
         }
 
-        public sealed class Builder : IFullscreenAdRequestBuilder
+        public sealed class Builder : IAdRequestBuilder
         {
-            private readonly IFullscreenAdRequestBuilder client;
+            private readonly IAdRequestBuilder client;
 
             public Builder()
             {

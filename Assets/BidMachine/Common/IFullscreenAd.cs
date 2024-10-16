@@ -13,9 +13,4 @@ namespace BidMachineAds.Unity.Common
     {
         AdContentType GetAdContentType();
     }
-
-    public interface IFullscreenAdRequestBuilder : IAdRequestBuilder
-    {
-        IAdRequestBuilder SetAdContentType(AdContentType contentType);
-    }
 }

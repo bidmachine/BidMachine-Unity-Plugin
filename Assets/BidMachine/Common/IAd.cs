@@ -41,6 +41,8 @@ namespace BidMachineAds.Unity.Common
 
     public interface IAdRequestBuilder
     {
+        IAdRequestBuilder SetAdContentType(AdContentType contentType);
+
         IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams);
 
         IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams);
