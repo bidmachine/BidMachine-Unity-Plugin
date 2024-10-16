@@ -2,18 +2,13 @@
 
 namespace BidMachineAds.Unity.Api
 {
-    public sealed class RewardedRequest : IFullscreenRequest
+    public sealed class RewardedRequest : IAdRequest
     {
-        private readonly IFullscreenRequest client;
+        private readonly IAdRequest client;
 
-        public RewardedRequest(IFullscreenRequest client)
+        public RewardedRequest(IAdRequest client)
         {
             this.client = client;
-        }
-
-        public AdContentType GetAdContentType()
-        {
-            return client.GetAdContentType();
         }
 
         public string GetAuctionResult()

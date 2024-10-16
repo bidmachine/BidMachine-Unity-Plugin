@@ -2,18 +2,13 @@
 
 namespace BidMachineAds.Unity.Api
 {
-    public sealed class InterstitialRequest : IFullscreenRequest
+    public sealed class InterstitialRequest : IAdRequest
     {
-        private readonly IFullscreenRequest client;
+        private readonly IAdRequest client;
 
-        public InterstitialRequest(IFullscreenRequest client)
+        public InterstitialRequest(IAdRequest client)
         {
             this.client = client;
-        }
-
-        public AdContentType GetAdContentType()
-        {
-            return client.GetAdContentType();
         }
 
         public string GetAuctionResult()
