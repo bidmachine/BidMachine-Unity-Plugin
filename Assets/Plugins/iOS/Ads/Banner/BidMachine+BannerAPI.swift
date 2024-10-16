@@ -27,10 +27,19 @@ public func bannerLoad() {
 
 @_cdecl("BidMachineBannerShow")
 public func bannerShow(y: Int, x: Int) -> Bool {
-    #warning("Is it OK to use default values here?")
+    let vertical = AdLayout.Vertical(rawValue: y)
+    if vertical == nil {
+        print("[BidMachine plugin] ⚠️ Warning: Invalid vertical position: \(y). Check BidMachine Unity plugin README.md '# BANNER / MREC' section for valid values. Using bottom as default.")
+    }
+
+    let horizontal = AdLayout.Horizontal(rawValue: x)
+    if horizontal == nil {
+        print("[BidMachine plugin] ⚠️ Warning: Invalid vertical position: \(x). Check BidMachine Unity plugin README.md '# BANNER / MREC' section for valid values. Using center as default.")
+    }
+    
     let adLayout = AdLayout(
-        verticalPin: .init(rawValue: y) ?? .bottom,
-        horizontalPin: .init(rawValue: x) ?? .center
+        verticalPin: vertical ?? .bottom,
+        horizontalPin: horizontal ?? .center
     )
     let shown = iOSUnityBridge.bannerBridge.show(with: adLayout)
 
@@ -98,10 +107,10 @@ public func bannerSetPlacementID(_ id: UnsafePointer<CChar>) {
 @_cdecl("BidMachineBannerSetAdContentType")
 public func bannerSetAdContentType(_ type: UnsafePointer<CChar>) {
     let adTypeString = String(cString: type)
-    guard let contentType = UnityAdContentType(rawValue: adTypeString) else {
+    guard let _ = UnityAdContentType(rawValue: adTypeString) else {
         return
     }
-    // FIXME: add logic or log error (remove from banner interface??)
+    // Additional logic can go here if needed in the future
 }
 
 @_cdecl("BidMachineBannerSetBidPayload")
