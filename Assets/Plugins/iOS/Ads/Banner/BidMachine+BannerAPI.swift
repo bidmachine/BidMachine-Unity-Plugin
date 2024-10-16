@@ -78,16 +78,11 @@ public func setBannerExpiredCallback(_ callback: @escaping CAdCallback) {
 
 @_cdecl("BidMachineBannerSetPriceFloorParams")
 public func bannerSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
-    let paramsString = String(cString: jsonString)
+    let jsonString = String(cString: jsonString)
 
-    guard let data = paramsString.data(using: .utf8) else {
-        return
-    }
     do {
-        let parametersList = try JSONDecoder().decode(
-            PriceFloorParameters.self,
-            from: data
-        )
+        let parametersList = try PriceFloorParamsDecoder.decode(from: jsonString)
+
         iOSUnityBridge.bannerBridge.setPriceFloorParams(parametersList.items)
     } catch let error {
         print("Error parsing price floor params: \(error.localizedDescription)")
@@ -115,17 +110,16 @@ public func bannerSetBidPayload(_ payload: UnsafePointer<CChar>) {
     iOSUnityBridge.bannerBridge.setBidPayload(payloadString)
 }
 
-#warning("seems like networks is raw json string, add parsing logic")
 @_cdecl("BidMachineBannerSetNetworks")
 public func bannerSetNetworks(_ networks: UnsafePointer<CChar>) {
-    let networks = String(cString: networks)
-    iOSUnityBridge.bannerBridge.setNetworks([networks])
+    let networksString = String(cString: networks)
+    let networksNames = NetworksNamesDecoder.decode(from: networksString)
+    iOSUnityBridge.bannerBridge.setNetworks(networksNames)
 }
 
 @_cdecl("BidMachineBannerSetLoadingTimeOut")
 public func bannerSetLoadingTimeout(_ interval: Int) {
-    let measurement = Measurement(value: Double(interval), unit: UnitDuration.milliseconds)
-    let seconds = measurement.converted(to: .seconds).value
+    let seconds = MillisecondsConverter.toSeconds(interval)
 
     iOSUnityBridge.bannerBridge.setTimeout(seconds)
 }
