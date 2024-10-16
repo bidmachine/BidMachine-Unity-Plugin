@@ -201,7 +201,7 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummyInterstitialRequestBuilder : IInterstitialRequestBuilder
+    internal class DummuInterstitialRequestBuilder : IAdRequestBuilder
     {
         public IAdRequest Build()
         {

@@ -79,5 +79,4 @@ namespace BidMachineAds.Unity.iOS
             Bridge().SetPublisher(jsonString);
         }
     }
-}
 #endif

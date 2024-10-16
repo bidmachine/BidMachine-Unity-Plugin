@@ -5,8 +5,7 @@ using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Api;
 using UnityEngine;
 
-namespace BidMachineAds.Unity.iOS
-{
+namespace BidMachineAds.Unity.iOS {
     public class BannerAdiOSUnityBridge : MonoBehaviour, IiOSBannerAdBridge
     {
         [DllImport("__Internal")]
