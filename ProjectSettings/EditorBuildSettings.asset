@@ -5,10 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/BidMachine/Demo/BidMachineDemoScene.unity
-    guid: 4dbba648431c4427ea1e1a02a1b6463b
-  m_configObjects: {}
+    guid: 0021cb477a8814faf902e4327652553a
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: bfe901f1a636e4beeaf79c1cce7d8513,
+      type: 2}
