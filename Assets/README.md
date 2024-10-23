@@ -61,8 +61,10 @@ UserPermissions.Request();
 
 #### 2.2.1 Requirements
 
-- **iOS Version**: 12.0+
-- **Xcode Version**: 13.3+
+- **iOS Version**: 12.0+ 
+The SDK is no longer compatible with iOS versions below 13. While projects with a minimum deployment target of iOS 12 will not encounter any compilation errors, the SDK will not execute any code on devices running iOS 12 or earlier.
+
+- **Xcode Version**: 15.2+
 
 #### 2.2.2 External Dependency Manager (Play Services Resolver)
 
@@ -76,7 +78,7 @@ The BidMachine Unity Plugin includes the External Dependency Manager package. Fo
 
 3. **Adjust Settings**:
     - Open `Assets → External Dependency Manager → IOS Resolver → Settings`.
-    - Ensure that the options "Link frameworks statically" and "Enable Swift Framework Support Workaround" are unchecked.
+    - Ensure that the option "Enable Swift Framework Support Workaround" is unchecked.
 
 ## Step 3. Integration
 
