@@ -1,4 +1,4 @@
-﻿#if UNITY_IPHONE
+﻿#if UNITY_IOS
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,20 +16,13 @@ using Debug = UnityEngine.Debug;
 
 namespace BidMachineAds.Unity.Editor.iOS
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "AssignNullToNotNullAttribute")]
-    [SuppressMessage("ReSharper", "UnusedVariable")]
-    [SuppressMessage("ReSharper", "UnusedMember.Local")]
-    [SuppressMessage("ReSharper", "UnusedParameter.Local")]
-    [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
-    [SuppressMessage("ReSharper", "Unity.IncorrectMethodSignature")]
     public class iOSPostprocessUtils : MonoBehaviour
     {
         private const string suffix = ".framework";
-        private const string minVersionToEnableBitcode = "10.0";
+        private const string minVersionToDisableBitcode = "14.0";
 
-        [PostProcessBuildAttribute(41)]
-        public static void updateInfoPlist(BuildTarget buildTarget, string buildPath)
+        [PostProcessBuild(41)]
+        public static void UpdateInfoPlist(BuildTarget buildTarget, string buildPath)
         {
             var path = Path.Combine(buildPath, "Info.plist");
 
@@ -136,44 +129,37 @@ namespace BidMachineAds.Unity.Editor.iOS
 
         public static void PrepareProject(string buildPath)
         {
-            Debug.Log("preparing your xcode project for appodeal");
+            Debug.Log("Preparing your Xcode project for additional frameworks");
             var projectPath = PBXProject.GetPBXProjectPath(buildPath);
             var project = new PBXProject();
 
             project.ReadFromString(File.ReadAllText(projectPath));
 
-#if UNITY_2019_3_OR_NEWER
-            var target = project.GetUnityMainTargetGuid();
-#else
-            var target = project.TargetGuidByName("Unity-iPhone");
-#endif
+            var target = GetTargetNameOfProject(project);
 
             AddProjectFrameworks(frameworkList, project, target, false);
             AddProjectFrameworks(weakFrameworkList, project, target, true);
             AddProjectLibs(platformLibs, project, target);
+
             project.AddBuildProperty(target, "OTHER_LDFLAGS", "-ObjC");
 
-
-            var xcodeVersion = getXcodeVersion();
-            if (xcodeVersion == null ||
-                compareVersions(xcodeVersion, minVersionToEnableBitcode) >= 0)
+            var xcodeVersion = GetXcodeVersion();
+            if (xcodeVersion == null || CompareVersions(xcodeVersion, minVersionToDisableBitcode) >= 0)
             {
-                project.SetBuildProperty(target, "ENABLE_BITCODE", "YES");
-            }
-            else
-            {
-                project.SetBuildProperty(target, "ENABLE_BITCODE", "NO");
+                project.SetBuildProperty(project.ProjectGuid(), "ENABLE_BITCODE", "NO");
             }
 
             project.AddBuildProperty(target, "LIBRARY_SEARCH_PATHS", "$(SRCROOT)/Libraries");
             project.AddBuildProperty(target, "LIBRARY_SEARCH_PATHS", "$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)");
-#if UNITY_2019_3_OR_NEWER
-            project.AddBuildProperty(target, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "NO");
-#else
-            project.AddBuildProperty(target, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
-#endif
+
+            #if UNITY_2019_3_OR_NEWER
+                project.AddBuildProperty(target, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "NO");
+            #else
+                project.AddBuildProperty(target, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
+            #endif
+
             project.AddBuildProperty(target, "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks");
-            project.SetBuildProperty(target, "SWIFT_VERSION", "4.0");
+            project.SetBuildProperty(target, "SWIFT_VERSION", "5.5");
 
             File.WriteAllText(projectPath, project.WriteToString());
         }
@@ -286,7 +272,7 @@ namespace BidMachineAds.Unity.Editor.iOS
             return attributeElementiOSPod.Value.Equals("APDGoogleAdMobAdapter");
         }
 
-        private static string getXcodeVersion()
+        private static string GetXcodeVersion()
         {
             string profilerOutput = null;
             try
@@ -313,7 +299,16 @@ namespace BidMachineAds.Unity.Editor.iOS
             return profilerOutput;
         }
 
-        private static int compareVersions(string v1, string v2)
+        private static string GetTargetNameOfProject(PBXProject project)
+        {
+            #if UNITY_2019_3_OR_NEWER
+                return project.GetUnityMainTargetGuid();
+            #else
+                return project.TargetGuidByName("Unity-iPhone");
+            #endif
+        }
+
+        private static int CompareVersions(string v1, string v2)
         {
             var re = new Regex(@"\d+(\.\d+)+");
             var match1 = re.Match(v1);
