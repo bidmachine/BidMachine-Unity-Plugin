@@ -9,16 +9,16 @@ namespace BidMachineAds.Unity.iOS {
     public class BannerRequestiOSUnityBridge : MonoBehaviour, IiOSAdRequestBridge
     {
         [DllImport("__Internal")]
-        public static extern IntPtr BidMachineBannerGetAuctionResultUnmanagedPointer();
+        private static extern IntPtr BidMachineBannerGetAuctionResultUnmanagedPointer();
 
         [DllImport("__Internal")]
-        public static extern bool BidMachineBannerIsExpired();
+        private static extern bool BidMachineBannerIsExpired();
 
         [DllImport("__Internal")]
-        public static extern bool BidMachineBannerIsDestroyed();
+        private static extern bool BidMachineBannerIsDestroyed();
 
         [DllImport("__Internal")]
-        public static extern int BidMachineBannerGetSize();
+        private static extern int BidMachineBannerGetSize();
 
         public string GetAuctionResult() 
         {

@@ -7,13 +7,13 @@ namespace BidMachineAds.Unity.iOS {
     public class InterstitialRequestiOSUnityBridge : MonoBehaviour, IiOSAdRequestBridge
     {
         [DllImport("__Internal")]
-        public static extern IntPtr BidMachineInterstitialGetAuctionResultUnmanagedPointer();
+        private static extern IntPtr BidMachineInterstitialGetAuctionResultUnmanagedPointer();
 
         [DllImport("__Internal")]
-        public static extern bool BidMachineInterstitialIsExpired();
+        private static extern bool BidMachineInterstitialIsExpired();
 
         [DllImport("__Internal")]
-        public static extern bool BidMachineInterstitialIsDestroyed();
+        private static extern bool BidMachineInterstitialIsDestroyed();
 
         public string GetAuctionResult() 
         {

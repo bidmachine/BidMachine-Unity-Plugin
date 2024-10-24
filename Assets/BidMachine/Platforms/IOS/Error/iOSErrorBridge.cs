@@ -7,13 +7,13 @@ namespace BidMachineAds.Unity.iOS
     public class iOSErrorBridge
     {
         [DllImport("__Internal")]
-        public static extern int BidMachineGetErrorCode(IntPtr error);
+        private static extern int BidMachineGetErrorCode(IntPtr error);
 
         [DllImport("__Internal")]
-        public static extern IntPtr BidMachineGetErrorMessageUnmanagedPointer(IntPtr error);
+        private static extern IntPtr BidMachineGetErrorMessageUnmanagedPointer(IntPtr error);
 
         [DllImport("__Internal")]
-        public static extern IntPtr BidMachineGetErrorBriefUnmanagedPointer(IntPtr error);
+        private static extern IntPtr BidMachineGetErrorBriefUnmanagedPointer(IntPtr error);
 
         public static int GetErrorCode(IntPtr error)
         {

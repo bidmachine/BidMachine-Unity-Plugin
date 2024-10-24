@@ -165,6 +165,24 @@ public func setBannerRequestCallbacks(
     )
 }
 
+// MARK: - Request
+
+@_cdecl("BidMachineBannerIsDestroyed")
+public func bannerIsDestroyed() -> Bool {
+    iOSUnityBridge.bannerBridge.isDestroyed
+}
+
+@_cdecl("BidMachineBannerIsExpired")
+public func bannerIsExpired() -> Bool {
+    iOSUnityBridge.bannerBridge.isExpired
+}
+
+@_cdecl("BidMachineBannerGetAuctionResultUnmanagedPointer")
+public func bannerAuctionResult() -> UnsafeMutablePointer<CChar>? {
+    let result = iOSUnityBridge.bannerBridge.auctionResult ?? "unknown"
+    return result.utf8UnmanagedPtrCopy
+}
+
 private extension BannerAdBridge.BannerSize {
     var placementFormat: PlacementFormat {
         switch self {
