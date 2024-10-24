@@ -5,40 +5,40 @@ using UnityEngine;
 public class BidMachineiOSUnityBridge : MonoBehaviour
 {
     [DllImport("__Internal")]
-    public static extern void BidMachineInitialize(string sellerId);
+    private static extern void BidMachineInitialize(string sellerId);
 
     [DllImport("__Internal")]
-    public static extern bool BidMachineIsInitialized();
+    private static extern bool BidMachineIsInitialized();
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetEndpoint(string url);
+    private static extern void BidMachineSetEndpoint(string url);
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetLoggingEnabled(bool logging);
+    private static extern void BidMachineSetLoggingEnabled(bool logging);
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetTestEnabled(bool test);
+    private static extern void BidMachineSetTestEnabled(bool test);
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetTargetingParams(string jsonString);
+    private static extern void BidMachineSetTargetingParams(string jsonString);
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetConsentConfig(string consentConfig, bool consent);
+    private static extern void BidMachineSetConsentConfig(string consentConfig, bool consent);
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetSubjectToGDPR(bool flag);
+    private static extern void BidMachineSetSubjectToGDPR(bool flag);
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetCoppa(bool coppa);
+    private static extern void BidMachineSetCoppa(bool coppa);
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetUSPrivacyString(string usPrivacyString);
+    private static extern void BidMachineSetUSPrivacyString(string usPrivacyString);
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetGPP(string gppString, int[] gppIds, int length);
+    private static extern void BidMachineSetGPP(string gppString, int[] gppIds, int length);
 
     [DllImport("__Internal")]
-    public static extern void BidMachineSetPublisher(string jsonString);
+    private static extern void BidMachineSetPublisher(string jsonString);
 
     public void Initialize(string sellerId)
     {
