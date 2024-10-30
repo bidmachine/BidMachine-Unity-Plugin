@@ -1,146 +1,94 @@
-// ReSharper disable All
-using System.Diagnostics.CodeAnalysis;
-using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using BidMachineAds.Unity.Dummy;
 
 namespace BidMachineAds.Unity
 {
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "RedundantNameQualifier")]
     internal class BidMachineClientFactory
     {
         internal static IBidMachine GetBidMachine()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidBidMachine();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return BidMachineAds.Unity.iOS.iOSBidMachine.Instance;
+            return new Android.AndroidBidMachine();
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new iOS.iOSBidMachine();
 #else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
+            return new DummyBidMachine();
 #endif
         }
 
-        internal static ITargetingParams GetTargetingParams()
+        internal static IBannerView GetBannerView()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidTargetingParams();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSTargetingParams();
+            return new Android.AndroidBannerView();
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new iOS.iOSBannerAd();
 #else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
-        internal static IPriceFloorParams GetPriceFloorParametrs()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidPriceFloorParams();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSPriceFloorParams();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
-        internal static ISessionAdParams GetSessionAdParams()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidSessionAdParams();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSSessionAdParams();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
-        internal static IInterstitialRequestBuilder GetInterstitialRequestBuilder()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidInterstitialRequestBuilder();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSInterstitialRequestBuilder();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
-        internal static IInterstitialAd GetInterstitialAd()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidInterstitialAd();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSInterstitialAd();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
-        internal static IRewardedRequestBuilder GetRewardedRequestBuilder()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidRewardedRequestBuilder();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSRewardedRequestBuilder();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-        
-        internal static INativeRequestBuilder GetNativeRequestBuilder()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidNativeRequestBuilder();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSNativeRequestBuilder();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-
-        internal static IRewardedAd GetRewardedAd()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidRewardedAd();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSRewardedAd();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
-#endif
-        }
-        
-        internal static INativeAd GetNativeAd()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidNativeAd();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSNativeAd();
-#else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
+            return new DummyBannerAd();
 #endif
         }
 
         internal static IBannerRequestBuilder GetBannerRequestBuilder()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidBannerRequestBuilder();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-        return new BidMachineAds.Unity.iOS.iOSBannerViewRequestBuilder();
+            return new Android.AndroidBannerRequestBuilder();
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new iOS.iOSBannerRequestBuilder();
 #else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
+            return new DummyBannerRequestBuilder();
 #endif
         }
 
-        internal static IBannerView GetAndroidBannerView()
+        internal static IInterstitialAd GetInterstitialAd()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-          return new BidMachineAds.Unity.Android.AndroidBannerView();
-#elif UNITY_IPHONE && !UNITY_EDITOR
-          return new BidMachineAds.Unity.iOS.iOSBannerView();
+            return new Android.AndroidInterstitialAd();
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new iOS.iOSInterstitialAd();
 #else
-            return new BidMachineAds.Unity.Dummy.DummyBidMachine();
+            return new DummyInterstitialAd();
 #endif
         }
 
+        internal static IAdRequestBuilder GetInterstitialRequestBuilder()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new Android.AndroidInterstitialRequestBuilder();
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new iOS.iOSInterstitialRequestBuilder();
+#else
+            return new DummyInterstitialRequestBuilder();
+#endif
+        }
+
+        internal static IRewardedAd GetRewardedAd()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new Android.AndroidRewardedAd();
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new iOS.iOSRewardedAd();
+#else
+            return new DummyRewardedAd();
+#endif
+        }
+
+        internal static IAdRequestBuilder GetRewardedRequestBuilder()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new Android.AndroidRewardedRequestBuilder();
+#elif UNITY_IOS && !UNITY_EDITOR
+            return new iOS.iOSRewardedRequestBuilder();
+#else
+            return new DummyRewardedRequestBuilder();
+#endif
+        }
+
+        internal static IUserPermissions GetUserPermissions()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new BidMachineAds.Unity.Android.AndroidUserPermissions();
+#else
+            return new DummyUserPermissions();
+#endif
+        }
     }
 }
