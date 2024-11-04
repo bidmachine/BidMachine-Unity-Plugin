@@ -20,7 +20,7 @@ namespace BidMachineAds.Unity.iOS {
             IntPtr resultPtr = BidMachineInterstitialGetAuctionResultUnmanagedPointer();
 
             string result = Marshal.PtrToStringAuto(resultPtr);
-            Marshal.FreeHGlobal(resultPtr);
+            iOSPointersBridge.ReleasePointer(resultPtr);
 
             return result;
         }

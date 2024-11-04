@@ -115,7 +115,7 @@ namespace BidMachineAds.Unity.iOS
         private static void didLoadRequest(IntPtr ad, IntPtr auctionResultUnamagedPointer)
         {
             string auctionString = Marshal.PtrToStringAuto(auctionResultUnamagedPointer);
-            Marshal.FreeHGlobal(auctionResultUnamagedPointer);
+            iOSPointersBridge.ReleasePointer(auctionResultUnamagedPointer);
 
             if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
             {
