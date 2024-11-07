@@ -79,12 +79,12 @@ typealias PriceFloorParameters = KeyValueList<String, Double>
 
 @_cdecl("BidMachineRewardedSetPriceFloorParams")
 public func rewardedSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
-    CommonAdsAPI.setPriceFloorParams(jsonString: jsonString, bridge: iOSUnityBridge.rewardedBridge)
+    RequestBuilderHelper.setPriceFloorParams(jsonString: jsonString, bridge: iOSUnityBridge.rewardedBridge)
 }
 
 @_cdecl("BidMachineRewardedSetCustomParams")
 public func rewardedSetCustomParams(jsonString: UnsafePointer<CChar>) {
-    CommonAdsAPI.setCustomParams(jsonString: jsonString, bridge: iOSUnityBridge.rewardedBridge)
+    RequestBuilderHelper.setCustomParams(jsonString: jsonString, bridge: iOSUnityBridge.rewardedBridge)
 }
 
 @_cdecl("BidMachineRewardedSetPlacementId")
@@ -112,7 +112,7 @@ public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>) {
 
 @_cdecl("BidMachineRewardedSetNetworks")
 public func rewardedSetNetworks(_ networks: UnsafePointer<CChar>) {
-    CommonAdsAPI.setNetworks(networks, bridge: iOSUnityBridge.rewardedBridge)
+    RequestBuilderHelper.setNetworks(networks, bridge: iOSUnityBridge.rewardedBridge)
 }
 
 @_cdecl("BidMachineRewardedSetLoadingTimeOut")

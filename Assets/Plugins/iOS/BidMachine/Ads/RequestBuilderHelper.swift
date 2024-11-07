@@ -1,5 +1,5 @@
 //
-//  CommonAdsAPI.swift
+//  RequestBuilderHelper.swift
 //  UnityFramework
 //
 //  Created by Dzmitry on 07/11/2024.
@@ -8,7 +8,7 @@
 import Foundation
 import BidMachine
 
-enum CommonAdsAPI {
+enum RequestBuilderHelper {
     static func setCustomParams<Ad: BidMachineAdProtocol>(
         jsonString: UnsafePointer<CChar>,
         bridge: AdBridge<Ad>
@@ -24,7 +24,7 @@ enum CommonAdsAPI {
             }
             bridge.setCustomParams(dict)
         } catch let error {
-            print("Error parsing price floor params: \(error.localizedDescription)")
+            print("Error parsing custom params: \(error.localizedDescription)")
         }
     }
     

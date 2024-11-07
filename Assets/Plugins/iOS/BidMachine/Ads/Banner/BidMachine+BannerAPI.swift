@@ -87,12 +87,12 @@ public func setBannerExpiredCallback(_ callback: @escaping CAdCallback) {
 
 @_cdecl("BidMachineBannerSetPriceFloorParams")
 public func bannerSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
-    CommonAdsAPI.setPriceFloorParams(jsonString: jsonString, bridge: iOSUnityBridge.bannerBridge)
+    RequestBuilderHelper.setPriceFloorParams(jsonString: jsonString, bridge: iOSUnityBridge.bannerBridge)
 }
 
 @_cdecl("BidMachineBannerSetCustomParams")
 public func bannerSetCustomParams(jsonString: UnsafePointer<CChar>) {
-    CommonAdsAPI.setCustomParams(jsonString: jsonString, bridge: iOSUnityBridge.bannerBridge)
+    RequestBuilderHelper.setCustomParams(jsonString: jsonString, bridge: iOSUnityBridge.bannerBridge)
 }
 
 @_cdecl("BidMachineBannerSetPlacementId")
@@ -118,7 +118,7 @@ public func bannerSetBidPayload(_ payload: UnsafePointer<CChar>) {
 
 @_cdecl("BidMachineBannerSetNetworks")
 public func bannerSetNetworks(_ networks: UnsafePointer<CChar>) {
-    CommonAdsAPI.setNetworks(networks, bridge: iOSUnityBridge.bannerBridge)
+    RequestBuilderHelper.setNetworks(networks, bridge: iOSUnityBridge.bannerBridge)
 }
 
 @_cdecl("BidMachineBannerSetLoadingTimeOut")

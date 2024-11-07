@@ -71,12 +71,12 @@ public func setInterstitialClosedCallback(_ callback: @escaping CAdClosedCallbac
 
 @_cdecl("BidMachineInterstitialSetPriceFloorParams")
 public func interstitialSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
-    CommonAdsAPI.setPriceFloorParams(jsonString: jsonString, bridge: iOSUnityBridge.interstitialBridge)
+    RequestBuilderHelper.setPriceFloorParams(jsonString: jsonString, bridge: iOSUnityBridge.interstitialBridge)
 }
 
 @_cdecl("BidMachineInterstitialSetCustomParams")
 public func interstitialSetCustomParams(jsonString: UnsafePointer<CChar>) {
-    CommonAdsAPI.setCustomParams(jsonString: jsonString, bridge: iOSUnityBridge.interstitialBridge)
+    RequestBuilderHelper.setCustomParams(jsonString: jsonString, bridge: iOSUnityBridge.interstitialBridge)
 }
 
 @_cdecl("BidMachineInterstitialSetPlacementId")
@@ -104,7 +104,7 @@ public func interstitialSetBidPayload(_ payload: UnsafePointer<CChar>) {
 
 @_cdecl("BidMachineInterstitialSetNetworks")
 public func interstitialSetNetworks(_ networks: UnsafePointer<CChar>) {
-    CommonAdsAPI.setNetworks(networks, bridge: iOSUnityBridge.interstitialBridge)
+    RequestBuilderHelper.setNetworks(networks, bridge: iOSUnityBridge.interstitialBridge)
 }
 
 @_cdecl("BidMachineInterstitialSetLoadingTimeOut")
