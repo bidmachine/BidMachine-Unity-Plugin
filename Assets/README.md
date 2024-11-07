@@ -495,3 +495,58 @@ public class BidMachineController : MonoBehaviour
     }
 }
 ```
+
+### Callbacks usage rules:
+
+**Run Callbacks in Main Unity Thread**
+
+Callbacks in BidMachine plugin are executed in the main Android or iOS threads (not in the main Unity thread). What does it mean for you?
+It’s not recommended to perform any UI changes (change colours, positions, sizes, texts and so on) directly in our callback functions.
+
+So, how to react on BidMachine events to prevent multithreading problems? The simplest way is to use flags and Update() method of MonoBehaviour class:
+
+```csharp
+public class SomeClass : MonoBehaviour, IAdRequestListener
+{
+    bool requestFinished = false;
+    string result;
+
+    public void onRequestSuccess(IAdRequest request, string auctionResult)
+    {
+        result = auctionResult;
+
+        // It's important to set flag to true only after all required parameters
+        requestFinished = true;
+    }
+
+    // Update method always performs in the main Unity thread
+    void Update()
+    {
+        if(requestFinished)
+        {
+            // Don't forget to set flag to false
+            requestFinished = false;
+            // Do something with result
+        }
+    }
+}
+```
+
+Other, maybe more comfortable way is to use UnityMainThreadDispatcher. To use it:
+
+Download script and prefab.
+Import downloaded files to your project.
+Add UnityMainThreadDispatcher.prefab to your scene (or to all scenes, where you want to make UI changes after BidMachine callbacks).
+Use UnityMainThreadDispatcher.Instance().Enqueue()``` method to perform changes:
+
+```csharp
+public void onRequestSuccess(IAdRequest request, string auctionResult)
+{
+    UnityMainThreadDispatcher.Instance().Enqueue(()=> {
+        Debug.Log($"BidMachine. Request success: {auctionResult}")
+    });
+}
+```
+
+And finally, the official way to send message to Unity Main thread is UnitySendMessage.
+It’s platform dependent, so it’s required to make changes in Android native code and iOS native code.
