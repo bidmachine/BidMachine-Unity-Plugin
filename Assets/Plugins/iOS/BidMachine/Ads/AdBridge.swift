@@ -113,6 +113,10 @@ class AdBridge<Ad: BidMachineAdProtocol> {
         getRequestBuilder().setPriceFloorParameters(parameters)
     }
     
+    func setCustomParams(_ parameters: [String: String]) {
+        getRequestBuilder().setCustomParameters(parameters)
+    }
+    
     func setBidPayload(_ payload: String) {
         getRequestBuilder().setBidPayload(payload)
     }
