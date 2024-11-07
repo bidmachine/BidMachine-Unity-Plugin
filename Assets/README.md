@@ -269,7 +269,21 @@ Code example:
 
 ```csharp
 PriceFloorParams priceFloorParams = new PriceFloorParams();
-priceFloorParams.addPriceFloor("123", 1.2d);
+priceFloorParams.AddPriceFloor("123", 1.2d);
+```
+
+### Custom Parameters
+
+| Param | Type | Description |
+| - | - | - |
+| Key | String | Unique parameter identifier. |
+| Value | String | Parameter value |
+
+Code example:
+
+```csharp
+CustomParams customParams = new CustomParams();
+customParams.AddParam("key", "value");
 ```
 
 ## Banner / MREC
