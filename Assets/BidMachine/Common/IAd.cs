@@ -47,6 +47,8 @@ namespace BidMachineAds.Unity.Common
 
         IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams);
 
+        IAdRequestBuilder SetCustomParams(CustomParams customParams);
+
         IAdRequestBuilder SetListener(IAdRequestListener listener);
 
         IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout);

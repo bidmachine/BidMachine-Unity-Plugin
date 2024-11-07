@@ -53,6 +53,12 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
+            public IAdRequestBuilder SetCustomParams(CustomParams customParams)
+            {
+                client.SetCustomParams(customParams);
+                return this;
+            }
+
             public IAdRequestBuilder SetListener(IAdRequestListener listener)
             {
                 client.SetListener(listener);
