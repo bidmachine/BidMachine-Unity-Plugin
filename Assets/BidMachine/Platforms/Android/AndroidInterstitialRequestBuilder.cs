@@ -31,6 +31,11 @@ namespace BidMachineAds.Unity.Android
             return requestBuilder.SetPriceFloorParams(priceFloorParams);
         }
 
+        public IAdRequestBuilder SetCustomParams(CustomParams customParams)
+        {
+            return requestBuilder.SetCustomParams(customParams);
+        }
+
         public IAdRequestBuilder SetListener(IAdRequestListener listener)
         {
             return requestBuilder.SetListener(listener);

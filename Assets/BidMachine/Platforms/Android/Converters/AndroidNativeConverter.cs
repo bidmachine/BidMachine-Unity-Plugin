@@ -72,6 +72,25 @@ namespace BidMachineAds.Unity.Android
             return jObject;
         }
 
+        public static AndroidJavaObject GetCustomParams(CustomParams customParams)
+        {
+            var jObject = new AndroidJavaObject("io.bidmachine.CustomParams");
+
+            if (customParams != null && customParams.Params != null)
+            {
+                foreach (KeyValuePair<string, string> customParam in customParams.Params)
+                {
+                    jObject.Call<AndroidJavaObject>(
+                        "addParam",
+                        GetObject(customParam.Key),
+                        customParam.Value
+                    );
+                }
+            }
+
+            return jObject;
+        }
+
         public static AndroidJavaObject GetPublisher(Publisher publisher)
         {
             var jObject = new AndroidJavaObject("io.bidmachine.Publisher$Builder");

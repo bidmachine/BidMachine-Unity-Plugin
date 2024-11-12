@@ -140,6 +140,21 @@ namespace BidMachineAds.Unity.Android
             return this;
         }
 
+        public IAdRequestBuilder SetCustomParams(CustomParams customParams)
+        {
+            if (customParams == null)
+            {
+                return this;
+            }
+
+            jObject.Call<AndroidJavaObject>(
+                "setCustomParams",
+                AndroidNativeConverter.GetCustomParams(customParams)
+            );
+
+            return this;
+        }
+
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
             if (targetingParams == null)
