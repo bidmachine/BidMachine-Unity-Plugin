@@ -9,6 +9,9 @@ using AOT;
 
 namespace BidMachineAds.Unity.iOS
 {
+    using PriceFloorList = KeyValueList<string, double>;
+    using CustomParamsList = KeyValueList<string, string>;
+
     public interface IiOSAdRequestBuilderBridge {
         public void Build();
 
@@ -21,6 +24,8 @@ namespace BidMachineAds.Unity.iOS
         public void SetLoadingTimeOut(int loadingTimeout);
 
         public void SetNetworks(string networks);
+
+        public void SetCustomParams(string jsonString);
 
         public void SetAdContentType(string contentType);
 
@@ -86,7 +91,7 @@ namespace BidMachineAds.Unity.iOS
 
         public IAdRequestBuilder SetPriceFloorParams(PriceFloorParams priceFloorParams)
         {
-            KeyValueList list = new KeyValueList(priceFloorParams.PriceFloors);
+            PriceFloorList list = new PriceFloorList(priceFloorParams.PriceFloors);
             string jsonString = JsonUtility.ToJson(list);
 
             requestBuilderBridge.SetPriceFloorParams(jsonString);
@@ -96,6 +101,15 @@ namespace BidMachineAds.Unity.iOS
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
             // Delete from interface?
+            return this;
+        }
+
+        public IAdRequestBuilder SetCustomParams(CustomParams customParams)
+        {
+            CustomParamsList list = new CustomParamsList(customParams.Params);
+            string jsonString = JsonUtility.ToJson(list);
+
+            requestBuilderBridge.SetCustomParams(jsonString);
             return this;
         }
 
@@ -154,12 +168,12 @@ namespace BidMachineAds.Unity.iOS
 namespace BidMachineAds.Unity.iOS
 {
     [Serializable]
-    internal class KeyValue
+    internal class KeyValue<K, V>
     {
-        public string Key;
-        public double Value;
+        public K Key;
+        public V Value;
 
-        public KeyValue(string key, double value)
+        public KeyValue(K key, V value)
         {
             this.Key = key;
             this.Value = value;
@@ -167,15 +181,15 @@ namespace BidMachineAds.Unity.iOS
     }
 
     [Serializable]
-    internal class KeyValueList
+    internal class KeyValueList<K,V>
     {
-        public List<KeyValue> items = new List<KeyValue>();
+        public List<KeyValue<K, V>> items = new List<KeyValue<K, V>>();
 
-        public KeyValueList(Dictionary<string, double> dict)
+        public KeyValueList(Dictionary<K, V> dict)
         {
             foreach (var kvp in dict)
             {
-                items.Add(new KeyValue(kvp.Key, kvp.Value));
+                items.Add(new KeyValue<K, V>(kvp.Key, kvp.Value));
             }
         }
     }

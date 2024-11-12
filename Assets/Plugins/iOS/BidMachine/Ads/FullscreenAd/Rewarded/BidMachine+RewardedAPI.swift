@@ -79,14 +79,12 @@ typealias PriceFloorParameters = KeyValueList<String, Double>
 
 @_cdecl("BidMachineRewardedSetPriceFloorParams")
 public func rewardedSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
-    let jsonString = String(cString: jsonString)
+    RequestBuilderHelper.setPriceFloorParams(jsonString: jsonString, bridge: iOSUnityBridge.rewardedBridge)
+}
 
-    do {
-        let parametersList = try PriceFloorParamsDecoder.decode(from: jsonString)
-        iOSUnityBridge.rewardedBridge.setPriceFloorParams(parametersList.items)
-    } catch let error {
-        print("Error parsing price floor params: \(error.localizedDescription)")
-    }
+@_cdecl("BidMachineRewardedSetCustomParams")
+public func rewardedSetCustomParams(jsonString: UnsafePointer<CChar>) {
+    RequestBuilderHelper.setCustomParams(jsonString: jsonString, bridge: iOSUnityBridge.rewardedBridge)
 }
 
 @_cdecl("BidMachineRewardedSetPlacementId")
@@ -114,10 +112,7 @@ public func rewardedSetBidPayload(_ payload: UnsafePointer<CChar>) {
 
 @_cdecl("BidMachineRewardedSetNetworks")
 public func rewardedSetNetworks(_ networks: UnsafePointer<CChar>) {
-    let networksString = String(cString: networks)
-    let networksNames = NetworksNamesDecoder.decode(from: networksString)
-
-    iOSUnityBridge.rewardedBridge.setNetworks(networksNames)
+    RequestBuilderHelper.setNetworks(networks, bridge: iOSUnityBridge.rewardedBridge)
 }
 
 @_cdecl("BidMachineRewardedSetLoadingTimeOut")
@@ -149,8 +144,8 @@ public func setRewardedRequestCallbacks(
 
 @_cdecl("BidMachineRewardedGetAuctionResultUnmanagedPointer")
 public func rewardedAuctionResult() -> UnsafeMutablePointer<CChar>? {
-    let result = iOSUnityBridge.rewardedBridge.auctionResult ?? "unknown"
-    return result.utf8UnmanagedPtrCopy
+    let result = iOSUnityBridge.rewardedBridge.auctionResult
+    return result?.utf8UnmanagedPtrCopy
 }
 
 @_cdecl("BidMachineRewardedIsExpired")

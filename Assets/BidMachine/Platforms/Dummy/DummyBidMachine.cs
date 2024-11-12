@@ -159,6 +159,14 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
+        public IAdRequestBuilder SetCustomParams(CustomParams customParams)
+        {
+            Debug.LogWarning(
+                $"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
         public IBannerRequestBuilder setSize(BannerSize size)
         {
             Debug.LogWarning($"Call to SetSize(BannerSize) {Const.DUMMY_MESSAGE}");
@@ -261,6 +269,14 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
+        public IAdRequestBuilder SetCustomParams(CustomParams customParams)
+        {
+            Debug.LogWarning(
+                $"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)
         {
             Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
@@ -347,6 +363,14 @@ namespace BidMachineAds.Unity.Dummy
         {
             Debug.LogWarning(
                 $"Call to setPriceFloorParams(PriceFloorParams) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
+        public IAdRequestBuilder SetCustomParams(CustomParams customParams)
+        {
+            Debug.LogWarning(
+                $"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}"
             );
             return null;
         }
