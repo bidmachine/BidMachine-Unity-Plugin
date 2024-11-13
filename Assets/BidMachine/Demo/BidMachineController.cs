@@ -340,7 +340,7 @@ public class BidMachineController : MonoBehaviour
             Debug.Log($"BidMachine: BannerRequest: OnAdRequestFailed");
         }
 
-        public void onRequestSuccess(IAdRequest request, string auctionResult)
+        public void onRequestSuccess(IAdRequest request, AuctionResult auctionResult)
         {
             Debug.Log($"BidMachine: BannerRequest: OnAdRequestSuccess");
         }
@@ -396,7 +396,7 @@ public class BidMachineController : MonoBehaviour
             Debug.Log($"BidMachine: InterstitialRequest: OnAdRequestFailed");
         }
 
-        public void onRequestSuccess(IAdRequest request, string auctionResult)
+        public void onRequestSuccess(IAdRequest request, AuctionResult auctionResult)
         {
             Debug.Log($"BidMachine: InterstitialRequest: OnAdRequestSuccess");
         }
@@ -457,7 +457,7 @@ public class BidMachineController : MonoBehaviour
             Debug.Log($"BidMachine: RewardedRequest: OnAdRequestFailed");
         }
 
-        public void onRequestSuccess(IAdRequest request, string auctionResult)
+        public void onRequestSuccess(IAdRequest request, AuctionResult auctionResult)
         {
             Debug.Log($"BidMachine: RewardedRequest: OnAdRequestSuccess");
         }

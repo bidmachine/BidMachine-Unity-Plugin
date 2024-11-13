@@ -1,4 +1,5 @@
 ﻿using BidMachineAds.Unity.Common;
+using BidMachineAds.Unity.Api;
 
 namespace BidMachineAds.Unity.Api
 {
@@ -16,7 +17,7 @@ namespace BidMachineAds.Unity.Api
             return client.GetSize();
         }
 
-        public string GetAuctionResult()
+        public AuctionResult GetAuctionResult()
         {
             return client.GetAuctionResult();
         }

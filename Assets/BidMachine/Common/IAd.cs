@@ -32,7 +32,7 @@ namespace BidMachineAds.Unity.Common
 
     public interface IAdRequest
     {
-        string GetAuctionResult();
+        AuctionResult GetAuctionResult();
 
         bool IsDestroyed();
 
@@ -71,5 +71,5 @@ namespace BidMachineAds.Unity.Common
         void onRequestExpired(TAdRequest request) { }
     }
 
-    public interface IAdRequestListener : ICommonAdRequestListener<IAdRequest, string, BMError> { }
+    public interface IAdRequestListener : ICommonAdRequestListener<IAdRequest, AuctionResult, BMError> { }
 }

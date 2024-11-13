@@ -131,11 +131,13 @@ namespace BidMachineAds.Unity.iOS
             string auctionString = Marshal.PtrToStringAuto(auctionResultUnamagedPointer);
             iOSPointersBridge.ReleasePointer(auctionResultUnamagedPointer);
 
+            AuctionResultWrapper auctionResultWrapped = JsonUtility.FromJson<AuctionResultWrapper>(auctionString);
+
             if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
             {
                 iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestSuccess(
                     new Request(),
-                    auctionString
+                    auctionResultWrapped.ToAuctionResult()
                 );
             }
         }

@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System;
 using UnityEngine;
+using BidMachineAds.Unity.Api;
 
 namespace BidMachineAds.Unity.iOS {
     public class RewardedRequestiOSUnityBridge : MonoBehaviour, IiOSAdRequestBridge
@@ -15,14 +16,16 @@ namespace BidMachineAds.Unity.iOS {
         [DllImport("__Internal")]
         private static extern bool BidMachineRewardedIsDestroyed();
 
-        public string GetAuctionResult() 
+        public AuctionResult GetAuctionResult() 
         {
             IntPtr resultPtr = BidMachineRewardedGetAuctionResultUnmanagedPointer();
 
-            string result = Marshal.PtrToStringAuto(resultPtr);
+            string resultString = Marshal.PtrToStringAuto(resultPtr);
             iOSPointersBridge.ReleasePointer(resultPtr);
 
-            return result;
+            AuctionResultWrapper result = JsonUtility.FromJson<AuctionResultWrapper>(resultString);
+
+            return result.ToAuctionResult();
         }
 
         public bool IsExpired()
