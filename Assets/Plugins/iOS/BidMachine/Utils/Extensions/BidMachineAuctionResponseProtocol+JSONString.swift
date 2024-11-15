@@ -72,10 +72,10 @@ private struct AuctionResultDTO: Encodable {
 private enum Helper {
     static func createKeyValueListCastingValues(from dictionary: [String: Any]) -> KeyValueList<String, String> {
         let items = dictionary.compactMap { (key, value) -> KeyValueBox<String, String>? in
-            guard let casted = value as? String else {
+            guard let casted = value as? LosslessStringConvertible else {
                 return nil
             }
-            return KeyValueBox(key: key, value: casted)
+            return KeyValueBox(key: key, value: casted.description)
         }
         return KeyValueList(items: items)
     }
