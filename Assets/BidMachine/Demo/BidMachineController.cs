@@ -100,7 +100,7 @@ public class BidMachineController : MonoBehaviour
         BidMachine.SetUSPrivacyString("test_string");
         BidMachine.SetLoggingEnabled(tgLogging.isOn);
         BidMachine.SetTestMode(tgTesting.isOn);
-        BidMachine.Initialize("YOUR_SELLER_ID");
+        BidMachine.Initialize("YOUR_SOURCE_ID");
     }
 
     public void IsInitialized()
@@ -135,7 +135,7 @@ public class BidMachineController : MonoBehaviour
             // .SetLoadingTimeOut(10 * 1000)
             // .SetBidPayload("123")
             // .SetNetworks("admob")
-            .SetCustomParams(customParams)
+            // .SetCustomParams(customParams)
             .SetListener(bannerRequestListener)
             .Build();
 
@@ -194,7 +194,7 @@ public class BidMachineController : MonoBehaviour
             // .SetLoadingTimeOut(10 * 1000)
             // .SetBidPayload("123")
             // .SetNetworks("admob")
-            .SetCustomParams(customParams)
+            // .SetCustomParams(customParams)
             .SetListener(interstitialRequestListener)
             .Build();
 
@@ -252,7 +252,7 @@ public class BidMachineController : MonoBehaviour
             // .SetBidPayload("123")
             // .SetNetworks("admob")
             // .SetAdContentType(AdContentType.Video)
-            .SetCustomParams(customParams)
+            // .SetCustomParams(customParams)
             .SetListener(rewardedRequestListener)
             .Build();
 
