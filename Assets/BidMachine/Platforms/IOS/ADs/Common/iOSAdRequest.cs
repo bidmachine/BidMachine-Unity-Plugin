@@ -7,7 +7,7 @@ using BidMachineAds.Unity.Common;
 namespace BidMachineAds.Unity.iOS
 {
     public interface IiOSAdRequestBridge {
-        public string GetAuctionResult();
+        public AuctionResult GetAuctionResult();
 
         public bool IsDestroyed();
 
@@ -21,17 +21,11 @@ namespace BidMachineAds.Unity.iOS
            requestBridge = new Bridge();
         }
 
-        public string GetAuctionResult()
+        public AuctionResult GetAuctionResult()
         {
-            string auctionResult = requestBridge.GetAuctionResult();
-            if (string.IsNullOrEmpty(auctionResult))
-            {
-                return "unknown";
-            }
-            else 
-            {
-                return auctionResult;
-            }
+            AuctionResult auctionResult = requestBridge.GetAuctionResult();
+           
+            return auctionResult;
         }
 
         public bool IsDestroyed()

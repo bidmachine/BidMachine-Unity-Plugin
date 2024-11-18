@@ -11,7 +11,7 @@ namespace BidMachineAds.Unity.Api
             this.client = client;
         }
 
-        public string GetAuctionResult()
+        public AuctionResult GetAuctionResult()
         {
             return client.GetAuctionResult();
         }
