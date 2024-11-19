@@ -100,7 +100,7 @@ public class BidMachineController : MonoBehaviour
         BidMachine.SetUSPrivacyString("test_string");
         BidMachine.SetLoggingEnabled(tgLogging.isOn);
         BidMachine.SetTestMode(tgTesting.isOn);
-        BidMachine.Initialize("YOUR_SOURCE_ID");
+        BidMachine.Initialize("1");
     }
 
     public void IsInitialized()
