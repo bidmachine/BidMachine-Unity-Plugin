@@ -76,47 +76,35 @@ namespace BidMachineAds.Unity.Android
             };
         }
 
-        public static string GetAuctionResult(AndroidJavaObject jObject)
+        public static AuctionResult GetAuctionResult(AndroidJavaObject jObject)
         {
-            var jCustomParams = jObject.Call<AndroidJavaObject>("getCustomParams");
-            var jAdDomains = jObject.Call<AndroidJavaObject>("getAdDomains");
-
-            string deal = string.IsNullOrEmpty(jObject.Call<string>("getDeal"))
-                ? "null"
-                : jObject.Call<string>("getDeal").ToUpper();
-            string demandSource = string.IsNullOrEmpty(jObject.Call<string>("getDemandSource"))
-                ? "null"
-                : jObject.Call<string>("getDemandSource");
-            string cid = string.IsNullOrEmpty(jObject.Call<string>("getCid"))
-                ? "null"
-                : jObject.Call<string>("getCid");
-            string customParams = string.Join(
-                ",",
-                GetDictionary(jCustomParams)
-                    .Select(pair =>
-                        string.Format("{0}:{1}", pair.Key.ToString(), pair.Value.ToString())
-                    )
-                    .ToArray()
+            var customParamsDict = GetDictionary(
+                jObject.Call<AndroidJavaObject>("getCustomParams")
             );
-            string adDomains = string.Join(
-                ",",
-                AndroidJNIHelper
-                    .ConvertFromJNIArray<string[]>(jAdDomains.GetRawObject())
-                    .ToList()
-                    .Select(adDomain => $"\"{adDomain}\"")
-                    .ToList()
+            var customParams = new CustomParams();
+            foreach (var pair in customParamsDict)
+            {
+                customParams.AddParam(pair.Key, pair.Value);
+            }
+            var networkParamsDict = GetDictionary(
+                jObject.Call<AndroidJavaObject>("getNetworkParams")
             );
-            string creativeId = string.IsNullOrEmpty(jObject.Call<string>("getCreativeId"))
-                ? "null"
-                : jObject.Call<string>("getCreativeId");
-            string id = string.IsNullOrEmpty(jObject.Call<string>("getId"))
-                ? "null"
-                : jObject.Call<string>("getId");
-            string price = string.IsNullOrEmpty(jObject.Call<double>("getPrice").ToString())
-                ? "null"
-                : jObject.Call<double>("getPrice").ToString();
-
-            return $"{{\"dealID\":\"{deal}\",\"demandSource\":\"{demandSource}\",\"cID\":\"{cid}\",\"customParams\":{{{customParams}}},\"adDomains\":[{adDomains}],\"creativeID\":\"{creativeId}\",\"bidID\":\"{id}\",\"price\":{price}}}";
+            var customExtras = new CustomExtras();
+            foreach (var pair in networkParamsDict)
+            {
+                customExtras.AddExtra(pair.Key, pair.Value);
+            }
+            return new AuctionResult
+            {
+                BidID = jObject.Call<string>("getId"),
+                DemandSource = jObject.Call<string>("getDemandSource"),
+                Price = jObject.Call<double>("getPrice"),
+                DealID = jObject.Call<string>("getDeal"),
+                CreativeID = jObject.Call<string>("getCreativeId"),
+                CID = jObject.Call<string>("getCid"),
+                CustomParams = customParams,
+                CustomExtras = customExtras,
+            };
         }
     }
 }
