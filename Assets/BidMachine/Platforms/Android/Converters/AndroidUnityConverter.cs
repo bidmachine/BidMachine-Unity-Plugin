@@ -78,22 +78,6 @@ namespace BidMachineAds.Unity.Android
 
         public static AuctionResult GetAuctionResult(AndroidJavaObject jObject)
         {
-            var customParamsDict = GetDictionary(
-                jObject.Call<AndroidJavaObject>("getCustomParams")
-            );
-            var customParams = new CustomParams();
-            foreach (var pair in customParamsDict)
-            {
-                customParams.AddParam(pair.Key, pair.Value);
-            }
-            var networkParamsDict = GetDictionary(
-                jObject.Call<AndroidJavaObject>("getNetworkParams")
-            );
-            var customExtras = new CustomExtras();
-            foreach (var pair in networkParamsDict)
-            {
-                customExtras.AddExtra(pair.Key, pair.Value);
-            }
             return new AuctionResult
             {
                 BidID = jObject.Call<string>("getId"),
@@ -102,8 +86,8 @@ namespace BidMachineAds.Unity.Android
                 DealID = jObject.Call<string>("getDeal"),
                 CreativeID = jObject.Call<string>("getCreativeId"),
                 CID = jObject.Call<string>("getCid"),
-                CustomParams = customParams,
-                CustomExtras = customExtras,
+                CustomParams = new CustomParams(GetDictionary(jObject.Call<AndroidJavaObject>("getCustomParams"))),
+                CustomExtras = new CustomExtras(GetDictionary(jObject.Call<AndroidJavaObject>("getNetworkParams"))),
             };
         }
     }

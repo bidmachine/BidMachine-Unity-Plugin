@@ -8,6 +8,13 @@ namespace BidMachineAds.Unity.Api
     {
         public Dictionary<string, string> Params { get; } = new Dictionary<string, string>();
 
+        public CustomParams() { }
+
+        public CustomParams(Dictionary<string, string> customParams)
+        {
+            Params = customParams;
+        }
+
         public CustomParams AddParam(string key, string value)
         {
             Params[key] = value;
