@@ -20,16 +20,22 @@ namespace BidMachineAds.Unity.iOS {
         [DllImport("__Internal")]
         private static extern int BidMachineBannerGetSize();
 
-        public AuctionResult GetAuctionResult() 
+        public AuctionResult GetAuctionResultObject() 
+        {
+            string resultString = GetAuctionResult();
+            AuctionResultWrapper result = JsonUtility.FromJson<AuctionResultWrapper>(resultString);
+
+            return result.ToAuctionResult();
+        }
+
+        public string GetAuctionResult() 
         {
             IntPtr resultPtr = BidMachineBannerGetAuctionResultUnmanagedPointer();
 
             string resultString = Marshal.PtrToStringAuto(resultPtr);
             iOSPointersBridge.ReleasePointer(resultPtr);
 
-            AuctionResultWrapper result = JsonUtility.FromJson<AuctionResultWrapper>(resultString);
-
-            return result.ToAuctionResult();
+            return resultString;
         }
 
         public bool IsExpired()
