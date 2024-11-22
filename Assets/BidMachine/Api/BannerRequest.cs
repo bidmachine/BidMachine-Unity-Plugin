@@ -17,9 +17,14 @@ namespace BidMachineAds.Unity.Api
             return client.GetSize();
         }
 
-        public AuctionResult GetAuctionResult()
+        public string GetAuctionResult()
         {
-            return client.GetAuctionResult();
+          return client.GetAuctionResult();
+        }
+
+        public AuctionResult GetAuctionResultObject()
+        {
+            return client.GetAuctionResultObject();
         }
 
         public bool IsDestroyed()

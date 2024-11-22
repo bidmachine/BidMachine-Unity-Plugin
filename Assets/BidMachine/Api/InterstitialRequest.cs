@@ -11,9 +11,14 @@ namespace BidMachineAds.Unity.Api
             this.client = client;
         }
 
-        public AuctionResult GetAuctionResult()
+        public string GetAuctionResult()
         {
-            return client.GetAuctionResult();
+          return client.GetAuctionResult();
+        }
+
+        public AuctionResult GetAuctionResultObject()
+        {
+            return client.GetAuctionResultObject();
         }
 
         public bool IsDestroyed()

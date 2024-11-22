@@ -29,7 +29,7 @@ namespace BidMachineAds.Unity.Android
         {
             listener.onRequestSuccess(
                 factory(request),
-                AndroidUnityConverter.GetAuctionResult(auctionResult)
+                AndroidUnityConverter.GetAuctionResultObject(auctionResult)
             );
         }
 

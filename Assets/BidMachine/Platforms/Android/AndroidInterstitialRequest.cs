@@ -14,12 +14,20 @@ namespace BidMachineAds.Unity.Android
         public AndroidInterstitialRequest(AndroidJavaObject javaObject) =>
             this.jObject = javaObject;
 
-        public AuctionResult GetAuctionResult()
+        public string GetAuctionResult()
         {
             return AndroidUnityConverter.GetAuctionResult(
                 jObject.Call<AndroidJavaObject>("getAuctionResult")
             );
         }
+
+        public AuctionResult GetAuctionResultObject()
+        {
+            return AndroidUnityConverter.GetAuctionResultObject(
+                jObject.Call<AndroidJavaObject>("getAuctionResult")
+            );
+        }
+
 
         public bool IsDestroyed()
         {

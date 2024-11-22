@@ -32,7 +32,10 @@ namespace BidMachineAds.Unity.Common
 
     public interface IAdRequest
     {
-        AuctionResult GetAuctionResult();
+        [System.Obsolete("Use GetAuctionResultObject() instead.")]
+        string GetAuctionResult();
+
+        AuctionResult GetAuctionResultObject();
 
         bool IsDestroyed();
 

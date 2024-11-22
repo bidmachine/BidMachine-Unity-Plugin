@@ -16,9 +16,16 @@ namespace BidMachineAds.Unity.Android
             jObject = javaObject;
         }
 
-        public AuctionResult GetAuctionResult()
+        public string GetAuctionResult()
         {
             return AndroidUnityConverter.GetAuctionResult(
+                jObject.Call<AndroidJavaObject>("getAuctionResult")
+            );
+        }
+
+        public AuctionResult GetAuctionResultObject()
+        {
+            return AndroidUnityConverter.GetAuctionResultObject(
                 jObject.Call<AndroidJavaObject>("getAuctionResult")
             );
         }
