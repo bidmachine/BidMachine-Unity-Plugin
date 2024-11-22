@@ -42,6 +42,8 @@ namespace BidMachineAds.Unity.iOS
     {
 
         private static IAdRequestListener requestListener;
+        private static IAdAuctionRequestListener auctionListener;
+
         public readonly Bridge requestBuilderBridge;
 
         public iOSAdRequestBuilder() {
@@ -56,7 +58,7 @@ namespace BidMachineAds.Unity.iOS
 
         public IAdRequestBuilder SetAdContentType(AdContentType contentType)
         {
-            var contentTypeString = contentType.ToString();
+            string contentTypeString = contentType.ToString();
             if (!Enum.IsDefined(typeof(AdContentType), contentType))
             {
                 contentTypeString = AdContentType.All.ToString();
@@ -116,53 +118,91 @@ namespace BidMachineAds.Unity.iOS
         public IAdRequestBuilder SetListener(IAdRequestListener listener)
         {
             iOSAdRequestBuilder<Bridge, Request>.requestListener = listener;
+            SetAdRequestDelegate();
 
-            requestBuilderBridge.SetAdRequestDelegate(
-                didLoadRequest, 
-                didFailRequest,
-                didExpiredRequest
-            );
+            return this;
+        }
+
+        public IAdRequestBuilder SetRequestListener(IAdAuctionRequestListener listener)
+        {
+            iOSAdRequestBuilder<Bridge, Request>.auctionListener = listener;
+            SetAdRequestDelegate();
+
             return this;
         }
 
         [MonoPInvokeCallback(typeof(AdRequestSuccessCallback))]
         private static void didLoadRequest(IntPtr ad, IntPtr auctionResultUnamagedPointer)
         {
-            string auctionString = Marshal.PtrToStringAuto(auctionResultUnamagedPointer);
-            iOSPointersBridge.ReleasePointer(auctionResultUnamagedPointer);
-
-            AuctionResultWrapper auctionResultWrapped = JsonUtility.FromJson<AuctionResultWrapper>(auctionString);
-
-            if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
+            if (hasAnyListener())
             {
-                iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestSuccess(
-                    new Request(),
-                    auctionResultWrapped.ToAuctionResult()
-                );
+                string auctionString = Marshal.PtrToStringAuto(auctionResultUnamagedPointer);
+                var request = new Request();
+
+                if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
+                {
+                    iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestSuccess(request, auctionString);
+                }
+                if (iOSAdRequestBuilder<Bridge, Request>.auctionListener != null) 
+                {
+                    AuctionResultWrapper auctionResultWrapped = JsonUtility.FromJson<AuctionResultWrapper>(auctionString);
+                    AuctionResult auctionResult = auctionResultWrapped.ToAuctionResult();
+
+                    iOSAdRequestBuilder<Bridge, Request>.auctionListener.onRequestSuccess(request, auctionResult);
+                }
             }
+            iOSPointersBridge.ReleasePointer(auctionResultUnamagedPointer);
         }
 
         [MonoPInvokeCallback(typeof(AdRequestFailedCallback))]
         private static void didFailRequest(IntPtr error)
         {
-            if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
+            if (hasAnyListener())
             {
+                var request = new Request();
                 var bmError = new BMError
                 {
                     Code = iOSErrorBridge.GetErrorCode(error),
                     Message = iOSErrorBridge.GetErrorMessage(error)
                 };
-                iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestFailed(new Request(), bmError);
+
+                if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
+                {
+                    iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestFailed(request, bmError);
+                }
+                if (iOSAdRequestBuilder<Bridge, Request>.auctionListener != null) 
+                {
+                    iOSAdRequestBuilder<Bridge, Request>.auctionListener.onRequestFailed(request, bmError);
+                }
             }
         }
 
         [MonoPInvokeCallback(typeof(AdRequestExpiredCallback))]
         private static void didExpiredRequest(IntPtr ad)
         {
-            if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
+            if (hasAnyListener())
             {
-                iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestExpired(new Request());
+                var request = new Request();
+
+                if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
+                {
+                    iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestExpired(request);
+                }
+                if (iOSAdRequestBuilder<Bridge, Request>.auctionListener != null) 
+                {
+                    iOSAdRequestBuilder<Bridge, Request>.auctionListener.onRequestExpired(request);
+                }
             }
+        }
+
+        private void SetAdRequestDelegate()
+        {
+            requestBuilderBridge.SetAdRequestDelegate(didLoadRequest, didFailRequest, didExpiredRequest);
+        }
+
+        private static bool hasAnyListener()
+        {
+            return iOSAdRequestBuilder<Bridge, Request>.auctionListener != null || iOSAdRequestBuilder<Bridge, Request>.requestListener != null;
         }
     }
 }
