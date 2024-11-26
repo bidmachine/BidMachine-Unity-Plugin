@@ -76,6 +76,7 @@ namespace BidMachineAds.Unity.Android
             };
         }
 
+        [Obsolete("Use GetAuctionResultObject(AndroidJavaObject) instead")]
         public static string GetAuctionResult(AndroidJavaObject jObject)
         {
             var jCustomParams = jObject.Call<AndroidJavaObject>("getCustomParams");
@@ -117,6 +118,21 @@ namespace BidMachineAds.Unity.Android
                 : jObject.Call<double>("getPrice").ToString();
 
             return $"{{\"dealID\":\"{deal}\",\"demandSource\":\"{demandSource}\",\"cID\":\"{cid}\",\"customParams\":{{{customParams}}},\"adDomains\":[{adDomains}],\"creativeID\":\"{creativeId}\",\"bidID\":\"{id}\",\"price\":{price}}}";
+        }
+
+        public static AuctionResult GetAuctionResultObject(AndroidJavaObject jObject)
+        {
+            return new AuctionResult
+            {
+                BidID = jObject.Call<string>("getId"),
+                DemandSource = jObject.Call<string>("getDemandSource"),
+                Price = jObject.Call<double>("getPrice"),
+                DealID = jObject.Call<string>("getDeal"),
+                CreativeID = jObject.Call<string>("getCreativeId"),
+                CID = jObject.Call<string>("getCid"),
+                CustomParams = new CustomParams(GetDictionary(jObject.Call<AndroidJavaObject>("getCustomParams"))),
+                CustomExtras = new CustomExtras(GetDictionary(jObject.Call<AndroidJavaObject>("getNetworkParams"))),
+            };
         }
     }
 }

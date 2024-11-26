@@ -13,7 +13,12 @@ namespace BidMachineAds.Unity.Api
 
         public string GetAuctionResult()
         {
-            return client.GetAuctionResult();
+          return client.GetAuctionResult();
+        }
+
+        public AuctionResult GetAuctionResultObject()
+        {
+            return client.GetAuctionResultObject();
         }
 
         public bool IsDestroyed()
@@ -53,7 +58,19 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
+            public IAdRequestBuilder SetCustomParams(CustomParams customParams)
+            {
+                client.SetCustomParams(customParams);
+                return this;
+            }
+
             public IAdRequestBuilder SetListener(IAdRequestListener listener)
+            {
+                client.SetListener(listener);
+                return this;
+            }
+
+            public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
             {
                 client.SetListener(listener);
                 return this;

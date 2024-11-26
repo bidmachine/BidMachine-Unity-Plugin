@@ -73,6 +73,21 @@ namespace BidMachineAds.Unity.Android
             return this;
         }
 
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
+        {
+            if (listener == null)
+            {
+                return this;
+            }
+
+            jObject.Call<AndroidJavaObject>(
+                "setListener",
+                new AndroidAuctionRequestListener(listenerClassName, listener, factory)
+            );
+
+            return this;
+        }
+
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
             jObject.Call<AndroidJavaObject>(
@@ -135,6 +150,21 @@ namespace BidMachineAds.Unity.Android
             jObject.Call<AndroidJavaObject>(
                 "setPriceFloorParams",
                 AndroidNativeConverter.GetPriceFloorParams(priceFloorParams)
+            );
+
+            return this;
+        }
+
+        public IAdRequestBuilder SetCustomParams(CustomParams customParams)
+        {
+            if (customParams == null)
+            {
+                return this;
+            }
+
+            jObject.Call<AndroidJavaObject>(
+                "setCustomParams",
+                AndroidNativeConverter.GetCustomParams(customParams)
             );
 
             return this;

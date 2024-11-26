@@ -28,6 +28,13 @@ namespace BidMachineAds.Unity.Android
             );
         }
 
+        public AuctionResult GetAuctionResultObject()
+        {
+            return AndroidUnityConverter.GetAuctionResultObject(
+                jObject.Call<AndroidJavaObject>("getAuctionResult")
+            );
+        }
+
         public bool IsDestroyed()
         {
             return jObject.Call<bool>("isDestroyed");

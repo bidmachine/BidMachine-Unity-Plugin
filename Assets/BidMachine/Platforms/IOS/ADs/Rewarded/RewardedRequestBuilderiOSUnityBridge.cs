@@ -24,6 +24,9 @@ namespace BidMachineAds.Unity.iOS {
         private static extern void BidMachineRewardedSetPriceFloorParams(string jsonString);
 
         [DllImport("__Internal")]
+        private static extern void BidMachineRewardedSetCustomParams(string jsonString);
+
+        [DllImport("__Internal")]
         private static extern void BidMachineRewardedSetPlacementId(string placementId);
 
         [DllImport("__Internal")]
@@ -46,6 +49,11 @@ namespace BidMachineAds.Unity.iOS {
         public void SetPriceFloorParams(string jsonString)
         {
             BidMachineRewardedSetPriceFloorParams(jsonString);
+        }
+
+        public void SetCustomParams(string jsonString)
+        {
+            BidMachineRewardedSetCustomParams(jsonString);
         }
 
         public void SetPlacementId(string placementId)

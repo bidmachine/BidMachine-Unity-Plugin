@@ -1,4 +1,5 @@
 ﻿#if PLATFORM_ANDROID
+using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using UnityEngine;
 
@@ -19,6 +20,14 @@ namespace BidMachineAds.Unity.Android
                 jObject.Call<AndroidJavaObject>("getAuctionResult")
             );
         }
+
+        public AuctionResult GetAuctionResultObject()
+        {
+            return AndroidUnityConverter.GetAuctionResultObject(
+                jObject.Call<AndroidJavaObject>("getAuctionResult")
+            );
+        }
+
 
         public bool IsDestroyed()
         {

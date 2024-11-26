@@ -1,6 +1,7 @@
 ﻿#if PLATFORM_ANDROID
 using UnityEngine;
 using BidMachineAds.Unity.Common;
+using BidMachineAds.Unity.Api;
 
 namespace BidMachineAds.Unity.Android
 {
@@ -18,6 +19,13 @@ namespace BidMachineAds.Unity.Android
         public string GetAuctionResult()
         {
             return AndroidUnityConverter.GetAuctionResult(
+                jObject.Call<AndroidJavaObject>("getAuctionResult")
+            );
+        }
+
+        public AuctionResult GetAuctionResultObject()
+        {
+            return AndroidUnityConverter.GetAuctionResultObject(
                 jObject.Call<AndroidJavaObject>("getAuctionResult")
             );
         }

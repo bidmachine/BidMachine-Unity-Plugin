@@ -9,6 +9,8 @@ namespace BidMachineAds.Unity.iOS
     public interface IiOSAdRequestBridge {
         public string GetAuctionResult();
 
+        public AuctionResult GetAuctionResultObject();
+        
         public bool IsDestroyed();
 
         public bool IsExpired();
@@ -22,16 +24,13 @@ namespace BidMachineAds.Unity.iOS
         }
 
         public string GetAuctionResult()
+        {  
+            return requestBridge.GetAuctionResult();
+        }
+
+        public AuctionResult GetAuctionResultObject()
         {
-            string auctionResult = requestBridge.GetAuctionResult();
-            if (string.IsNullOrEmpty(auctionResult))
-            {
-                return "unknown";
-            }
-            else 
-            {
-                return auctionResult;
-            }
+            return requestBridge.GetAuctionResultObject();
         }
 
         public bool IsDestroyed()

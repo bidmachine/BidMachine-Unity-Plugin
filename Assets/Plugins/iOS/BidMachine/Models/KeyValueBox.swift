@@ -7,20 +7,20 @@
 
 import Foundation
 
-struct KeyValueBox<K: Hashable & Decodable, V: Decodable> {
+struct KeyValueBox<K: Hashable & Codable, V: Codable> {
     let key: K
     let value: V
 }
 
-struct KeyValueList<K: Hashable & Decodable, V: Decodable> {
+struct KeyValueList<K: Hashable & Codable, V: Codable> {
     let items: [KeyValueBox<K, V>]
 }
 
-extension KeyValueBox: Decodable {
+extension KeyValueBox: Codable {
     enum CodingKeys: String, CodingKey {
         case key = "Key"
         case value = "Value"
     }
 }
 
-extension KeyValueList: Decodable {}
+extension KeyValueList: Codable {}

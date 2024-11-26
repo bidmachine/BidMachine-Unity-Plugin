@@ -7,22 +7,19 @@
 
 import Foundation
 
-struct PriceFloorParamsDecoder {
+struct JSONStringDecoder {
     enum Error: Swift.Error {
         case invalidJSONString(String)
         case underlying(Swift.Error)
     }
 
-    static func decode(from jsonString: String) throws -> PriceFloorParameters {
+    static func decode<T: Decodable >(from jsonString: String) throws -> T {
         guard let data = jsonString.data(using: .utf8) else {
             throw Error.invalidJSONString(jsonString)
         }
         do {
-            let parametersList = try JSONDecoder().decode(
-                PriceFloorParameters.self,
-                from: data
-            )
-            return parametersList
+            let decoded = try JSONDecoder().decode(T.self, from: data)
+            return decoded
         } catch let error {
             throw Error.underlying(error)
         }

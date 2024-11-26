@@ -14,6 +14,7 @@ struct AdRequest {
     let placementId: String?
     let timeout: TimeInterval?
     let configurations: [BidMachineBiddingUnitConfiguration]
+    let customParams: [String: String]
     let priceFloors: [PriceFloorParameter]
 }
 
@@ -23,6 +24,7 @@ final class AdRequestBuider {
     private var placementId: String?
     private var timeout: TimeInterval?
     private var networks: [String]?
+    private var customParameters: [String: String]?
     private var priceFloors: [PriceFloorParameter]?
 
     func build() -> AdRequest {
@@ -37,6 +39,7 @@ final class AdRequestBuider {
             placementId: placementId,
             timeout: timeout,
             configurations: configurations ?? [],
+            customParams: customParameters ?? [:],
             priceFloors: priceFloors ?? []
         )
     }
@@ -63,5 +66,9 @@ final class AdRequestBuider {
     
     func setPlacementFormat(_ format: PlacementFormat) {
         self.format = format
+    }
+    
+    func setCustomParameters(_ parameters: [String: String]) {
+        self.customParameters = parameters
     }
 }

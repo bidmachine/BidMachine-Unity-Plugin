@@ -71,15 +71,12 @@ public func setInterstitialClosedCallback(_ callback: @escaping CAdClosedCallbac
 
 @_cdecl("BidMachineInterstitialSetPriceFloorParams")
 public func interstitialSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
-    let jsonString = String(cString: jsonString)
+    RequestBuilderHelper.setPriceFloorParams(jsonString: jsonString, bridge: iOSUnityBridge.interstitialBridge)
+}
 
-    do {
-        let parametersList = try PriceFloorParamsDecoder.decode(from: jsonString)
-
-        iOSUnityBridge.interstitialBridge.setPriceFloorParams(parametersList.items)
-    } catch let error {
-        print("Error parsing price floor params: \(error.localizedDescription)")
-    }
+@_cdecl("BidMachineInterstitialSetCustomParams")
+public func interstitialSetCustomParams(jsonString: UnsafePointer<CChar>) {
+    RequestBuilderHelper.setCustomParams(jsonString: jsonString, bridge: iOSUnityBridge.interstitialBridge)
 }
 
 @_cdecl("BidMachineInterstitialSetPlacementId")
@@ -107,10 +104,7 @@ public func interstitialSetBidPayload(_ payload: UnsafePointer<CChar>) {
 
 @_cdecl("BidMachineInterstitialSetNetworks")
 public func interstitialSetNetworks(_ networks: UnsafePointer<CChar>) {
-    let networksString = String(cString: networks)
-    let networksNames = NetworksNamesDecoder.decode(from: networksString)
-
-    iOSUnityBridge.interstitialBridge.setNetworks(networksNames)
+    RequestBuilderHelper.setNetworks(networks, bridge: iOSUnityBridge.interstitialBridge)
 }
 
 @_cdecl("BidMachineInterstitialSetLoadingTimeOut")
@@ -142,8 +136,8 @@ public func setInterstitialRequestCallbacks(
 
 @_cdecl("BidMachineInterstitialGetAuctionResultUnmanagedPointer")
 public func interstitialAuctionResult() -> UnsafeMutablePointer<CChar>? {
-    let result = iOSUnityBridge.interstitialBridge.auctionResult ?? "unknown"
-    return result.utf8UnmanagedPtrCopy
+    let result = iOSUnityBridge.interstitialBridge.auctionResult
+    return result?.utf8UnmanagedPtrCopy
 }
 
 @_cdecl("BidMachineInterstitialIsExpired")

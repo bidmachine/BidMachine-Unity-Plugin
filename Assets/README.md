@@ -4,7 +4,7 @@
 
 1.1 Download the latest version of the BidMachine Unity Plugin, which includes the newest Android and iOS BidMachine SDK with significant improvements.
 
-1.2 To import the BidMachine Unity plugin, either double-click on the `BidMachine-Unity-Plugin-3.0.1.unitypackage` file or navigate to `Assets → Import Package → Custom Package` in the Unity editor. Ensure all files are selected in the Importing Package window, then click `Import`.
+1.2 To import the BidMachine Unity plugin, either double-click on the `BidMachine-Unity-Plugin-3.1.1.unitypackage` file or navigate to `Assets → Import Package → Custom Package` in the Unity editor. Ensure all files are selected in the Importing Package window, then click `Import`.
 
 ## Step 2. Project configuration
 
@@ -61,7 +61,7 @@ UserPermissions.Request();
 
 #### 2.2.1 Requirements
 
-- **iOS Version**: 12.0+ 
+- **iOS Version**: 12.0+
 The SDK is no longer compatible with iOS versions below 13. While projects with a minimum deployment target of iOS 12 will not encounter any compilation errors, the SDK will not execute any code on devices running iOS 12 or earlier.
 
 - **Xcode Version**: 15.2+
@@ -269,7 +269,50 @@ Code example:
 
 ```csharp
 PriceFloorParams priceFloorParams = new PriceFloorParams();
-priceFloorParams.addPriceFloor("123", 1.2d);
+priceFloorParams.AddPriceFloor("123", 1.2d);
+```
+
+### Custom Parameters
+
+| Param | Type | Description |
+| - | - | - |
+| Key | String | Unique parameter identifier. |
+| Value | String | Parameter value |
+
+Code example:
+
+```csharp
+CustomParams customParams = new CustomParams();
+customParams.AddParam("key", "value");
+```
+
+### Auction Result
+
+| Id | String | Winner bid ID provided in the request. | "cc5bd14b-aaef-4037-b4f8-879913366e3c" |
+| :- | :- | :- | :- |
+| Demand Source | String | Winner advertising source name. | "BidMachine Test" |
+| Price | double | Winner price expressed as CPM. | 0.023 |
+| Deal Id | String | Id of Price Floor. | "d6f61bf9-11a8-4172-a77d-4b1ff85a727f" |
+| Creative Id | String | Winner creative id. | "123.13579" |
+| CID | String | Winner Campaign ID or other similar grouping of brand-related ads. | "123.13587" |
+| Custom Params | Map<String, String> | Map that contains additional information about the response. | |
+| Custom Extras | Map<String, String> | Client parameters of winner networks. |  |
+
+You can get  `AuctionResult`  in two ways:
+
+- Through  `IAdRequestListener`. Use  `AuctionResult`  from  `onRequestSuccess`  callback
+
+```csharp
+public  void  onRequestSuccess(IAdRequest request, AuctionResult auctionResult)
+{
+// Use AuctionResult from onRequestSuccess callback
+}
+```
+
+- Through getter. Each  `IAdRequest`  has an option to retrieve auction result information after it has been loaded.
+
+```csharp
+adRequest.getAuctionResult();
 ```
 
 ## Banner / MREC
@@ -496,7 +539,7 @@ public class BidMachineController : MonoBehaviour
 }
 ```
 
-### Callbacks usage rules:
+### Callbacks usage rules
 
 **Run Callbacks in Main Unity Thread**
 

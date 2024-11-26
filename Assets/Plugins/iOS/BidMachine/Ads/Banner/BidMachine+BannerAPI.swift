@@ -87,15 +87,12 @@ public func setBannerExpiredCallback(_ callback: @escaping CAdCallback) {
 
 @_cdecl("BidMachineBannerSetPriceFloorParams")
 public func bannerSetPriceFloorParams(jsonString: UnsafePointer<CChar>) {
-    let jsonString = String(cString: jsonString)
+    RequestBuilderHelper.setPriceFloorParams(jsonString: jsonString, bridge: iOSUnityBridge.bannerBridge)
+}
 
-    do {
-        let parametersList = try PriceFloorParamsDecoder.decode(from: jsonString)
-
-        iOSUnityBridge.bannerBridge.setPriceFloorParams(parametersList.items)
-    } catch let error {
-        print("Error parsing price floor params: \(error.localizedDescription)")
-    }
+@_cdecl("BidMachineBannerSetCustomParams")
+public func bannerSetCustomParams(jsonString: UnsafePointer<CChar>) {
+    RequestBuilderHelper.setCustomParams(jsonString: jsonString, bridge: iOSUnityBridge.bannerBridge)
 }
 
 @_cdecl("BidMachineBannerSetPlacementId")
@@ -121,9 +118,7 @@ public func bannerSetBidPayload(_ payload: UnsafePointer<CChar>) {
 
 @_cdecl("BidMachineBannerSetNetworks")
 public func bannerSetNetworks(_ networks: UnsafePointer<CChar>) {
-    let networksString = String(cString: networks)
-    let networksNames = NetworksNamesDecoder.decode(from: networksString)
-    iOSUnityBridge.bannerBridge.setNetworks(networksNames)
+    RequestBuilderHelper.setNetworks(networks, bridge: iOSUnityBridge.bannerBridge)
 }
 
 @_cdecl("BidMachineBannerSetLoadingTimeOut")
@@ -179,8 +174,8 @@ public func bannerIsExpired() -> Bool {
 
 @_cdecl("BidMachineBannerGetAuctionResultUnmanagedPointer")
 public func bannerAuctionResult() -> UnsafeMutablePointer<CChar>? {
-    let result = iOSUnityBridge.bannerBridge.auctionResult ?? "unknown"
-    return result.utf8UnmanagedPtrCopy
+    let result = iOSUnityBridge.bannerBridge.auctionResult
+    return result?.utf8UnmanagedPtrCopy
 }
 
 private extension BannerAdBridge.BannerSize {

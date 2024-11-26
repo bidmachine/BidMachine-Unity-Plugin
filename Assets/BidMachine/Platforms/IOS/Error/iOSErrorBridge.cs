@@ -25,7 +25,7 @@ namespace BidMachineAds.Unity.iOS
             IntPtr messagePtr = BidMachineGetErrorMessageUnmanagedPointer(error);
 
             string errorString = Marshal.PtrToStringAuto(messagePtr);
-            Marshal.FreeHGlobal(messagePtr);
+            iOSPointersBridge.ReleasePointer(messagePtr);
 
             return errorString;
         }
@@ -35,7 +35,7 @@ namespace BidMachineAds.Unity.iOS
             IntPtr briefPtr = BidMachineGetErrorBriefUnmanagedPointer(error);
 
             string briefString = Marshal.PtrToStringAuto(briefPtr);
-            Marshal.FreeHGlobal(briefPtr);
+            iOSPointersBridge.ReleasePointer(briefPtr);
 
             return briefString;
         }
