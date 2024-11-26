@@ -13,7 +13,7 @@ namespace BidMachineAds.Unity.Api
 
         public string GetAuctionResult()
         {
-          return client.GetAuctionResult();
+            return client.GetAuctionResult();
         }
 
         public AuctionResult GetAuctionResultObject()

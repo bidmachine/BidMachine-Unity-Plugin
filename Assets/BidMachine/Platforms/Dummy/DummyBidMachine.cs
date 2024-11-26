@@ -169,9 +169,7 @@ namespace BidMachineAds.Unity.Dummy
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            Debug.LogWarning(
-                $"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}"
-            );
+            Debug.LogWarning($"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}");
             return null;
         }
 
@@ -287,9 +285,7 @@ namespace BidMachineAds.Unity.Dummy
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            Debug.LogWarning(
-                $"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}"
-            );
+            Debug.LogWarning($"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}");
             return null;
         }
 
@@ -393,9 +389,7 @@ namespace BidMachineAds.Unity.Dummy
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            Debug.LogWarning(
-                $"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}"
-            );
+            Debug.LogWarning($"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}");
             return null;
         }
 

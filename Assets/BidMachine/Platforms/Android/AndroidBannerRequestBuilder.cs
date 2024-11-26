@@ -57,6 +57,11 @@ namespace BidMachineAds.Unity.Android
             return requestBuilder.SetListener(listener);
         }
 
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
+        {
+            return requestBuilder.SetListener(listener);
+        }
+
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
             return requestBuilder.SetLoadingTimeOut(loadingTimeout);
