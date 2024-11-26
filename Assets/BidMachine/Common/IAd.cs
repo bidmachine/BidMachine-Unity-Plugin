@@ -53,10 +53,10 @@ namespace BidMachineAds.Unity.Common
 
         IAdRequestBuilder SetCustomParams(CustomParams customParams);
 
-        [Obsolete("IAdRequestListener is deprecated. Use SetRequestListener instead.")]
+        [Obsolete("IAdRequestListener is deprecated. Use SetListener(IAdAuctionRequestListener listener) instead.")]
         IAdRequestBuilder SetListener(IAdRequestListener listener);
 
-        IAdRequestBuilder SetRequestListener(IAdAuctionRequestListener listener);
+        IAdRequestBuilder SetListener(IAdAuctionRequestListener listener);
 
         IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout);
 
@@ -71,7 +71,7 @@ namespace BidMachineAds.Unity.Common
 
     public interface ICommonAdRequestListener<TAdRequest, TResult, TAdError>
     {
-        void onRequestSuccess(TAdRequest request, TResult result) { }
+        void onRequestSuccess(TAdRequest request, TResult auctionResult) { }
 
         void onRequestFailed(TAdRequest request, TAdError error) { }
 

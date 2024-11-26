@@ -133,7 +133,7 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
-        public IAdRequestBuilder SetRequestListener(IAdAuctionRequestListener listener)
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             Debug.LogWarning(
                 $"Call to setListener(IAdRequestListener<IBannerRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
@@ -251,7 +251,7 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
-        public IAdRequestBuilder SetRequestListener(IAdAuctionRequestListener listener)
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             Debug.LogWarning(
                 $"Call to setListener(IAdARequestListener<IInterstitialRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
@@ -357,7 +357,7 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
-        public IAdRequestBuilder SetRequestListener(IAdAuctionRequestListener listener)
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             Debug.LogWarning(
                 $"Call to setListener(IAdRequestListener<IRewardedRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"

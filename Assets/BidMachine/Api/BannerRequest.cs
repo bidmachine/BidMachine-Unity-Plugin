@@ -81,9 +81,9 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
-            public IAdRequestBuilder SetRequestListener(IAdAuctionRequestListener listener)
+            public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
             {
-                client.SetRequestListener(listener);
+                client.SetListener(listener);
                 return this;
             }
 

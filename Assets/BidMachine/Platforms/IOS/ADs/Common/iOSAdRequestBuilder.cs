@@ -123,7 +123,7 @@ namespace BidMachineAds.Unity.iOS
             return this;
         }
 
-        public IAdRequestBuilder SetRequestListener(IAdAuctionRequestListener listener)
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             iOSAdRequestBuilder<Bridge, Request>.auctionListener = listener;
             SetAdRequestDelegate();
