@@ -6,12 +6,11 @@ using UnityEngine;
 
 namespace BidMachineAds.Unity.Android
 {
-    [Obsolete("Use AndroidAuctionRequestListener instead")]
-    internal class AndroidAdRequestListener : AndroidCommonAdRequestListener<string>
+    internal class AndroidAuctionRequestListener : AndroidCommonAdRequestListener<AuctionResult>
     {
-        internal AndroidAdRequestListener(
+        internal AndroidAuctionRequestListener(
             string className,
-            ICommonAdRequestListener<IAdRequest, string, BMError> listener,
+            ICommonAdRequestListener<IAdRequest, AuctionResult, BMError> listener,
             Func<AndroidJavaObject, IAdRequest> factory
         )
             : base(className, listener, factory) { }
@@ -20,7 +19,7 @@ namespace BidMachineAds.Unity.Android
         {
             listener.onRequestSuccess(
                 factory(request),
-                AndroidUnityConverter.GetAuctionResult(auctionResult)
+                AndroidUnityConverter.GetAuctionResultObject(auctionResult)
             );
         }
     }

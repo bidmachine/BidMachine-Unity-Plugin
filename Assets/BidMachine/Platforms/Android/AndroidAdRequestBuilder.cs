@@ -73,6 +73,21 @@ namespace BidMachineAds.Unity.Android
             return this;
         }
 
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
+        {
+            if (listener == null)
+            {
+                return this;
+            }
+
+            jObject.Call<AndroidJavaObject>(
+                "setListener",
+                new AndroidAuctionRequestListener(listenerClassName, listener, factory)
+            );
+
+            return this;
+        }
+
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
             jObject.Call<AndroidJavaObject>(

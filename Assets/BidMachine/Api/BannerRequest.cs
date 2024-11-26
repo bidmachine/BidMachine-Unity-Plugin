@@ -19,7 +19,7 @@ namespace BidMachineAds.Unity.Api
 
         public string GetAuctionResult()
         {
-          return client.GetAuctionResult();
+            return client.GetAuctionResult();
         }
 
         public AuctionResult GetAuctionResultObject()
@@ -76,6 +76,12 @@ namespace BidMachineAds.Unity.Api
             }
 
             public IAdRequestBuilder SetListener(IAdRequestListener listener)
+            {
+                client.SetListener(listener);
+                return this;
+            }
+
+            public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
             {
                 client.SetListener(listener);
                 return this;

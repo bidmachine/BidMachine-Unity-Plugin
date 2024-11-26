@@ -14,7 +14,7 @@ namespace BidMachineAds.Unity.Android
             requestBuilder = new AndroidAdRequestBuilder(
                 AndroidConsts.InterstitialRequestBuilderClassName,
                 AndroidConsts.InterstitialRequestListenerClassName,
-                delegate(AndroidJavaObject request)
+                delegate (AndroidJavaObject request)
                 {
                     return new AndroidInterstitialRequest(request);
                 }
@@ -37,6 +37,11 @@ namespace BidMachineAds.Unity.Android
         }
 
         public IAdRequestBuilder SetListener(IAdRequestListener listener)
+        {
+            return requestBuilder.SetListener(listener);
+        }
+
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             return requestBuilder.SetListener(listener);
         }

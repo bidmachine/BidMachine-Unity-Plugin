@@ -70,6 +70,12 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
+            public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
+            {
+                client.SetListener(listener);
+                return this;
+            }
+
             public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
             {
                 client.SetLoadingTimeOut(loadingTimeout);

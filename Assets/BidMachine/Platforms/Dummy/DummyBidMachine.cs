@@ -133,6 +133,14 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
+        {
+            Debug.LogWarning(
+                $"Call to setListener(IAdRequestListener<IBannerRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
             Debug.LogWarning($"Call to setLoadingTimeOut(int) {Const.DUMMY_MESSAGE}");
@@ -161,9 +169,7 @@ namespace BidMachineAds.Unity.Dummy
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            Debug.LogWarning(
-                $"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}"
-            );
+            Debug.LogWarning($"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}");
             return null;
         }
 
@@ -243,6 +249,14 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
+        {
+            Debug.LogWarning(
+                $"Call to setListener(IAdARequestListener<IInterstitialRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
             Debug.LogWarning($"Call to setLoadingTimeOut(int) {Const.DUMMY_MESSAGE}");
@@ -271,9 +285,7 @@ namespace BidMachineAds.Unity.Dummy
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            Debug.LogWarning(
-                $"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}"
-            );
+            Debug.LogWarning($"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}");
             return null;
         }
 
@@ -341,6 +353,14 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
+        public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
+        {
+            Debug.LogWarning(
+                $"Call to setListener(IAdRequestListener<IRewardedRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
+            );
+            return null;
+        }
+
         public IAdRequestBuilder SetLoadingTimeOut(int loadingTimeout)
         {
             Debug.LogWarning($"Call to setLoadingTimeOut(int) {Const.DUMMY_MESSAGE}");
@@ -369,9 +389,7 @@ namespace BidMachineAds.Unity.Dummy
 
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
-            Debug.LogWarning(
-                $"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}"
-            );
+            Debug.LogWarning($"Call to setCustomParams(CustomParams) {Const.DUMMY_MESSAGE}");
             return null;
         }
 
