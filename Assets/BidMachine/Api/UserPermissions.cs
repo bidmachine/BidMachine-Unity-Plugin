@@ -3,19 +3,12 @@ using UnityEngine;
 
 namespace BidMachineAds.Unity.Api
 {
+    [System.Obsolete("This class is deprecated and will be removed in future versions")]
     public sealed class UserPermissions : IUserPermissions
     {
-        private readonly IUserPermissions client;
+        public UserPermissions() { }
 
-        public UserPermissions()
-        {
-            this.client = BidMachineClientFactory.GetUserPermissions();
-        }
-
-        public UserPermissions(IUserPermissions client)
-        {
-            this.client = client;
-        }
+        public UserPermissions(IUserPermissions client) { }
 
         /// <summary>
         /// Check CoarseLocation and FineLocation permission.
@@ -24,7 +17,8 @@ namespace BidMachineAds.Unity.Api
         /// </summary>
         public bool Check(string permission)
         {
-            return client.Check(permission);
+            Debug.LogWarning("UserPermissions.Check is deprecated");
+            return false;
         }
 
         /// <summary>
@@ -33,7 +27,7 @@ namespace BidMachineAds.Unity.Api
         /// </summary>
         public void Request()
         {
-            client.Request();
+            Debug.LogWarning("UserPermissions.Request is deprecated");
         }
     }
 }

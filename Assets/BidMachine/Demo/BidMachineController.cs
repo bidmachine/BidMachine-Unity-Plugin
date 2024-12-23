@@ -35,8 +35,6 @@ public class BidMachineController : MonoBehaviour
     private IAdRequest rewardedRequest;
     private readonly IAdRequestListener rewardedRequestListener = new RewardedRequestListener();
 
-    private readonly UserPermissions userPermissions = new();
-
     private void Start()
     {
         tgTesting.isOn = true;
@@ -81,8 +79,6 @@ public class BidMachineController : MonoBehaviour
 
     public void BidMachineInitialize()
     {
-        userPermissions.Check(Permission.CoarseLocation);
-
         // BidMachine.SetTargetingParams(targetingParams);
         // BidMachine.SetPublisher(
         //     new Publisher

@@ -33,30 +33,6 @@ The BidMachine Unity Plugin includes the External Dependency Manager package. Fo
 
 As a result, the modules required for BidMachine SDK support will be imported into the project's `mainTemplate.gradle` file.
 
-#### 2.1.3 Request Runtime Permissions in Android Marshmallow (API 6.0+)
-
-The SDK can automatically track the user's device location to serve better ads. For Android 6.0 and above, you need to request the following permissions:
-
-- `android.permission.ACCESS_COARSE_LOCATION`
-- `android.permission.ACCESS_FINE_LOCATION`
-
-#### 2.1.4 Checking Permissions
-
-To check if the necessary permissions are granted, use the following methods:
-
-```csharp
-UserPermissions.Check(Permission.CoarseLocation);
-UserPermissions.Check(Permission.FineLocation);
-```
-
-#### 2.1.5 Requesting Permissions
-
-To request the required permissions, use the following method:
-
-```csharp
-UserPermissions.Request();
-```
-
 ### 2.2 iOS
 
 #### 2.2.1 Requirements

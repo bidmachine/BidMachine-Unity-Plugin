@@ -400,20 +400,6 @@ namespace BidMachineAds.Unity.Dummy
         }
     }
 
-    internal class DummyUserPermissions : IUserPermissions
-    {
-        public bool Check(string permission)
-        {
-            Debug.LogWarning($"Call to CheckAndroidPermissions(string) {Const.DUMMY_MESSAGE}");
-            return false;
-        }
-
-        public void Request()
-        {
-            Debug.LogWarning($"Call to RequestAndroidPermissions() {Const.DUMMY_MESSAGE}");
-        }
-    }
-
     class Const
     {
         internal const string DUMMY_MESSAGE =
