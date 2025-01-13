@@ -81,14 +81,5 @@ namespace BidMachineAds.Unity
             return new DummyRewardedRequestBuilder();
 #endif
         }
-
-        internal static IUserPermissions GetUserPermissions()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            return new BidMachineAds.Unity.Android.AndroidUserPermissions();
-#else
-            return new DummyUserPermissions();
-#endif
-        }
     }
 }
