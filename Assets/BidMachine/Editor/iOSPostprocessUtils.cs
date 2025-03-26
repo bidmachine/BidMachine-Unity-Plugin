@@ -1,4 +1,4 @@
-﻿#if UNITY_IOS
+﻿#if UNITY_IOS && UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -152,11 +152,11 @@ namespace BidMachineAds.Unity.Editor.iOS
             project.AddBuildProperty(target, "LIBRARY_SEARCH_PATHS", "$(SRCROOT)/Libraries");
             project.AddBuildProperty(target, "LIBRARY_SEARCH_PATHS", "$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)");
 
-            #if UNITY_2019_3_OR_NEWER
+#if UNITY_2019_3_OR_NEWER
                 project.AddBuildProperty(target, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "NO");
-            #else
+#else
                 project.AddBuildProperty(target, "ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES", "YES");
-            #endif
+#endif
 
             project.AddBuildProperty(target, "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks");
             project.SetBuildProperty(target, "SWIFT_VERSION", "5.5");
@@ -301,11 +301,11 @@ namespace BidMachineAds.Unity.Editor.iOS
 
         private static string GetTargetNameOfProject(PBXProject project)
         {
-            #if UNITY_2019_3_OR_NEWER
+#if UNITY_2019_3_OR_NEWER
                 return project.GetUnityMainTargetGuid();
-            #else
+#else
                 return project.TargetGuidByName("Unity-iPhone");
-            #endif
+#endif
         }
 
         private static int CompareVersions(string v1, string v2)
