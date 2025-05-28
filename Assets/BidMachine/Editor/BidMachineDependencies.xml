@@ -1,6 +1,6 @@
 <dependencies>
     <iosPods>
-        <iosPod name='BidMachine' version='3.2.1' minTargetSdk='13.0'/>
+        <iosPod name='BidMachine' version='3.3.0' minTargetSdk='13.0'/>
         <sources>
 			<source>git@github.com:bidmachine/CocoaPods-Specs.git</source>
 		</sources>
