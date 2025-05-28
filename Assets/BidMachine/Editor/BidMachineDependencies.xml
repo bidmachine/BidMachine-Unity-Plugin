@@ -6,8 +6,8 @@
 		</sources>
     </iosPods>
     <androidPackages>
-        <androidPackage spec='io.bidmachine:ads:3.2.1'/>
-        <androidPackage spec='io.bidmachine:ads.extensions.unity:3.2.1.3'/>
+        <androidPackage spec='io.bidmachine:ads:3.3.0'/>
+        <androidPackage spec='io.bidmachine:ads.extensions.unity:3.3.0.3'/>
         <repositories>
             <repository>https://artifactory.bidmachine.io/bidmachine</repository>
         </repositories>

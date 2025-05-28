@@ -1,6 +1,6 @@
+#if UNITY_EDITOR
 #pragma warning disable 0649
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.RegularExpressions;
 using UnityEditor;
@@ -37,7 +37,7 @@ namespace BidMachineAds.Unity.Editor.Utils
                 });
                 new List<string>(Directory.GetFiles("Assets/Plugins/Android")).ForEach(file =>
                 {
-                    Regex re = new Regex("bidmachine", RegexOptions.IgnoreCase);
+                    Regex re = new("bidmachine", RegexOptions.IgnoreCase);
                     if (re.IsMatch(file))
                         File.Delete(file);
                     File.Delete(file + ".meta");
@@ -50,3 +50,4 @@ namespace BidMachineAds.Unity.Editor.Utils
         }
     }
 }
+#endif
