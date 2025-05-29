@@ -51,7 +51,7 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
     }
 
     private func createAuctionRequest(from adRequest: AdRequest) throws (RequestError) -> BidMachineAuctionRequest {
-        // FIXME: where is timeout setting now?
+        #warning("timeout setting is not available since 3.3.0")
         
         let placement = try? bidMachine.placement(from: adRequest.format) { builder in
             adRequest.placementId.apply { builder.withPlacementId($0) }
