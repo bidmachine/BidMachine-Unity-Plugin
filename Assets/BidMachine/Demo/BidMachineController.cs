@@ -21,19 +21,19 @@ public class BidMachineController : MonoBehaviour
     private BannerView bannerView;
     private readonly IAdListener<IBannerView> bannerListener = new BannerListener();
     private IAdRequest bannerRequest;
-    private readonly IAdRequestListener bannerRequestListener = new BannerRequestListener();
+    private readonly IAdAuctionRequestListener bannerRequestListener = new BannerRequestListener();
 
     private InterstitialAd interstitialAd;
     private readonly IInterstitialAdListener interstitialListener =
         new InterstitialListener();
     private IAdRequest interstitialRequest;
-    private readonly IAdRequestListener interstitialRequestListener =
+    private readonly IAdAuctionRequestListener interstitialRequestListener =
         new InterstitialRequestListener();
 
     private RewardedAd rewardedAd;
     private readonly IRewardedAdListener rewardedListener = new RewardedAdListener();
     private IAdRequest rewardedRequest;
-    private readonly IAdRequestListener rewardedRequestListener = new RewardedRequestListener();
+    private readonly IAdAuctionRequestListener rewardedRequestListener = new RewardedRequestListener();
 
     private void Start()
     {
@@ -324,7 +324,7 @@ public class BidMachineController : MonoBehaviour
         }
     }
 
-    private class BannerRequestListener : IAdRequestListener
+    private class BannerRequestListener : IAdAuctionRequestListener
     {
         public void onRequestExpired(IAdRequest request)
         {
@@ -380,7 +380,7 @@ public class BidMachineController : MonoBehaviour
         }
     }
 
-    private class InterstitialRequestListener : IAdRequestListener
+    private class InterstitialRequestListener : IAdAuctionRequestListener
     {
         public void onRequestExpired(IAdRequest request)
         {
@@ -435,13 +435,13 @@ public class BidMachineController : MonoBehaviour
             Debug.Log("BidMachine: RewardedAd: OnAdShown");
         }
 
-        public void onAdRewarded(IRewardedAd ad) 
+        public void onAdRewarded(IRewardedAd ad)
         {
             Debug.Log($"BidMachine: RewardedAd: OnAdRewarded");
         }
     }
 
-    private class RewardedRequestListener : IAdRequestListener
+    private class RewardedRequestListener : IAdAuctionRequestListener
     {
         public void onRequestExpired(IAdRequest request)
         {
