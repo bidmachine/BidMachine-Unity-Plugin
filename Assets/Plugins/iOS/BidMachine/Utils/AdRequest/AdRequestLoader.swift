@@ -15,9 +15,9 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
         case underlying(Error)
         case unableToCastToProvidedType
     }
-
+    
     typealias Ad = T
-
+    
     private let bidMachine: BidMachineSdk
     
     init(bidMachine: BidMachineSdk) {
@@ -31,11 +31,11 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
         do {
             let adRequest = try createAuctionRequest(from: request)
             bidMachine.ad(request: adRequest) { ad, error in
-                if let error {
+                if let error = error {
                     callback(.failure(.underlying(error)))
                     return
                 }
-                guard let ad else {
+                guard let ad = ad else {
                     callback(.failure(.noAd))
                     return
                 }
@@ -45,30 +45,37 @@ final class AdRequestLoader<T: BidMachineAdProtocol> {
                 }
                 callback(.success(casted))
             }
-        } catch {
+        } catch let error as RequestError {
             callback(.failure(error))
+        } catch {
+            callback(.failure(.underlying(error)))
         }
     }
-
-    private func createAuctionRequest(from adRequest: AdRequest) throws (RequestError) -> BidMachineAuctionRequest {
-        #warning("timeout setting is not available since 3.3.0")
+    
+    private func createAuctionRequest(from adRequest: AdRequest) throws -> BidMachineAuctionRequest {
+#warning("timeout setting is not available since 3.3.0")
         
-        let placement = try? bidMachine.placement(from: adRequest.format) { builder in
-            adRequest.placementId.apply { builder.withPlacementId($0) }
+        // Get placement safely
+        guard let placement = try? bidMachine.placement(from: adRequest.format, builder: { builder in
+            if let placementId = adRequest.placementId {
+                builder.withPlacementId(placementId)
+            }
             builder.withCustomParameters(adRequest.customParams)
-        }
-        
-        guard let placement else {
+        }) else {
             throw RequestError.unableToGetPlacement
         }
         
+        // Create auction request
         let request = bidMachine.auctionRequest(placement: placement) { builder in
             adRequest.priceFloors.forEach {
                 builder.appendPriceFloor($0.value, $0.key)
             }
-            adRequest.payload.apply { builder.withPayload($0) }
+            if let payload = adRequest.payload {
+                builder.withPayload(payload)
+            }
             builder.withUnitConfigurations(adRequest.configurations)
         }
+        
         return request
     }
 }
