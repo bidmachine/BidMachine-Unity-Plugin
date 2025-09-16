@@ -20,7 +20,7 @@ namespace BidMachineAds.Unity.Api
             return client ??= BidMachineClientFactory.GetBidMachine();
         }
 
-        public static string BIDMACHINE_UNITY_PLUGIN_VERSION = "3.3.0.0";
+        public static string BIDMACHINE_UNITY_PLUGIN_VERSION = "3.4.0";
 
         /// <summary>
         /// Initializes BidMachine SDK.
