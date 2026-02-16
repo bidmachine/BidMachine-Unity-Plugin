@@ -22,9 +22,26 @@ namespace BidMachineAds.Unity.Android
 
         public AndroidBannerView(AndroidJavaObject javaObject) => this.jObject = javaObject;
 
+#pragma warning disable CS0618
         public bool Show(int yAxis, int xAxis, IBannerView view, BannerSize size)
         {
             var jSize = AndroidNativeConverter.GetBannerSize(size);
+            var client = ((BannerView)view).Client;
+            return GetBannerShowHelper()
+                .Call<bool>(
+                    "show",
+                    AndroidNativeConverter.GetActivity(),
+                    ((AndroidBannerView)client).jObject,
+                    jSize,
+                    xAxis,
+                    yAxis
+                );
+        }
+#pragma warning restore CS0618
+
+        public bool Show(int yAxis, int xAxis, IBannerView view, BannerAdSize size)
+        {
+            var jSize = AndroidNativeConverter.GetBannerAdSize(size);
             var client = ((BannerView)view).Client;
             return GetBannerShowHelper()
                 .Call<bool>(
@@ -75,6 +92,16 @@ namespace BidMachineAds.Unity.Android
                     }
                 )
             );
+        }
+
+        public BannerAdSize GetAdSize()
+        {
+            var jAdSize = jObject.Call<AndroidJavaObject>("getAdSize");
+            if (jAdSize == null)
+            {
+                return BannerAdSize.Banner; // Default
+            }
+            return AndroidUnityConverter.GetBannerAdSize(jAdSize);
         }
 
         private AndroidJavaObject GetBannerShowHelper()

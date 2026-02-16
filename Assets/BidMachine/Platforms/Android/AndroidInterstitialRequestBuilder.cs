@@ -9,6 +9,20 @@ namespace BidMachineAds.Unity.Android
     {
         private readonly AndroidAdRequestBuilder requestBuilder;
 
+        public AndroidInterstitialRequestBuilder(AdPlacementConfig config)
+        {
+            requestBuilder = new AndroidAdRequestBuilder(
+                AndroidConsts.InterstitialRequestBuilderClassName,
+                AndroidConsts.InterstitialRequestListenerClassName,
+                delegate (AndroidJavaObject request)
+                {
+                    return new AndroidInterstitialRequest(request);
+                },
+                config
+            );
+        }
+
+        [System.Obsolete("Use constructor with AdPlacementConfig parameter")]
         public AndroidInterstitialRequestBuilder()
         {
             requestBuilder = new AndroidAdRequestBuilder(
@@ -34,11 +48,6 @@ namespace BidMachineAds.Unity.Android
         public IAdRequestBuilder SetCustomParams(CustomParams customParams)
         {
             return requestBuilder.SetCustomParams(customParams);
-        }
-
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            return requestBuilder.SetListener(listener);
         }
 
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)

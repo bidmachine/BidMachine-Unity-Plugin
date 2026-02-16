@@ -20,22 +20,22 @@ namespace BidMachineAds.Unity.iOS {
         [DllImport("__Internal")]
         private static extern int BidMachineBannerGetSize();
 
-        public AuctionResult GetAuctionResultObject() 
+        [DllImport("__Internal")]
+        private static extern int BidMachineBannerGetAdSize();
+
+        public string GetAuctionResult()
+        {
+            IntPtr resultPtr = BidMachineBannerGetAuctionResultUnmanagedPointer();
+            string resultString = Marshal.PtrToStringAuto(resultPtr);
+            iOSPointersBridge.ReleasePointer(resultPtr);
+            return resultString;
+        }
+
+        public AuctionResult GetAuctionResultObject()
         {
             string resultString = GetAuctionResult();
             AuctionResultWrapper result = JsonUtility.FromJson<AuctionResultWrapper>(resultString);
-
             return result.ToAuctionResult();
-        }
-
-        public string GetAuctionResult() 
-        {
-            IntPtr resultPtr = BidMachineBannerGetAuctionResultUnmanagedPointer();
-
-            string resultString = Marshal.PtrToStringAuto(resultPtr);
-            iOSPointersBridge.ReleasePointer(resultPtr);
-
-            return resultString;
         }
 
         public bool IsExpired()
@@ -58,6 +58,19 @@ namespace BidMachineAds.Unity.iOS {
                 1 => BannerSize.Size_300x250,
                 2 => BannerSize.Size_728x90,
                 _ => BannerSize.Size_320x50 // Default case
+            };
+        }
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            int rawValue = BidMachineBannerGetAdSize();
+
+            return rawValue switch
+            {
+                0 => BannerAdSize.Banner,
+                1 => BannerAdSize.MediumRectangle,
+                2 => BannerAdSize.Leaderboard,
+                _ => BannerAdSize.Banner // Default case
             };
         }
     }

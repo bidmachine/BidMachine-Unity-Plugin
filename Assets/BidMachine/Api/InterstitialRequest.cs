@@ -35,11 +35,19 @@ namespace BidMachineAds.Unity.Api
         {
             private readonly IAdRequestBuilder client;
 
+            public Builder(AdPlacementConfig config)
+            {
+                // Config is passed to platform builder, no need to call setters
+                client = BidMachineClientFactory.GetInterstitialRequestBuilder(config);
+            }
+
+            [System.Obsolete("Use Builder(AdPlacementConfig) constructor instead.")]
             public Builder()
             {
                 client = BidMachineClientFactory.GetInterstitialRequestBuilder();
             }
 
+            [System.Obsolete("SetAdContentType() is deprecated. Use AdPlacementConfig.InterstitialBuilder(AdContentType) instead.")]
             public IAdRequestBuilder SetAdContentType(AdContentType contentType)
             {
                 client.SetAdContentType(contentType);
@@ -58,15 +66,10 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
+            [System.Obsolete("SetCustomParams() is deprecated. Use AdPlacementConfig.InterstitialBuilder().WithCustomParams() instead.")]
             public IAdRequestBuilder SetCustomParams(CustomParams customParams)
             {
                 client.SetCustomParams(customParams);
-                return this;
-            }
-
-            public IAdRequestBuilder SetListener(IAdRequestListener listener)
-            {
-                client.SetListener(listener);
                 return this;
             }
 
@@ -82,6 +85,7 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
+            [System.Obsolete("SetPlacementId() is deprecated. Use AdPlacementConfig.InterstitialBuilder().WithPlacementId() instead.")]
             public IAdRequestBuilder SetPlacementId(string placementId)
             {
                 client.SetPlacementId(placementId);

@@ -37,11 +37,10 @@ namespace BidMachineAds.Unity.iOS
     }
 
     public class iOSAdRequestBuilder<Bridge, Request> : IAdRequestBuilder
-        where Bridge : IiOSAdRequestBuilderBridge, new() 
-        where Request: IAdRequest, new() 
+        where Bridge : IiOSAdRequestBuilderBridge, new()
+        where Request: IAdRequest, new()
     {
 
-        private static IAdRequestListener requestListener;
         private static IAdAuctionRequestListener auctionListener;
 
         public readonly Bridge requestBuilderBridge;
@@ -115,14 +114,6 @@ namespace BidMachineAds.Unity.iOS
             return this;
         }
 
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            iOSAdRequestBuilder<Bridge, Request>.requestListener = listener;
-            SetAdRequestDelegate();
-
-            return this;
-        }
-
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             iOSAdRequestBuilder<Bridge, Request>.auctionListener = listener;
@@ -139,11 +130,7 @@ namespace BidMachineAds.Unity.iOS
                 string auctionString = Marshal.PtrToStringAuto(auctionResultUnamagedPointer);
                 var request = new Request();
 
-                if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
-                {
-                    iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestSuccess(request, auctionString);
-                }
-                if (iOSAdRequestBuilder<Bridge, Request>.auctionListener != null) 
+                if (iOSAdRequestBuilder<Bridge, Request>.auctionListener != null)
                 {
                     AuctionResultWrapper auctionResultWrapped = JsonUtility.FromJson<AuctionResultWrapper>(auctionString);
                     AuctionResult auctionResult = auctionResultWrapped.ToAuctionResult();
@@ -166,11 +153,7 @@ namespace BidMachineAds.Unity.iOS
                     Message = iOSErrorBridge.GetErrorMessage(error)
                 };
 
-                if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
-                {
-                    iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestFailed(request, bmError);
-                }
-                if (iOSAdRequestBuilder<Bridge, Request>.auctionListener != null) 
+                if (iOSAdRequestBuilder<Bridge, Request>.auctionListener != null)
                 {
                     iOSAdRequestBuilder<Bridge, Request>.auctionListener.onRequestFailed(request, bmError);
                 }
@@ -184,11 +167,7 @@ namespace BidMachineAds.Unity.iOS
             {
                 var request = new Request();
 
-                if (iOSAdRequestBuilder<Bridge, Request>.requestListener != null) 
-                {
-                    iOSAdRequestBuilder<Bridge, Request>.requestListener.onRequestExpired(request);
-                }
-                if (iOSAdRequestBuilder<Bridge, Request>.auctionListener != null) 
+                if (iOSAdRequestBuilder<Bridge, Request>.auctionListener != null)
                 {
                     iOSAdRequestBuilder<Bridge, Request>.auctionListener.onRequestExpired(request);
                 }
@@ -202,7 +181,7 @@ namespace BidMachineAds.Unity.iOS
 
         private static bool hasAnyListener()
         {
-            return iOSAdRequestBuilder<Bridge, Request>.auctionListener != null || iOSAdRequestBuilder<Bridge, Request>.requestListener != null;
+            return iOSAdRequestBuilder<Bridge, Request>.auctionListener != null;
         }
     }
 }

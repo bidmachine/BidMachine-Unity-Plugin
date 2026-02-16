@@ -96,9 +96,23 @@ namespace BidMachineAds.Unity.iOS
             );
          }
 
-         public void SetSize(BannerSize size) 
+         public void SetSize(BannerSize size)
          {
             int raw = (int)size;
+            BidMachineBannerSetSize(raw);
+         }
+
+         public void SetSize(BannerAdSize size)
+         {
+            // Convert to legacy int for native bridge
+            // TODO: In future, update native bridge to accept width/height/isAdaptive
+            int raw = size.ToLegacyBannerSize() switch
+            {
+                BannerSize.Size_320x50 => 0,
+                BannerSize.Size_300x250 => 1,
+                BannerSize.Size_728x90 => 2,
+                _ => 0
+            };
             BidMachineBannerSetSize(raw);
          }
     }

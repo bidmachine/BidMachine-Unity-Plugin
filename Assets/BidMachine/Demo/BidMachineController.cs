@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using BidMachineAds.Unity.Api;
 using BidMachineAds.Unity.Common;
 using UnityEngine;
@@ -37,6 +39,9 @@ public class BidMachineController : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_IOS
+        RequestATT();
+#endif
         tgTesting.isOn = true;
         tgLogging.isOn = true;
 
@@ -77,6 +82,70 @@ public class BidMachineController : MonoBehaviour
         };
     }
 
+    public void RequestATT()
+    {
+#if UNITY_IOS
+        int currentStatus = BidMachineGetATTrackingStatus();
+        Debug.Log($"BidMachine: Current ATT status: {(ATTrackingStatus)currentStatus}");
+
+        if (currentStatus == (int)ATTrackingStatus.NotDetermined)
+        {
+            Debug.Log("BidMachine: Requesting ATT permission...");
+            StartCoroutine(RequestATTPermission());
+        }
+        else
+        {
+            Debug.Log($"BidMachine: ATT status already determined: {(ATTrackingStatus)currentStatus}");
+        }
+#else
+        Debug.Log("BidMachine: ATT is only required on iOS");
+#endif
+    }
+
+#if UNITY_IOS
+    private IEnumerator RequestATTPermission()
+    {
+        BidMachineRequestATTracking();
+
+        // Wait a frame for the request to be processed
+        yield return new WaitForSeconds(0.1f);
+
+        // Check the status after request
+        int status = BidMachineGetATTrackingStatus();
+        Debug.Log($"BidMachine: ATT request completed with status: {(ATTrackingStatus)status}");
+
+        switch ((ATTrackingStatus)status)
+        {
+            case ATTrackingStatus.Authorized:
+                Debug.Log("BidMachine: User authorized tracking");
+                break;
+            case ATTrackingStatus.Denied:
+                Debug.Log("BidMachine: User denied tracking");
+                break;
+            case ATTrackingStatus.Restricted:
+                Debug.Log("BidMachine: Tracking is restricted");
+                break;
+            case ATTrackingStatus.NotDetermined:
+                Debug.Log("BidMachine: Tracking status not determined");
+                break;
+        }
+    }
+
+    private enum ATTrackingStatus
+    {
+        NotDetermined = 0,
+        Restricted = 1,
+        Denied = 2,
+        Authorized = 3
+    }
+
+    [DllImport("__Internal")]
+    private static extern int BidMachineGetATTrackingStatus();
+
+    [DllImport("__Internal")]
+    private static extern void BidMachineRequestATTracking();
+#endif
+
     public void BidMachineInitialize()
     {
         // BidMachine.SetTargetingParams(targetingParams);
@@ -90,8 +159,8 @@ public class BidMachineController : MonoBehaviour
         //     }
         // );
         // BidMachine.SetEndpoint("https://test.com");
-        BidMachine.SetSubjectToGDPR(true);
-        BidMachine.SetCoppa(true);
+        BidMachine.SetSubjectToGDPR(false);
+        BidMachine.SetCoppa(false);
         BidMachine.SetConsentConfig(true, "test consent string");
         BidMachine.SetUSPrivacyString("test_string");
         BidMachine.SetLoggingEnabled(tgLogging.isOn);
@@ -108,39 +177,32 @@ public class BidMachineController : MonoBehaviour
 
     public void LoadBanner()
     {
-        LoadBanner(BannerSize.Size_320x50);
+        LoadBanner(BannerAdSize.Banner);
     }
 
     public void LoadMrec()
     {
-        LoadBanner(BannerSize.Size_300x250);
+        LoadBanner(BannerAdSize.MediumRectangle);
     }
 
-    public void LoadBanner(BannerSize bannerSize)
+    public void LoadBanner(BannerAdSize bannerAdSize)
     {
-        if (bannerRequest != null)
-        {
-            return;
-        }
+        // Destroy any existing banner and request before creating new one
+        DestroyBanner();
 
-        bannerRequest = new BannerRequest.Builder()
-            .SetSize(bannerSize)
+        var config = AdPlacementConfig.BannerBuilder(bannerAdSize)
+            // .WithPlacementId("placement_bannerRequest")
+            // .WithCustomParams(customParams)
+            .Build();
+
+        bannerRequest = new BannerRequest.Builder(config)
             .SetPriceFloorParams(priceFloorParams)
             // .SetTargetingParams(targetingParams)
-            // .SetPlacementId("placement_bannerRequest")
             // .SetLoadingTimeOut(10 * 1000)
             // .SetBidPayload("123")
             // .SetNetworks("admob")
-            // .SetCustomParams(customParams)
             .SetListener(bannerRequestListener)
             .Build();
-
-        if (bannerView != null)
-        {
-            bannerView.SetListener(null);
-            bannerView.Destroy();
-            bannerView = null;
-        }
 
         bannerView = new BannerView();
         bannerView.SetListener(bannerListener);
@@ -149,8 +211,23 @@ public class BidMachineController : MonoBehaviour
 
     public void ShowBannerView()
     {
-        var size = ((IBannerRequest)bannerRequest).GetSize();
-        bannerView?.Show(
+        if (bannerView == null || bannerRequest == null)
+        {
+            Debug.Log("BidMachine: Cannot show banner - banner or request is null");
+            return;
+        }
+
+        if (!bannerView.CanShow())
+        {
+            Debug.Log("BidMachine: Cannot show banner - banner is not ready");
+            return;
+        }
+
+        // Hide first to remove from parent view if already shown
+        bannerView.Hide();
+
+        var size = ((IBannerRequest)bannerRequest).GetBannerAdSize();
+        bannerView.Show(
             BidMachine.BANNER_VERTICAL_BOTTOM,
             BidMachine.BANNER_HORIZONTAL_CENTER,
             bannerView,
@@ -160,14 +237,15 @@ public class BidMachineController : MonoBehaviour
 
     public void DestroyBanner()
     {
-        if (bannerView == null)
+        if (bannerView != null)
         {
-            return;
+            // Hide first to remove from view hierarchy
+            bannerView.Hide();
+            bannerView.SetListener(null);
+            bannerView.Destroy();
+            bannerView = null;
         }
 
-        bannerView.SetListener(null);
-        bannerView.Destroy();
-        bannerView = null;
         bannerRequest = null;
     }
 
@@ -177,29 +255,22 @@ public class BidMachineController : MonoBehaviour
 
     public void LoadInterstitialAd()
     {
-        if (interstitialRequest != null)
-        {
-            return;
-        }
+        // Destroy any existing interstitial and request before creating new one
+        DestroyInterstitial();
 
-        interstitialRequest = new InterstitialRequest.Builder()
-            .SetAdContentType(AdContentType.All)
+        var config = AdPlacementConfig.InterstitialBuilder(AdContentType.All)
+            // .WithPlacementId("placement_interstitialRequest")
+            // .WithCustomParams(customParams)
+            .Build();
+
+        interstitialRequest = new InterstitialRequest.Builder(config)
             // .SetPriceFloorParams(priceParam)
             // .SetTargetingParams(targetingParams)
-            // .SetPlacementId("placement_interstitialRequest")
             // .SetLoadingTimeOut(10 * 1000)
             // .SetBidPayload("123")
             // .SetNetworks("admob")
-            // .SetCustomParams(customParams)
             .SetListener(interstitialRequestListener)
             .Build();
-
-        if (interstitialAd != null)
-        {
-            interstitialAd.SetListener(null);
-            interstitialAd.Destroy();
-            interstitialAd = null;
-        }
 
         interstitialAd = new InterstitialAd();
         interstitialAd.SetListener(interstitialListener);
@@ -218,14 +289,13 @@ public class BidMachineController : MonoBehaviour
 
     public void DestroyInterstitial()
     {
-        if (interstitialAd == null)
+        if (interstitialAd != null)
         {
-            return;
+            interstitialAd.SetListener(null);
+            interstitialAd.Destroy();
+            interstitialAd = null;
         }
 
-        interstitialAd.SetListener(null);
-        interstitialAd.Destroy();
-        interstitialAd = null;
         interstitialRequest = null;
     }
 
@@ -235,29 +305,22 @@ public class BidMachineController : MonoBehaviour
 
     public void LoadRewardedAd()
     {
-        if (rewardedRequest != null)
-        {
-            return;
-        }
+        // Destroy any existing rewarded ad and request before creating new one
+        DestroyRewardedVideo();
 
-        rewardedRequest = new RewardedRequest.Builder()
+        var config = AdPlacementConfig.RewardedBuilder(AdContentType.All)
+            // .WithPlacementId("placement_rewardedRequest")
+            // .WithCustomParams(customParams)
+            .Build();
+
+        rewardedRequest = new RewardedRequest.Builder(config)
             // .SetPriceFloorParams(priceFloorParams)
             // .SetTargetingParams(targetingParams)
-            // .SetPlacementId("placement_rewardedRequest")
             .SetLoadingTimeOut(10 * 1000)
             // .SetBidPayload("123")
             // .SetNetworks("admob")
-            // .SetAdContentType(AdContentType.Video)
-            // .SetCustomParams(customParams)
             .SetListener(rewardedRequestListener)
             .Build();
-
-        if (rewardedAd != null)
-        {
-            rewardedAd.SetListener(null);
-            rewardedAd.Destroy();
-            rewardedAd = null;
-        }
 
         rewardedAd = new RewardedAd();
         rewardedAd.SetListener(rewardedListener);
@@ -276,14 +339,13 @@ public class BidMachineController : MonoBehaviour
 
     public void DestroyRewardedVideo()
     {
-        if (rewardedAd == null)
+        if (rewardedAd != null)
         {
-            return;
+            rewardedAd.SetListener(null);
+            rewardedAd.Destroy();
+            rewardedAd = null;
         }
 
-        rewardedAd.SetListener(null);
-        rewardedAd.Destroy();
-        rewardedAd = null;
         rewardedRequest = null;
     }
 
@@ -339,6 +401,9 @@ public class BidMachineController : MonoBehaviour
         public void onRequestSuccess(IAdRequest request, AuctionResult auctionResult)
         {
             Debug.Log($"BidMachine: BannerRequest: OnAdRequestSuccess");
+            Debug.Log("auctionResul----t" + auctionResult);
+            Debug.Log("auctionResul----p" + auctionResult.Price);
+            Debug.Log("auctionResul----st" + auctionResult.ToString());
         }
     }
 

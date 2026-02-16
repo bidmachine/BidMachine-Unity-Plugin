@@ -147,6 +147,13 @@ public func bannerGetSize() -> Int {
     iOSUnityBridge.bannerBridge.bannerSize
 }
 
+@_cdecl("BidMachineBannerGetAdSize")
+public func bannerGetAdSize() -> Int {
+    // Return the same as GetSize for now, as both represent the banner size
+    // The new API (BannerAdSize) uses the same enum values as the old API (BannerSize)
+    iOSUnityBridge.bannerBridge.bannerSize
+}
+
 @_cdecl("BidMachineSetBannerRequestDelegate")
 public func setBannerRequestCallbacks(
     onSuccess: @escaping CRequestSuccessCallback,

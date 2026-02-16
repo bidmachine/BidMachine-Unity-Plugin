@@ -4,7 +4,7 @@
 
 1.1 Download the latest version of the BidMachine Unity Plugin, which includes the newest Android and iOS BidMachine SDK with significant improvements.
 
-1.2 To import the BidMachine Unity plugin, either double-click on the `BidMachine-Unity-Plugin-3.4.0.unitypackage` file or navigate to `Assets → Import Package → Custom Package` in the Unity editor. Ensure all files are selected in the Importing Package window, then click `Import`.
+1.2 To import the BidMachine Unity plugin, either double-click on the `BidMachine-Unity-Plugin-3.5.1.unitypackage` file or navigate to `Assets → Import Package → Custom Package` in the Unity editor. Ensure all files are selected in the Importing Package window, then click `Import`.
 
 ## Step 2. Project configuration
 
@@ -209,8 +209,7 @@ Code Example:
 TargetingParams targetingParams = new TargetingParams
 {
     UserId = "UserId",
-    StoreId = "StoreId",
-    Gender = TargetingParams.Gender.Female,
+    gender = TargetingParams.Gender.Female,
     BirthdayYear = 1991,
     Keywords = new[] { "key_1", "key_2" },
     Country = "Country",
@@ -230,10 +229,10 @@ TargetingParams targetingParams = new TargetingParams
     BlockedApplications = new HashSet<string> { "BlockedApplication" },
     BlockedCategories = new HashSet<string> { "BlockedAdvertiserIABCategory" },
     BlockedDomains = new HashSet<string> { "BlockedAdvertiserDomain" },
-    ExternalUserIds = new[]
+    externalUserIds = new[]
     {
-        new ExternalUserId { Source = "sourceId_1", Id = "1" },
-        new ExternalUserId { Source = "sourceId_2", Id = "2" }
+        new ExternalUserId { SourceId = "sourceId_1", Value = "1" },
+        new ExternalUserId { SourceId = "sourceId_2", Value = "2" }
     }
 };
 BidMachine.SetTargetingParams(targetingParams);
@@ -298,13 +297,23 @@ adRequest.getAuctionResult();
 
 ## Banner / MREC
 
-BannerSize
+BannerAdSize (SDK 3.5.0+)
 
-| Type         | Size                   | Description              |
-| ------------ | ---------------------- | ------------------------ |
-| Size_320x50  | width: 320 height: 50  | Regular banner size.     |
-| Size_728x90  | width: 728 height: 90  | Banner size for tablets. |
-| Size_300x250 | width: 300 height: 250 | MREC banner size.        |
+| Type              | Size                   | Description                     |
+| ----------------- | ---------------------- | ------------------------------- |
+| Banner            | width: 320 height: 50  | Regular banner size.            |
+| Leaderboard       | width: 728 height: 90  | Banner size for tablets.        |
+| MediumRectangle   | width: 300 height: 250 | MREC banner size.               |
+| Adaptive(w, h)    | custom                 | Adaptive banner with custom size|
+
+### Creating Adaptive Banners
+
+```csharp
+// Calculate optimal height for screen width
+int screenWidth = Screen.width;
+int maxHeight = BannerAdSize.GetMaxAdaptiveHeight(screenWidth);
+BannerAdSize adaptiveSize = BannerAdSize.Adaptive(screenWidth, maxHeight);
+```
 
 To set up event listeners for Banner ads, follow these steps:
 
@@ -333,7 +342,7 @@ bannerView.Show(
             BidMachine.BANNER_VERTICAL_BOTTOM,
             BidMachine.BANNER_HORIZONTAL_CENTER,
             bannerView,
-            bannerRequest.getSize());
+            bannerRequest.GetBannerAdSize());
 ```
 
 Hide banner or MREC:
@@ -354,8 +363,8 @@ Code example:
 public class BidMachineController : MonoBehaviour
 {
    IAdRequestListener bannerRequestListener = new BannerRequestListener();
-   BannerRequest bannerRequest = new BannerRequestBuilder()
-       .SetSize(...) // Set BannerSize. Required
+   IAdRequest bannerRequest = new BannerRequest.Builder()
+       .SetSize(BannerAdSize.Banner) // Set BannerAdSize. Required
        .SetTargetingParams(...) // Set targating params
        .SetPriceFloorParams(...) // Set price floor parameters
        .SetPlacementId("placement_id") // Set placement id

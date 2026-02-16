@@ -37,20 +37,118 @@ namespace BidMachineAds.Unity.Android
             return jArrayList;
         }
 
+#pragma warning disable CS0618
         public static AndroidJavaObject GetBannerSize(BannerSize bannerSize)
         {
             return bannerSize switch
             {
-                BannerSize.Size_300x250 => GetBannerSize("Size_300x250"),
-                BannerSize.Size_728x90 => GetBannerSize("Size_728x90"),
-                _ => GetBannerSize("Size_320x50"),
+                BannerSize.Size_300x250 => GetBannerSizeLegacy("Size_300x250"),
+                BannerSize.Size_728x90 => GetBannerSizeLegacy("Size_728x90"),
+                _ => GetBannerSizeLegacy("Size_320x50"),
             };
         }
+#pragma warning restore CS0618
 
-        private static AndroidJavaObject GetBannerSize(string sizeName)
+        private static AndroidJavaObject GetBannerSizeLegacy(string sizeName)
         {
             var jcBannerSize = new AndroidJavaClass("io.bidmachine.banner.BannerSize");
             return jcBannerSize.GetStatic<AndroidJavaObject>(sizeName);
+        }
+
+        public static AndroidJavaObject GetBannerAdSize(BannerAdSize bannerAdSize)
+        {
+            // Try io.bidmachine.BannerAdSize (root package) first
+            AndroidJavaClass jcBannerAdSize;
+            try
+            {
+                jcBannerAdSize = new AndroidJavaClass("io.bidmachine.BannerAdSize");
+            }
+            catch
+            {
+                // Fallback: If BannerAdSize doesn't exist, use legacy BannerSize
+                // This handles backward compatibility with SDK versions that don't have BannerAdSize yet
+                return GetBannerSize(bannerAdSize.ToLegacyBannerSize());
+            }
+
+            if (bannerAdSize.IsAdaptive)
+            {
+                return jcBannerAdSize.CallStatic<AndroidJavaObject>(
+                    "adaptive",
+                    GetObject(bannerAdSize.Width),
+                    GetObject(bannerAdSize.Height)
+                );
+            }
+
+            // Get static instances for standard sizes
+            if (bannerAdSize.Width == 320 && bannerAdSize.Height == 50)
+            {
+                return jcBannerAdSize.GetStatic<AndroidJavaObject>("Banner");
+            }
+            else if (bannerAdSize.Width == 728 && bannerAdSize.Height == 90)
+            {
+                return jcBannerAdSize.GetStatic<AndroidJavaObject>("Leaderboard");
+            }
+            else if (bannerAdSize.Width == 300 && bannerAdSize.Height == 250)
+            {
+                return jcBannerAdSize.GetStatic<AndroidJavaObject>("MediumRectangle");
+            }
+
+            // Default to Banner
+            return jcBannerAdSize.GetStatic<AndroidJavaObject>("Banner");
+        }
+
+        public static AndroidJavaObject GetAdPlacementConfig(AdPlacementConfig config)
+        {
+            AndroidJavaObject builder;
+
+            switch (config.PlacementType)
+            {
+                case AdPlacementType.Banner:
+                    var jcAdPlacementConfig = new AndroidJavaClass("io.bidmachine.AdPlacementConfig");
+                    builder = jcAdPlacementConfig.CallStatic<AndroidJavaObject>(
+                        "bannerBuilder",
+                        GetBannerAdSize(config.BannerAdSize)
+                    );
+                    break;
+
+                case AdPlacementType.Interstitial:
+                    var jcAdPlacementConfigInterstitial = new AndroidJavaClass("io.bidmachine.AdPlacementConfig");
+                    var jcAdContentType = new AndroidJavaClass("io.bidmachine.AdContentType");
+                    var jAdContentType = jcAdContentType.GetStatic<AndroidJavaObject>(config.AdContentType.ToString());
+
+                    builder = jcAdPlacementConfigInterstitial.CallStatic<AndroidJavaObject>(
+                        "interstitialBuilder",
+                        jAdContentType
+                    );
+                    break;
+
+                case AdPlacementType.Rewarded:
+                    var jcAdPlacementConfigRewarded = new AndroidJavaClass("io.bidmachine.AdPlacementConfig");
+                    var jcAdContentTypeRewarded = new AndroidJavaClass("io.bidmachine.AdContentType");
+                    var jAdContentTypeRewarded = jcAdContentTypeRewarded.GetStatic<AndroidJavaObject>(config.AdContentType.ToString());
+
+                    builder = jcAdPlacementConfigRewarded.CallStatic<AndroidJavaObject>(
+                        "rewardedBuilder",
+                        jAdContentTypeRewarded
+                    );
+                    break;
+
+                default:
+                    throw new System.ArgumentException($"Unknown placement type: {config.PlacementType}");
+            }
+
+            // Apply optional parameters
+            if (!string.IsNullOrEmpty(config.PlacementId))
+            {
+                builder = builder.Call<AndroidJavaObject>("withPlacementId", GetObject(config.PlacementId));
+            }
+
+            if (config.CustomParams != null)
+            {
+                builder = builder.Call<AndroidJavaObject>("withCustomParams", GetCustomParams(config.CustomParams));
+            }
+
+            return builder.Call<AndroidJavaObject>("build");
         }
 
         public static AndroidJavaObject GetPriceFloorParams(PriceFloorParams priceFloorParams)

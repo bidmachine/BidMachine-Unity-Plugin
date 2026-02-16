@@ -12,9 +12,15 @@ namespace BidMachineAds.Unity.Api
             this.client = client;
         }
 
+        [System.Obsolete("GetSize() is deprecated. Use GetBannerAdSize() instead.")]
         public BannerSize GetSize()
         {
             return client.GetSize();
+        }
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            return client.GetBannerAdSize();
         }
 
         public string GetAuctionResult()
@@ -41,17 +47,35 @@ namespace BidMachineAds.Unity.Api
         {
             private readonly IBannerRequestBuilder client;
 
+            public Builder(AdPlacementConfig config)
+            {
+                // Config is passed to platform builder, no need to call setters
+                client = BidMachineClientFactory.GetBannerRequestBuilder(config);
+            }
+
+            [System.Obsolete("Use Builder(AdPlacementConfig) constructor instead.")]
             public Builder()
             {
                 client = BidMachineClientFactory.GetBannerRequestBuilder();
             }
 
+#pragma warning disable CS0618
+            [System.Obsolete("SetSize(BannerSize) is deprecated. Use AdPlacementConfig.BannerBuilder(BannerAdSize) instead.")]
             public IAdRequestBuilder SetSize(BannerSize size)
             {
                 client.SetSize(size);
                 return this;
             }
+#pragma warning restore CS0618
 
+            [System.Obsolete("SetSize(BannerAdSize) is deprecated. Use AdPlacementConfig.BannerBuilder(BannerAdSize) instead.")]
+            public IAdRequestBuilder SetSize(BannerAdSize size)
+            {
+                client.SetSize(size);
+                return this;
+            }
+
+            [System.Obsolete("SetAdContentType() is deprecated in SDK 3.5.0+.")]
             public IAdRequestBuilder SetAdContentType(AdContentType contentType)
             {
                 return this;
@@ -69,15 +93,10 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
+            [System.Obsolete("SetCustomParams() is deprecated. Use AdPlacementConfig.BannerBuilder().WithCustomParams() instead.")]
             public IAdRequestBuilder SetCustomParams(CustomParams customParams)
             {
                 client.SetCustomParams(customParams);
-                return this;
-            }
-
-            public IAdRequestBuilder SetListener(IAdRequestListener listener)
-            {
-                client.SetListener(listener);
                 return this;
             }
 
@@ -93,6 +112,7 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
+            [System.Obsolete("SetPlacementId() is deprecated. Use AdPlacementConfig.BannerBuilder().WithPlacementId() instead.")]
             public IAdRequestBuilder SetPlacementId(string placementId)
             {
                 client.SetPlacementId(placementId);

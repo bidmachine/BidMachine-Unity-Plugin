@@ -31,6 +31,11 @@ namespace BidMachineAds.Unity.iOS
             return adBridge.Show(YAxis, XAxis);
         }
 
+        public bool Show(int YAxis, int XAxis, IBannerView ad, BannerAdSize size)
+        {
+            return adBridge.Show(YAxis, XAxis);
+        }
+
         public void Hide()
         {
             adBridge.Hide();
@@ -94,10 +99,15 @@ namespace BidMachineAds.Unity.iOS
         [MonoPInvokeCallback(typeof(AdCallback))]
         private static void didExpire(IntPtr ad)
         {
-            if (iOSBannerAd.listener != null) 
+            if (iOSBannerAd.listener != null)
             {
                 iOSBannerAd.listener.onAdExpired(new iOSBannerAd());
             }
+        }
+
+        public BannerAdSize GetAdSize()
+        {
+            return adBridge.GetBannerAdSize();
         }
     }
 }

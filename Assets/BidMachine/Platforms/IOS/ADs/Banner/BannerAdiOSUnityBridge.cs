@@ -41,6 +41,9 @@ namespace BidMachineAds.Unity.iOS {
         [DllImport("__Internal")]
         private static extern void BidMachineBannerSetExpiredCallback(AdCallback onExpired);
 
+        [DllImport("__Internal")]
+        private static extern int BidMachineBannerGetAdSize();
+
         public bool CanShow() 
         {
             return BidMachineBannerCanShow();
@@ -93,6 +96,19 @@ namespace BidMachineAds.Unity.iOS {
         public void SetExpiredCallback(AdCallback onExpired)
         {
             BidMachineBannerSetExpiredCallback(onExpired);
+        }
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            int rawValue = BidMachineBannerGetAdSize();
+
+            return rawValue switch
+            {
+                0 => BannerAdSize.Banner,
+                1 => BannerAdSize.MediumRectangle,
+                2 => BannerAdSize.Leaderboard,
+                _ => BannerAdSize.Banner // Default case
+            };
         }
     }
 }

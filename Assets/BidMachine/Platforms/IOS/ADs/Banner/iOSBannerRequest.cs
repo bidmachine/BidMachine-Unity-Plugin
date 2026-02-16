@@ -8,9 +8,14 @@ namespace BidMachineAds.Unity.iOS
     public class iOSBannerRequest : iOSAdRequest<BannerRequestiOSUnityBridge>, IBannerRequest {
         public iOSBannerRequest() : base() { }
 
-        public BannerSize GetSize() 
+        public BannerSize GetSize()
         {
             return requestBridge.GetSize();
+        }
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            return requestBridge.GetBannerAdSize();
         }
     }
 }

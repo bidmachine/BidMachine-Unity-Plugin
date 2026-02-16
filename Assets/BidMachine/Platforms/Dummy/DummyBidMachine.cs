@@ -96,12 +96,28 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to setListener(IBannerListener) {Const.DUMMY_MESSAGE}");
         }
 
+#pragma warning disable CS0618
         public bool Show(int YAxis, int XAxis, IBannerView ad, BannerSize size)
         {
             Debug.LogWarning(
                 $"Call to Show(int, int, IBannerAd, BannerSize) {Const.DUMMY_MESSAGE}"
             );
             return false;
+        }
+#pragma warning restore CS0618
+
+        public bool Show(int YAxis, int XAxis, IBannerView ad, BannerAdSize size)
+        {
+            Debug.LogWarning(
+                $"Call to Show(int, int, IBannerAd, BannerAdSize) {Const.DUMMY_MESSAGE}"
+            );
+            return false;
+        }
+
+        public BannerAdSize GetAdSize()
+        {
+            Debug.LogWarning($"Call to GetAdSize() {Const.DUMMY_MESSAGE}");
+            return BannerAdSize.Banner;
         }
     }
 
@@ -125,18 +141,10 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IBannerRequest, string, BMError>) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
-        }
-
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IBannerRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
+                $"Call to setListener(IAdAuctionRequestListener) {Const.DUMMY_MESSAGE}"
             );
             return null;
         }
@@ -173,15 +181,17 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
-        public IBannerRequestBuilder setSize(BannerSize size)
+#pragma warning disable CS0618
+        public IAdRequestBuilder SetSize(BannerSize size)
         {
             Debug.LogWarning($"Call to SetSize(BannerSize) {Const.DUMMY_MESSAGE}");
             return null;
         }
+#pragma warning restore CS0618
 
-        public IAdRequestBuilder SetSize(BannerSize size)
+        public IAdRequestBuilder SetSize(BannerAdSize size)
         {
-            Debug.LogWarning($"Call to setTargetingParams(TargetingParams) {Const.DUMMY_MESSAGE}");
+            Debug.LogWarning($"Call to SetSize(BannerAdSize) {Const.DUMMY_MESSAGE}");
             return null;
         }
 
@@ -241,18 +251,10 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IInterstitialRequest, string, BMError>) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
-        }
-
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             Debug.LogWarning(
-                $"Call to setListener(IAdARequestListener<IInterstitialRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
+                $"Call to setListener(IAdAuctionRequestListener) {Const.DUMMY_MESSAGE}"
             );
             return null;
         }
@@ -345,18 +347,10 @@ namespace BidMachineAds.Unity.Dummy
             return null;
         }
 
-        public IAdRequestBuilder SetListener(IAdRequestListener listener)
-        {
-            Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IRewardedRequest, string, BMError>) {Const.DUMMY_MESSAGE}"
-            );
-            return null;
-        }
-
         public IAdRequestBuilder SetListener(IAdAuctionRequestListener listener)
         {
             Debug.LogWarning(
-                $"Call to setListener(IAdRequestListener<IRewardedRequest, AuctionResult, BMError>) {Const.DUMMY_MESSAGE}"
+                $"Call to setListener(IAdAuctionRequestListener) {Const.DUMMY_MESSAGE}"
             );
             return null;
         }

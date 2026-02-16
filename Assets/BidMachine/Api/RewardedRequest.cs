@@ -13,7 +13,7 @@ namespace BidMachineAds.Unity.Api
 
         public string GetAuctionResult()
         {
-          return client.GetAuctionResult();
+            return client.GetAuctionResult();
         }
 
         public AuctionResult GetAuctionResultObject()
@@ -35,11 +35,19 @@ namespace BidMachineAds.Unity.Api
         {
             private readonly IAdRequestBuilder client;
 
+            public Builder(AdPlacementConfig config)
+            {
+                // Config is passed to platform builder, no need to call setters
+                client = BidMachineClientFactory.GetRewardedRequestBuilder(config);
+            }
+
+            [System.Obsolete("Use Builder(AdPlacementConfig) constructor instead.")]
             public Builder()
             {
                 client = BidMachineClientFactory.GetRewardedRequestBuilder();
             }
 
+            [System.Obsolete("SetAdContentType() is deprecated. Use AdPlacementConfig.RewardedBuilder(AdContentType) instead.")]
             public IAdRequestBuilder SetAdContentType(AdContentType contentType)
             {
                 client.SetAdContentType(contentType);
@@ -58,15 +66,10 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
+            [System.Obsolete("SetCustomParams() is deprecated. Use AdPlacementConfig.RewardedBuilder().WithCustomParams() instead.")]
             public IAdRequestBuilder SetCustomParams(CustomParams customParams)
             {
                 client.SetCustomParams(customParams);
-                return this;
-            }
-
-            public IAdRequestBuilder SetListener(IAdRequestListener listener)
-            {
-                client.SetListener(listener);
                 return this;
             }
 
@@ -82,6 +85,7 @@ namespace BidMachineAds.Unity.Api
                 return this;
             }
 
+            [System.Obsolete("SetPlacementId() is deprecated. Use AdPlacementConfig.RewardedBuilder().WithPlacementId() instead.")]
             public IAdRequestBuilder SetPlacementId(string placementId)
             {
                 client.SetPlacementId(placementId);

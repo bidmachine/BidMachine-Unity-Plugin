@@ -53,6 +53,7 @@ namespace BidMachineAds.Unity.Android
             return dict;
         }
 
+#pragma warning disable CS0618
         public static BannerSize GetBannerSize(AndroidJavaObject jBannerSize)
         {
             var size = jBannerSize.Call<string>("toString");
@@ -66,6 +67,49 @@ namespace BidMachineAds.Unity.Android
                 ,
             };
         }
+#pragma warning restore CS0618
+
+        public static BannerAdSize GetBannerAdSize(AndroidJavaObject jBannerSize)
+        {
+            if (jBannerSize == null)
+            {
+                return BannerAdSize.Banner;
+            }
+
+            try
+            {
+                // Try to get width, height, and isAdaptive (BannerAdSize API)
+                int width = jBannerSize.Call<int>("getWidth");
+                int height = jBannerSize.Call<int>("getHeight");
+                bool isAdaptive = jBannerSize.Call<bool>("isAdaptive");
+
+                if (isAdaptive)
+                {
+                    return BannerAdSize.Adaptive(width, height);
+                }
+
+                // Return standard sizes
+                if (width == 320 && height == 50) return BannerAdSize.Banner;
+                if (width == 728 && height == 90) return BannerAdSize.Leaderboard;
+                if (width == 300 && height == 250) return BannerAdSize.MediumRectangle;
+
+                // For custom sizes, treat as adaptive
+                return BannerAdSize.Adaptive(width, height);
+            }
+            catch
+            {
+                // Fallback: If methods don't exist, treat as legacy BannerSize
+                // Convert from legacy enum format
+                var size = jBannerSize.Call<string>("toString");
+                return size switch
+                {
+                    "Size_320x50" => BannerAdSize.Banner,
+                    "Size_300x250" => BannerAdSize.MediumRectangle,
+                    "Size_728x90" => BannerAdSize.Leaderboard,
+                    _ => BannerAdSize.Banner
+                };
+            }
+        }
 
         public static BMError GetError(AndroidJavaObject jObject)
         {
@@ -76,7 +120,6 @@ namespace BidMachineAds.Unity.Android
             };
         }
 
-        [Obsolete("Use GetAuctionResultObject(AndroidJavaObject) instead")]
         public static string GetAuctionResult(AndroidJavaObject jObject)
         {
             var jCustomParams = jObject.Call<AndroidJavaObject>("getCustomParams");

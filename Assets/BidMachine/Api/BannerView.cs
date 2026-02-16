@@ -18,7 +18,14 @@ namespace BidMachineAds.Unity.Api
             this.client = client;
         }
 
+#pragma warning disable CS0618
         public bool Show(int yAxis, int xAxis, IBannerView view, BannerSize size)
+        {
+            return client.Show(yAxis, xAxis, view, size);
+        }
+#pragma warning restore CS0618
+
+        public bool Show(int yAxis, int xAxis, IBannerView view, BannerAdSize size)
         {
             return client.Show(yAxis, xAxis, view, size);
         }
@@ -46,6 +53,11 @@ namespace BidMachineAds.Unity.Api
         public void Load(IAdRequest request)
         {
             client.Load(request);
+        }
+
+        public BannerAdSize GetAdSize()
+        {
+            return client.GetAdSize();
         }
     }
 }

@@ -16,9 +16,16 @@ namespace BidMachineAds.Unity.Android
             this.jObject = jObject;
         }
 
+#pragma warning disable CS0618
         public BannerSize GetSize()
         {
             return AndroidUnityConverter.GetBannerSize(jObject.Call<AndroidJavaObject>("getSize"));
+        }
+#pragma warning restore CS0618
+
+        public BannerAdSize GetBannerAdSize()
+        {
+            return AndroidUnityConverter.GetBannerAdSize(jObject.Call<AndroidJavaObject>("getBannerAdSize"));
         }
 
         public string GetAuctionResult()
