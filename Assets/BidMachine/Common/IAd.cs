@@ -26,6 +26,8 @@ namespace BidMachineAds.Unity.Common
 
         void onAdImpression(TAd ad) { }
 
+        void onAdClicked(TAd ad) { }
+
         void onAdExpired(TAd ad) { }
     }
 

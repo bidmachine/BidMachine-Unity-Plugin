@@ -36,6 +36,11 @@ namespace BidMachineAds.Unity.Android
             listener.onAdImpression(adProvider(ad));
         }
 
+        public void onAdClicked(AndroidJavaObject ad)
+        {
+            listener.onAdClicked(adProvider(ad));
+        }
+
         public void onAdLoaded(AndroidJavaObject ad)
         {
             listener.onAdLoaded(adProvider(ad));

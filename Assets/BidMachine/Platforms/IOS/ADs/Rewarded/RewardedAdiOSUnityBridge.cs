@@ -38,6 +38,9 @@ namespace BidMachineAds.Unity.iOS {
       private static extern void BidMachineRewardedSetImpressionCallback(AdCallback onImpression);
 
       [DllImport("__Internal")]
+      private static extern void BidMachineRewardedSetClickCallback(AdCallback onClick);
+
+      [DllImport("__Internal")]
       private static extern void BidMachineRewardedSetExpiredCallback(AdCallback onExpired);
 
       [DllImport("__Internal")]
@@ -89,6 +92,11 @@ namespace BidMachineAds.Unity.iOS {
       public void SetImpressionCallback(AdCallback onImpression)
       {
          BidMachineRewardedSetImpressionCallback(onImpression);
+      }
+
+      public void SetClickCallback(AdCallback onClick)
+      {
+         BidMachineRewardedSetClickCallback(onClick);
       }
 
       public void SetExpiredCallback(AdCallback onExpired)

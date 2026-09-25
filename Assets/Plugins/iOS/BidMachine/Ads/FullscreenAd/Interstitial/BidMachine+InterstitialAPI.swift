@@ -57,6 +57,11 @@ public func setInterstitialImpressionCallback(_ callback: @escaping CAdCallback)
     iOSUnityBridge.interstitialBridge.setImpressionCallback(callback)
 }
 
+@_cdecl("BidMachineInterstitialSetClickCallback")
+public func setInterstitialClickCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.interstitialBridge.setClickCallback(callback)
+}
+
 @_cdecl("BidMachineInterstitialSetExpiredCallback")
 public func setInterstitialExpiredCallback(_ callback: @escaping CAdCallback) {
     iOSUnityBridge.interstitialBridge.setExpiredCallback(callback)

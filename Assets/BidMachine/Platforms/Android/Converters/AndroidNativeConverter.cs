@@ -210,7 +210,7 @@ namespace BidMachineAds.Unity.Android
 
                 var jcGender = new AndroidJavaClass("io.bidmachine.utils.Gender");
                 var jGender = jcGender.GetStatic<AndroidJavaObject>(
-                    targetingParams.UserId.ToString()
+                    targetingParams.gender.ToString()
                 );
                 jObject.Call("setGender", jGender);
 

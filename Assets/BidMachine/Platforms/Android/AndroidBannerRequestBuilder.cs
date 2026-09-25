@@ -50,17 +50,31 @@ namespace BidMachineAds.Unity.Android
 
         public IAdRequestBuilder SetSize(BannerAdSize size)
         {
-            requestBuilder.JavaObject.Call<AndroidJavaObject>(
-                "setSize",
-                AndroidNativeConverter.GetBannerAdSize(size)
-            );
+            if (size == null)
+            {
+                return this;
+            }
 
-            return this;
+            // BannerRequest.Builder has no setSize(BannerAdSize); the size belongs to AdPlacementConfig.
+            // Fixed sizes can still go through the legacy setSize(BannerSize), adaptive ones cannot.
+            if (size.IsAdaptive)
+            {
+                Debug.LogWarning(
+                    "BidMachine: adaptive BannerAdSize can't be set on the request builder. "
+                        + "Use AdPlacementConfig.BannerBuilder(BannerAdSize.Adaptive(...)) instead."
+                );
+                return this;
+            }
+
+#pragma warning disable CS0618
+            return SetSize(size.ToLegacyBannerSize());
+#pragma warning restore CS0618
         }
 
         public IAdRequestBuilder SetAdContentType(AdContentType contentType)
         {
-            return requestBuilder.SetAdContentType(contentType);
+            // Banner requests have no ad content type
+            return this;
         }
 
         public IAdRequestBuilder SetTargetingParams(TargetingParams targetingParams)

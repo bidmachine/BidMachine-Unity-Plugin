@@ -97,3 +97,13 @@ public func setPublisher(_ json: UnsafePointer<CChar>) {
         print("Error parsing publisher: \(error)")
     }
 }
+
+@_cdecl("BidMachineSetConsentStatus")
+public func setConsentStatus(_ consent: Bool) {
+    iOSUnityBridge.setConsentStatus(consent)
+}
+
+@_cdecl("BidMachineSetNonPersonalized")
+public func setNonPersonalized(_ nonPersonalized: Bool) {
+    iOSUnityBridge.setNonPersonalized(nonPersonalized)
+}

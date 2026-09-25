@@ -57,6 +57,11 @@ public func setRewardedImpressionCallback(_ callback: @escaping CAdCallback) {
     iOSUnityBridge.rewardedBridge.setImpressionCallback(callback)
 }
 
+@_cdecl("BidMachineRewardedSetClickCallback")
+public func setRewardedClickCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.rewardedBridge.setClickCallback(callback)
+}
+
 @_cdecl("BidMachineRewardedSetExpiredCallback")
 public func setRewardedExpiredCallback(_ callback: @escaping CAdCallback) {
     iOSUnityBridge.rewardedBridge.setExpiredCallback(callback)

@@ -18,6 +18,8 @@ namespace BidMachineAds.Unity.Common
 
         void SetConsentConfig(bool consent, string consentConfig);
 
+        void SetConsentStatus(bool consent);
+
         void SetSubjectToGDPR(bool subjectToGDPR);
 
         void SetCoppa(bool coppa);
@@ -25,6 +27,8 @@ namespace BidMachineAds.Unity.Common
         void SetUSPrivacyString(string usPrivacyString);
 
         void SetGPP(string gppString, int[] gppIds);
+
+        void SetNonPersonalized(bool nonPersonalized);
 
         void SetPublisher(Publisher publisher);
     }

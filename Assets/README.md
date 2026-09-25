@@ -4,7 +4,7 @@
 
 1.1 Download the latest version of the BidMachine Unity Plugin, which includes the newest Android and iOS BidMachine SDK with significant improvements.
 
-1.2 To import the BidMachine Unity plugin, either double-click on the `BidMachine-Unity-Plugin-3.5.1.unitypackage` file or navigate to `Assets → Import Package → Custom Package` in the Unity editor. Ensure all files are selected in the Importing Package window, then click `Import`.
+1.2 To import the BidMachine Unity plugin, either double-click on the `BidMachine-Unity-Plugin-3.8.0.unitypackage` file or navigate to `Assets → Import Package → Custom Package` in the Unity editor. Ensure all files are selected in the Importing Package window, then click `Import`.
 
 ## Step 2. Project configuration
 
@@ -119,15 +119,18 @@ By following these steps, you will successfully integrate the BidMachine SDK int
 | Coppa             | Boolean         | Flag indicating if COPPA regulations apply. [The Children's Online Privacy Protection Act (COPPA)](https://wikipedia.org/wiki/Children%27s_Online_Privacy_Protection_Act) was established by the U.S. Federal Trade Commission.                     |
 | US Privacy String | String          | CCPA string if applicable, compliant with the IAB standard. [CCPA String Format](https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md)                                                               |
 | GPP String        | String          | GPP string if applicable, compliant with the IAB standard. [GPP String Format](https://github.com/InteractiveAdvertisingBureau/Global-Privacy-Platform/blob/main/Core/Consent%20String%20Specification.md#about-the-global-privacy-platform-string) |
-| GPP Ids           | List\<Integer\> | GPP ids                                                                                                                                                                                                                                             |
+| GPP Ids           | int[]           | GPP ids                                                                                                                                                                                                                                             |
+| Non-Personalized  | Boolean         | Flag restricting data processing to non-personalized advertising only (SDK 3.8.0+).                                                                                                                                                                 |
 
-#### Set Consent Configuration
+#### Set Consent Status
 
-To set the consent configuration, use the following method:
+To set the GDPR consent status, use the following method. The SDK reads the TCF consent string from your CMP (`IABTCF_TCString`):
 
 ```csharp
-BidMachine.SetConsentConfig(true, "consentString");
+BidMachine.SetConsentStatus(true);
 ```
+
+> `BidMachine.SetConsentConfig(bool, string)` is deprecated since SDK 3.8.0. Use `SetConsentStatus(bool)` instead.
 
 #### Set Subject to GDPR
 
@@ -153,12 +156,22 @@ To set the CCPA U.S. Privacy String, use the following method:
 BidMachine.SetUSPrivacyString("usPrivacyString");
 ```
 
+> `BidMachine.SetUSPrivacyString(string)` is deprecated since SDK 3.8.0. Use `SetGPP(string, int[])` instead.
+
 #### Set Global Privacy Platform String
 
 To set the Global Privacy Platform String and Ids, use the following method:
 
 ```csharp
-BidMachine.SetGPP("gppString", new List<int> { 1, 2, 3 });
+BidMachine.SetGPP("gppString", new[] { 1, 2, 3 });
+```
+
+#### Set Non-Personalized
+
+To restrict data processing to non-personalized advertising only (SDK 3.8.0+), use the following method:
+
+```csharp
+BidMachine.SetNonPersonalized(true);
 ```
 
 ### Publisher

@@ -89,6 +89,10 @@ class AdBridge<Ad: BidMachineAdProtocol> {
         adCallbacksHandler.setImpressionReceivedCallback(callback)
     }
     
+    func setClickCallback(_ callback: @escaping CAdCallback) {
+        adCallbacksHandler.setClickCallback(callback)
+    }
+    
     func setExpiredCallback(_ callback: @escaping CAdCallback) {
         adCallbacksHandler.setExpirationCallback(callback)
     }

@@ -20,7 +20,7 @@ namespace BidMachineAds.Unity.Api
             return client ??= BidMachineClientFactory.GetBidMachine();
         }
 
-        public static string BIDMACHINE_UNITY_PLUGIN_VERSION = "3.5.1";
+        public static string BIDMACHINE_UNITY_PLUGIN_VERSION = "3.8.0";
 
         /// <summary>
         /// Initializes BidMachine SDK.
@@ -91,9 +91,19 @@ namespace BidMachineAds.Unity.Api
         //                      <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Consent%20string%20and%20vendor%20list%20formats%20v1.1%20Final.md">Consent String Format</a>
         //                      in the <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework">Transparency and Consent Framework</a> technical specifications.</param>
         /// </summary>
+        [System.Obsolete("SetConsentConfig(bool, string) is deprecated in SDK 3.8.0+. Use SetConsentStatus(bool) instead; the TCF consent string is read from the CMP (IABTCF_TCString).")]
         public static void SetConsentConfig(bool consent, string consentString)
         {
             GetInstance().SetConsentConfig(consent, consentString);
+        }
+
+        /// <summary>
+        /// Sets GDPR consent status. The TCF consent string is read by the SDK from the CMP (IABTCF_TCString).
+        /// <param name="consent">User has given consent to the processing of personal data relating to him or her. https://www.eugdpr.org/.</param>
+        /// </summary>
+        public static void SetConsentStatus(bool consent)
+        {
+            GetInstance().SetConsentStatus(consent);
         }
 
         /// <summary>
@@ -122,6 +132,7 @@ namespace BidMachineAds.Unity.Api
         /// <param name="usPrivacyString">usPrivacyString CCPA string if applicable, complying with the comply with the IAB standard
         //                        <a href="https://github.com/InteractiveAdvertisingBureau/USPrivacy/blob/master/CCPA/US%20Privacy%20String.md">CCPA String Format</a>.
         /// </summary>
+        [System.Obsolete("SetUSPrivacyString(string) is deprecated in SDK 3.8.0+. Use SetGPP(string, int[]) instead.")]
         public static void SetUSPrivacyString(string usPrivacyString)
         {
             GetInstance().SetUSPrivacyString(usPrivacyString);
@@ -133,9 +144,18 @@ namespace BidMachineAds.Unity.Api
         /// <param name="gppString">GPP string
         /// <param name="gppIds">GPP Ids
         /// </summary>
-        void SetGPP(string gppString, int[] gppIds)
+        public static void SetGPP(string gppString, int[] gppIds)
         {
             GetInstance().SetGPP(gppString, gppIds);
+        }
+
+        /// <summary>
+        /// Restricts data processing to non-personalized advertising only.
+        /// <param name="nonPersonalized">{@code true} to allow only non-personalized ads, {@code false} to allow personalized ads.</param>
+        /// </summary>
+        public static void SetNonPersonalized(bool nonPersonalized)
+        {
+            GetInstance().SetNonPersonalized(nonPersonalized);
         }
 
         /// <summary>

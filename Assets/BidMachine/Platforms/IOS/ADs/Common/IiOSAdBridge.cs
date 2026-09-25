@@ -26,6 +26,8 @@ namespace BidMachineAds.Unity.iOS
 
         public void SetImpressionCallback(AdCallback onImpression);
 
+        public void SetClickCallback(AdCallback onClick);
+
         public void SetExpiredCallback(AdCallback onExpired);
     }
 

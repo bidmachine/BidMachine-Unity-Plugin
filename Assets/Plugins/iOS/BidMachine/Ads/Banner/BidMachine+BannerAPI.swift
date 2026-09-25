@@ -78,6 +78,11 @@ public func setBannerImpressionCallback(_ callback: @escaping CAdCallback) {
     iOSUnityBridge.bannerBridge.setImpressionCallback(callback)
 }
 
+@_cdecl("BidMachineBannerSetClickCallback")
+public func setBannerClickCallback(_ callback: @escaping CAdCallback) {
+    iOSUnityBridge.bannerBridge.setClickCallback(callback)
+}
+
 @_cdecl("BidMachineBannerSetExpiredCallback")
 public func setBannerExpiredCallback(_ callback: @escaping CAdCallback) {
     iOSUnityBridge.bannerBridge.setExpiredCallback(callback)

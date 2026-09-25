@@ -49,11 +49,8 @@ namespace BidMachineAds.Unity.Api
         /// <returns>Maximum adaptive height in density-independent pixels</returns>
         public static int GetMaxAdaptiveHeight(int width)
         {
-            // Standard IAB adaptive banner height calculation
-            if (width >= 728) return 90;
-            if (width >= 468) return 60;
-            if (width >= 320) return 50;
-            return 50; // Default minimum
+            // Mirrors BannerAdSize.getMaxAdaptiveHeight(width) from the native SDK
+            return width >= Leaderboard.Width ? Leaderboard.Height : Banner.Height;
         }
 
         public override string ToString()

@@ -104,21 +104,9 @@ namespace BidMachineAds.Unity.Android
                 return this;
             }
 
-            var networksArray = networks.Split(',');
-            if (networksArray.Length == 0)
-            {
-                return this;
-            }
-
-            var networksJson = JsonUtility.ToJson(networksArray);
-            if (string.IsNullOrEmpty(networksJson))
-            {
-                return this;
-            }
-
             jObject.Call<AndroidJavaObject>(
                 "setNetworks",
-                AndroidNativeConverter.GetObject(networksJson)
+                AndroidNativeConverter.GetObject(networks)
             );
 
             return this;

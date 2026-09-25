@@ -23,6 +23,7 @@ final class BidMachineAdHandler: NSObject {
     private var didPresentBridge: CAdCallbackBridge?
     private var didFailToPresentBridge: CAdFailureCallbackBridge?
     private var didReceiveImpressionBridge: CAdCallbackBridge?
+    private var didClickBridge: CAdCallbackBridge?
     private var didExpireBridge: CAdCallbackBridge?
     private var didCloseBridge: CAdCallbackClosedBridge?
     private var didRewardBridge: CAdCallbackBridge?
@@ -35,6 +36,7 @@ final class BidMachineAdHandler: NSObject {
         didPresentBridge = nil
         didFailToPresentBridge = nil
         didReceiveImpressionBridge = nil
+        didClickBridge = nil
         didExpireBridge = nil
         didCloseBridge = nil
         didRewardBridge = nil
@@ -62,6 +64,10 @@ final class BidMachineAdHandler: NSObject {
     
     func setImpressionReceivedCallback(_ closure: @escaping CAdCallback) {
         didReceiveImpressionBridge = CAdCallbackBridge(cCallback: closure)
+    }
+    
+    func setClickCallback(_ closure: @escaping CAdCallback) {
+        didClickBridge = CAdCallbackBridge(cCallback: closure)
     }
     
     func setExpirationCallback(_ closure: @escaping CAdCallback) {
@@ -96,6 +102,10 @@ extension BidMachineAdHandler: BidMachineAdDelegate {
     
     func didTrackImpression(_ ad: any BidMachineAdProtocol) {
         didReceiveImpressionBridge?.call(with: ad)
+    }
+    
+    func didUserInteraction(_ ad: any BidMachineAdProtocol) {
+        didClickBridge?.call(with: ad)
     }
     
     func didExpired(_ ad: any BidMachineAdProtocol) {

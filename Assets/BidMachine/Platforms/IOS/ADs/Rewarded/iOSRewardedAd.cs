@@ -24,6 +24,7 @@ namespace BidMachineAds.Unity.iOS
             adBridge.SetPresentCallback(didPresentAd);
             adBridge.SetPresentFailedCallback(didFailPresentAd);
             adBridge.SetImpressionCallback(didReceiveAdImpression);
+            adBridge.SetClickCallback(didClickAd);
             adBridge.SetExpiredCallback(didExpire);
             adBridge.SetClosedCallback(didClose);
             adBridge.SetRewardedCallback(didReward);
@@ -81,6 +82,15 @@ namespace BidMachineAds.Unity.iOS
             if (listener != null) 
             {
                 listener.onAdImpression(new iOSRewardedAd());
+            }
+        }
+
+        [MonoPInvokeCallback(typeof(AdCallback))]
+        private static void didClickAd(IntPtr ad)
+        {
+            if (listener != null) 
+            {
+                listener.onAdClicked(new iOSRewardedAd());
             }
         }
 

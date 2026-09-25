@@ -161,8 +161,8 @@ public class BidMachineController : MonoBehaviour
         // BidMachine.SetEndpoint("https://test.com");
         BidMachine.SetSubjectToGDPR(false);
         BidMachine.SetCoppa(false);
-        BidMachine.SetConsentConfig(true, "test consent string");
-        BidMachine.SetUSPrivacyString("test_string");
+        BidMachine.SetConsentStatus(true);
+        BidMachine.SetNonPersonalized(false);
         BidMachine.SetLoggingEnabled(tgLogging.isOn);
         BidMachine.SetTestMode(tgTesting.isOn);
         BidMachine.Initialize("122");
@@ -365,6 +365,11 @@ public class BidMachineController : MonoBehaviour
             Debug.Log("BidMachine: BannerAd - OnAdImpression");
         }
 
+        public void onAdClicked(IBannerView ad)
+        {
+            Debug.Log("BidMachine: BannerAd - OnAdClicked");
+        }
+
         public void onAdLoaded(IBannerView ad)
         {
             Debug.Log("BidMachine: BannerView: OnAdLoaded");
@@ -424,6 +429,11 @@ public class BidMachineController : MonoBehaviour
             Debug.Log("BidMachine: InterstitialAd: OnAdImpression");
         }
 
+        public void onAdClicked(IInterstitialAd ad)
+        {
+            Debug.Log("BidMachine: InterstitialAd: OnAdClicked");
+        }
+
         public void onAdLoaded(IInterstitialAd ad)
         {
             Debug.Log("BidMachine: InterstitialAd: OnAdLoaded");
@@ -478,6 +488,11 @@ public class BidMachineController : MonoBehaviour
         public void onAdImpression(IRewardedAd ad)
         {
             Debug.Log("BidMachine: RewardedAd: OnAdImpression");
+        }
+
+        public void onAdClicked(IRewardedAd ad)
+        {
+            Debug.Log("BidMachine: RewardedAd: OnAdClicked");
         }
 
         public void onAdLoaded(IRewardedAd ad)

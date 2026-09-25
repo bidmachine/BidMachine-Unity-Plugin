@@ -5,8 +5,8 @@ apply from: '../shared/keepUnitySymbols.gradle'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
-    implementation 'io.bidmachine:ads.extensions.unity:3.4.0.3' // Assets/BidMachine/Editor/BidMachineDependencies.xml:10
-    implementation 'io.bidmachine:ads:3.4.0' // Assets/BidMachine/Editor/BidMachineDependencies.xml:9
+    implementation 'io.bidmachine:ads.extensions.unity:3.8.0.3' // Assets/BidMachine/Editor/BidMachineDependencies.xml:10
+    implementation 'io.bidmachine:ads:3.8.0' // Assets/BidMachine/Editor/BidMachineDependencies.xml:9
 // Android Resolver Dependencies End
 **DEPS**}
 

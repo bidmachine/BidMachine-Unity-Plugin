@@ -52,6 +52,11 @@ namespace BidMachineAds.Unity.iOS
             Bridge().SetConsentConfig(consent, consentConfig);
         }
 
+        public void SetConsentStatus(bool consent)
+        {
+            Bridge().SetConsentStatus(consent);
+        }
+
         public void SetSubjectToGDPR(bool subjectToGDPR)
         {
             Bridge().SetSubjectToGDPR(subjectToGDPR);
@@ -70,6 +75,11 @@ namespace BidMachineAds.Unity.iOS
         public void SetGPP(string gppString, int[] gppIds)
         {
             Bridge().SetGPP(gppString, gppIds);
+        }
+
+        public void SetNonPersonalized(bool nonPersonalized)
+        {
+            Bridge().SetNonPersonalized(nonPersonalized);
         }
 
         public void SetPublisher(Publisher publisher)

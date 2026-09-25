@@ -69,10 +69,16 @@ namespace BidMachineAds.Unity.Android
         {
             if (string.IsNullOrEmpty(consentConfig))
             {
+                SetConsentStatus(consent);
                 return;
             }
 
             GetBidMachineClass().CallStatic("setConsentConfig", consent, consentConfig);
+        }
+
+        public void SetConsentStatus(bool consent)
+        {
+            GetBidMachineClass().CallStatic("setConsentStatus", consent);
         }
 
         public void SetSubjectToGDPR(bool subjectToGDPR)
@@ -106,6 +112,12 @@ namespace BidMachineAds.Unity.Android
             var clientGppIds = AndroidNativeConverter.GetArrayList(gppIds);
 
             GetBidMachineClass().CallStatic("setGPP", gppString, clientGppIds);
+        }
+
+        public void SetNonPersonalized(bool nonPersonalized)
+        {
+            GetBidMachineClass()
+                .CallStatic("setNonPersonalized", AndroidNativeConverter.GetObject(nonPersonalized));
         }
 
         public void SetPublisher(Publisher publisher)

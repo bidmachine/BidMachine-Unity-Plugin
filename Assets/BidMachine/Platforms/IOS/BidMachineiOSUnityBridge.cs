@@ -26,6 +26,9 @@ public class BidMachineiOSUnityBridge : MonoBehaviour
     private static extern void BidMachineSetConsentConfig(string consentConfig, bool consent);
 
     [DllImport("__Internal")]
+    private static extern void BidMachineSetConsentStatus(bool consent);
+
+    [DllImport("__Internal")]
     private static extern void BidMachineSetSubjectToGDPR(bool flag);
 
     [DllImport("__Internal")]
@@ -36,6 +39,9 @@ public class BidMachineiOSUnityBridge : MonoBehaviour
 
     [DllImport("__Internal")]
     private static extern void BidMachineSetGPP(string gppString, int[] gppIds, int length);
+
+    [DllImport("__Internal")]
+    private static extern void BidMachineSetNonPersonalized(bool nonPersonalized);
 
     [DllImport("__Internal")]
     private static extern void BidMachineSetPublisher(string jsonString);
@@ -75,6 +81,11 @@ public class BidMachineiOSUnityBridge : MonoBehaviour
         BidMachineSetConsentConfig(consentConfig, consent);
     }
 
+    public void SetConsentStatus(bool consent)
+    {
+        BidMachineSetConsentStatus(consent);
+    }
+
     public void SetSubjectToGDPR(bool subjectToGDPR)
     {
         BidMachineSetSubjectToGDPR(subjectToGDPR);
@@ -94,6 +105,11 @@ public class BidMachineiOSUnityBridge : MonoBehaviour
     {
         BidMachineSetGPP(gppString, gppIds, gppIds.Length);
     } 
+
+    public void SetNonPersonalized(bool nonPersonalized)
+    {
+        BidMachineSetNonPersonalized(nonPersonalized);
+    }
 
     public void SetPublisher(string jsonString)
     {

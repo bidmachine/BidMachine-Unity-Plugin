@@ -22,6 +22,11 @@ namespace BidMachineAds.Unity.Dummy
             Debug.LogWarning($"Call to SetConsentConfig(bool, string) {Const.DUMMY_MESSAGE}");
         }
 
+        public void SetConsentStatus(bool consent)
+        {
+            Debug.LogWarning($"Call to SetConsentStatus(bool) {Const.DUMMY_MESSAGE}");
+        }
+
         public void SetCoppa(bool coppa)
         {
             Debug.LogWarning($"Call to SetCoppa(bool) {Const.DUMMY_MESSAGE}");
@@ -40,6 +45,11 @@ namespace BidMachineAds.Unity.Dummy
         public void SetLoggingEnabled(bool logging)
         {
             Debug.LogWarning($"Call to SetLoggingEnabled(bool) {Const.DUMMY_MESSAGE}");
+        }
+
+        public void SetNonPersonalized(bool nonPersonalized)
+        {
+            Debug.LogWarning($"Call to SetNonPersonalized(bool) {Const.DUMMY_MESSAGE}");
         }
 
         public void SetPublisher(Publisher publisher)
