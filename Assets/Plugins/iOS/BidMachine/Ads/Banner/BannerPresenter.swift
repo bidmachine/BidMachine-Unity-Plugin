@@ -15,17 +15,23 @@ protocol BannerPresenterProtocol {
     func present(with layout: AdLayout, size: CGSize) -> Bool
 
     func hideBanner()
+
+    func releaseBanner()
 }
 
 final class BannerPresenter: BannerPresenterProtocol {
     private let viewController: UIViewController?
     private var banner: BidMachineBanner?
+    private var constraints: [NSLayoutConstraint] = []
 
     init(viewController: UIViewController?) {
         self.viewController = viewController
     }
     
     func prepareForPresentation(_ banner: BidMachineBanner) {
+        if self.banner !== banner {
+            releaseBanner()
+        }
         banner.controller = viewController
         self.banner = banner
     }
@@ -36,6 +42,7 @@ final class BannerPresenter: BannerPresenterProtocol {
             return false
         }
 
+        hideBanner()
         parentView.addSubview(banner)
         banner.translatesAutoresizingMaskIntoConstraints = false
         
@@ -45,7 +52,7 @@ final class BannerPresenter: BannerPresenterProtocol {
         case .left:
             banner.leftAnchor.constraint(equalTo: parentView.leftAnchor)
         case .right:
-            banner.rightAnchor.constraint(equalTo: parentView.centerXAnchor)
+            banner.rightAnchor.constraint(equalTo: parentView.rightAnchor)
         }
         
         let verticalConstraint = switch layout.verticalPin {
@@ -57,17 +64,25 @@ final class BannerPresenter: BannerPresenterProtocol {
             banner.bottomAnchor.constraint(equalTo: parentView.safeAreaLayoutGuide.bottomAnchor)
         }
  
-        NSLayoutConstraint.activate([
+        constraints = [
             banner.widthAnchor.constraint(equalToConstant: size.width),
             banner.heightAnchor.constraint(equalToConstant: size.height),
             horizontalConstraint,
             verticalConstraint
-        ])
+        ]
+        NSLayoutConstraint.activate(constraints)
         return true
     }
     
+    // Detaches the banner from the view hierarchy but keeps it, so it can be shown again
     func hideBanner() {
+        NSLayoutConstraint.deactivate(constraints)
+        constraints = []
         banner?.removeFromSuperview()
+    }
+
+    func releaseBanner() {
+        hideBanner()
         banner = nil
     }
 }

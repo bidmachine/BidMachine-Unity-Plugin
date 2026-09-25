@@ -27,7 +27,7 @@ final class BannerAdBridge: AdBridge<BidMachineBanner> {
     }
 
     override func destroy() {
-        hide()
+        presenter.releaseBanner()
         super.destroy()
     }
     
